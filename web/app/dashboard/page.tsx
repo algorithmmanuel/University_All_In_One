@@ -36,7 +36,7 @@ export default function Dashboard() {
         <section style={{background:'#eef7f6',padding:24,borderRadius:12,marginTop:24}}>
           {user.role==='teacher'&&!user.is_approved?<><h2>Teacher approval pending</h2><p>Your account is registered. Teaching tools will be available after administrator approval.</p></>:
           user.role==='teacher'||user.role==='admin'?<><h2>Teacher workspace</h2><p>Course authoring, lesson management and learner reporting will be added next.</p></>:
-          <><h2>Your learning dashboard</h2><p>Explore the academies and the cybersecurity practice mission. Enroll in courses, complete lessons and track your progress.</p><Link href="/learn" style={{display:'inline-block',padding:'12px 18px',background:'#0e766f',color:'white',borderRadius:8,textDecoration:'none'}}>Browse courses and start learning →</Link></>}
+          <><h2>Your learning dashboard</h2><p>Explore the academies and the cybersecurity practice mission. Enroll in courses, complete lessons and track your progress.</p><Link href="/learn" style={{display:'inline-block',padding:'12px 18px',background:'#0e766f',color:'white',borderRadius:8,textDecoration:'none'}}>Browse courses and start learning →</Link><p><Link href="/assessments">Take course assessments →</Link></p></>}
         </section>
         <button onClick={signOut} style={{marginTop:24,padding:12}}>Sign out</button>
       </>}
