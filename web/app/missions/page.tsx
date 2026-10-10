@@ -2,6 +2,7 @@
 import {useCallback,useEffect,useState} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';
+import MissionWorkspace from './MissionWorkspace';
 
 const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'http://127.0.0.1:8000').replace(/\/$/,'');
 type Mission={id:string;title:string;track:string;difficulty:string;summary:string;step_count:number;latest_run:null|{run_id:number;completed:boolean;score:number;step_index:number}};
@@ -14,8 +15,6 @@ export default function Missions(){
   const [missions,setMissions]=useState<Mission[]>([]);
   const [history,setHistory]=useState<History[]>([]);
   const [run,setRun]=useState<Run|null>(null);
-  const [selection,setSelection]=useState<number|null>(null);
-  const [feedback,setFeedback]=useState('');
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
   const [loading,setLoading]=useState(true);
@@ -37,8 +36,8 @@ export default function Missions(){
   useEffect(()=>{refresh().catch(e=>setError(e.message)).finally(()=>setLoading(false));},[refresh]);
 
   async function start(id:string){
-    setBusy(true);setError('');setFeedback('');
-    try{setRun(await request('/api/v1/missions/'+id+'/start','POST'));setSelection(null);await refresh();}
+    setBusy(true);setError('');
+    try{setRun(await request('/api/v1/missions/'+id+'/start','POST'));await refresh();}
     catch(e){setError(e instanceof Error?e.message:'Unable to start mission');}
     finally{setBusy(false);}
   }
@@ -48,12 +47,12 @@ export default function Missions(){
     catch(e){setError(e instanceof Error?e.message:'Unable to resume mission');}
     finally{setBusy(false);}
   }
-  async function decide(){
-    if(!run||selection===null||run.completed)return;
+  async function decide(optionIndex:number){
+    if(!run||run.completed)return;
     setBusy(true);setError('');
     try{
       const next=await request('/api/v1/missions/runs/'+run.run_id+'/decide','POST',
-        {option_index:selection,expected_step:run.step_index});
+        {option_index:optionIndex,expected_step:run.step_index});
       setRun(next);setFeedback(next.last_feedback||'');setSelection(null);await refresh();
     }catch(e){setError(e instanceof Error?e.message:'Unable to save decision');}
     finally{setBusy(false);}
@@ -79,28 +78,8 @@ export default function Missions(){
         </article>)}
       </div>
       {run&&<section className="section" id="mission-console">
-        <div className="panel" style={{background:'#112944',color:'white'}}>
-          <p className="tag" style={{color:'#82e4d0'}}>MISSION CONSOLE · {run.title}</p>
-          <h2>{run.completed?'Mission complete':run.step?.scene}</h2>
-          <p>Decision {Math.min(run.step_index+1,run.step_count)} of {run.step_count} · Score {run.score}/{run.max_score}</p>
-          <progress value={run.step_index} max={run.step_count} style={{width:'100%'}} aria-label="Mission progress"/>
-          {feedback&&<p role="status" style={{background:'#234763',padding:14,borderRadius:8}}>Analyst feedback: {feedback}</p>}
-          {run.completed?<><h3>Final score: {run.score}/{run.max_score}</h3>
-            <p>Your mission result has been saved. Review your decision feedback or try another run.</p>
-            <button className="btn" onClick={()=>start(run.mission_id)} disabled={busy}>Replay mission</button></>:
-          run.step&&<>
-            <p style={{lineHeight:1.8}}>{run.step.story}</p>
-            <h3>Evidence</h3>
-            <ul>{run.step.evidence.map((item,i)=><li key={i}>{item}</li>)}</ul>
-            <h3>{run.step.question}</h3>
-            <div style={{display:'grid',gap:10}}>
-              {run.step.options.map((option,i)=><label key={i} style={{display:'block',background:selection===i?'#215f75':'#24425c',padding:14,borderRadius:9,cursor:'pointer'}}>
-                <input type="radio" name="decision" checked={selection===i} onChange={()=>setSelection(i)} disabled={busy}/> {option}
-              </label>)}
-            </div>
-            <button className="btn" style={{marginTop:20}} disabled={busy||selection===null} onClick={decide}>Confirm decision →</button>
-          </>}
-        </div>
+        <MissionWorkspace key={run.run_id} run={run} busy={busy} onDecision={decide}
+          onReplay={()=>start(run.mission_id)} onExit={()=>setRun(null)}/>
       </section>}
       <section className="section">
         <h2>Mission history</h2>
