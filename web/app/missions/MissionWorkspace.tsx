@@ -5,12 +5,13 @@ import Investigation from './Investigation';
 
 type Step={scene:string;story:string;evidence:string[];question:string;options:string[]};
 type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null};
-type Props={run:Run;busy:boolean;onDecision:(option:number)=>Promise<void>;onReplay:()=>void;onExit:()=>void};
+type Props={run:Run;busy:boolean;onDecision:(option:number,finding:number)=>Promise<void>;onReplay:()=>void;onExit:()=>void};
 
 export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:Props){
   const [tab,setTab]=useState<'briefing'|'evidence'|'decision'>('briefing');
   const [inspected,setInspected]=useState<number[]>([]);
   const [selected,setSelected]=useState<number|null>(null);
+  const [finding,setFinding]=useState<number|null>(null);
   const [notes,setNotes]=useState('');
   const [sending,setSending]=useState(false);
   const [feedback,setFeedback]=useState('');
@@ -18,16 +19,16 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
   useEffect(()=>{
     if(lastStep!==run.step_index){
       setLastStep(run.step_index);
-      setTab('briefing');setInspected([]);setSelected(null);
+      setTab('briefing');setInspected([]);setSelected(null);setFinding(null);
       if(run.step_index>0)setFeedback(run.last_feedback||'');
     }
   },[run.step_index,run.last_feedback,lastStep]);
   const evidence=run.step?.evidence||[];
   const allInspected=evidence.length>0&&inspected.length===evidence.length;
   async function submit(){
-    if(selected===null||!allInspected||busy||sending)return;
+    if(selected===null||finding===null||!allInspected||busy||sending)return;
     setSending(true);
-    try{await onDecision(selected);}finally{setSending(false);}
+    try{await onDecision(selected,finding);}finally{setSending(false);}
   }
   return <section className={styles.shell} aria-label="Simulated analyst workstation">
     <header className={styles.topbar}>
@@ -77,7 +78,15 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
           <Investigation key={run.mission_id+'-'+run.step_index} missionId={run.mission_id}
             stage={run.step_index} evidence={evidence} inspected={inspected}
             onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>
-          <button className={styles.primary} disabled={!allInspected} onClick={()=>setTab('decision')}>Proceed to decision desk →</button>
+          <fieldset style={{border:'1px solid #35516b',borderRadius:9,padding:14,marginTop:18}}>
+            <legend style={{color:'#65dfc6',fontWeight:700}}>Investigation finding · 5 bonus points</legend>
+            <p className={styles.subtle}>Which finding is the most important indicator at this stage? Select one for server grading.</p>
+            {evidence.map((item,i)=><label key={i} style={{display:'block',padding:'8px 0',color:'#e0eef7'}}>
+              <input type="radio" name={'finding-'+run.run_id+'-'+run.step_index}
+                checked={finding===i} onChange={()=>setFinding(i)} disabled={!allInspected}/> {item}
+            </label>)}
+          </fieldset>
+          <button className={styles.primary} disabled={!allInspected||finding===null} onClick={()=>setTab('decision')}>Proceed to decision desk →</button>
         </div>}
         {tab==='decision'&&<div>
           <span className={styles.eyebrow}>DECISION DESK</span>
@@ -89,7 +98,7 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
             <span className={styles.choiceLetter}>{String.fromCharCode(65+i)}</span>{option}
           </label>)}</div>
           {!allInspected&&<p className={styles.warning}>Inspect every artifact in the evidence locker before submitting.</p>}
-          <button className={styles.primary} disabled={!allInspected||selected===null||busy||sending} onClick={submit}>
+          <button className={styles.primary} disabled={!allInspected||selected===null||finding===null||busy||sending} onClick={submit}>
             {busy||sending?'Recording decision…':'Commit decision →'}
           </button>
         </div>}
