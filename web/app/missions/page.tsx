@@ -47,12 +47,12 @@ export default function Missions(){
     catch(e){setError(e instanceof Error?e.message:'Unable to resume mission');}
     finally{setBusy(false);}
   }
-  async function decide(optionIndex:number){
+  async function decide(optionIndex:number,findingIndex:number){
     if(!run||run.completed)return;
     setBusy(true);setError('');
     try{
       const next=await request('/api/v1/missions/runs/'+run.run_id+'/decide','POST',
-        {option_index:optionIndex,expected_step:run.step_index});
+        {option_index:optionIndex,finding_index:findingIndex,expected_step:run.step_index});
       setRun(next);await refresh();
     }catch(e){setError(e instanceof Error?e.message:'Unable to save decision');}
     finally{setBusy(false);}
@@ -70,7 +70,7 @@ export default function Missions(){
           <p className="tag">{m.track} · {m.difficulty}</p>
           <h2 style={{fontSize:23}}>{m.title}</h2>
           <p className="muted">{m.summary}</p>
-          <p className="small">{m.step_count} decisions · {m.step_count*10} possible points</p>
+          <p className="small">{m.step_count} decisions · {m.step_count*15} possible points</p>
           {m.latest_run&&!m.latest_run.completed&&<button className="btn" disabled={busy}
             onClick={()=>resume(m.latest_run!.run_id)}>Resume mission</button>}
           <button className="btn secondary" style={{marginLeft:8,border:'1px solid #b5c7d3'}} disabled={busy}
