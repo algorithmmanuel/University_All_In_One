@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 import styles from './workspace.module.css';
+import Investigation from './Investigation';
 
 type Step={scene:string;story:string;evidence:string[];question:string;options:string[]};
 type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null};
@@ -30,7 +31,7 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
   }
   return <section className={styles.shell} aria-label="Simulated analyst workstation">
     <header className={styles.topbar}>
-      <div><span className={styles.liveDot}/> EDUC YBER / TRAINING ENVIRONMENT <small> · FICTIONAL CASE</small></div>
+      <div><span className={styles.liveDot}/> EDUCYBER / TRAINING ENVIRONMENT <small> · FICTIONAL CASE</small></div>
       <button className={styles.exit} onClick={onExit}>Exit workstation</button>
     </header>
     <div className={styles.toolbar}>
@@ -73,16 +74,9 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
           <span className={styles.eyebrow}>EVIDENCE LOCKER</span>
           <h3>Review the case artifacts</h3>
           <p className={styles.subtle}>Select each artifact to inspect it. These are fictional training records.</p>
-          <div className={styles.artifacts}>
-            {evidence.map((item,i)=><button key={i} className={styles.artifact}
-              onClick={()=>setInspected(old=>old.includes(i)?old:[...old,i])}>
-              <span className={styles.artifactIcon}>▤</span>
-              <span><strong>Artifact {String(i+1).padStart(2,'0')}</strong>
-                <small>{inspected.includes(i)?item:'Select to reveal evidence'}</small></span>
-              <span className={styles.artifactStatus}>{inspected.includes(i)?'✓ Inspected':'Inspect'}</span>
-            </button>)}
-          </div>
-          <p className={styles.subtle} role="status">{inspected.length} of {evidence.length} artifacts inspected</p>
+          <Investigation key={run.mission_id+'-'+run.step_index} missionId={run.mission_id}
+            stage={run.step_index} evidence={evidence} inspected={inspected}
+            onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>
           <button className={styles.primary} disabled={!allInspected} onClick={()=>setTab('decision')}>Proceed to decision desk →</button>
         </div>}
         {tab==='decision'&&<div>
