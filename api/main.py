@@ -6,11 +6,13 @@ from database import SessionLocal
 from models import Academy, Course
 from auth_routes import router as auth_router
 from learning_routes import router as learning_router
+from quiz_routes import router as quiz_router
 
-app = FastAPI(title="EduCyber Nigeria API", version="0.4.0")
+app = FastAPI(title="EduCyber Nigeria API", version="0.5.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"], allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
 app.include_router(auth_router)
 app.include_router(learning_router)
+app.include_router(quiz_router)
 
 def get_db():
     with SessionLocal() as session:
