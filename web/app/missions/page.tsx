@@ -42,8 +42,8 @@ export default function Missions(){
     finally{setBusy(false);}
   }
   async function resume(id:number){
-    setBusy(true);setError('');setFeedback('');
-    try{setRun(await request('/api/v1/missions/runs/'+id));setSelection(null);}
+    setBusy(true);setError('');
+    try{setRun(await request('/api/v1/missions/runs/'+id));}
     catch(e){setError(e instanceof Error?e.message:'Unable to resume mission');}
     finally{setBusy(false);}
   }
