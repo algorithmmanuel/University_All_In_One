@@ -53,7 +53,7 @@ export default function Missions(){
     try{
       const next=await request('/api/v1/missions/runs/'+run.run_id+'/decide','POST',
         {option_index:optionIndex,expected_step:run.step_index});
-      setRun(next);setFeedback(next.last_feedback||'');setSelection(null);await refresh();
+      setRun(next);await refresh();
     }catch(e){setError(e instanceof Error?e.message:'Unable to save decision');}
     finally{setBusy(false);}
   }
