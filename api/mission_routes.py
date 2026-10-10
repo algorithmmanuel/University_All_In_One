@@ -34,7 +34,7 @@ def state(run: MissionRun):
     complete = run.completed_at is not None
     return {"run_id": run.id, "mission_id": run.mission_id, "title": mission["title"],
             "step_index": run.step_index, "step_count": len(mission["steps"]),
-            "score": run.score, "max_score": 10 * len(mission["steps"]),
+            "score": run.score, "max_score": 15 * len(mission["steps"]),
             "completed": complete,
             "step": None if complete else public_step(mission["steps"][run.step_index]),
             "last_feedback": run.choices[-1]["feedback"] if run.choices else None}
@@ -74,6 +74,7 @@ def resume(run_id: int, user: User = Depends(current_user), db: Session = Depend
 class Decision(BaseModel):
     option_index: int
     expected_step: int
+    finding_index: int | None = None
 
 @router.post("/runs/{run_id}/decide")
 def decide(run_id: int, body: Decision, user: User = Depends(current_user), db: Session = Depends(get_db)):
@@ -87,10 +88,25 @@ def decide(run_id: int, body: Decision, user: User = Depends(current_user), db: 
     step = steps[run.step_index]
     if body.option_index < 0 or body.option_index >= len(step["options"]):
         raise HTTPException(status_code=422, detail="Invalid decision")
+    if body.finding_index is not None and not 0 <= body.finding_index < len(step["evidence"]):
+        raise HTTPException(status_code=422, detail="Invalid finding")
+    # Finding score is calculated from a server-owned answer key, never from browser points.
+    finding_key = {
+        "phishing-investigation": [2, 1, 0],
+        "soc-alert-triage": [1, 0, 0],
+        "incident-response": [0, 0, 1],
+    }
+    correct_finding = finding_key[run.mission_id][run.step_index]
+    investigation_points = 5 if body.finding_index == correct_finding else 0
     selected = step["options"][body.option_index]
     run.choices = [*run.choices, {"step": run.step_index, "option_index": body.option_index,
-                                  "points": selected["points"], "feedback": selected["feedback"]}]
-    run.score += selected["points"]
+                                  "points": selected["points"] + investigation_points,
+                                  "finding_index": body.finding_index,
+                                  "investigation_points": investigation_points,
+                                  "feedback": selected["feedback"] + (
+                                      " Investigation finding: +5 points." if investigation_points else
+                                      " Investigation finding: +0 points.")}]
+    run.score += selected["points"] + investigation_points
     run.step_index += 1
     if run.step_index == len(steps):
         run.completed_at = datetime.now(timezone.utc)
@@ -103,6 +119,6 @@ def history(user: User = Depends(current_user), db: Session = Depends(get_db)):
     runs = db.scalars(select(MissionRun).where(MissionRun.user_id == user.id)
                       .order_by(MissionRun.id.desc()).limit(50)).all()
     return {"runs": [{"id": r.id, "title": MISSIONS[r.mission_id]["title"],
-                      "score": r.score, "max_score": len(MISSIONS[r.mission_id]["steps"]) * 10,
+                      "score": r.score, "max_score": len(MISSIONS[r.mission_id]["steps"]) * 15,
                       "completed": r.completed_at is not None,
                       "created_at": r.created_at.isoformat()} for r in runs if r.mission_id in MISSIONS]}
