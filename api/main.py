@@ -1,20 +1,35 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import select, text
+from sqlalchemy.orm import Session
+from database import SessionLocal
+from models import Academy, Course
 
-app = FastAPI(title="EduCyber Nigeria API", version="0.1.0")
-# Keep this restricted to the local web app during development.
+app = FastAPI(title="EduCyber Nigeria API", version="0.2.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000"], allow_credentials=False, allow_methods=["GET"], allow_headers=["*"])
 
-ACADEMIES = [
-    {"id": "secondary", "name": "Secondary School", "status": "preview"},
-    {"id": "university", "name": "University", "status": "preview"},
-    {"id": "cyber", "name": "Cybersecurity Academy", "status": "preview"},
-]
+def get_db():
+    with SessionLocal() as session:
+        yield session
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
+@app.get("/health/db")
+def database_health(db: Session = Depends(get_db)):
+    db.execute(text("SELECT 1"))
+    return {"database": "connected"}
+
 @app.get("/api/v1/academies")
-def list_academies():
-    return {"academies": ACADEMIES}
+def list_academies(db: Session = Depends(get_db)):
+    rows = db.scalars(select(Academy).order_by(Academy.id)).all()
+    return {"academies": [{"id": row.id, "name": row.name, "status": row.status} for row in rows]}
+
+@app.get("/api/v1/courses")
+def list_courses(academy_id: str | None = None, db: Session = Depends(get_db)):
+    stmt = select(Course).where(Course.status == "published")
+    if academy_id:
+        stmt = stmt.where(Course.academy_id == academy_id)
+    rows = db.scalars(stmt.order_by(Course.id)).all()
+    return {"courses": [{"id": row.id, "academy_id": row.academy_id, "title": row.title, "description": row.description} for row in rows]}
