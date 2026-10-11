@@ -12,7 +12,6 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 
 from mission_data import MISSIONS
-from models import Base, MissionRun, User
 
 
 @pytest.mark.integration
@@ -22,6 +21,13 @@ def test_concurrent_mission_decisions_are_serialized():
         pytest.skip("Set TEST_DATABASE_URL to an isolated PostgreSQL test database")
     if not url.startswith(("postgresql://", "postgresql+psycopg://")):
         pytest.fail("Concurrency test requires PostgreSQL")
+    # Import database-bound models only after the test database is explicitly configured.
+    # database.py requires DATABASE_URL at import time; avoid collection-time failure.
+    previous_url = os.environ.get("DATABASE_URL")
+    if previous_url and previous_url != url:
+        pytest.fail("DATABASE_URL differs from TEST_DATABASE_URL; refusing to risk the application database")
+    os.environ["DATABASE_URL"] = url
+    from models import Base, MissionRun, User
     engine = create_engine(url, pool_size=5, max_overflow=5)
     Session = sessionmaker(bind=engine, expire_on_commit=False)
     Base.metadata.create_all(engine)
