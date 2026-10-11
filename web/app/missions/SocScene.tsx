@@ -56,6 +56,14 @@ export default function SocScene({stage,missionId,missionTitle,active,onSelect,e
   'digital-footprints':{label:'DIGITAL TRACE STUDIO',accent:'#d4b2ff'},
   'mfa-guardian':{label:'IDENTITY PROTECTION HUB',accent:'#e8bb78'},
   'backup-buddy':{label:'RECOVERY CONTROL ROOM',accent:'#7fd3af'},
+  'network-watch':{label:'NETWORK OPERATIONS CENTRE',accent:'#5fc5e8'},
+  'web-defense':{label:'APPLICATION DEFENSE LAB',accent:'#f2b66b'},
+  'cloud-perimeter':{label:'CLOUD ASSURANCE ROOM',accent:'#a7c7ff'},
+  'forensics-desk':{label:'DIGITAL FORENSICS LAB',accent:'#c6a4f4'},
+  'malware-clues':{label:'MALWARE TRIAGE ROOM',accent:'#ed9d86'},
+  'identity-lab':{label:'IDENTITY CONTROL CENTRE',accent:'#70dec5'},
+  'secure-code-review':{label:'SECURE DELIVERY LAB',accent:'#9cd8a8'},
+  'threat-hunter':{label:'THREAT HUNT OPERATIONS',accent:'#f0c36f'},
  };
  const theme=explorerThemes[missionId]??{label:'CYBER INVESTIGATION SOC',accent:'#38c6b0'};
  const signal=theme.label;
