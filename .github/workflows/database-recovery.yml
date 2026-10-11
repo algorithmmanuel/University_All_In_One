@@ -1,0 +1,76 @@
+name: Isolated PostgreSQL recovery rehearsal
+
+on:
+  pull_request:
+    paths:
+      - 'api/migrations/**'
+      - 'scripts/rehearse-database-recovery.sh'
+      - '.github/workflows/database-recovery.yml'
+  push:
+    branches:
+      - feature/phase-9-platform-expansion
+    paths:
+      - 'api/migrations/**'
+      - 'scripts/rehearse-database-recovery.sh'
+      - '.github/workflows/database-recovery.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  backup-restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    services:
+      source:
+        image: postgres:17
+        env:
+          POSTGRES_USER: educyber_ci
+          POSTGRES_PASSWORD: ci_only_password
+          POSTGRES_DB: educyber_test
+        ports:
+          - 55431:5432
+        options: >-
+          --health-cmd "pg_isready -U educyber_ci -d educyber_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      restore:
+        image: postgres:17
+        env:
+          POSTGRES_USER: educyber_ci
+          POSTGRES_PASSWORD: ci_only_password
+          POSTGRES_DB: educyber_restore_test
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U educyber_ci -d educyber_restore_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGPASSWORD: ci_only_password
+      SOURCE_DATABASE_URL: postgresql://educyber_ci:ci_only_password@127.0.0.1:55431/educyber_test
+      RESTORE_DATABASE_URL: postgresql://educyber_ci:ci_only_password@127.0.0.1:55432/educyber_restore_test
+      DATABASE_URL: postgresql+psycopg://educyber_ci:ci_only_password@127.0.0.1:55431/educyber_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: api/requirements-ci.lock
+      - name: Install PostgreSQL 17 client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-17
+      - name: Install application dependencies
+        working-directory: api
+        run: python -m pip install -r requirements-ci.lock
+      - name: Apply schema to source only
+        working-directory: api
+        run: python -m alembic upgrade head
+      - name: Prove isolated backup and restore
+        run: bash scripts/rehearse-database-recovery.sh
