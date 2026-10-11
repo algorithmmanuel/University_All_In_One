@@ -60,10 +60,13 @@ try {
     }
     $revision = (docker exec $container psql -U educyber -d educyber -At -c 'SELECT version_num FROM alembic_version').Trim()
     Assert-LastExit "Unable to inspect Alembic version. No database changed."
-    if ($revision -notin @("0006_login_limits", "0007_age_safeguards")) {
+    if ($revision -notin @("0005_missions", "0006_login_limits", "0007_age_safeguards")) {
         throw "Unexpected schema revision $revision. Inspect migrations manually."
     }
     Write-Host "Development database revision: $revision"
+    if ($revision -eq "0005_missions") {
+        Write-Host "Migration path: 0005_missions -> 0006_login_limits -> 0007_age_safeguards"
+    }
     if (-not $Apply) {
         Write-Host "PREFLIGHT PASSED. No backup or migration performed. Rerun with -Apply to back up and migrate." -ForegroundColor Green
         return
@@ -83,7 +86,7 @@ try {
     if ((Get-Item $backup).Length -lt 1024) { throw "Backup suspiciously small; migration not started." }
     Write-Host "BACKUP SAVED: $backup" -ForegroundColor Green
 
-    if ($revision -eq "0006_login_limits") {
+    if ($revision -in @("0005_missions", "0006_login_limits")) {
         $escaped = [uri]::EscapeDataString($password)
         $env:DATABASE_URL = "postgresql+psycopg://educyber:${escaped}@127.0.0.1:5433/educyber?connect_timeout=5"
         Push-Location $api
