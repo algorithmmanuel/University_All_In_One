@@ -1,7 +1,5 @@
-"""Database-backed bearer sessions and scrypt password hashing."""
+"""Database-backed bearer sessions and authentication dependencies."""
 import hashlib
-import hmac
-import os
 import secrets
 from datetime import datetime, timedelta, timezone
 from fastapi import Depends, HTTPException
@@ -9,23 +7,9 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy import select
 from database import SessionLocal
 from models import AuthSession, User
+from password_security import hash_password, verify_password
 
 bearer = HTTPBearer(auto_error=False)
-
-def hash_password(password: str) -> str:
-    salt = os.urandom(16)
-    digest = hashlib.scrypt(password.encode(), salt=salt, n=16384, r=8, p=1)
-    return "scrypt$16384$8$1$" + salt.hex() + "$" + digest.hex()
-
-def verify_password(password: str, stored: str) -> bool:
-    try:
-        algorithm, n, r, p, salt_hex, digest_hex = stored.split("$")
-        if algorithm != "scrypt":
-            return False
-        digest = hashlib.scrypt(password.encode(), salt=bytes.fromhex(salt_hex), n=int(n), r=int(r), p=int(p))
-        return hmac.compare_digest(digest, bytes.fromhex(digest_hex))
-    except (ValueError, TypeError):
-        return False
 
 def issue_session(db, user: User) -> str:
     token = secrets.token_urlsafe(48)
