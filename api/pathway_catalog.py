@@ -30,7 +30,9 @@ PATHWAYS: tuple[Pathway, ...] = (
     Pathway(id="professional", title="Cyber Command",
             description="Cyber defense, incident command, governance and resilience simulations.",
             learning_objectives=("Prioritize incidents", "Coordinate containment", "Plan recovery"),
-            sample_missions=("incident-response",)),
+            sample_missions=("incident-response", "risk-command", "zero-trust-briefing",
+                             "cloud-incident", "supply-chain-watch", "ransomware-recovery",
+                             "identity-crisis", "boardroom-breach", "ai-governance", "audit-trail")),
 )
 
 def pathway_catalog() -> dict:
