@@ -16,6 +16,10 @@ export default function Missions(){
   const [missions,setMissions]=useState<Mission[]>([]);
   const [games,setGames]=useState<Game[]>([]);
   const [pathway,setPathway]=useState<'secondary'|'university'|'professional'>('secondary');
+  useEffect(()=>{
+    const requested=new URLSearchParams(window.location.search).get('pathway');
+    if(requested==='secondary'||requested==='university'||requested==='professional')setPathway(requested);
+  },[]);
   const [history,setHistory]=useState<History[]>([]);
   const [run,setRun]=useState<Run|null>(null);
   const [busy,setBusy]=useState(false);
