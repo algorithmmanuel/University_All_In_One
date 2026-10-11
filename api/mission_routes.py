@@ -101,7 +101,7 @@ def decide(run_id: int, body: Decision, user: User = Depends(current_user), db: 
         "operation-firewall": [1, 0, 2],
         "password-fortress": [0, 1, 0],
     }
-    correct_finding = finding_key[run.mission_id][run.step_index]
+    correct_finding = MISSIONS[run.mission_id].get("finding_key", finding_key.get(run.mission_id))[run.step_index]
     investigation_points = 5 if body.finding_index == correct_finding else 0
     selected = step["options"][body.option_index]
     run.choices = [*run.choices, {"step": run.step_index, "option_index": body.option_index,
