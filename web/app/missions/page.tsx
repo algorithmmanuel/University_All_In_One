@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 import MissionWorkspace from './MissionWorkspace';
 
-const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'http://127.0.0.1:8000').replace(/\/$/,'');
+const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'').replace(/\/$/,'');
 type Game={id:string;pathway:'secondary'|'university'|'professional';title:string;mechanic:string;mission_ids:string[];summary:string;difficulty:string;mission_count:number;status:'playable'|'planned'};
 type Mission={id:string;title:string;track:string;difficulty:string;summary:string;step_count:number;latest_run:null|{run_id:number;completed:boolean;score:number;step_index:number}};
 type Step={scene:string;story:string;evidence:string[];question:string;options:string[]};
