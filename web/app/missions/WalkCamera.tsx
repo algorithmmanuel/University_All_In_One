@@ -3,16 +3,18 @@ import {useEffect,useRef} from 'react';
 import {useFrame,useThree} from '@react-three/fiber';
 import {canWalk,nearbyStation,SPAWN} from './walkGeometry';
 type Station='briefing'|'evidence'|'decision';
-type Props={enabled:boolean;onInteract:(station:Station)=>void;onNearby:(station:Station|null)=>void};
-export default function WalkCamera({enabled,onInteract,onNearby}:Props){
+type Target={kind:'artifact';index:number}|{kind:'station';id:Station}|null;
+type Props={enabled:boolean;onInteract:(station:Station)=>void;onInspect:(index:number)=>void;onTarget:(target:Target)=>void};
+export default function WalkCamera({enabled,onInteract,onInspect,onTarget}:Props){
  const {camera,gl}=useThree();
  const keys=useRef(new Set<string>());
  const yaw=useRef(0);
  const pitch=useRef(-.08);
  const dragging=useRef(false);
  const interact=useRef(onInteract);
- const nearby=useRef(onNearby);
- interact.current=onInteract;nearby.current=onNearby;
+ const inspect=useRef(onInspect);
+ const target=useRef(onTarget);
+ interact.current=onInteract;inspect.current=onInspect;target.current=onTarget;
  useEffect(()=>{
   if(!enabled)return;
   const canvas=gl.domElement;
@@ -24,7 +26,11 @@ export default function WalkCamera({enabled,onInteract,onNearby}:Props){
    if(document.activeElement!==canvas||e.repeat&&e.key.toLowerCase()==='e')return;
    const key=e.key.toLowerCase();
    if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright','e'].includes(key))e.preventDefault();
-   if(key==='e'){const id=nearbyStation(camera.position.x,camera.position.z);if(id)interact.current(id);}
+   if(key==='e'){
+    const id=nearbyStation(camera.position.x,camera.position.z);
+    if(id){const index=({briefing:0,evidence:1,decision:2} as const)[id];
+     if(!e.shiftKey)inspect.current(index);else interact.current(id);}
+   }
    else keys.current.add(key);
   };
   const up=(e:KeyboardEvent)=>keys.current.delete(e.key.toLowerCase());
@@ -40,14 +46,14 @@ export default function WalkCamera({enabled,onInteract,onNearby}:Props){
   canvas.addEventListener('pointerdown',pointerDown);canvas.addEventListener('pointermove',move);
   window.addEventListener('pointerup',pointerUp);window.addEventListener('blur',blur);
   return()=>{
-   blur();nearby.current(null);
+   blur();target.current(null);
    canvas.removeEventListener('keydown',down);canvas.removeEventListener('keyup',up);
    canvas.removeEventListener('pointerdown',pointerDown);canvas.removeEventListener('pointermove',move);
    window.removeEventListener('pointerup',pointerUp);window.removeEventListener('blur',blur);
    if(previousTabIndex===null)canvas.removeAttribute('tabindex');else canvas.setAttribute('tabindex',previousTabIndex);
   };
  },[enabled,camera,gl]);
- const lastNearby=useRef<Station|null>(null);
+ const lastNearby=useRef<string>('');
  useFrame((_,delta)=>{
   if(!enabled)return;
   const k=keys.current;
@@ -62,7 +68,10 @@ export default function WalkCamera({enabled,onInteract,onNearby}:Props){
   camera.rotation.order='YXZ';
   camera.rotation.set(pitch.current,yaw.current,0);
   const id=nearbyStation(camera.position.x,camera.position.z);
-  if(id!==lastNearby.current){lastNearby.current=id;nearby.current(id);}
+  const marker=id?({briefing:0,evidence:1,decision:2} as const)[id]:null;
+  const next:Target=marker===null?null:{kind:'artifact',index:marker};
+  const key=next?'artifact-'+next.index:'';
+  if(key!==lastNearby.current){lastNearby.current=key;target.current(next);}
  });
  return null;
 }
