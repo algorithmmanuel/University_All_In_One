@@ -3,7 +3,7 @@ import os
 import pytest
 
 # Import schemas without opening a connection. CI has no PostgreSQL service.
-os.environ.setdefault("DATABASE_URL", "postgresql+psycopg://test:test@127.0.0.1:5433/educyber_test")
+os.environ.setdefault("DATABASE_URL", os.getenv("TEST_DATABASE_URL") or "postgresql+psycopg://test:test@127.0.0.1:5433/educyber_test")
 from pydantic import ValidationError
 
 from auth_routes import LoginRequest, RegisterRequest
