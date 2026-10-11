@@ -4,14 +4,10 @@ from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from auth import current_user
-from database import SessionLocal
+from db_dependencies import get_db
 from models import Course, Enrollment, QuizAttempt, QuizQuestion, User
 
 router = APIRouter(prefix="/api/v1/quizzes", tags=["quizzes"])
-
-def get_db():
-    with SessionLocal() as db:
-        yield db
 
 def eligible(db: Session, user: User, course_id: int):
     if user.role != "student":
