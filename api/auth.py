@@ -1,5 +1,6 @@
 """Database-backed bearer sessions and authentication dependencies."""
 import hashlib
+import os
 import secrets
 from datetime import datetime, timedelta, timezone
 from fastapi import Depends, HTTPException
@@ -32,6 +33,8 @@ def current_user(
     user = db.get(User, session.user_id)
     if user is None or not user.is_active:
         raise HTTPException(status_code=401, detail="Account unavailable")
+    if os.getenv("EDUCYBER_PRIVATE_BETA") == "enabled" and (user.age_band != "adult" or user.role != "student"):
+        raise HTTPException(status_code=403, detail="Private beta is for adult learners only")
     return user
 
 def require_teacher(user: User = Depends(current_user)) -> User:
