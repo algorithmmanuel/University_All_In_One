@@ -2,10 +2,11 @@ import os
 from fastapi import Depends, FastAPI, HTTPException
 from game_catalog import game_catalog
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import select, text
+from sqlalchemy import select, text, inspect
 from sqlalchemy.orm import Session
 from db_dependencies import get_db
 from models import Academy, Course
+from database import Base, engine
 from auth_routes import router as auth_router
 from learning_routes import router as learning_router
 from quiz_routes import router as quiz_router
@@ -44,6 +45,19 @@ def database_health(db: Session = Depends(get_db)):
     except Exception:
         raise HTTPException(status_code=503, detail="Database unavailable") from None
     return {"database": "connected"}
+
+@app.get("/health/schema")
+def schema_health():
+    """Read-only schema readiness check; never mutate production data on startup."""
+    try:
+        with engine.connect() as connection:
+            inspector = inspect(connection)
+            missing = [name for name in Base.metadata.tables if not inspector.has_table(name)]
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database schema unavailable") from None
+    if missing:
+        raise HTTPException(status_code=503, detail="Database schema incomplete; apply migrations")
+    return {"schema": "ready"}
 
 @app.get("/api/v1/academies")
 def list_academies(db: Session = Depends(get_db)):
