@@ -33,8 +33,8 @@ export function GameLibrary(){
   },[]);
   const current=games.filter(g=>g.pathway===selected);
   return <section id="game-library" className="container section" aria-label="Cybersecurity game library">
-    <p className="tag">CYBER GAME LIBRARY</p><h2>Explore 30 cyber game concepts</h2>
-    <p className="muted">Ten titles per pathway. Playable games are clearly identified; new simulations are being developed.</p>
+    <p className="tag">CYBER GAME LIBRARY</p><h2>Explore 30 playable cybersecurity games</h2>
+    <p className="muted">Ten playable games per pathway, with 2D and 3D simulated investigations.</p>
     <div className="actions" role="group" aria-label="Select game pathway">
       {PATHS.map(([id,label])=><button type="button" className={selected===id?'btn':'btn secondary'} aria-pressed={selected===id} key={id} onClick={()=>setSelected(id)}>{label}</button>)}
     </div>
