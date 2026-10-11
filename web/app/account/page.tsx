@@ -13,6 +13,7 @@ export default function Account() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('student');
   const [dateOfBirth, setDateOfBirth] = useState('');
+  const [betaInvite, setBetaInvite] = useState('');
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [busy, setBusy] = useState(false);
@@ -21,7 +22,7 @@ export default function Account() {
     event.preventDefault(); setError(''); setNotice(''); setBusy(true);
     try {
       const url = mode === 'register' ? '/api/v1/auth/register' : '/api/v1/auth/login';
-      const payload = mode === 'register' ? {full_name:name,email,password,role,date_of_birth:dateOfBirth} : {email,password};
+      const payload = mode === 'register' ? {full_name:name,email,password,role,date_of_birth:dateOfBirth,beta_invite:betaInvite||undefined} : {email,password};
       const response = await fetch(API+url, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
       const data = await response.json();
       if (!response.ok) throw new Error(typeof data.detail === 'string' ? data.detail : 'Please check your details.');
@@ -48,6 +49,7 @@ export default function Account() {
       {mode==='register'&&<label>Full name<input required minLength={2} maxLength={120} value={name} onChange={e=>setName(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>}
       {mode==='register'&&<label>Date of birth<input required type="date" value={dateOfBirth} max={new Date().toISOString().slice(0,10)} onChange={e=>setDateOfBirth(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>}
       {mode==='register'&&<p style={{fontSize:13,margin:0}}>Under-13 registration is not available. Ages 13–17 require guardian verification before account activation. Date of birth is self-declared and is not displayed publicly.</p>}
+      {mode==='register'&&<label>Beta invitation code (if provided)<input autoComplete="off" value={betaInvite} onChange={e=>setBetaInvite(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>}
       <label>Email<input required type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>
       <label>Password<input required type="password" minLength={mode==='register'?12:1} autoComplete={mode==='register'?'new-password':'current-password'} value={password} onChange={e=>setPassword(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>
       {mode==='register'&&<label>Account type<select value={role} onChange={e=>setRole(e.target.value)} style={{display:'block',width:'100%',padding:12}}><option value="student">Student</option><option value="teacher">Teacher (approval required)</option></select></label>}
