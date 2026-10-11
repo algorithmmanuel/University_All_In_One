@@ -5,15 +5,11 @@ from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from auth import current_user
-from database import SessionLocal
+from db_dependencies import get_db
 from mission_data import MISSIONS
 from models import MissionRun, User
 
 router = APIRouter(prefix="/api/v1/missions", tags=["missions"])
-
-def get_db():
-    with SessionLocal() as db:
-        yield db
 
 def require_student(user: User):
     if user.role != "student":
