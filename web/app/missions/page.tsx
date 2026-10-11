@@ -5,6 +5,7 @@ import {useRouter} from 'next/navigation';
 import MissionWorkspace from './MissionWorkspace';
 
 const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'http://127.0.0.1:8000').replace(/\/$/,'');
+type Game={id:string;pathway:'secondary'|'university'|'professional';title:string;mechanic:string;mission_ids:string[];summary:string;difficulty:string;mission_count:number};
 type Mission={id:string;title:string;track:string;difficulty:string;summary:string;step_count:number;latest_run:null|{run_id:number;completed:boolean;score:number;step_index:number}};
 type Step={scene:string;story:string;evidence:string[];question:string;options:string[]};
 type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null};
@@ -13,6 +14,8 @@ type History={id:number;title:string;score:number;max_score:number;completed:boo
 export default function Missions(){
   const router=useRouter();
   const [missions,setMissions]=useState<Mission[]>([]);
+  const [games,setGames]=useState<Game[]>([]);
+  const [pathway,setPathway]=useState<'secondary'|'university'|'professional'>('secondary');
   const [history,setHistory]=useState<History[]>([]);
   const [run,setRun]=useState<Run|null>(null);
   const [busy,setBusy]=useState(false);
@@ -30,7 +33,8 @@ export default function Missions(){
     return data;
   },[router]);
   const refresh=useCallback(async()=>{
-    const [catalog,attempts]=await Promise.all([request('/api/v1/missions'),request('/api/v1/missions/history')]);
+    const [catalog,attempts,library]=await Promise.all([request('/api/v1/missions'),request('/api/v1/missions/history'),fetch(API+'/api/v1/games').then(async response=>{if(!response.ok)throw new Error('Game library unavailable');return response.json();})]);
+    setGames(library.games);
     setMissions(catalog.missions);setHistory(attempts.runs);
   },[request]);
   useEffect(()=>{refresh().catch(e=>setError(e.message)).finally(()=>setLoading(false));},[refresh]);
@@ -65,16 +69,20 @@ export default function Missions(){
     <p className="muted">Explore fictional incidents, examine evidence and make defensive decisions. All activity is simulated.</p>
     {error&&<p role="alert" style={{color:'#b42318'}}>{error}</p>}
     {loading?<p>Loading missions…</p>:<>
+      <nav aria-label="Learner pathways" style={{display:'flex',gap:10,flexWrap:'wrap',margin:'20px 0'}}>
+        {([['secondary','Cyber Explorers'],['university','Cyber Academy'],['professional','Cyber Command']] as const).map(([id,title])=><button key={id} type="button" className={pathway===id?'btn':'btn secondary'} aria-pressed={pathway===id} onClick={()=>setPathway(id)}>{title}</button>)}
+      </nav>
+      <h2>{pathway==='secondary'?'Cyber Explorers':pathway==='university'?'Cyber Academy':'Cyber Command'} game library</h2>
       <div className="grid">
-        {missions.map(m=><article className="card" key={m.id}>
-          <p className="tag">{m.track} · {m.difficulty}</p>
-          <h2 style={{fontSize:23}}>{m.title}</h2>
-          <p className="muted">{m.summary}</p>
-          <p className="small">{m.step_count} decisions · {m.step_count*15} possible points</p>
-          {m.latest_run&&!m.latest_run.completed&&<button className="btn" disabled={busy}
-            onClick={()=>resume(m.latest_run!.run_id)}>Resume mission</button>}
-          <button className="btn secondary" style={{marginLeft:8,border:'1px solid #b5c7d3'}} disabled={busy}
-            onClick={()=>start(m.id)}>{m.latest_run?'New attempt':'Start mission'}</button>
+        {games.filter(g=>g.pathway===pathway).map(g=><article className="card" key={g.id}>
+          <p className="tag">{g.mechanic} · {g.difficulty}</p>
+          <h3>{g.title}</h3><p className="muted">{g.summary}</p>
+          <p className="small">{g.mission_count} playable mission{g.mission_count===1?'':'s'}</p>
+          {g.mission_ids.map(id=>{const m=missions.find(item=>item.id===id);return m?<div key={id} style={{marginTop:10}}>
+            {m.latest_run&&!m.latest_run.completed&&<button className="btn" disabled={busy} onClick={()=>resume(m.latest_run!.run_id)}>Resume {m.title}</button>}
+            <button className="btn secondary" style={{marginLeft:8,border:'1px solid #b5c7d3'}} disabled={busy} onClick={()=>start(id)}>{m.latest_run?'New attempt':'Play game'}</button>
+            {m.latest_run&&<p className="small">Last attempt: {m.latest_run.completed?'Completed':'In progress'} · {m.latest_run.score} points</p>}
+          </div>:<p key={id} className="small">Coming soon</p>})}
         </article>)}
       </div>
       {run&&<section className="section" id="mission-console">
