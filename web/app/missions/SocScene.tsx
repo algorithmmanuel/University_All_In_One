@@ -9,7 +9,7 @@ import WalkCamera from './WalkCamera';
 import EvidenceObjects from './EvidenceObjects';
 
 type Station='briefing'|'evidence'|'decision';
-type Props={stage:number;active:Station;onSelect:(station:Station)=>void;evidence:string[];onInspect:(index:number)=>void;inspected:number[]};
+type Props={stage:number;missionTitle:string;active:Station;onSelect:(station:Station)=>void;evidence:string[];onInspect:(index:number)=>void;inspected:number[]};
 const stations:{id:Station;name:string;position:[number,number,number];color:string}[]=[
   {id:'briefing',name:'Command briefing',position:[-3,0,-0.6],color:'#27b7d6'},
   {id:'evidence',name:'Evidence terminal',position:[0,0,-1.2],color:'#54dfba'},
@@ -39,7 +39,7 @@ function Console({position,color,active,onClick}:{position:[number,number,number
    {active&&<pointLight position={[0,1.7,0]} intensity={2.2} color={color} distance={3}/>}
  </group>;
 }
-export default function SocScene({stage,active,onSelect,evidence,onInspect,inspected}:Props){
+export default function SocScene({stage,missionTitle,active,onSelect,evidence,onInspect,inspected}:Props){
  const [quality,setQuality]=useState<'standard'|'low'>('standard');
  const [view,setView]=useState(0);
  const [walk,setWalk]=useState(false);
@@ -47,12 +47,12 @@ export default function SocScene({stage,active,onSelect,evidence,onInspect,inspe
  const [artifact,setArtifact]=useState<number|null>(null);
  const inspectedCount=inspected.filter(i=>i>=0&&i<evidence.length).length;
  function inspectArtifact(i:number){if(i<0||i>=evidence.length)return;setArtifact(i);onInspect(i);onSelect('evidence');}
- const signal=stage===0?'PRIVILEGED LOGIN ALERT':stage===1?'UNRECOGNIZED DEVICE':'CONTAINMENT REVIEW';
+ const signal='CASE INVESTIGATION';
  const views:[number,number,number][]=[[0,4.4,9],[-3,2.5,4],[0,2.8,3.6],[3,2.5,4]];
  function navigate(index:number){setArtifact(null);setWalk(false);setView(index);if(index>0)onSelect(stations[index-1].id);}
  useEffect(()=>{const handle=(e:KeyboardEvent)=>{if(e.altKey||e.ctrlKey||e.metaKey||['INPUT','TEXTAREA','SELECT'].includes((e.target as HTMLElement)?.tagName))return;if(walk)return;if(e.key==='ArrowLeft'||e.key==='a'){setView(v=>(v+3)%4);}if(e.key==='ArrowRight'||e.key==='d'){setView(v=>(v+1)%4);}};window.addEventListener('keydown',handle);return()=>window.removeEventListener('keydown',handle);},[walk]);
- return <section className={styles.shell} aria-label="Interactive 3D security operations centre">
-  <div className={styles.heading}><div><strong>EDUCYBER · SOC SIMULATION</strong><p>Operation Firewall · Stage {stage+1} · {signal} · Fictional training environment</p></div>
+ return <section className={styles.shell} aria-label="Interactive 3D cybersecurity investigation room">
+  <div className={styles.heading}><div><strong>EDUCYBER · 3D INVESTIGATION</strong><p>{missionTitle} · Stage {stage+1} · {signal} · Fictional training environment</p></div>
    <button type="button" onClick={()=>setQuality(q=>q==='standard'?'low':'standard')}>Graphics: {quality}</button></div>
   <div className={styles.viewport}>
    <Canvas camera={{position:[0,4.4,9],fov:48}} dpr={quality==='low'?1:[1,1.5]} gl={{antialias:quality==='standard',powerPreference:'low-power'}} fallback={<p>3D rendering is unavailable. Use the 2D workstation below.</p>}>
