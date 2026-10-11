@@ -56,3 +56,9 @@ Verified locally by developer: 55 backend tests passed; `pip check` reports no b
 - Review authorization and personal-data handling in the web and Android clients; backend test coverage is not an end-to-end penetration test.
 
 **Decision:** Do not declare Phase 8 production-ready or merge solely on the basis of the 55 passing tests. Continue with maintainability, dependency reproducibility and operational hardening in controlled batches.
+
+## Shared database dependency refactor — pending verification
+- Authentication, learning, quizzes and mission routes now import `get_db` from `api/db_dependencies.py` rather than defining duplicate generators. `api/main.py` already uses it.
+- `api/auth.py` now receives the same request-scoped database session through FastAPI dependency injection for bearer-token lookup. This removes an additional implicit session and enables consistent dependency overrides.
+- This changes authentication session lifecycle wiring and **requires** full isolated PostgreSQL integration tests before acceptance. Do not mark the refactor verified solely from successful import/unit checks.
+- No schema migration is required. Confirm the backend GitHub quality workflow and rerun local isolated DB tests if CI reports errors.
