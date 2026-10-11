@@ -9,6 +9,7 @@ from learning_routes import router as learning_router
 from quiz_routes import router as quiz_router
 from mission_routes import router as mission_router
 from pathway_routes import router as pathway_router
+from mission_manifest_routes import router as mission_manifest_router
 
 app = FastAPI(title="EduCyber Nigeria API", version="0.6.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"], allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
@@ -17,6 +18,7 @@ app.include_router(learning_router)
 app.include_router(quiz_router)
 app.include_router(mission_router)
 app.include_router(pathway_router)
+app.include_router(mission_manifest_router)
 
 def get_db():
     with SessionLocal() as session:
