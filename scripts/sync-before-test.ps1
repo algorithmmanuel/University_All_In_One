@@ -20,6 +20,14 @@ try {
     $remote = (git rev-parse $upstream).Trim()
     $base = (git merge-base HEAD $upstream).Trim()
     $dirty = @(git status --porcelain --untracked-files=normal)
+    $generatedOnly = $true
+    foreach ($entry in $dirty) {
+        $path = $entry.Substring(3).Trim().Replace("\\", "/")
+        if ($path -notin @("web/next-env.d.ts", "web/tsconfig.tsbuildinfo")) {
+            $generatedOnly = $false
+            break
+        }
+    }
     if ($base -ne $local -and $base -ne $remote) {
         throw "Local and GitHub histories diverged. Resolve explicitly; no automatic overwrite."
     }
@@ -30,7 +38,16 @@ try {
         Write-Host "Local modifications exist:" -ForegroundColor Yellow
         git status --short
         if ($local -ne $remote) {
-            throw "GitHub is ahead but local changes exist. Commit or stash deliberately before syncing."
+            if (-not $generatedOnly) {
+                throw "GitHub is ahead and source changes exist. Commit or stash deliberately before syncing."
+            }
+            # Generated-only changes are safe to retain when upstream does not touch
+            # those paths. Git fast-forward preserves the working tree in this case.
+            $upstreamGeneratedChanges = @(git diff --name-only HEAD $upstream -- web/next-env.d.ts web/tsconfig.tsbuildinfo)
+            if ($LASTEXITCODE -ne 0 -or $upstreamGeneratedChanges.Count -gt 0) {
+                throw "GitHub also changes a generated file. Preserve it manually before syncing."
+            }
+            Write-Host "Only known Next.js generated files changed; keeping them in place." -ForegroundColor Yellow
         }
     }
     if ($local -ne $remote) {
