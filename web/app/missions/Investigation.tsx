@@ -2,6 +2,7 @@
 import {useState} from 'react';
 import styles from './investigation.module.css';
 import ExplorerInvestigation from './ExplorerInvestigation';
+import AcademyInvestigation from './AcademyInvestigation';
 
 type Props={missionId:string;stage:number;onInspect:(index:number)=>void;inspected:number[];evidence:string[]};
 type Mail={from:string;subject:string;preview:string;body:string;link?:string};
@@ -29,6 +30,9 @@ export default function Investigation({missionId,stage,onInspect,inspected,evide
  const [severity,setSeverity]=useState('All');
  const [system,setSystem]=useState(0);
  const mark=(i:number)=>onInspect(i);
+ if (['network-watch','web-defense','cloud-perimeter','forensics-desk','malware-clues','identity-lab','secure-code-review','threat-hunter'].includes(missionId)) {
+  return <AcademyInvestigation key={missionId+'-'+stage} missionId={missionId} stage={stage} evidence={evidence} inspected={inspected} onInspect={onInspect}/>;
+ }
  if (['privacy-patrol','scam-spotter','safe-social','device-defender','wifi-wise','digital-footprints','mfa-guardian','backup-buddy'].includes(missionId)) {
   return <ExplorerInvestigation key={missionId+'-'+stage} missionId={missionId} stage={stage} evidence={evidence} inspected={inspected} onInspect={onInspect}/>;
  }
