@@ -35,20 +35,11 @@ class FakeSession:
         self.session_record = session_record
         self.user = user
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args):
-        return False
-
     def scalar(self, statement):
         return self.session_record
 
     def get(self, model, identifier):
         return self.user
-
-    def expunge(self, user):
-        pass
 
 
 def credentials(token="test-token"):
@@ -72,21 +63,21 @@ def test_missing_bearer_is_rejected(auth_module):
     (1, False, 401),
     (1, True, 200),
 ])
-def test_session_expiry_and_inactive_account(auth_module, monkeypatch, expiry, active, expected):
+def test_session_expiry_and_inactive_account(auth_module, expiry, active, expected):
     record = SimpleNamespace(
         user_id=42,
         expires_at=datetime.now(timezone.utc) + timedelta(hours=expiry),
     )
     user = SimpleNamespace(id=42, is_active=active, role="student", is_approved=True)
-    monkeypatch.setattr(auth_module, "SessionLocal", lambda: FakeSession(record, user))
+    db = FakeSession(record, user)
     if expected == 200:
-        assert auth_module.current_user(credentials()) is user
+        assert auth_module.current_user(credentials(), db=db) is user
     else:
-        expect_http_status(expected, lambda: auth_module.current_user(credentials()))
+        expect_http_status(expected, lambda: auth_module.current_user(credentials(), db=db))
 
 
-def test_revoked_session_is_rejected(auth_module, monkeypatch):
-    monkeypatch.setattr(auth_module, "SessionLocal", lambda: FakeSession(None, None))
+def test_revoked_session_is_rejected(auth_module):
+    db = FakeSession(None, None)
     expect_http_status(401, lambda: auth_module.current_user(credentials()))
 
 
