@@ -35,3 +35,6 @@ Review date: 2026-10-11. PR #1: `feature/phase-8-engineering-hardening` → `fea
 
 ## Decision
 **Engineering merge candidate, not public-launch ready.** Do not merge automatically. The final commit's checks and owner review are outstanding at time of writing. Deployment costs and public hosting are not prerequisites for an internal branch merge.
+
+## Dependency lock follow-up
+Python 3.13 lock inputs and generation instructions have been added in `api/requirements-ci.in`, `api/lock-requirements.sh` and `docs/phase-8-python-dependencies.md`. **The resolved lockfile has not been generated or committed yet.** This is a merge gate. After it is committed, update backend CI to install the lockfile and verify PostgreSQL integration, dependency audit and the complete frontend gate. Keep PR #1 in draft until then.
