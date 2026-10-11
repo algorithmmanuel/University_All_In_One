@@ -56,3 +56,6 @@ git commit -m "build(web): commit reviewed npm dependency lockfile"
 git push origin feature/phase-8-engineering-hardening
 ```
 Inspect `git status --short` before staging; the commands intentionally stage only the lockfile. Do not overwrite unrelated local changes. After pushing, update CI installation to `npm ci` and verify the workflow.
+
+## Lockfile closure
+Developer committed and pushed `web/package-lock.json` at `a8bddf2`. Frontend CI now uses `npm ci --no-audit --no-fund` and an npm cache keyed to that lockfile (workflow commit `be73160`). This improves reproducibility; dependency vulnerability assessment remains a separate check. Confirm the first lockfile-backed CI run before marking this gate verified.
