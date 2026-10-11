@@ -16,7 +16,7 @@ PATHWAYS: tuple[Pathway, ...] = (
     Pathway(id="secondary", title="Cyber Explorers",
             description="Age-appropriate digital safety and defensive cybersecurity.",
             learning_objectives=("Recognize phishing", "Protect accounts", "Respect online privacy"),
-            sample_missions=("phishing-investigation",)),
+            sample_missions=("phishing-investigation", "password-fortress")),
     Pathway(id="university", title="Cyber Academy",
             description="Applied foundations in networks, secure coding and incident investigation.",
             learning_objectives=("Analyze security alerts", "Correlate evidence", "Practice secure development"),
