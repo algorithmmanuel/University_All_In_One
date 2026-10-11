@@ -14,4 +14,4 @@ $action = New-ScheduledTaskAction -Execute $exe -Argument ('-NoProfile -NonInter
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(5) -RepetitionInterval (New-TimeSpan -Hours 4)
 $settings = New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Minutes 5) -StartWhenAvailable
 Register-ScheduledTask -TaskName $name -Action $action -Trigger $trigger -Settings $settings -Description "Fetch-only EduCyber GitHub revision check every four hours; no local file modification" -Force | Out-Null
-Write-Host "Registered $name: GitHub fetch-only check every four hours. No code is automatically overwritten."
+Write-Host "Registered ${name}: GitHub fetch-only check every four hours. No code is automatically overwritten."
