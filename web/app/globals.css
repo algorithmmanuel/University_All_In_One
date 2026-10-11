@@ -43,3 +43,8 @@ button:disabled{cursor:not-allowed;opacity:.6}
 input,textarea,select{background:#14283e;color:var(--text);border:1px solid #54718a;border-radius:7px}
 input[type=radio],input[type=checkbox]{accent-color:var(--accent)}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.hero{padding:48px 0}.nav{align-items:flex-start}.section{padding:38px 0}}
+
+.header-controls{display:flex;align-items:center;justify-content:flex-end;gap:18px;flex-wrap:wrap}
+.account-nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.account-nav .btn{padding:9px 13px;font-size:14px}
+@media(max-width:760px){.header-controls{justify-content:flex-start}.nav{flex-wrap:wrap}}
