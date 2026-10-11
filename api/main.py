@@ -1,4 +1,5 @@
 from fastapi import Depends, FastAPI
+from game_catalog import game_catalog
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select, text
 from sqlalchemy.orm import Session
@@ -45,3 +46,7 @@ def list_courses(academy_id: str | None = None, db: Session = Depends(get_db)):
         stmt = stmt.where(Course.academy_id == academy_id)
     rows = db.scalars(stmt.order_by(Course.id)).all()
     return {"courses": [{"id": row.id, "academy_id": row.academy_id, "title": row.title, "description": row.description} for row in rows]}
+
+@app.get('/api/v1/games')
+def list_games():
+    return game_catalog()
