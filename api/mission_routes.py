@@ -95,6 +95,7 @@ def decide(run_id: int, body: Decision, user: User = Depends(current_user), db: 
         "phishing-investigation": [2, 1, 0],
         "soc-alert-triage": [1, 0, 0],
         "incident-response": [0, 0, 1],
+        "operation-firewall": [1, 0, 2],
     }
     correct_finding = finding_key[run.mission_id][run.step_index]
     investigation_points = 5 if body.finding_index == correct_finding else 0
