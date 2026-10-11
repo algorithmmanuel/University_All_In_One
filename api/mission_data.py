@@ -70,3 +70,34 @@ MISSIONS = {
                     ("Restore under the approved plan and monitor", 10, "Correct. Validate and monitor recovery.")])
         ]}
 }
+
+# Operation Firewall: synthetic bank SOC incident; no live systems or offensive actions.
+MISSIONS["operation-firewall"] = {
+    "title": "Operation Firewall",
+    "track": "SOC investigation",
+    "difficulty": "Intermediate",
+    "summary": "Investigate a fictional bank identity alert, contain risk and document recovery.",
+    "steps": [
+        step("SOC command room",
+             "At 02:14, a fictional bank monitoring console flags repeated failed logins followed by a successful privileged sign-in.",
+             ["42 failed sign-ins in six minutes", "Successful privileged login at 02:14", "Routine nightly backup completed"],
+             "What is the best first action?", [
+                 ("Correlate sign-in events and verify with the account owner", 10, "Correct. Establish whether the sign-in is authorized while preserving evidence."),
+                 ("Delete the alert as a false positive", 0, "The event has not yet been validated."),
+                 ("Shut down every bank service", 0, "Unproven broad disruption is disproportionate.")]),
+        step("Evidence terminal",
+             "The sign-in used an unfamiliar device and accessed a privileged configuration screen.",
+             ["Device is absent from approved inventory", "Office printer is online", "Privileged configuration was accessed"],
+             "What should the analyst recommend?", [
+                 ("Ignore the session because MFA was enabled", 0, "MFA alone does not establish the session is legitimate."),
+                 ("Escalate and contain the suspect session under the response plan", 10, "Correct. Apply approved, proportionate containment."),
+                 ("Disable audit logging", 0, "Security evidence must be retained.")]),
+        step("Incident command desk",
+             "The response team has revoked the suspect session and found no confirmed data extraction.",
+             ["Session revocation confirmed", "Unverified rumor on social media", "No confirmed data exfiltration in available logs"],
+             "What closes this stage responsibly?", [
+                 ("Declare zero impact without further review", 0, "Absence of evidence is not proof of no impact."),
+                 ("Publish unverified incident details", 0, "Communications must follow approved incident procedures."),
+                 ("Document findings, monitor for recurrence and review affected controls", 10, "Correct. Complete evidence-based follow-up.")])
+    ]
+}
