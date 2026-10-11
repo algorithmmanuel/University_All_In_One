@@ -7,16 +7,12 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from auth import bearer, current_user, hash_password, issue_session, require_teacher, verify_password
-from database import SessionLocal
+from db_dependencies import get_db
 from models import AuthSession, User
 from login_limiter import record_attempt, clear_attempts
 from security_events import emit_security_event
 
 router = APIRouter(prefix="/api/v1", tags=["authentication"])
-
-def get_db():
-    with SessionLocal() as db:
-        yield db
 
 class RegisterRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
