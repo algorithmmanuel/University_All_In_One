@@ -78,7 +78,7 @@ def test_session_expiry_and_inactive_account(auth_module, expiry, active, expect
 
 def test_revoked_session_is_rejected(auth_module):
     db = FakeSession(None, None)
-    expect_http_status(401, lambda: auth_module.current_user(credentials()))
+    expect_http_status(401, lambda: auth_module.current_user(credentials(), db=db))
 
 
 @pytest.mark.parametrize("role,approved,expected", [
