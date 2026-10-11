@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import DashboardGamePaths from './DashboardGamePaths';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
 type Profile = {id:number;full_name:string;email:string;role:string;is_approved:boolean};
@@ -38,6 +39,7 @@ export default function Dashboard() {
           user.role==='teacher'||user.role==='admin'?<><h2>Teacher workspace</h2><p>Course authoring, lesson management and learner reporting will be added next.</p></>:
           <><h2>Your learning dashboard</h2><p>Explore the academies and the cybersecurity practice mission. Enroll in courses, complete lessons and track your progress.</p><Link href="/learn" style={{display:'inline-block',padding:'12px 18px',background:'#0e766f',color:'white',borderRadius:8,textDecoration:'none'}}>Browse courses and start learning →</Link><p><Link href="/assessments">Take course assessments →</Link></p><p><Link href="/missions">Play cybersecurity missions →</Link></p></>}
         </section>
+        <DashboardGamePaths />
         <button onClick={signOut} style={{marginTop:24,padding:12}}>Sign out</button>
       </>}
   </main>;
