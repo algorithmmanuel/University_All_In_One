@@ -1,0 +1,20 @@
+# Python backend dependency reproducibility
+
+The backend uses Python **3.13** in GitHub Actions. The input files are `api/requirements.txt` (application direct dependency ranges) and `api/requirements-ci.in` (test and audit tooling). The generated `api/requirements-ci.lock` is the CI dependency snapshot.
+
+## Generate the lockfile
+
+Use Python 3.13 in a clean environment. A Linux environment matching GitHub Actions is preferred, because platform-specific wheels and dependency markers can differ from Windows. From the repository root:
+
+```sh
+cd api
+sh lock-requirements.sh
+```
+
+On Windows, use WSL or a Linux container with Python 3.13, or run `python -m piptools compile --resolver=backtracking --output-file=requirements-ci.lock requirements-ci.in` with Python 3.13 in a virtual environment. Review the generated file and commit it. **Do not create a lockfile by manually guessing package versions.**
+
+After the lockfile is committed, CI must install from `requirements-ci.lock`, verify `pip check`, execute the isolated PostgreSQL test suite, and run `pip-audit` against the locked environment. CI should fail if the lockfile is absent.
+
+To update dependencies, edit the input files, regenerate the lockfile using the same Python version, review the diff, run tests and audit, then commit both input and lock changes. This lockfile pins package versions, but does not yet provide cross-platform hashes or a software bill of materials. Use hashes and artifact provenance as a later supply-chain hardening step.
+
+Do not merge Phase 8 until the generated lockfile is committed and the locked-install CI passes.
