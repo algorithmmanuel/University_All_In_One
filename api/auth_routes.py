@@ -24,7 +24,8 @@ class RegisterRequest(BaseModel):
 
 class LoginRequest(BaseModel):
     email: EmailStr
-    password: str
+    # Align API input validation with the password hashing module's 1024-byte limit.
+    password: str = Field(max_length=1024)
 
 def public_user(user: User):
     return {"id": user.id, "full_name": user.full_name, "email": user.email,
