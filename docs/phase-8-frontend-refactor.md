@@ -36,3 +36,23 @@ If `npm install` changes `web/package-lock.json`, retain it for review; do not d
 The CI workflow temporarily uses `npm install` because no reviewed `web/package-lock.json` exists in GitHub. This is not a reproducible dependency install. Preserve and review the local lockfile, commit it, then replace CI installation with `npm ci`.
 
 Browser verification remains necessary for pathway selection, quiz feedback, keyboard navigation and offline fallback; a successful build does not prove interaction behavior.
+
+## Batch 3 — Frontend regression gate
+- `web/tests/pathways.test.cjs` checks pathway validation, rejection of malformed server responses and stable display order. Tests use Node's built-in test runner and the existing TypeScript dependency; no additional testing package is required.
+- `npm run typecheck`, `npm test`, and `npm run build` are enforced in the frontend GitHub workflow.
+- Dependency locking remains **pending** because `web/package-lock.json` exists only on the developer machine. Do not synthesize or overwrite it remotely. Review and commit the actual local lockfile, then switch CI to `npm ci`.
+
+### Lockfile handoff (Windows PowerShell, project root)
+```powershell
+Set-Location web
+npm install --package-lock-only
+npm run typecheck
+npm test
+npm run build
+Set-Location ..
+git status --short
+git add web/package-lock.json
+git commit -m "build(web): commit reviewed npm dependency lockfile"
+git push origin feature/phase-8-engineering-hardening
+```
+Inspect `git status --short` before staging; the commands intentionally stage only the lockfile. Do not overwrite unrelated local changes. After pushing, update CI installation to `npm ci` and verify the workflow.
