@@ -20,21 +20,19 @@ PLAYABLE = (
     ("backup-buddy", "secondary", "Backup Buddy", "Data resilience", ("backup-buddy",)),
     ("midnight-alerts", "university", "Midnight Login Alerts", "SOC triage", ("soc-alert-triage",)),
     ("operation-firewall", "university", "Operation Firewall", "3D SOC investigation", ("operation-firewall",)),
+    ("network-watch", "university", "Network Watch", "Network monitoring", ("network-watch",)),
+    ("web-defense", "university", "Web Defense", "Web application security", ("web-defense",)),
+    ("cloud-perimeter", "university", "Cloud Perimeter", "Cloud configuration", ("cloud-perimeter",)),
+    ("forensics-desk", "university", "Forensics Desk", "Digital forensics", ("forensics-desk",)),
+    ("malware-clues", "university", "Malware Clues", "Malware analysis", ("malware-clues",)),
+    ("identity-lab", "university", "Identity Lab", "Identity security", ("identity-lab",)),
+    ("secure-code-review", "university", "Secure Code Review", "Secure development", ("secure-code-review",)),
+    ("threat-hunter", "university", "Threat Hunter", "Threat detection", ("threat-hunter",)),
     ("branch-resilience", "professional", "Branch Resilience", "Incident command", ("incident-response",)),
 )
 
 # Roadmap entries are explicitly unavailable until independently tested missions ship.
 PLANNED = {
-    "university": (
-        ("network-watch", "Network Watch", "Network monitoring"),
-        ("web-defense", "Web Defense", "Web application security"),
-        ("cloud-perimeter", "Cloud Perimeter", "Cloud configuration"),
-        ("forensics-desk", "Forensics Desk", "Digital forensics"),
-        ("malware-clues", "Malware Clues", "Malware analysis"),
-        ("identity-lab", "Identity Lab", "Identity security"),
-        ("secure-code-review", "Secure Code Review", "Secure development"),
-        ("threat-hunter", "Threat Hunter", "Threat detection"),
-    ),
     "professional": (
         ("risk-command", "Risk Command", "Risk governance"),
         ("zero-trust-briefing", "Zero Trust Briefing", "Architecture assurance"),
@@ -79,4 +77,4 @@ def game_catalog():
     for pathway in pathway_ids:
         if sum(game["pathway"] == pathway for game in games) != 10:
             raise ValueError("Each pathway must contain exactly ten catalogue entries")
-    return {"version": 3, "pathways": [p.id for p in PATHWAYS], "games": games}
+    return {"version": 4, "pathways": [p.id for p in PATHWAYS], "games": games}
