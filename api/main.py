@@ -8,6 +8,7 @@ from db_dependencies import get_db
 from models import Academy, Course
 from database import engine
 from schema_readiness import schema_status
+from production_config import require_safe_production_configuration
 from auth_routes import router as auth_router
 from learning_routes import router as learning_router
 from quiz_routes import router as quiz_router
@@ -26,6 +27,7 @@ def configured_origins() -> list[str]:
     return origins
 
 
+require_safe_production_configuration()
 app = FastAPI(title="EduCyber Nigeria API", version="0.6.0")
 app.add_middleware(CORSMiddleware, allow_origins=configured_origins(), allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
 app.include_router(auth_router)
