@@ -64,6 +64,15 @@ export default function SocScene({stage,missionId,missionTitle,active,onSelect,e
   'identity-lab':{label:'IDENTITY CONTROL CENTRE',accent:'#70dec5'},
   'secure-code-review':{label:'SECURE DELIVERY LAB',accent:'#9cd8a8'},
   'threat-hunter':{label:'THREAT HUNT OPERATIONS',accent:'#f0c36f'},
+  'risk-command':{label:'ENTERPRISE RISK COMMAND',accent:'#f0b76d'},
+  'zero-trust-briefing':{label:'ZERO TRUST ASSURANCE',accent:'#7fd5ee'},
+  'cloud-incident':{label:'CLOUD INCIDENT COMMAND',accent:'#a2b8ff'},
+  'supply-chain-watch':{label:'SUPPLIER SECURITY CENTRE',accent:'#d2b4ef'},
+  'ransomware-recovery':{label:'RECOVERY COMMAND ROOM',accent:'#f1ad88'},
+  'identity-crisis':{label:'PRIVILEGED ACCESS COMMAND',accent:'#80d9bb'},
+  'boardroom-breach':{label:'EXECUTIVE CRISIS ROOM',accent:'#efc987'},
+  'ai-governance':{label:'AI MODEL RISK CENTRE',accent:'#b3b5ff'},
+  'audit-trail':{label:'IT AUDIT ASSURANCE LAB',accent:'#a2d5b3'},
  };
  const theme=explorerThemes[missionId]??{label:'CYBER INVESTIGATION SOC',accent:'#38c6b0'};
  const signal=theme.label;
