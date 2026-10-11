@@ -29,22 +29,19 @@ PLAYABLE = (
     ("secure-code-review", "university", "Secure Code Review", "Secure development", ("secure-code-review",)),
     ("threat-hunter", "university", "Threat Hunter", "Threat detection", ("threat-hunter",)),
     ("branch-resilience", "professional", "Branch Resilience", "Incident command", ("incident-response",)),
+    ("risk-command", "professional", "Risk Command", "Risk governance", ("risk-command",)),
+    ("zero-trust-briefing", "professional", "Zero Trust Briefing", "Architecture assurance", ("zero-trust-briefing",)),
+    ("cloud-incident", "professional", "Cloud Incident", "Cloud incident response", ("cloud-incident",)),
+    ("supply-chain-watch", "professional", "Supply Chain Watch", "Third-party security", ("supply-chain-watch",)),
+    ("ransomware-recovery", "professional", "Ransomware Recovery", "Business continuity", ("ransomware-recovery",)),
+    ("identity-crisis", "professional", "Identity Crisis", "Privileged access", ("identity-crisis",)),
+    ("boardroom-breach", "professional", "Boardroom Breach", "Executive crisis decisions", ("boardroom-breach",)),
+    ("ai-governance", "professional", "AI Governance", "AI risk management", ("ai-governance",)),
+    ("audit-trail", "professional", "Audit Trail", "Control assurance", ("audit-trail",)),
 )
 
 # Roadmap entries are explicitly unavailable until independently tested missions ship.
-PLANNED = {
-    "professional": (
-        ("risk-command", "Risk Command", "Risk governance"),
-        ("zero-trust-briefing", "Zero Trust Briefing", "Architecture assurance"),
-        ("cloud-incident", "Cloud Incident", "Cloud incident response"),
-        ("supply-chain-watch", "Supply Chain Watch", "Third-party security"),
-        ("ransomware-recovery", "Ransomware Recovery", "Business continuity"),
-        ("identity-crisis", "Identity Crisis", "Privileged access"),
-        ("boardroom-breach", "Boardroom Breach", "Executive crisis decisions"),
-        ("ai-governance", "AI Governance", "AI risk management"),
-        ("audit-trail", "Audit Trail", "Control assurance"),
-    ),
-}
+PLANNED = {}
 
 
 def game_catalog():
@@ -77,4 +74,4 @@ def game_catalog():
     for pathway in pathway_ids:
         if sum(game["pathway"] == pathway for game in games) != 10:
             raise ValueError("Each pathway must contain exactly ten catalogue entries")
-    return {"version": 4, "pathways": [p.id for p in PATHWAYS], "games": games}
+    return {"version": 5, "pathways": [p.id for p in PATHWAYS], "games": games}
