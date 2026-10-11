@@ -38,3 +38,11 @@ Review date: 2026-10-11. PR #1: `feature/phase-8-engineering-hardening` → `fea
 
 ## Dependency lock follow-up
 Python 3.13 lock inputs and generation instructions have been added in `api/requirements-ci.in`, `api/lock-requirements.sh` and `docs/phase-8-python-dependencies.md`. **The resolved lockfile has not been generated or committed yet.** This is a merge gate. After it is committed, update backend CI to install the lockfile and verify PostgreSQL integration, dependency audit and the complete frontend gate. Keep PR #1 in draft until then.
+
+## Final CI acceptance — commit `256efa0`
+- GitHub backend quality gate **passed** on `256efa0` (locked Python 3.13 dependency installation, PostgreSQL integration tests and dependency audit).
+- GitHub frontend quality gate **passed** on `256efa0` (npm lockfile installation, TypeScript checks, unit tests and Next.js build).
+- GitHub reports PR #1 as **draft, open, mergeable and clean** at this commit.
+- SEC-03 shared database dependency refactor and SEC-05 Python version locking are accepted as **engineering merge gates**. The Python lockfile pins versions but does not contain package hashes; supply-chain provenance remains follow-up hardening.
+- The developer previously verified **70 local backend tests passing**. No new local run is claimed after locking; CI verifies the locked environment.
+- **Merge recommendation:** ready for repository-owner review and approval to merge into the Phase 7.15 feature branch. Do not treat this as production release approval. Do not merge without explicit authorization.
