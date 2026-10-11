@@ -95,7 +95,7 @@ test('sign in, dashboard pathway navigation and 3D/2D mission evidence',async t=
   await page.getByRole('button',{name:'Switch to 2D workstation'}).click();
   await page.getByRole('button',{name:'Open evidence locker'}).click();
   for(let i=1;i<=3;i++)await page.getByRole('button',{name:'Inspect professional evidence '+i}).click();
-  await page.getByText('3/3').first().waitFor();
+  await page.getByRole('button',{name:/Evidence locker/}).getByText('3/3').waitFor();
   assert.deepEqual(failures,[]);
 });
 
@@ -103,9 +103,9 @@ test('three server responses update progress, completion and history',async t=>{
   const {page,failures}=await setup(t);
   const model=fixture('risk-command');
   await mockApi(page,model);
-  await page.goto('/missions');
+  await page.goto('/account');
   await page.evaluate(()=>sessionStorage.setItem('educyber_token','fixture-token'));
-  await page.reload();
+  await page.goto('/missions');
   await page.getByRole('button',{name:'Cyber Command'}).click();
   await page.getByRole('button',{name:'Play game'}).click();
   for(let stage=0;stage<3;stage++){
