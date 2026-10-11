@@ -9,6 +9,7 @@ from threading import Barrier
 
 import pytest
 from sqlalchemy import create_engine, select
+from sqlalchemy.engine import make_url
 from sqlalchemy.orm import sessionmaker
 
 from mission_data import MISSIONS
@@ -19,8 +20,13 @@ def test_concurrent_mission_decisions_are_serialized():
     url = os.getenv("TEST_DATABASE_URL")
     if not url:
         pytest.skip("Set TEST_DATABASE_URL to an isolated PostgreSQL test database")
-    if not url.startswith(("postgresql://", "postgresql+psycopg://")):
+    parsed_url = make_url(url)
+    if not parsed_url.drivername.startswith("postgresql"):
         pytest.fail("Concurrency test requires PostgreSQL")
+    if parsed_url.database != "educyber_test":
+        pytest.fail("Refusing to run: TEST_DATABASE_URL must target educyber_test")
+    if parsed_url.host not in ("localhost", "127.0.0.1"):
+        pytest.fail("Refusing to run: test database must be on localhost")
     # Import database-bound models only after the test database is explicitly configured.
     # database.py requires DATABASE_URL at import time; avoid collection-time failure.
     previous_url = os.environ.get("DATABASE_URL")
