@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - "feature/phase-8-engineering-hardening"
+      - "feature/phase-9-platform-expansion"
     paths:
       - "api/**"
       - ".github/workflows/backend-quality.yml"
