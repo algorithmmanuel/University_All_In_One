@@ -48,7 +48,7 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
       </div>
     </div>
     <div className={styles.progress}><div style={{width:(100*run.step_index/run.step_count)+'%'}}/></div>
-    {!run.completed&&<div style={{padding:'0 20px'}}><button type="button" className={styles.ghost} style={{margin:'12px 0'}} aria-expanded={show3D} onClick={()=>setShow3D(v=>!v)}>{show3D?'Switch to 2D workstation':'Enter 3D investigation room'}</button>{show3D&&<SocScene key={run.run_id+'-'+run.step_index} stage={run.step_index} missionTitle={run.title} active={tab} onSelect={setTab} evidence={evidence} inspected={inspected} onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>}</div>}
+    {!run.completed&&<div style={{padding:'0 20px'}}><button type="button" className={styles.ghost} style={{margin:'12px 0'}} aria-expanded={show3D} onClick={()=>setShow3D(v=>!v)}>{show3D?'Switch to 2D workstation':'Enter 3D investigation room'}</button>{show3D&&<SocScene key={run.run_id+'-'+run.step_index} stage={run.step_index} missionId={run.mission_id} missionTitle={run.title} active={tab} onSelect={setTab} evidence={evidence} inspected={inspected} onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>}</div>}
     {run.completed?<div className={styles.complete}>
       <div className={styles.completeIcon}>✓</div>
       <span className={styles.eyebrow}>AFTER-ACTION REPORT</span>
