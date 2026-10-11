@@ -1,0 +1,6 @@
+# Reproducible backend test and audit dependencies.
+# Application dependencies are defined in requirements.txt.
+-r requirements.txt
+pytest
+httpx
+pip-audit

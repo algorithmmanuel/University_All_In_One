@@ -4,14 +4,10 @@ from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from auth import current_user
-from database import SessionLocal
+from db_dependencies import get_db
 from models import Academy, Course, Enrollment, LearnerProgress, Lesson, User
 
 router = APIRouter(prefix="/api/v1", tags=["learning"])
-
-def get_db():
-    with SessionLocal() as db:
-        yield db
 
 def student_only(user: User = Depends(current_user)) -> User:
     if user.role != "student":

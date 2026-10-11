@@ -1,17 +1,13 @@
 """Course quizzes: server-side grading and persisted attempts."""
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from auth import current_user
-from database import SessionLocal
+from db_dependencies import get_db
 from models import Course, Enrollment, QuizAttempt, QuizQuestion, User
 
 router = APIRouter(prefix="/api/v1/quizzes", tags=["quizzes"])
-
-def get_db():
-    with SessionLocal() as db:
-        yield db
 
 def eligible(db: Session, user: User, course_id: int):
     if user.role != "student":
@@ -24,6 +20,7 @@ def eligible(db: Session, user: User, course_id: int):
         raise HTTPException(status_code=403, detail="Enroll in this course first")
 
 class Submission(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     answers: dict[int, int] = Field(max_length=100)
 
 @router.get("/courses/{course_id}")

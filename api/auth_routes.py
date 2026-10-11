@@ -2,29 +2,30 @@
 import hashlib
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from auth import bearer, current_user, hash_password, issue_session, require_teacher, verify_password
-from database import SessionLocal
+from db_dependencies import get_db
 from models import AuthSession, User
+from login_limiter import record_attempt, clear_attempts
+from security_events import emit_security_event
 
 router = APIRouter(prefix="/api/v1", tags=["authentication"])
 
-def get_db():
-    with SessionLocal() as db:
-        yield db
-
 class RegisterRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     full_name: str = Field(min_length=2, max_length=120)
     email: EmailStr
     password: str = Field(min_length=12, max_length=128)
     role: str = "student"
 
 class LoginRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     email: EmailStr
-    password: str
+    # Align API input validation with the password hashing module's 1024-byte limit.
+    password: str = Field(max_length=1024)
 
 def public_user(user: User):
     return {"id": user.id, "full_name": user.full_name, "email": user.email,
@@ -35,6 +36,9 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
     if body.role not in ("student", "teacher"):
         raise HTTPException(status_code=422, detail="Choose student or teacher")
     email = str(body.email).strip().lower()
+    # Shared registration bucket is a defense-in-depth control; edge IP quotas
+    # are still required to prevent bulk signups using different addresses.
+    record_attempt(db, email, purpose="registration")
     if db.scalar(select(User.id).where(User.email == email)) is not None:
         raise HTTPException(status_code=409, detail="Email already registered")
     user = User(full_name=body.full_name.strip(), email=email,
@@ -47,14 +51,20 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=409, detail="Email already registered")
     db.refresh(user)
+    emit_security_event("registration_succeeded")
     return {"user": public_user(user), "message": "Teacher approval pending" if body.role == "teacher" else "Account created"}
 
 @router.post("/auth/login")
 def login(body: LoginRequest, db: Session = Depends(get_db)):
-    user = db.scalar(select(User).where(User.email == str(body.email).lower()))
+    email = str(body.email).strip().lower()
+    record_attempt(db, email)
+    user = db.scalar(select(User).where(User.email == email))
     if user is None or not verify_password(body.password, user.password_hash) or not user.is_active:
+        emit_security_event("login_failed")
         raise HTTPException(status_code=401, detail="Invalid email or password")
     token = issue_session(db, user)
+    clear_attempts(db, email)
+    emit_security_event("login_succeeded")
     return {"access_token": token, "token_type": "bearer", "expires_in": 43200, "user": public_user(user)}
 
 @router.get("/auth/me")
@@ -69,6 +79,7 @@ def logout(credentials: HTTPAuthorizationCredentials | None = Depends(bearer),
     if session is not None:
         db.delete(session)
         db.commit()
+    emit_security_event("logout_succeeded")
     return {"message": "Signed out"}
 
 @router.get("/dashboard")
