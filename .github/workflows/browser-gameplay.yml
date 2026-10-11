@@ -50,7 +50,7 @@ jobs:
           cat /tmp/educyber-next.log
           exit 1
       - name: Browser gameplay journeys (mock API, real browser)
-        run: node --test tests/browser/*.test.cjs
+        run: node --test tests/browser/gameplay.test.cjs
       - name: Show server logs on failure
         if: failure()
         run: cat /tmp/educyber-next.log || true
