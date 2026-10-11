@@ -1,5 +1,5 @@
-from datetime import datetime
-from sqlalchemy import Boolean, JSON, DateTime, ForeignKey, Integer, String, Text, UniqueConstraint, func
+from datetime import datetime, date
+from sqlalchemy import Boolean, JSON, Date, DateTime, ForeignKey, Integer, String, Text, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import Base
 
@@ -43,6 +43,9 @@ class User(Base):
     full_name: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(String(254), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    date_of_birth: Mapped[date | None] = mapped_column(Date(), nullable=True)
+    age_band: Mapped[str] = mapped_column(String(20), nullable=False, default="unverified")
+    guardian_consent_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     role: Mapped[str] = mapped_column(String(20), nullable=False, default="student")
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     is_approved: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
