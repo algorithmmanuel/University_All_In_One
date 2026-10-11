@@ -71,6 +71,7 @@ export default function Missions(){
     <Link href="/dashboard">← Dashboard</Link>
     <p className="tag">EDUCYBER SIMULATION LAB</p>
     <h1>Cybersecurity missions</h1>
+    <p><Link href="/feedback">Share feedback about your beta experience →</Link></p>
     <p className="muted">Explore fictional incidents, examine evidence and make defensive decisions. All activity is simulated.</p>
     {error&&<p role="alert" style={{color:'#b42318'}}>{error}</p>}
     {loading?<p>Loading missions…</p>:<>
