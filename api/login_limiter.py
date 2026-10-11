@@ -7,6 +7,7 @@ import hashlib
 from datetime import datetime, timedelta, timezone
 
 from fastapi import HTTPException
+from sqlalchemy import case, delete
 from sqlalchemy.dialects.postgresql import insert
 from models import LoginAttemptBucket
 
@@ -30,12 +31,12 @@ def record_attempt(db, email: str) -> None:
         set_={
             "attempts": (
                 # Restart the counter once the prior window has expired.
-                __import__("sqlalchemy").case(
+                case(
                     (LoginAttemptBucket.window_start <= now - WINDOW, 1),
                     else_=LoginAttemptBucket.attempts + 1,
                 )
             ),
-            "window_start": __import__("sqlalchemy").case(
+            "window_start": case(
                 (LoginAttemptBucket.window_start <= now - WINDOW, now),
                 else_=LoginAttemptBucket.window_start,
             ),
@@ -53,7 +54,6 @@ def record_attempt(db, email: str) -> None:
 
 def clear_attempts(db, email: str) -> None:
     """Remove a successful account's bucket after a completed login."""
-    from sqlalchemy import delete
     key = hashlib.sha256(email.strip().lower().encode("utf-8")).hexdigest()
     db.execute(delete(LoginAttemptBucket).where(LoginAttemptBucket.key_hash == key))
     db.commit()
