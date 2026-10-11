@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import DashboardGamePaths from './DashboardGamePaths';
 
-const API = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
+const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
 type Profile = {id:number;full_name:string;email:string;role:string;is_approved:boolean};
 
 export default function Dashboard() {
