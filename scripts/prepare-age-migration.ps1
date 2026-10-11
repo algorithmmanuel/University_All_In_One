@@ -44,9 +44,15 @@ try {
     $container = (docker compose ps -q postgres).Trim()
     Assert-LastExit "Cannot inspect development PostgreSQL container."
     if (-not $container) { throw "Development PostgreSQL container is not running. No database changed." }
-    $service = (docker inspect --format '{{index .Config.Labels "com.docker.compose.service"}}' $container).Trim()
+    $inspectJson = docker inspect $container
     Assert-LastExit "Unable to inspect container identity."
-    if ($service -ne "postgres") { throw "Refusing non-development database container." }
+    $inspect = @($inspectJson | ConvertFrom-Json)
+    if ($inspect.Count -ne 1) { throw "Unexpected Docker container inspection result." }
+    $service = $inspect[0].Config.Labels.'com.docker.compose.service'
+    $project = $inspect[0].Config.Labels.'com.docker.compose.project'
+    if ($service -ne "postgres" -or [string]::IsNullOrWhiteSpace($project)) {
+        throw "Refusing container without the expected Docker Compose service and project labels."
+    }
     $dbName = (docker exec $container sh -c 'printf "%s" "$POSTGRES_DB"').Trim()
     $dbUser = (docker exec $container sh -c 'printf "%s" "$POSTGRES_USER"').Trim()
     if ($dbName -ne "educyber" -or $dbUser -ne "educyber") {
