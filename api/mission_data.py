@@ -101,3 +101,33 @@ MISSIONS["operation-firewall"] = {
                  ("Document findings, monitor for recurrence and review affected controls", 10, "Correct. Complete evidence-based follow-up.")])
     ]
 }
+
+MISSIONS["password-fortress"] = {
+    "title": "Password Fortress",
+    "track": "Account safety",
+    "difficulty": "Beginner",
+    "summary": "Protect a fictional student account with unique passwords and safer sign-in choices.",
+    "steps": [
+        step("Password workshop",
+             "You are creating a password for a new school account.",
+             ["Password reuse increases risk", "Long unique passphrases are easier to remember", "Password managers can help"],
+             "Which choice is safest?", [
+                 ("Use a long unique passphrase", 10, "Correct. A unique passphrase is a strong choice."),
+                 ("Reuse a password from another account", 0, "Password reuse increases risk."),
+                 ("Use your birthday", 0, "Personal details are often predictable.")]),
+        step("Second lock",
+             "Your school offers additional sign-in protection.",
+             ["Passwords are one authentication factor", "An authenticator provides another factor", "Unexpected approval prompts need caution"],
+             "What should you do?", [
+                 ("Approve every sign-in prompt", 0, "Only approve sign-ins you initiated."),
+                 ("Enable MFA and reject unexpected prompts", 10, "Correct. MFA adds protection."),
+                 ("Share verification codes", 0, "Keep verification codes private.")]),
+        step("Account recovery",
+             "An unfamiliar session appears in your school account.",
+             ["Official account settings show active sessions", "Unknown sessions can be revoked", "Recovery settings should be reviewed"],
+             "What is the safest response?", [
+                 ("Ignore the session", 0, "Investigate unfamiliar sessions."),
+                 ("Share your password with classmates", 0, "Never share credentials."),
+                 ("Visit the official service and secure the account", 10, "Correct. Review sessions and account security.")])
+    ]
+}
