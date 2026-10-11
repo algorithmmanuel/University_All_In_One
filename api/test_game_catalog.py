@@ -5,7 +5,7 @@ from mission_contract import build_manifest
 
 def test_exactly_ten_games_per_pathway():
     catalog = game_catalog()
-    assert catalog["version"] == 4
+    assert catalog["version"] == 5
     assert len(catalog["games"]) == 30
     for pathway in catalog["pathways"]:
         games = [game for game in catalog["games"] if game["pathway"] == pathway]
@@ -45,7 +45,7 @@ def test_all_ten_explorer_games_are_playable():
     games = [g for g in game_catalog()["games"] if g["pathway"] == "secondary"]
     assert len(games) == 10
     assert all(g["status"] == "playable" and g["mission_count"] == 1 for g in games)
-    assert len([g for g in game_catalog()["games"] if g["status"] == "planned"]) == 9
+    assert len([g for g in game_catalog()["games"] if g["status"] == "planned"]) == 0
 
 
 def test_new_explorer_missions_have_three_distinct_scored_stages():
@@ -68,7 +68,7 @@ def test_all_ten_academy_games_are_playable():
     games = [game for game in game_catalog()["games"] if game["pathway"] == "university"]
     assert len(games) == 10
     assert all(game["status"] == "playable" and game["mission_count"] == 1 for game in games)
-    assert len([game for game in game_catalog()["games"] if game["status"] == "planned"]) == 9
+    assert len([game for game in game_catalog()["games"] if game["status"] == "planned"]) == 0
 
 
 def test_new_academy_missions_are_complete_and_server_scored():
