@@ -138,3 +138,6 @@ MISSIONS.update(EXPLORER_MISSIONS)
 
 from academy_missions import ACADEMY_MISSIONS
 MISSIONS.update(ACADEMY_MISSIONS)
+
+from command_missions import COMMAND_MISSIONS
+MISSIONS.update(COMMAND_MISSIONS)
