@@ -1,5 +1,7 @@
 """Registration, login and protected dashboard endpoints."""
 import hashlib
+import os
+from datetime import datetime, timezone
 from datetime import date
 from age_policy import registration_policy
 from fastapi import APIRouter, Depends, HTTPException
@@ -10,7 +12,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from auth import bearer, current_user, hash_password, issue_session, require_teacher, verify_password
 from db_dependencies import get_db
-from models import AuthSession, User
+from models import AuthSession, User, BetaInvite
 from login_limiter import record_attempt, clear_attempts
 from security_events import emit_security_event
 
@@ -23,6 +25,7 @@ class RegisterRequest(BaseModel):
     password: str = Field(min_length=12, max_length=128)
     date_of_birth: date
     role: str = "student"
+    beta_invite: str | None = Field(default=None, min_length=16, max_length=160)
 
 class LoginRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -39,12 +42,24 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
     if body.role not in ("student", "teacher"):
         raise HTTPException(status_code=422, detail="Choose student or teacher")
     band, active = registration_policy(body.date_of_birth, body.role)
+    beta_mode = os.getenv("EDUCYBER_PRIVATE_BETA") == "enabled"
+    if beta_mode and (band != "adult" or body.role != "student"):
+        raise HTTPException(status_code=403, detail="Private beta is for invited adults only")
+    if beta_mode and not body.beta_invite:
+        raise HTTPException(status_code=403, detail="A beta invitation is required")
     email = str(body.email).strip().lower()
     # Shared registration bucket is a defense-in-depth control; edge IP quotas
     # are still required to prevent bulk signups using different addresses.
     record_attempt(db, email, purpose="registration")
     if db.scalar(select(User.id).where(User.email == email)) is not None:
         raise HTTPException(status_code=409, detail="Email already registered")
+    invite = None
+    if beta_mode:
+        digest = hashlib.sha256(body.beta_invite.encode("utf-8")).hexdigest()
+        invite = db.scalar(select(BetaInvite).where(BetaInvite.code_hash == digest).with_for_update())
+        if (invite is None or invite.redeemed_by is not None or
+                invite.expires_at.replace(tzinfo=timezone.utc) <= datetime.now(timezone.utc)):
+            raise HTTPException(status_code=403, detail="Invalid or used beta invitation")
     user = User(full_name=body.full_name.strip(), email=email,
                 password_hash=hash_password(body.password), role=body.role,
                 date_of_birth=body.date_of_birth, age_band=band,
@@ -52,6 +67,9 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
                 is_approved=(body.role == "student" and active))
     db.add(user)
     try:
+        db.flush()
+        if invite is not None:
+            invite.redeemed_by = user.id
         db.commit()
     except IntegrityError:
         db.rollback()
