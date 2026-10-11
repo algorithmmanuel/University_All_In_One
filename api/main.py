@@ -4,7 +4,7 @@ from game_catalog import game_catalog
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select, text
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from db_dependencies import get_db
 from models import Academy, Course
 from auth_routes import router as auth_router
 from learning_routes import router as learning_router
@@ -32,10 +32,6 @@ app.include_router(quiz_router)
 app.include_router(mission_router)
 app.include_router(pathway_router)
 app.include_router(mission_manifest_router)
-
-def get_db():
-    with SessionLocal() as session:
-        yield session
 
 @app.get("/health")
 def health():
