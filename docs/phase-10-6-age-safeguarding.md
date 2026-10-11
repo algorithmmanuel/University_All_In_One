@@ -20,3 +20,23 @@ Migration `0007_age_safeguards` adds nullable `users.date_of_birth`, `age_band` 
 
 ## Test
 `./api/run-isolated-tests.ps1 -FullSuite` synchronizes the branch and runs tests against the isolated `educyber_test` PostgreSQL instance. Migration is applied **only** to the dedicated test database. The existing development database on port 5433 must be backed up and migration state inspected before any migration is applied there.
+
+## Controlled development migration (Windows PowerShell)
+
+From the repository root, while the existing `postgres` development service is running:
+
+```powershell
+.\scripts\prepare-age-migration.ps1
+```
+
+This is a **read-only preflight**: safely syncs GitHub, requires a clean working tree, checks Docker Compose's `postgres` service and the expected `educyber` database, and inspects the current Alembic revision. It does **not** modify the database.
+
+Only after the preflight succeeds and you are ready to migrate, run:
+
+```powershell
+.\scripts\prepare-age-migration.ps1 -Apply
+```
+
+The `-Apply` command first creates a PostgreSQL custom-format backup, verifies the archive can be listed, and copies it into the ignored `local-backups/` directory **outside the container**. Only then does it apply migration `0007_age_safeguards` (if not already applied), followed by read-only schema verification. The backup is deliberately retained; never commit it, upload it publicly, or treat it as encrypted. Secure it and delete it under an approved retention plan. Do not use this command on production.
+
+The script refuses unexpected branches, uncommitted files, database names, Docker service identities and schema revisions. If any check fails, **stop and inspect**; do not force a reset or run a blind migration. This operation cannot be executed on the user's laptop through GitHub Actions.
