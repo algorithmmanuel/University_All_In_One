@@ -105,3 +105,24 @@ class LoginAttemptBucket(Base):
     key_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
     attempts: Mapped[int] = mapped_column(Integer, nullable=False)
     window_start: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
+
+class BetaInvite(Base):
+    """Hashed, reusable invite for one registered adult learner."""
+    __tablename__ = "beta_invites"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    code_hash: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    redeemed_by: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True, unique=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+
+class BetaFeedback(Base):
+    """Private feedback linked to a learner; never returned to other learners."""
+    __tablename__ = "beta_feedback"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    category: Mapped[str] = mapped_column(String(30), nullable=False)
+    rating: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    message: Mapped[str] = mapped_column(Text, nullable=False)
+    page: Mapped[str] = mapped_column(String(160), nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
