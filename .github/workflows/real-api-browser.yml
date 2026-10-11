@@ -1,0 +1,101 @@
+name: Real API browser integration
+
+on:
+  pull_request:
+    paths:
+      - 'api/**'
+      - 'web/**'
+      - '.github/workflows/real-api-browser.yml'
+  push:
+    branches:
+      - feature/phase-9-platform-expansion
+    paths:
+      - 'api/**'
+      - 'web/**'
+      - '.github/workflows/real-api-browser.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-real-api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: educyber_ci
+          POSTGRES_PASSWORD: ci_only_password
+          POSTGRES_DB: educyber_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U educyber_ci -d educyber_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://educyber_ci:ci_only_password@127.0.0.1:5432/educyber_test
+      TEST_DATABASE_URL: postgresql+psycopg://educyber_ci:ci_only_password@127.0.0.1:5432/educyber_test
+      EDUCYBER_E2E_WEB_URL: http://127.0.0.1:3100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: api/requirements-ci.lock
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install backend
+        working-directory: api
+        run: python -m pip install -r requirements-ci.lock
+      - name: Migrate isolated test database
+        working-directory: api
+        run: python -m alembic upgrade head
+      - name: Start real FastAPI
+        working-directory: api
+        run: |
+          python -m uvicorn main:app --host 127.0.0.1 --port 8000 > /tmp/educyber-api.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl --fail --silent http://127.0.0.1:8000/health/db > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/educyber-api.log
+          exit 1
+      - name: Install frontend and browser
+        working-directory: web
+        run: |
+          npm ci --no-audit --no-fund
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Build frontend
+        working-directory: web
+        run: npm run build
+      - name: Start frontend
+        working-directory: web
+        run: |
+          npm run start -- -p 3100 > /tmp/educyber-web.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl --fail --silent http://127.0.0.1:3100/account > /dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/educyber-web.log
+          exit 1
+      - name: Browser to real API and PostgreSQL
+        working-directory: web
+        run: |
+          SESSION_JSON=$(cd ../api && python seed_browser_test.py)
+          TOKEN=$(printf '%s' "$SESSION_JSON" | python -c "import json,sys; print(json.load(sys.stdin)['token'])")
+          echo "::add-mask::$TOKEN"
+          export EDUCYBER_E2E_TOKEN="$TOKEN"
+          node --test tests/browser/real-api.test.cjs
+      - name: Diagnostic logs
+        if: failure()
+        run: |
+          tail -n 100 /tmp/educyber-api.log || true
+          tail -n 100 /tmp/educyber-web.log || true
