@@ -32,6 +32,8 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
       - name: TypeScript validation
-        run: npx tsc --noEmit
+        run: npm run typecheck
+      - name: Frontend unit tests
+        run: npm test
       - name: Production build
         run: npm run build
