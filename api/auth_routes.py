@@ -1,5 +1,7 @@
 """Registration, login and protected dashboard endpoints."""
 import hashlib
+from datetime import date
+from age_policy import registration_policy
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials
 from pydantic import BaseModel, EmailStr, Field, ConfigDict
@@ -19,6 +21,7 @@ class RegisterRequest(BaseModel):
     full_name: str = Field(min_length=2, max_length=120)
     email: EmailStr
     password: str = Field(min_length=12, max_length=128)
+    date_of_birth: date
     role: str = "student"
 
 class LoginRequest(BaseModel):
@@ -35,6 +38,7 @@ def public_user(user: User):
 def register(body: RegisterRequest, db: Session = Depends(get_db)):
     if body.role not in ("student", "teacher"):
         raise HTTPException(status_code=422, detail="Choose student or teacher")
+    band, active = registration_policy(body.date_of_birth, body.role)
     email = str(body.email).strip().lower()
     # Shared registration bucket is a defense-in-depth control; edge IP quotas
     # are still required to prevent bulk signups using different addresses.
@@ -43,7 +47,9 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=409, detail="Email already registered")
     user = User(full_name=body.full_name.strip(), email=email,
                 password_hash=hash_password(body.password), role=body.role,
-                is_approved=(body.role == "student"))
+                date_of_birth=body.date_of_birth, age_band=band,
+                guardian_consent_verified=False, is_active=active,
+                is_approved=(body.role == "student" and active))
     db.add(user)
     try:
         db.commit()
@@ -52,7 +58,9 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=409, detail="Email already registered")
     db.refresh(user)
     emit_security_event("registration_succeeded")
-    return {"user": public_user(user), "message": "Teacher approval pending" if body.role == "teacher" else "Account created"}
+    message = ("Guardian consent verification required before account activation" if band == "minor"
+               else "Teacher approval pending" if body.role == "teacher" else "Account created")
+    return {"user": public_user(user), "message": message}
 
 @router.post("/auth/login")
 def login(body: LoginRequest, db: Session = Depends(get_db)):
