@@ -135,3 +135,6 @@ MISSIONS["password-fortress"] = {
 # Imported after step and the legacy mission registry are defined.
 from explorer_missions import EXPLORER_MISSIONS
 MISSIONS.update(EXPLORER_MISSIONS)
+
+from academy_missions import ACADEMY_MISSIONS
+MISSIONS.update(ACADEMY_MISSIONS)
