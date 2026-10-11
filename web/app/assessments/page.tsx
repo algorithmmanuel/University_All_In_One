@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'http://127.0.0.1:8000').replace(/\/$/,'');
+const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'').replace(/\/$/,'');
 type Course={id:number;title:string;academy_id:string};
 type Question={id:number;prompt:string;options:string[]};
 type Attempt={id:number;score:number;total:number;percentage:number;submitted_at:string};
