@@ -13,22 +13,19 @@ if (-not $line) { throw "POSTGRES_PASSWORD missing from root .env." }
 $password = ($line -split '=',2)[1].Trim().Trim('"').Trim("'")
 if ([string]::IsNullOrWhiteSpace($password)) { throw "POSTGRES_PASSWORD is empty." }
 $escaped = [uri]::EscapeDataString($password)
-$testUrl = "postgresql+psycopg://educyber:${escaped}@127.0.0.1:5433/educyber_test?connect_timeout=5"
+$testUrl = "postgresql+psycopg://educyber:${escaped}@127.0.0.1:5434/educyber_test?connect_timeout=5"
 $env:TEST_DATABASE_URL = $testUrl
 $env:DATABASE_URL = $testUrl
 $env:POSTGRES_PASSWORD = $password
 Push-Location $root
 try {
-    docker compose ps --status running postgres | Out-Null
-    if ($LASTEXITCODE -ne 0) { throw "Docker Compose is unavailable. Start Docker Desktop and the PostgreSQL service." }
+    # Dedicated container, database and volume: never migrate the development
+    # database or the pre-existing educyber_test database on port 5433.
+    docker compose up -d --wait postgres-test
+    if ($LASTEXITCODE -ne 0) { throw "Dedicated PostgreSQL test service failed to start." }
     $running = docker compose ps --status running --services
-    if ($LASTEXITCODE -ne 0 -or $running -notcontains "postgres") { throw "PostgreSQL is not running. Run docker compose up -d postgres." }
-    # Database creation is isolated; never change the application database.
-    $exists = docker compose exec -T postgres psql -U educyber -d postgres -Atqc "SELECT 1 FROM pg_database WHERE datname = 'educyber_test'"
-    if ($LASTEXITCODE -ne 0) { throw "Unable to query PostgreSQL databases." }
-    if (($exists | Out-String).Trim() -ne "1") {
-        docker compose exec -T postgres psql -U educyber -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE educyber_test"
-        if ($LASTEXITCODE -ne 0) { throw "Could not create isolated educyber_test database." }
+    if ($LASTEXITCODE -ne 0 -or $running -notcontains "postgres-test") {
+        throw "Dedicated PostgreSQL test service is not running."
     }
     Push-Location $api
     try {
