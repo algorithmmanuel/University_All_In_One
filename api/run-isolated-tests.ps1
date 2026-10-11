@@ -4,6 +4,8 @@ param(
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 $api = $PSScriptRoot
+& (Join-Path $root "scripts\sync-before-test.ps1")
+if ($LASTEXITCODE -ne 0) { throw "Repository synchronization failed." }
 $python = Join-Path $api ".venv\Scripts\python.exe"
 if (-not (Test-Path $python)) { throw "API virtual environment not found: $python" }
 $envFile = Join-Path $root ".env"
