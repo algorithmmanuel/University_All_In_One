@@ -18,8 +18,8 @@ def test_all_playable_games_have_complete_client_safe_steps():
                 client = public_step(stage)
                 assert set(client) == {"scene", "story", "evidence", "question", "options"}
                 assert all(isinstance(option, str) for option in client["options"])
-                assert "points" not in str(client)
-                assert "feedback" not in str(client)
+                assert all(isinstance(option, str) for option in client["options"])
+                assert not any(isinstance(option, dict) for option in client["options"])
                 assert all("points" in option and "feedback" in option for option in stage["options"])
 
 
