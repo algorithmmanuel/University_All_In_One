@@ -34,7 +34,7 @@ def test_academy_scoring_answers_never_leak_in_public_steps():
             assert "points" not in safe
 
 
-def test_only_professional_games_remain_planned():
+def test_no_games_remain_planned():
     planned = [game for game in game_catalog()["games"] if game["status"] == "planned"]
-    assert len(planned) == 9
+    assert len(planned) == 0
     assert all(game["pathway"] == "professional" for game in planned)
