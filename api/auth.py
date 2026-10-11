@@ -8,7 +8,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from db_dependencies import get_db
-from models import AuthSession, User
+from models import AuthSession, User, BetaInvite
 from password_security import hash_password, verify_password
 
 bearer = HTTPBearer(auto_error=False)
@@ -33,7 +33,7 @@ def current_user(
     user = db.get(User, session.user_id)
     if user is None or not user.is_active:
         raise HTTPException(status_code=401, detail="Account unavailable")
-    if os.getenv("EDUCYBER_PRIVATE_BETA") == "enabled" and (user.age_band != "adult" or user.role != "student"):
+    if os.getenv("EDUCYBER_PRIVATE_BETA") == "enabled" and (user.age_band != "adult" or user.role != "student" or db.scalar(select(BetaInvite.id).where(BetaInvite.redeemed_by == user.id)) is None):
         raise HTTPException(status_code=403, detail="Private beta is for adult learners only")
     return user
 
