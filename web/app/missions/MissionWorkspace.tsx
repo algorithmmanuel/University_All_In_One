@@ -1,5 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
+import dynamic from 'next/dynamic';
+const SocScene=dynamic(()=>import('./SocScene'),{ssr:false});
 import styles from './workspace.module.css';
 import Investigation from './Investigation';
 
@@ -9,6 +11,7 @@ type Props={run:Run;busy:boolean;onDecision:(option:number,finding:number)=>Prom
 
 export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:Props){
   const [tab,setTab]=useState<'briefing'|'evidence'|'decision'>('briefing');
+  const [show3D,setShow3D]=useState(false);
   const [inspected,setInspected]=useState<number[]>([]);
   const [selected,setSelected]=useState<number|null>(null);
   const [finding,setFinding]=useState<number|null>(null);
@@ -44,6 +47,7 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
       </div>
     </div>
     <div className={styles.progress}><div style={{width:(100*run.step_index/run.step_count)+'%'}}/></div>
+    {run.mission_id==='operation-firewall'&&!run.completed&&<div style={{padding:'0 20px'}}><button type="button" className={styles.ghost} style={{margin:'12px 0'}} aria-expanded={show3D} onClick={()=>setShow3D(v=>!v)}>{show3D?'Switch to 2D workstation':'Enter 3D SOC room'}</button>{show3D&&<SocScene stage={run.step_index} active={tab} onSelect={setTab}/>}</div>}
     {run.completed?<div className={styles.complete}>
       <div className={styles.completeIcon}>✓</div>
       <span className={styles.eyebrow}>AFTER-ACTION REPORT</span>
