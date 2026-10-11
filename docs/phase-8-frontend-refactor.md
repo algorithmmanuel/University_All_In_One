@@ -26,3 +26,13 @@ If `npm install` changes `web/package-lock.json`, retain it for review; do not d
 - Add committed dependency lockfile and a frontend CI quality gate.
 - Extract presentation components in small batches with browser regressions.
 - Review mobile responsiveness, accessibility and authenticated API flows.
+
+## Batch 2 — Reusable components and CI
+- `web/components/home/academy-sections.tsx` owns academy cards and selected pathway preview; the parent keeps selection state.
+- `web/components/home/preview-quiz.tsx` owns its own ephemeral quiz state and preserves the existing answers and scoring.
+- `web/app/page.tsx` composes these components and retains API availability state and navigation.
+- `.github/workflows/frontend-quality.yml` checks TypeScript and production builds on pushes and pull requests affecting frontend files.
+
+The CI workflow temporarily uses `npm install` because no reviewed `web/package-lock.json` exists in GitHub. This is not a reproducible dependency install. Preserve and review the local lockfile, commit it, then replace CI installation with `npm ci`.
+
+Browser verification remains necessary for pathway selection, quiz feedback, keyboard navigation and offline fallback; a successful build does not prove interaction behavior.
