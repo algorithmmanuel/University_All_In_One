@@ -10,6 +10,14 @@ from pathway_catalog import PATHWAYS
 PLAYABLE = (
     ("scholarship-detective", "secondary", "Scholarship Detective", "Email investigation", ("phishing-investigation",)),
     ("password-fortress", "secondary", "Password Fortress", "Account defense", ("password-fortress",)),
+    ("privacy-patrol", "secondary", "Privacy Patrol", "Personal data safety", ("privacy-patrol",)),
+    ("scam-spotter", "secondary", "Scam Spotter", "Online fraud awareness", ("scam-spotter",)),
+    ("safe-social", "secondary", "Safe Social", "Social media safety", ("safe-social",)),
+    ("device-defender", "secondary", "Device Defender", "Device security", ("device-defender",)),
+    ("wifi-wise", "secondary", "Wi-Fi Wise", "Safe connectivity", ("wifi-wise",)),
+    ("digital-footprints", "secondary", "Digital Footprints", "Digital citizenship", ("digital-footprints",)),
+    ("mfa-guardian", "secondary", "MFA Guardian", "Authentication", ("mfa-guardian",)),
+    ("backup-buddy", "secondary", "Backup Buddy", "Data resilience", ("backup-buddy",)),
     ("midnight-alerts", "university", "Midnight Login Alerts", "SOC triage", ("soc-alert-triage",)),
     ("operation-firewall", "university", "Operation Firewall", "3D SOC investigation", ("operation-firewall",)),
     ("branch-resilience", "professional", "Branch Resilience", "Incident command", ("incident-response",)),
@@ -17,16 +25,6 @@ PLAYABLE = (
 
 # Roadmap entries are explicitly unavailable until independently tested missions ship.
 PLANNED = {
-    "secondary": (
-        ("privacy-patrol", "Privacy Patrol", "Personal data safety"),
-        ("scam-spotter", "Scam Spotter", "Online fraud awareness"),
-        ("safe-social", "Safe Social", "Social media safety"),
-        ("device-defender", "Device Defender", "Device security"),
-        ("wifi-wise", "Wi-Fi Wise", "Safe connectivity"),
-        ("digital-footprints", "Digital Footprints", "Digital citizenship"),
-        ("mfa-guardian", "MFA Guardian", "Authentication"),
-        ("backup-buddy", "Backup Buddy", "Data resilience"),
-    ),
     "university": (
         ("network-watch", "Network Watch", "Network monitoring"),
         ("web-defense", "Web Defense", "Web application security"),
@@ -81,4 +79,4 @@ def game_catalog():
     for pathway in pathway_ids:
         if sum(game["pathway"] == pathway for game in games) != 10:
             raise ValueError("Each pathway must contain exactly ten catalogue entries")
-    return {"version": 2, "pathways": [p.id for p in PATHWAYS], "games": games}
+    return {"version": 3, "pathways": [p.id for p in PATHWAYS], "games": games}
