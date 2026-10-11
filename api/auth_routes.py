@@ -88,7 +88,7 @@ def login(body: LoginRequest, db: Session = Depends(get_db)):
     if user is None or not verify_password(body.password, user.password_hash) or not user.is_active:
         emit_security_event("login_failed")
         raise HTTPException(status_code=401, detail="Invalid email or password")
-    if os.getenv("EDUCYBER_PRIVATE_BETA") == "enabled" and (user.age_band != "adult" or user.role != "student"):
+    if os.getenv("EDUCYBER_PRIVATE_BETA") == "enabled" and (user.age_band != "adult" or user.role != "student" or db.scalar(select(BetaInvite.id).where(BetaInvite.redeemed_by == user.id)) is None):
         raise HTTPException(status_code=403, detail="Private beta is for invited adult learners only")
     token = issue_session(db, user)
     clear_attempts(db, email)
