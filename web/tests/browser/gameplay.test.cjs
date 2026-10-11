@@ -115,7 +115,7 @@ test('three server responses update progress, completion and history',async t=>{
     await page.getByRole('button',{name:'Proceed to decision desk'}).click();
     await page.getByRole('radio',{name:/Investigate and contain/}).check();
     await page.getByRole('button',{name:'Commit decision'}).click();
-    if(stage<2)await page.getByText('STAGE').waitFor();
+    if(stage<2)await page.getByText('STAGE',{exact:true}).waitFor();
   }
   await page.getByRole('heading',{name:'Mission complete'}).waitFor();
   await page.getByText('45 out of 45').waitFor();
