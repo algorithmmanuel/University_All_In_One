@@ -6,6 +6,7 @@ import {useState} from 'react';
 import styles from './soc-scene.module.css';
 import SocEnvironment from './SocEnvironment';
 import WalkCamera from './WalkCamera';
+import EvidenceObjects from './EvidenceObjects';
 
 type Station='briefing'|'evidence'|'decision';
 type Props={stage:number;active:Station;onSelect:(station:Station)=>void;evidence:string[];onInspect:(index:number)=>void;inspected:number[]};
@@ -62,6 +63,7 @@ export default function SocScene({stage,active,onSelect,evidence,onInspect,inspe
     <SocEnvironment quality={quality}/>
     <mesh position={[0,2,-3.3]}><boxGeometry args={[12,4,.16]}/><meshStandardMaterial color="#162d43"/></mesh>
     <mesh position={[0,2.9,-3.19]}><boxGeometry args={[9,.12,.05]}/><meshStandardMaterial color="#38c6b0" emissive="#38c6b0" emissiveIntensity={.45}/></mesh>
+    <EvidenceObjects inspected={inspected} onInspect={i=>{if(i<evidence.length){setArtifact(i);onInspect(i);onSelect('evidence');}}}/>
     {stations.map(s=><Console key={s.id} position={s.position} color={s.color} active={active===s.id}
       onClick={e=>{e.stopPropagation();onSelect(s.id);setWalk(false);setView(stations.findIndex(x=>x.id===s.id)+1);}}/>)}
    </Canvas>
@@ -74,6 +76,6 @@ export default function SocScene({stage,active,onSelect,evidence,onInspect,inspe
    <button type="button" className={!walk&&view===0?styles.selected:styles.station} onClick={()=>navigate(0)}>Overview</button>
    {stations.map(s=><button key={s.id} type="button" aria-pressed={active===s.id} className={active===s.id?styles.selected:styles.station} onClick={()=>navigate(stations.findIndex(x=>x.id===s.id)+1)}>{s.name} →</button>)}
   </div>
-  <p className={styles.help}>Walk mode: click the scene to focus, use W/A/S/D to move, hold left mouse button and drag to look, and press E near a workstation. Movement keys are ignored while typing outside the scene. Use Exit walking mode to return to guided views. Navigate guided views with buttons or arrow keys. Select a glowing workstation to focus on it. Use Inspect artifact to examine the current stage's synthetic evidence. Investigations and scoring continue in the secure mission workspace below. No live systems are connected.</p>
+  <p className={styles.help}>Walk mode: click the scene to focus, use W/A/S/D to move, hold left mouse button and drag to look, and press E near a workstation. Movement keys are ignored while typing outside the scene. Use Exit walking mode to return to guided views. Navigate guided views with buttons or arrow keys. Select a glowing workstation to focus on it. Click a small glowing evidence marker above a workstation to inspect it, or use the Inspect artifact buttons as an accessible alternative. Investigations and scoring continue in the secure mission workspace below. No live systems are connected.</p>
  </section>;
 }
