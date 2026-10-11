@@ -78,7 +78,7 @@ export default function Missions(){
         {([['secondary','Cyber Explorers'],['university','Cyber Academy'],['professional','Cyber Command']] as const).map(([id,title])=><button key={id} type="button" className={pathway===id?'btn':'btn secondary'} aria-pressed={pathway===id} onClick={()=>setPathway(id)}>{title}</button>)}
       </nav>
       <h2>{pathway==='secondary'?'Cyber Explorers':pathway==='university'?'Cyber Academy':'Cyber Command'} game library</h2>
-      <p className="muted">10 games in this pathway · {games.filter(g=>g.pathway===pathway&&g.status==='playable').length} playable now · more scenarios in development.</p>
+      <p className="muted">10 games in this pathway · {games.filter(g=>g.pathway===pathway&&g.status==='playable').length} playable now · choose a game to begin.</p>
       <div className="grid">
         {games.filter(g=>g.pathway===pathway).map(g=><article className="card" key={g.id}>
           <p className="tag">{g.mechanic} · {g.difficulty}</p>
