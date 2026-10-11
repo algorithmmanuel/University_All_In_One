@@ -4,3 +4,6 @@
 !.env.example
 __pycache__/
 *.pyc
+
+# Local database backups contain sensitive user data; never commit them.
+local-backups/
