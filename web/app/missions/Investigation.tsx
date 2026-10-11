@@ -1,6 +1,7 @@
 'use client';
 import {useState} from 'react';
 import styles from './investigation.module.css';
+import ExplorerInvestigation from './ExplorerInvestigation';
 
 type Props={missionId:string;stage:number;onInspect:(index:number)=>void;inspected:number[];evidence:string[]};
 type Mail={from:string;subject:string;preview:string;body:string;link?:string};
@@ -28,6 +29,9 @@ export default function Investigation({missionId,stage,onInspect,inspected,evide
  const [severity,setSeverity]=useState('All');
  const [system,setSystem]=useState(0);
  const mark=(i:number)=>onInspect(i);
+ if (['privacy-patrol','scam-spotter','safe-social','device-defender','wifi-wise','digital-footprints','mfa-guardian','backup-buddy'].includes(missionId)) {
+  return <ExplorerInvestigation key={missionId+'-'+stage} missionId={missionId} stage={stage} evidence={evidence} inspected={inspected} onInspect={onInspect}/>;
+ }
  return <div className={styles.lab}>
   <div className={styles.labHeader}><span>SIMULATED TOOL / {missionId==='phishing-investigation'?'MAIL CLIENT':missionId==='soc-alert-triage'?'SECURITY EVENT CONSOLE':'INCIDENT DASHBOARD'}</span><span>READ-ONLY TRAINING DATA</span></div>
   {missionId==='phishing-investigation'?<div className={styles.mailLayout}>
