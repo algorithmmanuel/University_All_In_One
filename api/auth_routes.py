@@ -38,6 +38,9 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
     if body.role not in ("student", "teacher"):
         raise HTTPException(status_code=422, detail="Choose student or teacher")
     email = str(body.email).strip().lower()
+    # Shared registration bucket is a defense-in-depth control; edge IP quotas
+    # are still required to prevent bulk signups using different addresses.
+    record_attempt(db, email, purpose="registration")
     if db.scalar(select(User.id).where(User.email == email)) is not None:
         raise HTTPException(status_code=409, detail="Email already registered")
     user = User(full_name=body.full_name.strip(), email=email,
