@@ -4,6 +4,7 @@ import {useEffect,useRef} from 'react';
 import * as THREE from 'three';
 import {useState} from 'react';
 import styles from './soc-scene.module.css';
+import SocEnvironment from './SocEnvironment';
 
 type Station='briefing'|'evidence'|'decision';
 type Props={stage:number;active:Station;onSelect:(station:Station)=>void};
@@ -52,6 +53,7 @@ export default function SocScene({stage,active,onSelect}:Props){
     <ambientLight intensity={1.6}/>
     {quality==='standard'&&<pointLight position={[0,5,2]} intensity={55} color="#8ad7ed"/>}
     <mesh position={[0,-.12,0]}><boxGeometry args={[12,.2,7]}/><meshStandardMaterial color="#12253a"/></mesh>
+    <SocEnvironment quality={quality}/>
     <mesh position={[0,2,-3.3]}><boxGeometry args={[12,4,.16]}/><meshStandardMaterial color="#162d43"/></mesh>
     <mesh position={[0,2.9,-3.19]}><boxGeometry args={[9,.12,.05]}/><meshStandardMaterial color="#38c6b0" emissive="#38c6b0" emissiveIntensity={.45}/></mesh>
     {stations.map(s=><Console key={s.id} position={s.position} color={s.color} active={active===s.id}
