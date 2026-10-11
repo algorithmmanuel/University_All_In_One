@@ -94,3 +94,11 @@ class MissionRun(Base):
     choices: Mapped[list] = mapped_column(JSON, nullable=False)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+
+class LoginAttemptBucket(Base):
+    """Shared, bounded-window counter for authentication abuse protection."""
+    __tablename__ = "login_attempt_buckets"
+    key_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    attempts: Mapped[int] = mapped_column(Integer, nullable=False)
+    window_start: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
