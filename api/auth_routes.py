@@ -2,7 +2,7 @@
 import hashlib
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -19,12 +19,14 @@ def get_db():
         yield db
 
 class RegisterRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     full_name: str = Field(min_length=2, max_length=120)
     email: EmailStr
     password: str = Field(min_length=12, max_length=128)
     role: str = "student"
 
 class LoginRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     email: EmailStr
     # Align API input validation with the password hashing module's 1024-byte limit.
     password: str = Field(max_length=1024)
