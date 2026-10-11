@@ -1,7 +1,7 @@
 """Server-authoritative simulated missions with persistent user-specific runs."""
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from auth import current_user
@@ -72,9 +72,10 @@ def resume(run_id: int, user: User = Depends(current_user), db: Session = Depend
     return state(get_run(db, user, run_id))
 
 class Decision(BaseModel):
-    option_index: int
-    expected_step: int
-    finding_index: int | None = None
+    model_config = ConfigDict(extra="forbid")
+    option_index: int = Field(ge=0)
+    expected_step: int = Field(ge=0)
+    finding_index: int | None = Field(default=None, ge=0)
 
 @router.post("/runs/{run_id}/decide")
 def decide(run_id: int, body: Decision, user: User = Depends(current_user), db: Session = Depends(get_db)):
