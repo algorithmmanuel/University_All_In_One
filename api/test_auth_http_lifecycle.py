@@ -37,7 +37,7 @@ def test_login_profile_logout_revokes_bearer_token():
     engine = create_engine(url, pool_pre_ping=True)
     Session = sessionmaker(bind=engine)
     Base.metadata.create_all(engine)
-    email = f"phase8-auth-{uuid.uuid4().hex}@example.invalid"
+    email = f"phase8-auth-{uuid.uuid4().hex}@example.com"
     password = "A long test-only password 2026!"
     user_id = None
     try:
