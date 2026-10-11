@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from auth import bearer, current_user, hash_password, issue_session, require_teacher, verify_password
 from database import SessionLocal
 from models import AuthSession, User
+from login_limiter import record_attempt, clear_attempts
 
 router = APIRouter(prefix="/api/v1", tags=["authentication"])
 
@@ -52,10 +53,13 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
 
 @router.post("/auth/login")
 def login(body: LoginRequest, db: Session = Depends(get_db)):
-    user = db.scalar(select(User).where(User.email == str(body.email).lower()))
+    email = str(body.email).strip().lower()
+    record_attempt(db, email)
+    user = db.scalar(select(User).where(User.email == email))
     if user is None or not verify_password(body.password, user.password_hash) or not user.is_active:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     token = issue_session(db, user)
+    clear_attempts(db, email)
     return {"access_token": token, "token_type": "bearer", "expires_in": 43200, "user": public_user(user)}
 
 @router.get("/auth/me")
