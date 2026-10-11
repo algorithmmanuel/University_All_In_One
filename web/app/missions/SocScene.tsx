@@ -42,6 +42,7 @@ export default function SocScene({stage,active,onSelect}:Props){
  const [quality,setQuality]=useState<'standard'|'low'>('standard');
  const [view,setView]=useState(0);
  const [walk,setWalk]=useState(false);
+ const [nearby,setNearby]=useState<Station|null>(null);
  const views:[number,number,number][]=[[0,4.4,9],[-3,2.5,4],[0,2.8,3.6],[3,2.5,4]];
  function navigate(index:number){setWalk(false);setView(index);if(index>0)onSelect(stations[index-1].id);}
  useEffect(()=>{const handle=(e:KeyboardEvent)=>{if(e.altKey||e.ctrlKey||e.metaKey||['INPUT','TEXTAREA','SELECT'].includes((e.target as HTMLElement)?.tagName))return;if(walk)return;if(e.key==='ArrowLeft'||e.key==='a'){setView(v=>(v+3)%4);}if(e.key==='ArrowRight'||e.key==='d'){setView(v=>(v+1)%4);}};window.addEventListener('keydown',handle);return()=>window.removeEventListener('keydown',handle);},[walk]);
@@ -51,7 +52,7 @@ export default function SocScene({stage,active,onSelect}:Props){
   <div className={styles.viewport}>
    <Canvas camera={{position:[0,4.4,9],fov:48}} dpr={quality==='low'?1:[1,1.5]} gl={{antialias:quality==='standard',powerPreference:'low-power'}} fallback={<p>3D rendering is unavailable. Use the 2D workstation below.</p>}>
     {!walk&&<CameraNavigator target={views[view]}/>}
-    <WalkCamera enabled={walk}/>
+    <WalkCamera enabled={walk} onNearby={setNearby} onInteract={id=>{onSelect(id);setWalk(false);setView(stations.findIndex(s=>s.id===id)+1);}}/>
     <color attach="background" args={['#071321']}/>
     <ambientLight intensity={1.6}/>
     {quality==='standard'&&<pointLight position={[0,5,2]} intensity={55} color="#8ad7ed"/>}
@@ -63,11 +64,12 @@ export default function SocScene({stage,active,onSelect}:Props){
       onClick={e=>{e.stopPropagation();onSelect(s.id);setWalk(false);setView(stations.findIndex(x=>x.id===s.id)+1);}}/>)}
    </Canvas>
   </div>
+  {walk&&<p className={styles.help} role="status">{nearby?`Near ${stations.find(s=>s.id===nearby)?.name}: press E to interact.`:"Click inside the 3D room to focus controls. Hold left mouse button and drag to look around."}</p>}
   <div className={styles.controls}>
    <button type="button" className={walk?styles.selected:styles.station} onClick={()=>setWalk(v=>!v)}>{walk?"Exit walking mode":"Walk around (WASD)"}</button>
    <button type="button" className={!walk&&view===0?styles.selected:styles.station} onClick={()=>navigate(0)}>Overview</button>
    {stations.map(s=><button key={s.id} type="button" aria-pressed={active===s.id} className={active===s.id?styles.selected:styles.station} onClick={()=>navigate(stations.findIndex(x=>x.id===s.id)+1)}>{s.name} →</button>)}
   </div>
-  <p className={styles.help}>Walk mode uses W/A/S/D within room boundaries. Use Exit walking mode to return to guided views. Navigate guided views with buttons or arrow keys. Select a glowing workstation to focus on it. Investigations and scoring continue in the secure mission workspace below. No live systems are connected.</p>
+  <p className={styles.help}>Walk mode: click the scene to focus, use W/A/S/D to move, hold left mouse button and drag to look, and press E near a workstation. Movement keys are ignored while typing outside the scene. Use Exit walking mode to return to guided views. Navigate guided views with buttons or arrow keys. Select a glowing workstation to focus on it. Investigations and scoring continue in the secure mission workspace below. No live systems are connected.</p>
  </section>;
 }
