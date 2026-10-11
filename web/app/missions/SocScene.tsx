@@ -9,7 +9,7 @@ import WalkCamera from './WalkCamera';
 import EvidenceObjects from './EvidenceObjects';
 
 type Station='briefing'|'evidence'|'decision';
-type Props={stage:number;missionTitle:string;active:Station;onSelect:(station:Station)=>void;evidence:string[];onInspect:(index:number)=>void;inspected:number[]};
+type Props={stage:number;missionId:string;missionTitle:string;active:Station;onSelect:(station:Station)=>void;evidence:string[];onInspect:(index:number)=>void;inspected:number[]};
 const stations:{id:Station;name:string;position:[number,number,number];color:string}[]=[
   {id:'briefing',name:'Command briefing',position:[-3,0,-0.6],color:'#27b7d6'},
   {id:'evidence',name:'Evidence terminal',position:[0,0,-1.2],color:'#54dfba'},
@@ -39,7 +39,7 @@ function Console({position,color,active,onClick}:{position:[number,number,number
    {active&&<pointLight position={[0,1.7,0]} intensity={2.2} color={color} distance={3}/>}
  </group>;
 }
-export default function SocScene({stage,missionTitle,active,onSelect,evidence,onInspect,inspected}:Props){
+export default function SocScene({stage,missionId,missionTitle,active,onSelect,evidence,onInspect,inspected}:Props){
  const [quality,setQuality]=useState<'standard'|'low'>('standard');
  const [view,setView]=useState(0);
  const [walk,setWalk]=useState(false);
@@ -47,7 +47,18 @@ export default function SocScene({stage,missionTitle,active,onSelect,evidence,on
  const [artifact,setArtifact]=useState<number|null>(null);
  const inspectedCount=inspected.filter(i=>i>=0&&i<evidence.length).length;
  function inspectArtifact(i:number){if(i<0||i>=evidence.length)return;setArtifact(i);onInspect(i);onSelect('evidence');}
- const signal='CASE INVESTIGATION';
+ const explorerThemes:Record<string,{label:string;accent:string}>={
+  'privacy-patrol':{label:'PRIVACY CONTROL ROOM',accent:'#53d9ca'},
+  'scam-spotter':{label:'FRAUD DETECTION HUB',accent:'#f4bd6d'},
+  'safe-social':{label:'SOCIAL SAFETY CENTRE',accent:'#a5b4fc'},
+  'device-defender':{label:'DEVICE DEFENSE LAB',accent:'#60c5f5'},
+  'wifi-wise':{label:'NETWORK SAFETY ROOM',accent:'#65dfc6'},
+  'digital-footprints':{label:'DIGITAL TRACE STUDIO',accent:'#d4b2ff'},
+  'mfa-guardian':{label:'IDENTITY PROTECTION HUB',accent:'#e8bb78'},
+  'backup-buddy':{label:'RECOVERY CONTROL ROOM',accent:'#7fd3af'},
+ };
+ const theme=explorerThemes[missionId]??{label:'CYBER INVESTIGATION SOC',accent:'#38c6b0'};
+ const signal=theme.label;
  const views:[number,number,number][]=[[0,4.4,9],[-3,2.5,4],[0,2.8,3.6],[3,2.5,4]];
  function navigate(index:number){setArtifact(null);setWalk(false);setView(index);if(index>0)onSelect(stations[index-1].id);}
  useEffect(()=>{const handle=(e:KeyboardEvent)=>{if(e.altKey||e.ctrlKey||e.metaKey||['INPUT','TEXTAREA','SELECT'].includes((e.target as HTMLElement)?.tagName))return;if(walk)return;if(e.key==='ArrowLeft'||e.key==='a'){setView(v=>(v+3)%4);}if(e.key==='ArrowRight'||e.key==='d'){setView(v=>(v+1)%4);}};window.addEventListener('keydown',handle);return()=>window.removeEventListener('keydown',handle);},[walk]);
@@ -64,7 +75,7 @@ export default function SocScene({stage,missionTitle,active,onSelect,evidence,on
     <mesh position={[0,-.12,0]}><boxGeometry args={[12,.2,7]}/><meshStandardMaterial color="#12253a"/></mesh>
     <SocEnvironment quality={quality}/>
     <mesh position={[0,2,-3.3]}><boxGeometry args={[12,4,.16]}/><meshStandardMaterial color="#162d43"/></mesh>
-    <mesh position={[0,2.9,-3.19]}><boxGeometry args={[9,.12,.05]}/><meshStandardMaterial color="#38c6b0" emissive="#38c6b0" emissiveIntensity={.45}/></mesh>
+    <mesh position={[0,2.9,-3.19]}><boxGeometry args={[9,.12,.05]}/><meshStandardMaterial color={theme.accent} emissive={theme.accent} emissiveIntensity={.45}/></mesh>
     <EvidenceObjects inspected={inspected} onInspect={inspectArtifact}/>
     {stations.map(s=><Console key={s.id} position={s.position} color={s.color} active={active===s.id}
       onClick={e=>{e.stopPropagation();onSelect(s.id);setWalk(false);setView(stations.findIndex(x=>x.id===s.id)+1);}}/>)}
