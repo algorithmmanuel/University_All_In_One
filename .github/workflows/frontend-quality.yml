@@ -27,10 +27,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      # npm install until a reviewed package-lock.json is committed.
-      # Switch to npm ci once the dependency tree is locked.
+          cache: npm
+          cache-dependency-path: web/package-lock.json
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: TypeScript validation
         run: npm run typecheck
       - name: Frontend unit tests
