@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 const SocScene=dynamic(()=>import('./SocScene'),{ssr:false});
 import styles from './workspace.module.css';
 import Investigation from './Investigation';
+import CorrelationBoard from './CorrelationBoard';
 
 type Step={scene:string;story:string;evidence:string[];question:string;options:string[]};
 type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null};
@@ -82,6 +83,7 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
           <Investigation key={run.mission_id+'-'+run.step_index} missionId={run.mission_id}
             stage={run.step_index} evidence={evidence} inspected={inspected}
             onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>
+          <CorrelationBoard key={run.run_id+'-'+run.step_index} evidence={evidence} inspected={inspected} stage={run.step_index}/>
           <fieldset style={{border:'1px solid #35516b',borderRadius:9,padding:14,marginTop:18}}>
             <legend style={{color:'#65dfc6',fontWeight:700}}>Investigation finding · 5 bonus points</legend>
             <p className={styles.subtle}>Which finding is the most important indicator at this stage? Select one for server grading.</p>
