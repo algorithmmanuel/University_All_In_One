@@ -39,6 +39,7 @@ jobs:
       DATABASE_URL: postgresql+psycopg://educyber_ci:ci_only_password@127.0.0.1:5432/educyber_test
       TEST_DATABASE_URL: postgresql+psycopg://educyber_ci:ci_only_password@127.0.0.1:5432/educyber_test
       EDUCYBER_E2E_WEB_URL: http://127.0.0.1:3100
+      EDUCYBER_CORS_ORIGINS: http://127.0.0.1:3100
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
