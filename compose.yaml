@@ -15,5 +15,21 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+  postgres-test:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: educyber_test
+      POSTGRES_USER: educyber
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in root .env}
+    ports:
+      - "127.0.0.1:5434:5432"
+    volumes:
+      - educyber_test_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U educyber -d educyber_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 volumes:
   educyber_pgdata:
+  educyber_test_pgdata:
