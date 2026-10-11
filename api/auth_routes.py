@@ -1,5 +1,8 @@
 """Registration, login and protected dashboard endpoints."""
 import hashlib
+import os
+import time
+from threading import Lock
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials
 from pydantic import BaseModel, EmailStr, Field
@@ -9,6 +12,27 @@ from sqlalchemy.orm import Session
 from auth import bearer, current_user, hash_password, issue_session, require_teacher, verify_password
 from database import SessionLocal
 from models import AuthSession, User
+
+# Development-only throttle; replace with shared storage before multi-instance deployment.
+_LOGIN_ATTEMPTS = {}
+_LOGIN_LOCK = Lock()
+_LOGIN_WINDOW_SECONDS = 300
+_LOGIN_MAX_ATTEMPTS = 10
+
+def check_login_throttle(email: str) -> None:
+    now = time.monotonic()
+    with _LOGIN_LOCK:
+        # Bound stale entries to avoid indefinite growth in long-lived processes.
+        for key, timestamps in list(_LOGIN_ATTEMPTS.items()):
+            recent = [t for t in timestamps if now - t < _LOGIN_WINDOW_SECONDS]
+            if recent:
+                _LOGIN_ATTEMPTS[key] = recent
+            else:
+                del _LOGIN_ATTEMPTS[key]
+        attempts = _LOGIN_ATTEMPTS.setdefault(email, [])
+        if len(attempts) >= _LOGIN_MAX_ATTEMPTS:
+            raise HTTPException(status_code=429, detail="Too many login attempts; try again later")
+        attempts.append(now)
 
 router = APIRouter(prefix="/api/v1", tags=["authentication"])
 
@@ -51,7 +75,9 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
 
 @router.post("/auth/login")
 def login(body: LoginRequest, db: Session = Depends(get_db)):
-    user = db.scalar(select(User).where(User.email == str(body.email).lower()))
+    email = str(body.email).strip().lower()
+    check_login_throttle(email)
+    user = db.scalar(select(User).where(User.email == email))
     if user is None or not verify_password(body.password, user.password_hash) or not user.is_active:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     token = issue_session(db, user)
