@@ -1,4 +1,5 @@
-from fastapi import Depends, FastAPI
+import os
+from fastapi import Depends, FastAPI, HTTPException
 from game_catalog import game_catalog
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select, text
@@ -12,8 +13,19 @@ from mission_routes import router as mission_router
 from pathway_routes import router as pathway_router
 from mission_manifest_routes import router as mission_manifest_router
 
+def configured_origins() -> list[str]:
+    """Accept explicit origins only; localhost remains the development default."""
+    default = "http://localhost:3000,http://127.0.0.1:3000"
+    origins = [item.strip().rstrip("/") for item in
+               os.getenv("EDUCYBER_CORS_ORIGINS", default).split(",") if item.strip()]
+    if any(not item.startswith(("http://", "https://")) or
+           "*" in item or "/" in item.split("://", 1)[1] for item in origins):
+        raise ValueError("EDUCYBER_CORS_ORIGINS requires explicit HTTP(S) origins")
+    return origins
+
+
 app = FastAPI(title="EduCyber Nigeria API", version="0.6.0")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"], allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
+app.add_middleware(CORSMiddleware, allow_origins=configured_origins(), allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
 app.include_router(auth_router)
 app.include_router(learning_router)
 app.include_router(quiz_router)
@@ -31,7 +43,10 @@ def health():
 
 @app.get("/health/db")
 def database_health(db: Session = Depends(get_db)):
-    db.execute(text("SELECT 1"))
+    try:
+        db.execute(text("SELECT 1"))
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database unavailable") from None
     return {"database": "connected"}
 
 @app.get("/api/v1/academies")
