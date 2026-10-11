@@ -38,7 +38,7 @@ def test_registration_policy():
 
 
 def test_registration_requires_dob_and_forbids_extra_fields():
-    base = {"full_name": "Test Learner", "email": "learner@example.invalid",
+    base = {"full_name": "Test Learner", "email": "learner@example.com",
             "password": "a-long-test-password"}
     with pytest.raises(ValidationError):
         RegisterRequest(**base)
