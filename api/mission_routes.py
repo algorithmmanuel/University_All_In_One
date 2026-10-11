@@ -79,7 +79,13 @@ class Decision(BaseModel):
 @router.post("/runs/{run_id}/decide")
 def decide(run_id: int, body: Decision, user: User = Depends(current_user), db: Session = Depends(get_db)):
     require_student(user)
-    run = get_run(db, user, run_id)
+    # Lock the mission run until commit so concurrent decisions cannot both score a step.
+    # PostgreSQL releases this row lock when the transaction commits or rolls back.
+    run = db.scalar(select(MissionRun).where(
+        MissionRun.id == run_id, MissionRun.user_id == user.id
+    ).with_for_update())
+    if run is None:
+        raise HTTPException(status_code=404, detail="Mission run not found")
     steps = MISSIONS[run.mission_id]["steps"]
     if run.completed_at is not None:
         raise HTTPException(status_code=409, detail="Mission already completed")
