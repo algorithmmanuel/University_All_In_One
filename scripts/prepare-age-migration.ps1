@@ -21,8 +21,17 @@ try {
     }
     & (Join-Path $root "scripts\sync-before-test.ps1")
     Assert-LastExit "Safe GitHub synchronization failed."
-    if (@(git status --porcelain --untracked-files=normal).Count -gt 0) {
-        throw "Uncommitted files remain. Preserve them before database migration."
+    $changes = @(git status --porcelain --untracked-files=normal)
+    $allowedGenerated = @("web/next-env.d.ts", "web/tsconfig.tsbuildinfo")
+    $unsafeChanges = @($changes | Where-Object {
+        $path = $_.Substring(3).Trim().Replace("\\", "/")
+        $path -notin $allowedGenerated
+    })
+    if ($unsafeChanges.Count -gt 0) {
+        throw "Uncommitted source or unknown files remain. Preserve them before database migration."
+    }
+    if ($changes.Count -gt 0) {
+        Write-Host "Only recognized Next.js generated files are modified; preserving them." -ForegroundColor Yellow
     }
     if (-not (Test-Path $python)) { throw "Missing API virtual environment." }
     $envFile = Join-Path $root ".env"
