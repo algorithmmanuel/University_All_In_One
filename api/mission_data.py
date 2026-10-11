@@ -131,3 +131,7 @@ MISSIONS["password-fortress"] = {
                  ("Visit the official service and secure the account", 10, "Correct. Review sessions and account security.")])
     ]
 }
+
+# Imported after step and the legacy mission registry are defined.
+from explorer_missions import EXPLORER_MISSIONS
+MISSIONS.update(EXPLORER_MISSIONS)
