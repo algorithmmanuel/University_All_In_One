@@ -44,11 +44,12 @@ export default function SocScene({stage,active,onSelect,evidence,onInspect,inspe
  const [walk,setWalk]=useState(false);
  const [nearby,setNearby]=useState<Station|null>(null);
  const [artifact,setArtifact]=useState<number|null>(null);
+ const signal=stage===0?'PRIVILEGED LOGIN ALERT':stage===1?'UNRECOGNIZED DEVICE':'CONTAINMENT REVIEW';
  const views:[number,number,number][]=[[0,4.4,9],[-3,2.5,4],[0,2.8,3.6],[3,2.5,4]];
  function navigate(index:number){setArtifact(null);setWalk(false);setView(index);if(index>0)onSelect(stations[index-1].id);}
  useEffect(()=>{const handle=(e:KeyboardEvent)=>{if(e.altKey||e.ctrlKey||e.metaKey||['INPUT','TEXTAREA','SELECT'].includes((e.target as HTMLElement)?.tagName))return;if(walk)return;if(e.key==='ArrowLeft'||e.key==='a'){setView(v=>(v+3)%4);}if(e.key==='ArrowRight'||e.key==='d'){setView(v=>(v+1)%4);}};window.addEventListener('keydown',handle);return()=>window.removeEventListener('keydown',handle);},[walk]);
  return <section className={styles.shell} aria-label="Interactive 3D security operations centre">
-  <div className={styles.heading}><div><strong>EDUCYBER · SOC SIMULATION</strong><p>Operation Firewall · Stage {stage+1} · Fictional training environment</p></div>
+  <div className={styles.heading}><div><strong>EDUCYBER · SOC SIMULATION</strong><p>Operation Firewall · Stage {stage+1} · {signal} · Fictional training environment</p></div>
    <button type="button" onClick={()=>setQuality(q=>q==='standard'?'low':'standard')}>Graphics: {quality}</button></div>
   <div className={styles.viewport}>
    <Canvas camera={{position:[0,4.4,9],fov:48}} dpr={quality==='low'?1:[1,1.5]} gl={{antialias:quality==='standard',powerPreference:'low-power'}} fallback={<p>3D rendering is unavailable. Use the 2D workstation below.</p>}>
@@ -73,6 +74,6 @@ export default function SocScene({stage,active,onSelect,evidence,onInspect,inspe
    <button type="button" className={!walk&&view===0?styles.selected:styles.station} onClick={()=>navigate(0)}>Overview</button>
    {stations.map(s=><button key={s.id} type="button" aria-pressed={active===s.id} className={active===s.id?styles.selected:styles.station} onClick={()=>navigate(stations.findIndex(x=>x.id===s.id)+1)}>{s.name} →</button>)}
   </div>
-  <p className={styles.help}>Walk mode: click the scene to focus, use W/A/S/D to move, hold left mouse button and drag to look, and press E near a workstation. Movement keys are ignored while typing outside the scene. Use Exit walking mode to return to guided views. Navigate guided views with buttons or arrow keys. Select a glowing workstation to focus on it. Investigations and scoring continue in the secure mission workspace below. No live systems are connected.</p>
+  <p className={styles.help}>Walk mode: click the scene to focus, use W/A/S/D to move, hold left mouse button and drag to look, and press E near a workstation. Movement keys are ignored while typing outside the scene. Use Exit walking mode to return to guided views. Navigate guided views with buttons or arrow keys. Select a glowing workstation to focus on it. Use Inspect artifact to examine the current stage's synthetic evidence. Investigations and scoring continue in the secure mission workspace below. No live systems are connected.</p>
  </section>;
 }
