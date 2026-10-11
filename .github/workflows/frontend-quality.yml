@@ -1,0 +1,37 @@
+name: Frontend quality gate
+
+on:
+  pull_request:
+    paths:
+      - 'web/**'
+      - '.github/workflows/frontend-quality.yml'
+  push:
+    branches:
+      - feature/phase-8-engineering-hardening
+    paths:
+      - 'web/**'
+      - '.github/workflows/frontend-quality.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  frontend-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # npm install until a reviewed package-lock.json is committed.
+      # Switch to npm ci once the dependency tree is locked.
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: TypeScript validation
+        run: npx tsc --noEmit
+      - name: Production build
+        run: npm run build
