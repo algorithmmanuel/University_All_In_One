@@ -1,12 +1,12 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
 
-export default function ResetPassword() {
+function ResetPasswordForm() {
   const params = useSearchParams();
   const token = params.get('token') || '';
   const [password, setPassword] = useState('');
@@ -54,4 +54,8 @@ export default function ResetPassword() {
     {notice && <p role="status">{notice} <Link href="/account">Sign in</Link></p>}
     {error && <p role="alert" style={{color:'#b42318'}}>{error}</p>}
   </main>;
+}
+
+export default function ResetPassword() {
+  return <Suspense fallback={<main>Loading password reset…</main>}><ResetPasswordForm /></Suspense>;
 }
