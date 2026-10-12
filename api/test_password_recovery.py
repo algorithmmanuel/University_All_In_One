@@ -45,6 +45,8 @@ def test_password_reset_lifecycle(monkeypatch):
             db.add(user)
             db.flush()
             user_id = user.id
+            db.add(AuthSession(user_id=user_id, token_hash=hashlib.sha256(secrets.token_bytes(32)).hexdigest(),
+                               expires_at=datetime.now(timezone.utc) + timedelta(hours=1)))
 
         with TestClient(app) as client:
             # Nonexistent users get the exact same response and no message.
@@ -64,6 +66,8 @@ def test_password_reset_lifecycle(monkeypatch):
             changed = client.post("/api/v1/auth/reset-password",
                                   json={"token": token, "password": new_password})
             assert changed.status_code == 200
+            with SessionLocal() as db:
+                assert db.scalar(select(AuthSession).where(AuthSession.user_id == user_id)) is None
             reused = client.post("/api/v1/auth/reset-password",
                                  json={"token": token, "password": new_password})
             assert reused.status_code == 400
