@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 type Game={pathway:'secondary'|'university'|'professional';status:'playable'|'planned'};
 const PATHS=[['secondary','Cyber Explorers'],['university','Cyber Academy'],['professional','Cyber Command']] as const;
-const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'http://127.0.0.1:8000').replace(/\/$/,'');
+const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'').replace(/\/$/,'');
 export default function DashboardGamePaths(){
  const [games,setGames]=useState<Game[]|null>(null);
  const [error,setError]=useState(false);
