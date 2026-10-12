@@ -36,7 +36,7 @@ require_safe_production_configuration()
 # Emit only the database target at startup; never log its credentials or URL.
 from database import DATABASE_URL
 _target = make_url(DATABASE_URL)
-logging.getLogger('educyber.startup').info(
+logging.getLogger('uvicorn.error').info(
     'database_target host=%s port=%s database=%s', _target.host, _target.port, _target.database
 )
 app = FastAPI(title="EduCyber Nigeria API", version="0.6.0")
