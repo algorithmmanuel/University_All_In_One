@@ -1,4 +1,6 @@
 import os
+import logging
+from sqlalchemy.engine import make_url
 from fastapi import Depends, FastAPI, HTTPException
 from game_catalog import game_catalog
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,6 +13,7 @@ from schema_readiness import schema_status
 from production_config import require_safe_production_configuration
 from request_telemetry import RequestTelemetryMiddleware
 from auth_routes import router as auth_router
+from password_recovery import router as password_recovery_router
 from beta_routes import router as beta_router
 from learning_routes import router as learning_router
 from quiz_routes import router as quiz_router
@@ -30,10 +33,17 @@ def configured_origins() -> list[str]:
 
 
 require_safe_production_configuration()
+# Emit only the database target at startup; never log its credentials or URL.
+from database import DATABASE_URL
+_target = make_url(DATABASE_URL)
+logging.getLogger('uvicorn.error').info(
+    'database_target host=%s port=%s database=%s', _target.host, _target.port, _target.database
+)
 app = FastAPI(title="EduCyber Nigeria API", version="0.6.0")
 app.add_middleware(RequestTelemetryMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=configured_origins(), allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
 app.include_router(auth_router)
+app.include_router(password_recovery_router)
 app.include_router(beta_router)
 app.include_router(learning_router)
 app.include_router(quiz_router)

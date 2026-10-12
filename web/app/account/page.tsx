@@ -67,6 +67,7 @@ export default function Account() {
       <label style={{display:'flex',alignItems:'center',gap:8}}><input type="checkbox" checked={showPassword} onChange={e=>setShowPassword(e.target.checked)}/>Show password{mode==='register'?'s':''}</label>
       {mode==='register'&&<p style={{fontSize:13,margin:0}}>Use at least 12 characters. Keep a secure record of your password: you will need to enter it again after registration.</p>}
       {mode==='register'&&<label>Account type<select value={role} onChange={e=>setRole(e.target.value)} style={{display:'block',width:'100%',padding:12}}><option value="student">Student</option><option value="teacher">Teacher (approval required)</option></select></label>}
+      {mode==='login'&&<Link href="/forgot-password">Forgot password?</Link>}
       <button disabled={busy} type="submit" style={{padding:14,background:'#0e766f',color:'white',border:0,borderRadius:8}}>{busy?'Please wait…':mode==='register'?'Create account':'Sign in'}</button>
     </form>
     {error&&<p role="alert" style={{color:'#b42318'}}>{error}</p>}
