@@ -14,6 +14,7 @@ from models import LoginAttemptBucket
 WINDOW = timedelta(minutes=5)
 MAX_ATTEMPTS = 10
 REGISTRATION_MAX_ATTEMPTS = 5
+PASSWORD_RESET_MAX_ATTEMPTS = 3
 
 
 def record_attempt(db, email: str, *, purpose: str = "login") -> None:
@@ -22,13 +23,14 @@ def record_attempt(db, email: str, *, purpose: str = "login") -> None:
     PostgreSQL ON CONFLICT serializes updates to a bucket across workers.
     The current request is blocked when it exceeds the permitted attempts.
     """
-    if purpose not in ("login", "registration"):
+    if purpose not in ("login", "registration", "password_reset"):
         raise ValueError("Invalid throttle purpose")
     value = email.strip().lower()
-    if purpose == "registration":
-        value = "registration:" + value
+    if purpose != "login":
+        value = purpose + ":" + value
     key = hashlib.sha256(value.encode("utf-8")).hexdigest()
-    limit = MAX_ATTEMPTS if purpose == "login" else REGISTRATION_MAX_ATTEMPTS
+    limit = {"login": MAX_ATTEMPTS, "registration": REGISTRATION_MAX_ATTEMPTS,
+             "password_reset": PASSWORD_RESET_MAX_ATTEMPTS}[purpose]
     now = datetime.now(timezone.utc)
     stmt = insert(LoginAttemptBucket).values(
         key_hash=key, attempts=1, window_start=now
@@ -54,7 +56,7 @@ def record_attempt(db, email: str, *, purpose: str = "login") -> None:
     if count > limit:
         raise HTTPException(
             status_code=429,
-            detail="Too many login attempts; please try again later",
+            detail="Too many requests; please try again later",
             headers={"Retry-After": "300"},
         )
 
