@@ -49,8 +49,8 @@ def test_private_beta_registration_login_and_independent_sessions(isolated_app, 
     monkeypatch.setenv("EDUCYBER_PRIVATE_BETA", "enabled")
     # Randomized credentials avoid collisions with other test runs.
     accounts = []
+    emails = []
     invites = []
-    tokens = []
     try:
         with Session.begin() as db:
             for _ in range(2):
@@ -65,6 +65,7 @@ def test_private_beta_registration_login_and_independent_sessions(isolated_app, 
         def register_and_login(index):
             invite, code = invites[index]
             email = f"beta-auth-{secrets.token_hex(12)}@example.com"
+            emails.append(email)
             password = "StrongTest-" + secrets.token_urlsafe(24)
             with TestClient(app) as client:
                 registration = client.post("/api/v1/auth/register", json={
@@ -96,7 +97,6 @@ def test_private_beta_registration_login_and_independent_sessions(isolated_app, 
         with ThreadPoolExecutor(max_workers=2) as pool:
             results = list(pool.map(register_and_login, range(2)))
         accounts.extend(user_id for user_id, _ in results)
-        tokens.extend(token for _, token in results)
         assert accounts[0] != accounts[1]
         with TestClient(app) as client:
             for user_id, token in results:
@@ -110,10 +110,17 @@ def test_private_beta_registration_login_and_independent_sessions(isolated_app, 
             ids = [invite.id for invite, _ in invites]
             if ids:
                 db.execute(update(BetaInvite).where(BetaInvite.id.in_(ids)).values(redeemed_by=None))
-            if accounts:
-                db.execute(delete(AuthSession).where(AuthSession.user_id.in_(accounts)))
-                db.execute(delete(User).where(User.id.in_(accounts)))
+            # Find any accounts created before an assertion failed.
+            if emails:
+                from sqlalchemy import select
+                all_ids = list(db.scalars(select(User.id).where(User.email.in_(emails))))
+                if all_ids:
+                    db.execute(delete(AuthSession).where(AuthSession.user_id.in_(all_ids)))
+                    db.execute(delete(User).where(User.id.in_(all_ids)))
             if ids:
                 db.execute(delete(BetaInvite).where(BetaInvite.id.in_(ids)))
-            # Login limiter buckets are keyed by normalized email; clean only
-            # identifiers created by this test when those are available.
+            for email in emails:
+                digest = hashlib.sha256(email.encode()).hexdigest()
+                db.execute(delete(LoginAttemptBucket).where(LoginAttemptBucket.key_hash == digest))
+                reg_digest = hashlib.sha256(("registration:" + email).encode()).hexdigest()
+                db.execute(delete(LoginAttemptBucket).where(LoginAttemptBucket.key_hash == reg_digest))
