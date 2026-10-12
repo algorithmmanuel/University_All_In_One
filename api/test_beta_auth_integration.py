@@ -37,8 +37,16 @@ def isolated_app():
     from main import app
     from models import AuthSession, BetaInvite, LoginAttemptBucket, User
     engine = create_engine(url, pool_pre_ping=True)
+    # create_all cannot upgrade existing tables: apply Alembic migrations first.
+    from sqlalchemy import inspect
+    inspector = inspect(engine)
+    required = {"date_of_birth", "age_band", "guardian_consent_verified"}
+    if "users" not in inspector.get_table_names() or not required.issubset(
+        {col["name"] for col in inspector.get_columns("users")}
+    ):
+        pytest.fail("Test database schema is outdated; run alembic upgrade head against educyber_test")
     Base.metadata.create_all(engine)
-    yield app, TestClient, sessionmaker(bind=engine), (AuthSession, BetaInvite, LoginAttemptBucket, User)
+    yield app, TestClient, sessionmaker(bind=engine, expire_on_commit=False), (AuthSession, BetaInvite, LoginAttemptBucket, User)
     engine.dispose()
 
 
