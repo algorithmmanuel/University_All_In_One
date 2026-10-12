@@ -2,6 +2,7 @@
 from sqlalchemy import select
 from database import SessionLocal
 from models import Course, QuizQuestion
+from expanded_quiz_bank import BANK as EXPANDED_BANK
 
 BANK = {
     "Cyber Safety Foundations": [
@@ -46,8 +47,28 @@ def main():
                 if existing is None:
                     db.add(QuizQuestion(course_id=course.id, prompt=prompt, options=options,
                                         correct_index=answer, explanation=explanation, position=position))
+        db.flush()
+        for title, items in EXPANDED_BANK.items():
+            course = db.scalar(select(Course).where(Course.title == title))
+            if course is None:
+                continue
+            existing_rows = db.scalars(select(QuizQuestion).where(
+                QuizQuestion.course_id == course.id).order_by(QuizQuestion.position, QuizQuestion.id)).all()
+            prompts = {q.prompt for q in existing_rows}
+            remaining = max(0, 50 - len(existing_rows))
+            position = max((q.position for q in existing_rows), default=0)
+            for prompt, options, answer, explanation in items:
+                if remaining == 0:
+                    break
+                if prompt in prompts:
+                    continue
+                position += 1
+                db.add(QuizQuestion(course_id=course.id, prompt=prompt, options=options,
+                                    correct_index=answer, explanation=explanation, position=position))
+                prompts.add(prompt)
+                remaining -= 1
         db.commit()
-    print("Demonstration quizzes ready.")
+    print("Demonstration quizzes expanded to 50 questions per course (existing questions preserved).")
 
 if __name__ == "__main__":
     main()
