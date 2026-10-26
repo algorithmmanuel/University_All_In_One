@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - feature/phase-9-platform-expansion
+      - feature/beta-continuous-improvement
     paths:
       - 'web/**'
       - '.github/workflows/browser-gameplay.yml'
@@ -50,7 +51,7 @@ jobs:
           cat /tmp/educyber-next.log
           exit 1
       - name: Browser gameplay journeys (mock API, real browser)
-        run: node --test tests/browser/gameplay.test.cjs
+        run: node --test tests/browser/gameplay.test.cjs tests/browser/learning-usability.test.cjs tests/browser/python-foundations.test.cjs
       - name: Show server logs on failure
         if: failure()
         run: cat /tmp/educyber-next.log || true

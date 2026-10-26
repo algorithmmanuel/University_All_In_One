@@ -2,12 +2,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import LessonGuide, {type LearningGuide} from '../../components/lesson-guide';
 import { useActivityFocus } from '../../lib/use-activity-focus';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
 type Course = {id:number;academy_id:string;title:string;description:string;lesson_count:number};
 type Enrollment = {id:number;academy_id:string;title:string;description:string;total_lessons:number;completed_lessons:number;progress_percent:number};
-type Lesson = {id:number;title:string;content:string;position:number;completed:boolean};
+type Lesson = {id:number;title:string;content:string;position:number;completed:boolean;learning_guide?:LearningGuide|null};
 type CourseDetail = {course:Course;lessons:Lesson[]};
 const academies: Record<string,string> = {cyber:'Cybersecurity Academy',university:'University',secondary:'Secondary School'};
 
@@ -22,10 +23,10 @@ export default function Learn() {
   const [openSequence,setOpenSequence]=useState(0);
   const activityHeading=useActivityFocus(openSequence);
 
-  const request = useCallback(async (path:string, method='GET') => {
+  const request = useCallback(async (path:string, method='GET', data?:Record<string,unknown>) => {
     const token=sessionStorage.getItem('educyber_token');
     if (!token) {router.replace('/account');throw new Error('Please sign in');}
-    const response=await fetch(API+path,{method,headers:{Authorization:'Bearer '+token}});
+    const response=await fetch(API+path,{method,headers:{Authorization:'Bearer '+token,...(data?{'Content-Type':'application/json'}:{})},...(data?{body:JSON.stringify(data)}:{})});
     const body=await response.json();
     if (!response.ok) {
       if(response.status===401) {sessionStorage.removeItem('educyber_token');router.replace('/account');}
@@ -116,7 +117,10 @@ export default function Learn() {
             <article className="card" key={l.id} style={{marginTop:16}}>
               <span className="small">Lesson {l.position} {l.completed?'· Completed ✓':''}</span>
               <h3>{l.title}</h3>
-              <p style={{whiteSpace:'pre-wrap',lineHeight:1.7}}>{l.content}</p>
+              {l.learning_guide?<LessonGuide key={l.id+':'+l.learning_guide.revision} guide={l.learning_guide}
+                checkAnswer={(exercise,option)=>request('/api/v1/learning/lessons/'+l.id+'/practice','POST',
+                  {exercise_id:exercise,option_index:option})}/>
+                :<p style={{whiteSpace:'pre-wrap',lineHeight:1.7}}>{l.content}</p>}
               <button className="btn" disabled={busy||l.completed} onClick={()=>complete(l.id)}>
                 {l.completed?'Completed ✓':'Mark lesson complete'}
               </button>

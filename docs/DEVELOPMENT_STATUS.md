@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** accepted assessment/navigation build; the source-first Cloudflare audit started but is INCOMPLETE. Workspace-credit errors interrupted hunting; original agent-result files are unavailable after the session transition. A recovered coverage plan records all in-scope units as deferred.  
+**Checkpoint:** Phase 3.1 Python foundations pilot implemented; development publication and owner acceptance pending. The owner deferred the formal security-audit-skill workflow until the end of development.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,13 +76,9 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-**Resume the incomplete source-first baseline audit from [the checkpoint](security/baseline-run-1/REPORT.md).**
+Use [the Phase 3.1 guide](PYTHON_FOUNDATIONS.md) to update the separate development worktree, preview and explicitly apply the Python foundations content, restart the development services and perform the acceptance checklist. Keep beta open. After acceptance, continue Phase 3 with Cyber Safety Foundations and Digital Citizenship.
 
-1. Refresh actual Git state and compare relevant source with application baseline `c1e494e533965cf10e701bd4b851cb4f3fb3b7db`.
-2. Read the pinned skill, preparation document, recovered report and coverage ledger. Treat recovered architecture as context, not independently verified evidence.
-3. Establish agent capacity and reserve the standard profile's post-wave critic, distinct final-clean critic and independent candidate/final-record verification before hunting. Recover original results only with established provenance; otherwise repeat the missing source reviews.
-4. Do not execute target code until every required OS sandbox and evidence-promotion control is verified. No live beta, provider or shared-service testing.
-5. Finish independent validation and both critics, reconcile the ledger, validate the JSON outputs and produce final reports. Keep beta open; make any source fixes separately.
+The owner instructed on 26 October 2026 that the formal security-audit-skill stage be deferred until the end of all development. This supersedes the earlier audit-first next action. Continue security by design, secure coding/review and normal tests throughout. Resume the formal audit against the then-current source, revalidating changes and unresolved earlier leads; no security clearance is implied.
 
 ## Implemented source changes and checks
 
@@ -133,4 +129,13 @@ After each verified milestone, update this file with:
 Refresh actual Git/runtime state at the beginning of a new session. Keep beta testing open, develop against separate data and do not mark proposed commands as completed work. Do not commit private operational metadata or raw tester data.
 
 
+
+
+## Phase 3.1 — Python foundations pilot
+
+Implemented on 26 October 2026, addressing FB-01, FB-06, FB-07 and FB-08. Three expanded Python lessons provide nine objectives, worked examples/output and six guided checks. Twenty reviewed assessment questions align with taught objectives; Quick/Standard/Extended/Custom lengths remain supported. Practice feedback is server-checked and does not save grades or completion. The explicit development-only publisher preserves course/lesson IDs, completed progress, historic question rows and attempt scores; startup performs no publication or migration. Customized/conflicting content is refused.
+
+Verification: 45 focused backend tests and 11 subtests passed with synthetic SQLite/auth overrides; 15 frontend unit tests, TypeScript and production build passed. Pre-existing CSS warnings remain. Two browser cases were added; Chromium cannot start here because required socket creation is denied, so browser interaction assertions remain unexecuted. Full backend collection was attempted but blocked by missing Alembic in the workspace test environment; no full regression or PostgreSQL result is claimed. Browser/backend CI selects this branch, and the backend fixture port now matches the existing password-recovery guard; CI execution is pending.
+
+See [implementation, complete PowerShell commands and acceptance](PYTHON_FOUNDATIONS.md). No owner database or beta services were accessed. Owner publication/acceptance and the remaining Phase 3 course reviews are outstanding. The formal audit remains deferred by owner direction until the end of development.
 

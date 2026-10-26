@@ -68,3 +68,8 @@ Update this roadmap when scope is explicitly changed. Keep operational progress 
 
 Following successful owner-reported baseline learner checks, the owner approved selectable assessment lengths (Quick, Standard, Extended and Custom within the available bank) and automatic scrolling/keyboard focus when opening activities as the next bounded build. These additions support the assessment and usability phases and will be included in the baseline audit scope. Preserve the security audit and all other phase gates. See [the feature contract](ASSESSMENTS_AND_ACTIVITY_NAVIGATION.md) and the current status for implementation versus acceptance evidence.
 
+
+## Sequencing update — 26 October 2026
+
+The owner deferred the formal Cloudflare security-audit-skill workflow until the end of development and instructed that Phase 3 proceed now. Security by design, secure coding/review, authorization/input checks and meaningful ordinary tests remain required in every build. Resume the formal audit against the final source, revalidating changed code and unresolved checkpoints. This change provides no security clearance and does not remove final assurance/release gates. Phase 3 starts with the [Python foundations pilot](PYTHON_FOUNDATIONS.md); the other course reviews remain pending.
+

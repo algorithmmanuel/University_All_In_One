@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from auth import current_user
 from db_dependencies import get_db
 from models import Course, Enrollment, QuizAttempt, QuizQuestion, User
+from learning_content import active_question_prompts
 from assessment_selection import MAX_QUESTIONS, grade_questions, select_questions, unique_questions
 
 router = APIRouter(prefix="/api/v1/quizzes", tags=["quizzes"])
@@ -27,8 +28,11 @@ class Submission(BaseModel):
 
 
 def question_bank(db: Session, course_id: int):
-    return db.scalars(select(QuizQuestion).where(QuizQuestion.course_id == course_id)
-                      .order_by(QuizQuestion.position, QuizQuestion.id)).all()
+    stmt = select(QuizQuestion).where(QuizQuestion.course_id == course_id)
+    prompts = active_question_prompts(db, course_id)
+    if prompts is not None:
+        stmt = stmt.where(QuizQuestion.prompt.in_(prompts))
+    return db.scalars(stmt.order_by(QuizQuestion.position, QuizQuestion.id)).all()
 
 
 @router.get("/courses/{course_id}/options")
