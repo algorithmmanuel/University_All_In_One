@@ -19,3 +19,6 @@ Suggested continuation request:
 The owner wants complete, corrected PowerShell blocks whenever commands need changing. Do not provide only replacement fragments.
 
 Documentation is the durable project handover; conversational memory is not the source of truth.
+
+Security audit continuation: read [the preparation and capability gate](docs/security/BASELINE_AUDIT_PREPARATION.md), then the pinned [Cloudflare skill](tools/security-audit-skill/SKILL.md). Tooling integrity and successful functional tests do not establish that a security audit has run. Follow the status document's current next action.
+

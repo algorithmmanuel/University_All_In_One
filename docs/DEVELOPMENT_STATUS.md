@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** owner reported no errors and that local checks passed after the assessment-length and activity-navigation update. Both additions are accepted on the basis of that report. Next: baseline security-audit preparation.  
+**Checkpoint:** accepted assessment/navigation build; Cloudflare audit preparation is committed with pinned tooling and scope. Full audit not started; execution-based validation is blocked pending a verified OS sandbox.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -56,18 +56,26 @@ Verification in the assistant workspace:
 
 Local acceptance on 26 October 2026: after receiving the update, test, restart and feature-check instructions for source commit `adc2f4c`, the owner reported no errors and that all tests passed. Record this as owner-reported acceptance, without claiming independently observed logs, a full regression result or execution of the blocked Playwright cases. Specific mobile and reduced-motion evidence was not separately supplied.
 
+## Baseline audit preparation
+
+- Pinned upstream Cloudflare security-audit-skill revision: `c1c8a8c1471069fb0e188eeaff69b8e8db6564a8`.
+- Prepared application baseline: `c1e494e533965cf10e701bd4b851cb4f3fb3b7db`, including the accepted assessment/navigation build.
+- Added an unchanged project-local reference copy at `tools/security-audit-skill/`, including the MIT license and upstream README. All 22 files matched their upstream Git blob hashes; SHA256 and byte lengths are recorded in `tools/security-audit-skill.lock.json`. This does not claim client auto-discovery registration.
+- [Preparation, scope and capability gate](security/BASELINE_AUDIT_PREPARATION.md) maps the web/API, learner-data, browser, operations and CI trust boundaries. Legacy Android and other products are outside the initial scoped pass.
+- Required user/network namespace probes were denied in this execution workspace. A complete read-only/scratch-only, empty-environment and resource-bounded runner with safe evidence promotion has not been verified.
+- No target application code was executed for this preparation. No reconnaissance/hunter/verifier agents were launched and no full-run findings or coverage ledger exists yet. This is preparation, not a passing audit.
+- Source-only review can proceed. Runtime-dependent claims require exact needs_validation blockers and no severity until independently established under the skill's contract.
+
 ## Exact next action
 
-**Prepare the baseline security audit using the Cloudflare security-audit skill.**
+**Begin the scoped, source-first baseline audit using the pinned skill and prepared scope.**
 
-1. Refresh the development branch and working-tree state, preserving the open beta.
-2. Read the upstream audit skill and all required workflow instructions; record the exact upstream commit and the application revision being assessed.
-3. Identify available agent orchestration and OS-enforced execution controls. Do not treat a separate database alone as a sufficient audit sandbox.
-4. Prepare scope, architecture/trust-boundary inventory and coverage records for authentication, recovery, authorisation, assessments, missions, AI integration, client requests and deployment/supply chain.
-5. Run the skill only within its verified prerequisites. Keep source-grounded leads needing blocked execution as needs-validation, rather than confirming them without evidence.
-6. Track confirmed findings and remediation/retest results. Keep private evidence and credentials out of Git; commit only appropriate sanitised summaries and the handover.
-7. Address the known lint-configuration and dependency-reproducibility work items and review local non-secret Compose setup as part of engineering assurance.
-8. Update this handover after each verified audit or remediation milestone. Automated real-browser and full PostgreSQL regression remain outstanding despite the owner's local acceptance report.
+1. Read `tools/security-audit-skill/SKILL.md`, its required workflow files and the preparation document. Refresh actual Git state; use the pinned application baseline or explicitly record changed-source revalidation.
+2. Resolve the read-only target and new external output directory. Keep private evidence out of Git.
+3. Start full-run metadata and the four independent reconnaissance assignments before hunting. Produce the canonical ledger, validate it, reserve critic/verification work and follow all six phases.
+4. Do not execute target code in the current unverified sandbox. Source-only work remains allowed; runtime/deployment-dependent leads stay needs_validation with exact blockers.
+5. Distinguish independently verified findings from engineering tasks and unknown deployed controls. No live beta, provider or shared-service testing is permitted by the selected skill.
+6. Record the required terminal run status and honest coverage gaps. Keep the beta open, and make later source fixes separately from audit review.
 
 ## Implemented source changes and checks
 
@@ -89,7 +97,9 @@ Local acceptance on 26 October 2026: after receiving the update, test, restart a
 - [ ] Dependency baseline comparison and controlled reproducibility plan. Broad requirements ranges were used during setup; do not assume development and beta installed identical versions.
 - [ ] Real-backend browser and regression checks.
 - [ ] Versioned release/recovery procedures and application-version feedback metadata.
-- [ ] Cloudflare security-audit skill read at a pinned upstream revision, installed and executed under its required sandbox controls.
+- [x] Cloudflare skill read and pinned; unchanged reference tooling, provenance hashes, scope and capability gates prepared.
+- [ ] Full Cloudflare audit workflow, independent verification, validated ledger/findings and final reports.
+- [ ] OS-enforced audit execution sandbox and parent-side evidence promotion verified.
 - [x] Assessment-length and activity-navigation additions implemented; owner reported successful local checks and no errors after the update.
 - [ ] Other feedback-driven learning and mission improvements.
 - [ ] Later phases of the approved roadmap.
@@ -114,5 +124,6 @@ After each verified milestone, update this file with:
 - one concrete next action.
 
 Refresh actual Git/runtime state at the beginning of a new session. Keep beta testing open, develop against separate data and do not mark proposed commands as completed work. Do not commit private operational metadata or raw tester data.
+
 
 
