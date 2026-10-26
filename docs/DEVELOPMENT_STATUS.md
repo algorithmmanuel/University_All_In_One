@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** Phase 3.1 Python foundations pilot implemented; development publication and owner acceptance pending. The owner deferred the formal security-audit-skill workflow until the end of development.  
+**Checkpoint:** Phase 3.1 Python foundations pilot accepted by the owner after local use; next are the remaining Phase 3 course reviews. The owner deferred the formal security-audit-skill workflow until the end of development.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Use [the Phase 3.1 guide](PYTHON_FOUNDATIONS.md) to update the separate development worktree, preview and explicitly apply the Python foundations content, restart the development services and perform the acceptance checklist. Keep beta open. After acceptance, continue Phase 3 with Cyber Safety Foundations and Digital Citizenship.
+Continue Phase 3 with Cyber Safety Foundations and Digital Citizenship: review lesson objectives, add worked examples and guided practice, and align each active assessment bank to taught concepts. Reuse the accepted Python pilot pattern while preserving learner records and beta availability.
 
 The owner instructed on 26 October 2026 that the formal security-audit-skill stage be deferred until the end of all development. This supersedes the earlier audit-first next action. Continue security by design, secure coding/review and normal tests throughout. Resume the formal audit against the then-current source, revalidating changes and unresolved earlier leads; no security clearance is implied.
 
@@ -137,5 +137,11 @@ Implemented on 26 October 2026, addressing FB-01, FB-06, FB-07 and FB-08. Three 
 
 Verification: 45 focused backend tests and 11 subtests passed with synthetic SQLite/auth overrides; 15 frontend unit tests, TypeScript and production build passed. Pre-existing CSS warnings remain. Two browser cases were added; Chromium cannot start here because required socket creation is denied, so browser interaction assertions remain unexecuted. Full backend collection was attempted but blocked by missing Alembic in the workspace test environment; no full regression or PostgreSQL result is claimed. Browser/backend CI selects this branch, and the backend fixture port now matches the existing password-recovery guard; CI execution is pending.
 
-See [implementation, complete PowerShell commands and acceptance](PYTHON_FOUNDATIONS.md). No owner database or beta services were accessed. Owner publication/acceptance and the remaining Phase 3 course reviews are outstanding. The formal audit remains deferred by owner direction until the end of development.
+See [implementation, complete PowerShell commands and acceptance](PYTHON_FOUNDATIONS.md). No owner database or beta services were accessed. The remaining Phase 3 course reviews are outstanding. The formal audit remains deferred by owner direction until the end of development.
 
+
+## Phase 3.1 owner acceptance — 26 October 2026
+
+After receiving build `6d70ba9` and its publication/acceptance guide, the owner reported: “All works well.” Record this as successful owner-reported local acceptance of the Python pilot. No detailed test log or separate mobile, accessibility, full PostgreSQL regression or automated-browser evidence was supplied; those earlier verification limits remain. No application code was changed by this acceptance record.
+
+Next action: implement the remaining Phase 3 learning/assessment improvements for Cyber Safety Foundations and Digital Citizenship. The formal security-audit-skill stage remains deferred until the end of development by owner direction.
