@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 type Game = { id:string; pathway:'secondary'|'university'|'professional'; title:string; mechanic:string; summary:string; status:'playable'|'planned'; mission_ids:string[] };
 const PATHS = [['secondary','Cyber Explorers'],['university','Cyber Academy'],['professional','Cyber Command']] as const;
-const BASE=(process.env.NEXT_PUBLIC_API_BASE_URL||'http://127.0.0.1:8000').replace(/\/$/,'');
+const BASE=(process.env.NEXT_PUBLIC_API_BASE_URL||'').replace(/\/$/,'');
 
 function isGame(value:unknown):value is Game {
   if(!value||typeof value!=='object')return false;
@@ -48,3 +48,4 @@ export function GameLibrary(){
     </>}
   </section>;
 }
+

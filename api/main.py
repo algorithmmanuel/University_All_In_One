@@ -40,6 +40,8 @@ logging.getLogger('uvicorn.error').info(
     'database_target host=%s port=%s database=%s', _target.host, _target.port, _target.database
 )
 app = FastAPI(title="EduCyber Nigeria API", version="0.6.0")
+from development_runtime import add_development_health
+add_development_health(app, os.environ)
 app.add_middleware(RequestTelemetryMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=configured_origins(), allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
 app.include_router(auth_router)
@@ -96,3 +98,4 @@ def list_courses(academy_id: str | None = None, db: Session = Depends(get_db)):
 @app.get('/api/v1/games')
 def list_games():
     return game_catalog()
+

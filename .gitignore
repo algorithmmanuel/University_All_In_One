@@ -7,3 +7,9 @@ __pycache__/
 
 # Local database backups contain sensitive user data; never commit them.
 local-backups/
+
+# Local-only data exports, backups and generated Gradle state.
+/backups/
+/exports/
+/.gradle/
+

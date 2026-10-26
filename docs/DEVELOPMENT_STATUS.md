@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** separate development database migrated and seeded; development API/frontend not yet started.  
+**Checkpoint:** development routing and guarded startup implemented and tested in isolation; Windows service startup and browser verification still pending.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -36,23 +36,31 @@ Recovery evidence establishes successful logical snapshot restoration and the st
 
 ## Exact next action
 
-**Finish development service isolation before starting the development API or frontend.**
+**Fetch the development changes, install dependencies and validate the isolated development runtime on Windows.**
 
-1. Fetch the development branch and fast-forward the development worktree to the documentation commit. Preserve local setup files and the beta worktree.
-2. Inspect `web/next.config.mjs`. The existing API and health rewrites hardcode the beta backend destination. A development frontend started unchanged could reach the beta API.
-3. Make the server-side proxy target configurable, retaining existing beta behaviour. Explicitly configure development to its separate backend. Preserve reset-password security headers and inspect other API URL construction.
-4. Add a supported development startup method that explicitly loads local development configuration, verifies the intended development database and prevents inherited beta database/email settings from overriding it. Keep development services bound to loopback.
-5. Review and commit the non-secret development Compose definition and startup/configuration documentation. Keep credentials, private exports, database archives and virtual environments excluded.
-6. Install frontend dependencies from the repository lockfile if present. Start development API/frontend separately, preserving the beta services and tunnel.
-7. Verify direct API readiness and frontend-proxied requests. Prove the frontend reaches development, rather than assuming that HTTP success establishes isolation. Confirm beta remains healthy.
-8. Create synthetic development learners through supported flows and verify a representative browser journey.
-9. Run meaningful checks against isolated test data. Inspect `api/run-isolated-tests.ps1` and its call to `scripts/sync-before-test.ps1` before use; repository synchronisation must not unexpectedly alter the beta worktree.
-10. Record verified results here before marking runtime isolation complete and proceeding with the baseline security audit.
+1. Fast-forward only the development checkout to the latest development branch. Preserve local setup files and the beta worktree.
+2. Follow [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md): install development Python requirements and frontend dependencies from the lockfile.
+3. Run `scripts/development.py api` and `scripts/development.py web` with the development checkout's own Python in separate terminals.
+4. Run `scripts/development.py check` in a third terminal. It must match API/proxy process identities and pass database/schema readiness and database identity checks. Confirm beta remains healthy separately.
+5. Run frontend typecheck/unit tests and a synthetic learner browser journey. Record actual Windows outputs; do not infer success from the focused guard tests below.
+6. Review the existing local non-secret Compose definition before committing it; no credential files or beta records belong in Git.
+7. Inspect existing test/synchronisation wrappers before database suites: their branch expectations predate the current development branch. Do not switch the beta worktree to satisfy them.
+8. Update this status with verified results before proceeding with the baseline security audit.
+
+## Implemented source changes and checks
+
+- Configurable server-side API/health proxy with validation; existing beta default and reset-password security headers preserved.
+- Home game-library and logout requests now default to same-origin browser requests. Server-rendered pathway requests use the configured frontend origin.
+- Guarded development launcher explicitly selects the development database and local services, removes inherited beta application/mail settings, refuses occupied ports and never runs migrations automatically.
+- Development-only non-secret process identity endpoint; ordinary beta mode does not register it. The verification command requires direct and frontend-proxied identities to match.
+- Added development requirements and a local startup/verification runbook. Existing local Compose setup remains pending review/commit.
+- Focused verification in the assistant workspace: 6 Python unittest guard cases and 4 Node proxy/configuration cases passed. Python syntax compilation passed. These checks used no live beta database or mail service.
+- Full application import/startup, Windows process behaviour, frontend typecheck, full regression suite and browser journeys remain unverified at this checkpoint.
 
 ## Outstanding work
 
-- [ ] Development frontend proxy isolation.
-- [ ] Startup configuration loading and inherited-environment safeguards.
+- [x] Development frontend routing configuration implemented; runtime verification pending.
+- [x] Startup configuration loading and inherited-environment guards implemented and unit tested.
 - [ ] Development API/frontend running and validated.
 - [ ] Dependency baseline comparison and controlled reproducibility plan. Broad requirements ranges were used during setup; do not assume development and beta installed identical versions.
 - [ ] Real-backend browser and regression checks.
@@ -61,7 +69,7 @@ Recovery evidence establishes successful logical snapshot restoration and the st
 - [ ] Feedback-driven learning and mission improvements.
 - [ ] Later phases of the approved roadmap.
 
-The Cloudflare audit has not been run. No full regression suite or new feature acceptance tests have run during this setup checkpoint. Successful migration/seeding is not a replacement for those checks.
+The Cloudflare audit has not been run. No full regression suite or new learner-feature acceptance tests have run during this checkpoint. Focused isolation checks and successful migration/seeding are not replacements for those checks.
 
 ## Working tree and source-control notes
 
@@ -81,3 +89,4 @@ After each verified milestone, update this file with:
 - one concrete next action.
 
 Refresh actual Git/runtime state at the beginning of a new session. Keep beta testing open, develop against separate data and do not mark proposed commands as completed work. Do not commit private operational metadata or raw tester data.
+
