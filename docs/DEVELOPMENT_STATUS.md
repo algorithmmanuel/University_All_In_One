@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** owner reported the complete baseline learner checklist passed. Assessment-length choices and activity focus/scroll are implemented and tested; updated-build Windows/browser acceptance is pending.  
+**Checkpoint:** owner reported no errors and that local checks passed after the assessment-length and activity-navigation update. Both additions are accepted on the basis of that report. Next: baseline security-audit preparation.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -54,18 +54,20 @@ Verification in the assistant workspace:
 - Four new Playwright browser cases were added, but the browser could not start because the execution workspace denies a required local socket. Browser assertions therefore remain unverified.
 - No beta database, beta source branch or running owner services were changed by this build.
 
+Local acceptance on 26 October 2026: after receiving the update, test, restart and feature-check instructions for source commit `adc2f4c`, the owner reported no errors and that all tests passed. Record this as owner-reported acceptance, without claiming independently observed logs, a full regression result or execution of the blocked Playwright cases. Specific mobile and reduced-motion evidence was not separately supplied.
+
 ## Exact next action
 
-**Update only the development checkout, restart only its services and accept the two new features locally.**
+**Prepare the baseline security audit using the Cloudflare security-audit skill.**
 
-1. Stop the development API/frontend foreground processes while leaving beta services and its tunnel running.
-2. Fetch and fast-forward the development branch, preserve local setup files and install the updated development Python requirements.
-3. Run the focused assessment HTTP tests, frontend typecheck/unit tests and restart the guarded development API/frontend launchers.
-4. Run the existing runtime isolation check and confirm beta remains healthy separately.
-5. Test Quick, Extended and Custom lengths against the real development database; inspect saved totals/history. Test invalid custom sizes.
-6. Open/reopen courses, start/resume missions and start assessments; verify automatic viewport movement and keyboard focus. Check mobile and reduced motion. Completing lessons or choosing answers must not jump back.
-7. Record actual pass/fail evidence in this handover. Full PostgreSQL regression and real-browser automation are still outstanding.
-8. Continue with the Cloudflare baseline audit prerequisites, local Compose review, dependency reproducibility and lint configuration work in the approved plan.
+1. Refresh the development branch and working-tree state, preserving the open beta.
+2. Read the upstream audit skill and all required workflow instructions; record the exact upstream commit and the application revision being assessed.
+3. Identify available agent orchestration and OS-enforced execution controls. Do not treat a separate database alone as a sufficient audit sandbox.
+4. Prepare scope, architecture/trust-boundary inventory and coverage records for authentication, recovery, authorisation, assessments, missions, AI integration, client requests and deployment/supply chain.
+5. Run the skill only within its verified prerequisites. Keep source-grounded leads needing blocked execution as needs-validation, rather than confirming them without evidence.
+6. Track confirmed findings and remediation/retest results. Keep private evidence and credentials out of Git; commit only appropriate sanitised summaries and the handover.
+7. Address the known lint-configuration and dependency-reproducibility work items and review local non-secret Compose setup as part of engineering assurance.
+8. Update this handover after each verified audit or remediation milestone. Automated real-browser and full PostgreSQL regression remain outstanding despite the owner's local acceptance report.
 
 ## Implemented source changes and checks
 
@@ -76,7 +78,7 @@ Verification in the assistant workspace:
 - Added development requirements and a local startup/verification runbook. Existing local Compose setup remains pending review/commit.
 - Focused verification in the assistant workspace: 6 Python unittest guard cases and 4 Node proxy/configuration cases passed. Python syntax compilation passed. These checks used no live beta database or mail service.
 - Subsequent owner-supplied Windows output verifies successful development service startup and the runtime isolation check, plus continued beta HTTP health. This supports successful application startup but is not a full regression or browser result.
-- The owner subsequently reported the baseline manual learner checklist passed. Latest-build assistant checks are listed above; updated-build Windows/browser acceptance and full regression remain pending.
+- The owner subsequently reported both the baseline manual learner checklist and local checks of the updated build passed. Latest-build assistant checks and their limits are listed above; full regression and independent browser automation remain pending.
 
 ## Outstanding work
 
@@ -88,11 +90,11 @@ Verification in the assistant workspace:
 - [ ] Real-backend browser and regression checks.
 - [ ] Versioned release/recovery procedures and application-version feedback metadata.
 - [ ] Cloudflare security-audit skill read at a pinned upstream revision, installed and executed under its required sandbox controls.
-- [x] Assessment-length and activity-navigation feature code added; updated-build local acceptance pending.
+- [x] Assessment-length and activity-navigation additions implemented; owner reported successful local checks and no errors after the update.
 - [ ] Other feedback-driven learning and mission improvements.
 - [ ] Later phases of the approved roadmap.
 
-The Cloudflare audit and full regression suite have not run. The owner reported the baseline manual learner checklist passed before the latest changes. Latest assessment feature HTTP tests and frontend unit/build checks passed as listed above; updated-build real-browser and Windows acceptance remain pending.
+The Cloudflare audit and full regression suite have not run. The owner reported successful local acceptance after the latest changes. Latest assistant assessment HTTP tests and frontend unit/build checks passed as listed above; independently executed real-browser automation and full PostgreSQL regression remain outstanding.
 
 ## Working tree and source-control notes
 
