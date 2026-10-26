@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** accepted assessment/navigation build; Cloudflare audit preparation is committed with pinned tooling and scope. Full audit not started; execution-based validation is blocked pending a verified OS sandbox.  
+**Checkpoint:** accepted assessment/navigation build; the source-first Cloudflare audit started but is INCOMPLETE. Workspace-credit errors interrupted hunting; original agent-result files are unavailable after the session transition. A recovered coverage plan records all in-scope units as deferred.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -63,19 +63,26 @@ Local acceptance on 26 October 2026: after receiving the update, test, restart a
 - Added an unchanged project-local reference copy at `tools/security-audit-skill/`, including the MIT license and upstream README. All 22 files matched their upstream Git blob hashes; SHA256 and byte lengths are recorded in `tools/security-audit-skill.lock.json`. This does not claim client auto-discovery registration.
 - [Preparation, scope and capability gate](security/BASELINE_AUDIT_PREPARATION.md) maps the web/API, learner-data, browser, operations and CI trust boundaries. Legacy Android and other products are outside the initial scoped pass.
 - Required user/network namespace probes were denied in this execution workspace. A complete read-only/scratch-only, empty-environment and resource-bounded runner with safe evidence promotion has not been verified.
-- No target application code was executed for this preparation. No reconnaissance/hunter/verifier agents were launched and no full-run findings or coverage ledger exists yet. This is preparation, not a passing audit.
+- Preparation initially launched no audit agents. The subsequent audit attempt is recorded below; it remains incomplete and is not a passing audit.
 - Source-only review can proceed. Runtime-dependent claims require exact needs_validation blockers and no severity until independently established under the skill's contract.
+
+## Interrupted baseline audit checkpoint
+
+The owner authorised the source-first audit. The prior-session handover reports four reconnaissance assignments completed and six hunters launched. Several hunters reported workspace-credit errors before the workflow finished. The original external run directory and structured agent results are unavailable after the session transition.
+
+A [recovered incomplete checkpoint](security/baseline-run-1/REPORT.md) preserves the frozen source revision, architecture summary, deterministic coverage plan and exact resumption steps. The ledger was reconstructed from the surviving parent-owned planning script; no missing evidence or candidate fingerprints were invented. All 33 in-scope units are deferred; two units are out of scope. No unit receives coverage credit.
+
+The empty findings array and 35-unit ledger pass the pinned structural validators. These passes establish format only. No independently validated vulnerabilities, passing audit, final critic result or security clearance is claimed. Target application execution remains blocked by the unverified OS sandbox controls.
 
 ## Exact next action
 
-**Begin the scoped, source-first baseline audit using the pinned skill and prepared scope.**
+**Resume the incomplete source-first baseline audit from [the checkpoint](security/baseline-run-1/REPORT.md).**
 
-1. Read `tools/security-audit-skill/SKILL.md`, its required workflow files and the preparation document. Refresh actual Git state; use the pinned application baseline or explicitly record changed-source revalidation.
-2. Resolve the read-only target and new external output directory. Keep private evidence out of Git.
-3. Start full-run metadata and the four independent reconnaissance assignments before hunting. Produce the canonical ledger, validate it, reserve critic/verification work and follow all six phases.
-4. Do not execute target code in the current unverified sandbox. Source-only work remains allowed; runtime/deployment-dependent leads stay needs_validation with exact blockers.
-5. Distinguish independently verified findings from engineering tasks and unknown deployed controls. No live beta, provider or shared-service testing is permitted by the selected skill.
-6. Record the required terminal run status and honest coverage gaps. Keep the beta open, and make later source fixes separately from audit review.
+1. Refresh actual Git state and compare relevant source with application baseline `c1e494e533965cf10e701bd4b851cb4f3fb3b7db`.
+2. Read the pinned skill, preparation document, recovered report and coverage ledger. Treat recovered architecture as context, not independently verified evidence.
+3. Establish agent capacity and reserve the standard profile's post-wave critic, distinct final-clean critic and independent candidate/final-record verification before hunting. Recover original results only with established provenance; otherwise repeat the missing source reviews.
+4. Do not execute target code until every required OS sandbox and evidence-promotion control is verified. No live beta, provider or shared-service testing.
+5. Finish independent validation and both critics, reconcile the ledger, validate the JSON outputs and produce final reports. Keep beta open; make any source fixes separately.
 
 ## Implemented source changes and checks
 
@@ -104,7 +111,7 @@ Local acceptance on 26 October 2026: after receiving the update, test, restart a
 - [ ] Other feedback-driven learning and mission improvements.
 - [ ] Later phases of the approved roadmap.
 
-The Cloudflare audit and full regression suite have not run. The owner reported successful local acceptance after the latest changes. Latest assistant assessment HTTP tests and frontend unit/build checks passed as listed above; independently executed real-browser automation and full PostgreSQL regression remain outstanding.
+The Cloudflare audit started but remains incomplete; the full regression suite has not run. The owner reported successful local acceptance after the latest changes. Latest assistant assessment HTTP tests and frontend unit/build checks passed as listed above; independently executed real-browser automation and full PostgreSQL regression remain outstanding.
 
 ## Working tree and source-control notes
 
