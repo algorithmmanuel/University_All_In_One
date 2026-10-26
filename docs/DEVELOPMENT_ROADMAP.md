@@ -63,3 +63,8 @@ Future educator/organisation features require validated demand, proper access co
 ## Maintenance
 
 Update this roadmap when scope is explicitly changed. Keep operational progress and the immediate next action in [DEVELOPMENT_STATUS.md](DEVELOPMENT_STATUS.md). Do not silently turn proposed work into completed work.
+
+## Approved refinement — 26 October 2026
+
+Following successful owner-reported baseline learner checks, the owner approved selectable assessment lengths (Quick, Standard, Extended and Custom within the available bank) and automatic scrolling/keyboard focus when opening activities as the next bounded build. These additions support the assessment and usability phases and will be included in the baseline audit scope. Preserve the security audit and all other phase gates. See [the feature contract](ASSESSMENTS_AND_ACTIVITY_NAVIGATION.md) and the current status for implementation versus acceptance evidence.
+

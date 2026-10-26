@@ -1,11 +1,12 @@
 """Course quizzes: server-side grading and persisted attempts."""
-from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, Field, ConfigDict
+from fastapi import APIRouter, Depends, HTTPException, Query
+from pydantic import BaseModel, Field, ConfigDict, StrictInt
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from auth import current_user
 from db_dependencies import get_db
 from models import Course, Enrollment, QuizAttempt, QuizQuestion, User
+from assessment_selection import MAX_QUESTIONS, grade_questions, select_questions, unique_questions
 
 router = APIRouter(prefix="/api/v1/quizzes", tags=["quizzes"])
 
@@ -21,41 +22,51 @@ def eligible(db: Session, user: User, course_id: int):
 
 class Submission(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    answers: dict[int, int] = Field(max_length=100)
+    answers: dict[int, StrictInt] = Field(max_length=MAX_QUESTIONS)
+    question_count: StrictInt | None = Field(default=None, ge=1, le=MAX_QUESTIONS)
+
+
+def question_bank(db: Session, course_id: int):
+    return db.scalars(select(QuizQuestion).where(QuizQuestion.course_id == course_id)
+                      .order_by(QuizQuestion.position, QuizQuestion.id)).all()
+
+
+@router.get("/courses/{course_id}/options")
+def assessment_options(course_id: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    eligible(db, user, course_id)
+    available = min(MAX_QUESTIONS, len(unique_questions(question_bank(db, course_id))))
+    return {"course_id": course_id, "available_count": available,
+            "presets": [count for count in (5, 10, 20) if count <= available]}
 
 @router.get("/courses/{course_id}")
-def questions(course_id: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
+def questions(course_id: int, question_count: int | None = Query(default=None, ge=1, le=MAX_QUESTIONS),
+              user: User = Depends(current_user), db: Session = Depends(get_db)):
     eligible(db, user, course_id)
-    rows = db.scalars(select(QuizQuestion).where(QuizQuestion.course_id == course_id)
-                      .order_by(QuizQuestion.position, QuizQuestion.id)).all()
-    return {"course_id": course_id, "questions": [
+    try:
+        rows = select_questions(question_bank(db, course_id), question_count)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from None
+    return {"course_id": course_id, "question_count": len(rows), "questions": [
         {"id": q.id, "prompt": q.prompt, "options": q.options} for q in rows]}
 
 @router.post("/courses/{course_id}/submit", status_code=201)
 def submit(course_id: int, body: Submission, user: User = Depends(current_user), db: Session = Depends(get_db)):
     eligible(db, user, course_id)
-    rows = db.scalars(select(QuizQuestion).where(QuizQuestion.course_id == course_id)
-                      .order_by(QuizQuestion.position, QuizQuestion.id)).all()
-    if not rows:
+    bank = question_bank(db, course_id)
+    if not bank:
         raise HTTPException(status_code=404, detail="No quiz available")
-    expected = {q.id for q in rows}
-    if set(body.answers) != expected:
-        raise HTTPException(status_code=422, detail="Answer every question exactly once")
-    if any(type(body.answers[q.id]) is not int or not 0 <= body.answers[q.id] < len(q.options) for q in rows):
-        raise HTTPException(status_code=422, detail="Invalid answer option")
-    score = sum(body.answers[q.id] == q.correct_index for q in rows)
+    try:
+        rows = select_questions(bank, body.question_count)
+        result = grade_questions(rows, body.answers)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from None
     attempt = QuizAttempt(user_id=user.id, course_id=course_id,
                           answers={str(k): v for k,v in body.answers.items()},
-                          score=score, total=len(rows))
+                          score=result["score"], total=result["total"])
     db.add(attempt)
     db.commit()
     db.refresh(attempt)
-    return {"attempt_id": attempt.id, "score": score, "total": len(rows),
-            "percentage": round(100 * score / len(rows)),
-            "feedback": [{"question_id": q.id, "correct_index": q.correct_index,
-                          "selected_index": body.answers[q.id],
-                          "correct": body.answers[q.id] == q.correct_index,
-                          "explanation": q.explanation} for q in rows]}
+    return {"attempt_id": attempt.id, **result}
 
 @router.get("/courses/{course_id}/attempts")
 def attempts(course_id: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
@@ -66,3 +77,4 @@ def attempts(course_id: int, user: User = Depends(current_user), db: Session = D
     return {"attempts": [{"id": a.id, "score": a.score, "total": a.total,
                            "percentage": round(100 * a.score / a.total) if a.total else 0,
                            "submitted_at": a.submitted_at.isoformat()} for a in rows]}
+

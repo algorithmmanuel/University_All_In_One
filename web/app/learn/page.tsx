@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useActivityFocus } from '../../lib/use-activity-focus';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
 type Course = {id:number;academy_id:string;title:string;description:string;lesson_count:number};
@@ -18,6 +19,8 @@ export default function Learn() {
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
   const [loading,setLoading]=useState(true);
+  const [openSequence,setOpenSequence]=useState(0);
+  const activityHeading=useActivityFocus(openSequence);
 
   const request = useCallback(async (path:string, method='GET') => {
     const token=sessionStorage.getItem('educyber_token');
@@ -51,9 +54,13 @@ export default function Learn() {
     catch(e){setError(e instanceof Error?e.message:'Unable to enroll');}
     finally{setBusy(false);}
   }
-  async function openCourse(id:number){
+  async function openCourse(id:number, moveToActivity=true){
     setBusy(true);setError('');
-    try{const detail=await request('/api/v1/learning/courses/'+id+'/lessons');setSelected(detail);}
+    try{
+      const detail=await request('/api/v1/learning/courses/'+id+'/lessons');
+      setSelected(detail);
+      if(moveToActivity)setOpenSequence(value=>value+1);
+    }
     catch(e){setError(e instanceof Error?e.message:'Unable to load lessons');}
     finally{setBusy(false);}
   }
@@ -62,7 +69,7 @@ export default function Learn() {
     setBusy(true);setError('');
     try{
       await request('/api/v1/learning/lessons/'+id+'/complete','POST');
-      await openCourse(selected.course.id);
+      await openCourse(selected.course.id,false);
       await refresh();
     }catch(e){setError(e instanceof Error?e.message:'Unable to save progress');}
     finally{setBusy(false);}
@@ -104,7 +111,7 @@ export default function Learn() {
       {selected&&<section className="section" id="course-lessons">
         <div className="panel">
           <button onClick={()=>setSelected(null)}>← Close lessons</button>
-          <h2>{selected.course.title}</h2>
+          <h2 ref={activityHeading} tabIndex={-1} className="activity-heading">{selected.course.title}</h2>
           {selected.lessons.length===0?<p>No lessons have been published yet.</p>:selected.lessons.map(l=>
             <article className="card" key={l.id} style={{marginTop:16}}>
               <span className="small">Lesson {l.position} {l.completed?'· Completed ✓':''}</span>
@@ -119,3 +126,4 @@ export default function Learn() {
     </>}
   </main>;
 }
+

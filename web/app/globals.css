@@ -1,6 +1,8 @@
 :root{color-scheme:dark;--bg:#080f1e;--surface:#111e32;--surface-alt:#172b43;--line:#29425c;--text:#edf6ff;--muted:#a9bfd2;--accent:#54e0c1;--focus:#ffd166}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+.activity-heading{scroll-margin-top:calc(var(--header-height,5rem) + 1rem)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
 a{color:#8eead9}
 a:hover{color:#b9fff0}
@@ -102,3 +104,4 @@ input[type=radio],input[type=checkbox]{accent-color:var(--accent)}
 .cyber-feedback-banner h2{margin:0 0 8px}.cyber-feedback-banner p{margin:0;color:#c4d5e5}
 @media(max-width:850px){.cyber-hero-inner{grid-template-columns:1fr}.cyber-hero-art{display:none}.cyber-feature-grid{grid-template-columns:1fr}.cyber-topbar{flex-wrap:wrap}.cyber-section-heading,.cyber-feedback-banner{align-items:start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.cyber-feature{transition:none}.cyber-feature:hover{transform:none}}
+

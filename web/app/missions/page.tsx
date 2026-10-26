@@ -3,6 +3,7 @@ import {useCallback,useEffect,useState} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 import MissionWorkspace from './MissionWorkspace';
+import {useActivityFocus} from '../../lib/use-activity-focus';
 
 const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'').replace(/\/$/,'');
 type Game={id:string;pathway:'secondary'|'university'|'professional';title:string;mechanic:string;mission_ids:string[];summary:string;difficulty:string;mission_count:number;status:'playable'|'planned'};
@@ -25,6 +26,8 @@ export default function Missions(){
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
   const [loading,setLoading]=useState(true);
+  const [openSequence,setOpenSequence]=useState(0);
+  const activityHeading=useActivityFocus(openSequence);
   const request=useCallback(async(path:string,method='GET',body?:object)=>{
     const token=sessionStorage.getItem('educyber_token');
     if(!token){router.replace('/account');throw new Error('Sign in to continue');}
@@ -46,13 +49,13 @@ export default function Missions(){
 
   async function start(id:string){
     setBusy(true);setError('');
-    try{setRun(await request('/api/v1/missions/'+id+'/start','POST'));await refresh();}
+    try{setRun(await request('/api/v1/missions/'+id+'/start','POST'));await refresh();setOpenSequence(value=>value+1);}
     catch(e){setError(e instanceof Error?e.message:'Unable to start mission');}
     finally{setBusy(false);}
   }
   async function resume(id:number){
     setBusy(true);setError('');
-    try{setRun(await request('/api/v1/missions/runs/'+id));}
+    try{setRun(await request('/api/v1/missions/runs/'+id));setOpenSequence(value=>value+1);}
     catch(e){setError(e instanceof Error?e.message:'Unable to resume mission');}
     finally{setBusy(false);}
   }
@@ -93,6 +96,7 @@ export default function Missions(){
         </article>)}
       </div>
       {run&&<section className="section" id="mission-console">
+        <h2 ref={activityHeading} tabIndex={-1} className="activity-heading">Mission workspace</h2>
         <MissionWorkspace key={run.run_id} run={run} busy={busy} onDecision={decide}
           onReplay={()=>start(run.mission_id)} onExit={()=>setRun(null)}/>
       </section>}
@@ -105,3 +109,4 @@ export default function Missions(){
     </>}
   </main>;
 }
+

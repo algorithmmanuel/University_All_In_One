@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** owner verified isolated development frontend/API/database readiness on Windows and confirmed beta still responds. Synthetic learner browser verification remains pending.  
+**Checkpoint:** owner reported the complete baseline learner checklist passed. Assessment-length choices and activity focus/scroll are implemented and tested; updated-build Windows/browser acceptance is pending.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -36,19 +36,36 @@ Read this file and the roadmap, select `feature/beta-continuous-improvement`, in
 
 Recovery evidence establishes successful logical snapshot restoration and the stated checks. It does not establish off-site retention, encryption, point-in-time recovery, service recovery time or a complete application recovery drill.
 
+## Latest approved build
+
+After reporting all baseline learner checks passed, the owner requested two additions for the next build: selectable assessment lengths and automatic scrolling/focus when opening courses, missions and assessments. The owner approved proceeding. This is a bounded addition before the planned baseline security audit; it does not cancel the audit or replace the approved roadmap.
+
+Implemented:
+- Quick, Standard, Extended and Custom practice lengths, limited to the available unique question bank and a server-side maximum.
+- Server-recomputed question selection and grading; persisted attempt totals reflect the selected length. Legacy full-bank requests remain supported. No database migration.
+- Automatic scrolling and keyboard focus after successful course/mission/assessment opening, with reduced-motion support. Lesson completion and answer changes do not deliberately refocus the workspace.
+- [Feature contract and acceptance checklist](ASSESSMENTS_AND_ACTIVITY_NAVIGATION.md).
+
+Verification in the assistant workspace:
+- 21 actual quiz HTTP tests passed using a disposable in-memory SQLite database, with authentication overridden. They cover chosen sizes, real grading, persisted totals, backwards compatibility, eligibility and forged/invalid submissions. They do not establish PostgreSQL concurrency or full authentication behaviour.
+- TypeScript typecheck passed; all 15 frontend unit tests passed.
+- Production Next.js build passed, with pre-existing CSS alignment compatibility warnings.
+- Standalone lint is blocked by the repository's missing ESLint flat configuration.
+- Four new Playwright browser cases were added, but the browser could not start because the execution workspace denies a required local socket. Browser assertions therefore remain unverified.
+- No beta database, beta source branch or running owner services were changed by this build.
+
 ## Exact next action
 
-**Verify a complete synthetic learner journey in the isolated development browser, then prepare the baseline security audit.**
+**Update only the development checkout, restart only its services and accept the two new features locally.**
 
-1. Use only the development browser origin and create a synthetic adult Student account through the account page. Do not use a real password, beta invitation or beta learner account.
-2. Sign in and verify the dashboard loads.
-3. Enrol in a demonstration course, complete one lesson, refresh/reopen the course and verify completion persists.
-4. Submit a course assessment and verify results are displayed.
-5. Start a mission, save a decision, reload and resume, then finish it and verify history. Check both visual modes where available.
-6. Submit a clearly labelled development-only feedback entry, sign out, verify a protected page redirects to sign-in, then sign in again and confirm saved state remains.
-7. Record actual pass/fail results. Frontend typecheck/unit-test output has not been independently supplied in this checkpoint; request it if needed rather than assuming it passed.
-8. Review the existing local non-secret Compose definition before committing it. Review legacy test/synchronisation branch assumptions before running database-writing suites.
-9. Read and pin the Cloudflare audit skill and prepare its required execution sandbox before a full baseline audit. Keep the beta running and unchanged.
+1. Stop the development API/frontend foreground processes while leaving beta services and its tunnel running.
+2. Fetch and fast-forward the development branch, preserve local setup files and install the updated development Python requirements.
+3. Run the focused assessment HTTP tests, frontend typecheck/unit tests and restart the guarded development API/frontend launchers.
+4. Run the existing runtime isolation check and confirm beta remains healthy separately.
+5. Test Quick, Extended and Custom lengths against the real development database; inspect saved totals/history. Test invalid custom sizes.
+6. Open/reopen courses, start/resume missions and start assessments; verify automatic viewport movement and keyboard focus. Check mobile and reduced motion. Completing lessons or choosing answers must not jump back.
+7. Record actual pass/fail evidence in this handover. Full PostgreSQL regression and real-browser automation are still outstanding.
+8. Continue with the Cloudflare baseline audit prerequisites, local Compose review, dependency reproducibility and lint configuration work in the approved plan.
 
 ## Implemented source changes and checks
 
@@ -59,22 +76,23 @@ Recovery evidence establishes successful logical snapshot restoration and the st
 - Added development requirements and a local startup/verification runbook. Existing local Compose setup remains pending review/commit.
 - Focused verification in the assistant workspace: 6 Python unittest guard cases and 4 Node proxy/configuration cases passed. Python syntax compilation passed. These checks used no live beta database or mail service.
 - Subsequent owner-supplied Windows output verifies successful development service startup and the runtime isolation check, plus continued beta HTTP health. This supports successful application startup but is not a full regression or browser result.
-- Frontend typecheck/unit-test results, full regression suite and browser journeys have not been independently supplied at this checkpoint.
+- The owner subsequently reported the baseline manual learner checklist passed. Latest-build assistant checks are listed above; updated-build Windows/browser acceptance and full regression remain pending.
 
 ## Outstanding work
 
 - [x] Development frontend routing configuration implemented and runtime identity matching verified by the owner.
 - [x] Startup configuration loading and inherited-environment guards implemented and unit tested.
 - [x] Development API/frontend running; owner verified runtime isolation and database/schema readiness.
-- [ ] Synthetic learner journey verified in the development browser.
+- [x] Owner reported all six baseline synthetic learner checks passed (registration/login, learning persistence, assessment, mission, feedback and logout). This is a manual report, not a full automated regression result.
 - [ ] Dependency baseline comparison and controlled reproducibility plan. Broad requirements ranges were used during setup; do not assume development and beta installed identical versions.
 - [ ] Real-backend browser and regression checks.
 - [ ] Versioned release/recovery procedures and application-version feedback metadata.
 - [ ] Cloudflare security-audit skill read at a pinned upstream revision, installed and executed under its required sandbox controls.
-- [ ] Feedback-driven learning and mission improvements.
+- [x] Assessment-length and activity-navigation feature code added; updated-build local acceptance pending.
+- [ ] Other feedback-driven learning and mission improvements.
 - [ ] Later phases of the approved roadmap.
 
-The Cloudflare audit has not been run. No full regression suite or new learner-feature acceptance tests have run during this checkpoint. Focused isolation checks and successful migration/seeding are not replacements for those checks.
+The Cloudflare audit and full regression suite have not run. The owner reported the baseline manual learner checklist passed before the latest changes. Latest assessment feature HTTP tests and frontend unit/build checks passed as listed above; updated-build real-browser and Windows acceptance remain pending.
 
 ## Working tree and source-control notes
 
@@ -94,4 +112,5 @@ After each verified milestone, update this file with:
 - one concrete next action.
 
 Refresh actual Git/runtime state at the beginning of a new session. Keep beta testing open, develop against separate data and do not mark proposed commands as completed work. Do not commit private operational metadata or raw tester data.
+
 
