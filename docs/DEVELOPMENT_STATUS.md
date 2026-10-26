@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** development routing and guarded startup implemented and tested in isolation; Windows service startup and browser verification still pending.  
+**Checkpoint:** owner verified isolated development frontend/API/database readiness on Windows and confirmed beta still responds. Synthetic learner browser verification remains pending.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -31,21 +31,24 @@ Read this file and the roadmap, select `feature/beta-continuous-improvement`, in
 - [x] Applied database migrations to the expected source revision.
 - [x] Seeded demonstration courses, lessons and quizzes.
 - [x] Confirmed development contains no copied beta learner accounts, feedback or mission records.
+- [x] Owner ran the development isolation check successfully: frontend and API process identities matched; database identity and schema readiness passed.
+- [x] Owner confirmed the existing beta frontend and API health still returned HTTP 200.
 
 Recovery evidence establishes successful logical snapshot restoration and the stated checks. It does not establish off-site retention, encryption, point-in-time recovery, service recovery time or a complete application recovery drill.
 
 ## Exact next action
 
-**Fetch the development changes, install dependencies and validate the isolated development runtime on Windows.**
+**Verify a complete synthetic learner journey in the isolated development browser, then prepare the baseline security audit.**
 
-1. Fast-forward only the development checkout to the latest development branch. Preserve local setup files and the beta worktree.
-2. Follow [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md): install development Python requirements and frontend dependencies from the lockfile.
-3. Run `scripts/development.py api` and `scripts/development.py web` with the development checkout's own Python in separate terminals.
-4. Run `scripts/development.py check` in a third terminal. It must match API/proxy process identities and pass database/schema readiness and database identity checks. Confirm beta remains healthy separately.
-5. Run frontend typecheck/unit tests and a synthetic learner browser journey. Record actual Windows outputs; do not infer success from the focused guard tests below.
-6. Review the existing local non-secret Compose definition before committing it; no credential files or beta records belong in Git.
-7. Inspect existing test/synchronisation wrappers before database suites: their branch expectations predate the current development branch. Do not switch the beta worktree to satisfy them.
-8. Update this status with verified results before proceeding with the baseline security audit.
+1. Use only the development browser origin and create a synthetic adult Student account through the account page. Do not use a real password, beta invitation or beta learner account.
+2. Sign in and verify the dashboard loads.
+3. Enrol in a demonstration course, complete one lesson, refresh/reopen the course and verify completion persists.
+4. Submit a course assessment and verify results are displayed.
+5. Start a mission, save a decision, reload and resume, then finish it and verify history. Check both visual modes where available.
+6. Submit a clearly labelled development-only feedback entry, sign out, verify a protected page redirects to sign-in, then sign in again and confirm saved state remains.
+7. Record actual pass/fail results. Frontend typecheck/unit-test output has not been independently supplied in this checkpoint; request it if needed rather than assuming it passed.
+8. Review the existing local non-secret Compose definition before committing it. Review legacy test/synchronisation branch assumptions before running database-writing suites.
+9. Read and pin the Cloudflare audit skill and prepare its required execution sandbox before a full baseline audit. Keep the beta running and unchanged.
 
 ## Implemented source changes and checks
 
@@ -55,13 +58,15 @@ Recovery evidence establishes successful logical snapshot restoration and the st
 - Development-only non-secret process identity endpoint; ordinary beta mode does not register it. The verification command requires direct and frontend-proxied identities to match.
 - Added development requirements and a local startup/verification runbook. Existing local Compose setup remains pending review/commit.
 - Focused verification in the assistant workspace: 6 Python unittest guard cases and 4 Node proxy/configuration cases passed. Python syntax compilation passed. These checks used no live beta database or mail service.
-- Full application import/startup, Windows process behaviour, frontend typecheck, full regression suite and browser journeys remain unverified at this checkpoint.
+- Subsequent owner-supplied Windows output verifies successful development service startup and the runtime isolation check, plus continued beta HTTP health. This supports successful application startup but is not a full regression or browser result.
+- Frontend typecheck/unit-test results, full regression suite and browser journeys have not been independently supplied at this checkpoint.
 
 ## Outstanding work
 
-- [x] Development frontend routing configuration implemented; runtime verification pending.
+- [x] Development frontend routing configuration implemented and runtime identity matching verified by the owner.
 - [x] Startup configuration loading and inherited-environment guards implemented and unit tested.
-- [ ] Development API/frontend running and validated.
+- [x] Development API/frontend running; owner verified runtime isolation and database/schema readiness.
+- [ ] Synthetic learner journey verified in the development browser.
 - [ ] Dependency baseline comparison and controlled reproducibility plan. Broad requirements ranges were used during setup; do not assume development and beta installed identical versions.
 - [ ] Real-backend browser and regression checks.
 - [ ] Versioned release/recovery procedures and application-version feedback metadata.
