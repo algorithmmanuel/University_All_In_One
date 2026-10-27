@@ -84,7 +84,8 @@ test('sign in, dashboard pathway navigation and 3D/2D mission evidence',async t=
   await page.getByLabel('Password',{exact:true}).fill('fixture-password');
   await page.getByRole('button',{name:'Sign in',exact:true}).last().click();
   await page.waitForURL('**/dashboard');
-  await page.getByRole('heading',{name:'Welcome, Test Learner'}).waitFor();
+  await page.getByText('Welcome back, Test Learner',{exact:true}).waitFor();
+  await page.getByRole('heading',{name:/Build your skills/}).waitFor();
   await page.getByRole('link',{name:'Open pathway'}).last().click();
   await page.waitForURL('**/missions?pathway=professional');
   await page.getByRole('heading',{name:'Cyber Command game library'}).waitFor();
