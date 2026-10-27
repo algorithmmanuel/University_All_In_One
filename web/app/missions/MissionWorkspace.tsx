@@ -1,16 +1,18 @@
 'use client';
-import {useEffect,useState} from 'react';
+import {useEffect,useRef,useState} from 'react';
 import dynamic from 'next/dynamic';
 const SocScene=dynamic(()=>import('./SocScene'),{ssr:false});
 import styles from './workspace.module.css';
 import Investigation from './Investigation';
 import CorrelationBoard from './CorrelationBoard';
+import SceneBoundary from './SceneBoundary';
+import {MissionArtifacts,MissionBriefing,MissionReview,type MissionLearning,type ReviewResult} from './MissionLearning';
 
 type Step={scene:string;story:string;evidence:string[];question:string;options:string[]};
-type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null};
-type Props={run:Run;busy:boolean;onDecision:(option:number,finding:number)=>Promise<void>;onReplay:()=>void;onExit:()=>void};
+type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null;learning?:MissionLearning|null};
+type Props={run:Run;busy:boolean;onDecision:(option:number,finding:number)=>Promise<void>;onReview:(question:string,option:number)=>Promise<ReviewResult>;onReplay:()=>void;onExit:()=>void};
 
-export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:Props){
+export default function MissionWorkspace({run,busy,onDecision,onReview,onReplay,onExit}:Props){
   const [tab,setTab]=useState<'briefing'|'evidence'|'decision'>('briefing');
   const [show3D,setShow3D]=useState(false);
   const [inspected,setInspected]=useState<number[]>([]);
@@ -18,6 +20,7 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
   const [finding,setFinding]=useState<number|null>(null);
   const [notes,setNotes]=useState('');
   const [sending,setSending]=useState(false);
+  const submitting=useRef(false);
   const [feedback,setFeedback]=useState('');
   const [lastStep,setLastStep]=useState(-1);
   useEffect(()=>{
@@ -30,9 +33,10 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
   const evidence=run.step?.evidence||[];
   const allInspected=evidence.length>0&&inspected.length===evidence.length;
   async function submit(){
-    if(selected===null||finding===null||!allInspected||busy||sending)return;
+    if(selected===null||finding===null||!allInspected||busy||submitting.current)return;
+    submitting.current=true;
     setSending(true);
-    try{await onDecision(selected,finding);}finally{setSending(false);}
+    try{await onDecision(selected,finding);}finally{submitting.current=false;setSending(false);}
   }
   return <section className={styles.shell} aria-label="Simulated analyst workstation">
     <header className={styles.topbar}>
@@ -48,13 +52,14 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
       </div>
     </div>
     <div className={styles.progress}><div style={{width:(100*run.step_index/run.step_count)+'%'}}/></div>
-    {!run.completed&&<div style={{padding:'0 20px'}}><button type="button" className={styles.ghost} style={{margin:'12px 0'}} aria-expanded={show3D} onClick={()=>setShow3D(v=>!v)}>{show3D?'Switch to 2D workstation':'Enter 3D investigation room'}</button>{show3D&&<SocScene key={run.run_id+'-'+run.step_index} stage={run.step_index} missionId={run.mission_id} missionTitle={run.title} active={tab} onSelect={setTab} evidence={evidence} inspected={inspected} onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>}</div>}
+    {!run.completed&&<div style={{padding:'0 20px'}}><button type="button" className={styles.ghost} style={{margin:'12px 0'}} aria-expanded={show3D} onClick={()=>setShow3D(v=>!v)}>{show3D?'Switch to 2D workstation':'Enter 3D investigation room'}</button>{show3D&&<SceneBoundary><SocScene key={run.run_id+'-'+run.step_index} stage={run.step_index} missionId={run.mission_id} missionTitle={run.title} active={tab} onSelect={setTab} evidence={evidence} artifacts={run.learning?.stage?.artifacts} inspected={inspected} onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/></SceneBoundary>}</div>}
     {run.completed?<div className={styles.complete}>
       <div className={styles.completeIcon}>✓</div>
       <span className={styles.eyebrow}>AFTER-ACTION REPORT</span>
       <h3>Mission complete</h3>
       <p>You scored <strong>{run.score} out of {run.max_score}</strong> points ({Math.round(run.score/run.max_score*100)}%). Your result has been saved to your account.</p>
-      {feedback&&<div className={styles.feedback}>{feedback}</div>}
+      {(feedback||run.last_feedback)&&<div className={styles.feedback}>{feedback||run.last_feedback}</div>}
+      {run.learning?.review.length? <MissionReview questions={run.learning.review} check={onReview}/>:null}
       <button className={styles.primary} onClick={onReplay} disabled={busy}>Replay this mission</button>
       <button className={styles.ghost} onClick={onExit}>Return to mission board</button>
     </div>:<div className={styles.body}>
@@ -73,16 +78,16 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
           <span className={styles.eyebrow}>INTELLIGENCE BRIEF · STAGE {run.step_index+1}</span>
           <h3>{run.step?.scene}</h3>
           <p className={styles.story}>{run.step?.story}</p>
-          <div className={styles.callout}><strong>Your assignment</strong><p>Review all available evidence, then choose the safest response.</p></div>
+          {run.learning?<MissionBriefing key={run.step_index} learning={run.learning}/>:<div className={styles.callout}><strong>Your assignment</strong><p>Review all available evidence, then choose the safest response.</p></div>}
           <button className={styles.primary} onClick={()=>setTab('evidence')}>Open evidence locker →</button>
         </div>}
         {tab==='evidence'&&<div>
           <span className={styles.eyebrow}>EVIDENCE LOCKER</span>
           <h3>Review the case artifacts</h3>
           <p className={styles.subtle}>Select each artifact to inspect it. These are fictional training records.</p>
-          <Investigation key={run.mission_id+'-'+run.step_index} missionId={run.mission_id}
+          {run.learning?.stage?<MissionArtifacts key={run.step_index} artifacts={run.learning.stage.artifacts} inspected={inspected} onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>:<Investigation key={run.mission_id+'-'+run.step_index} missionId={run.mission_id}
             stage={run.step_index} evidence={evidence} inspected={inspected}
-            onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>
+            onInspect={i=>setInspected(old=>old.includes(i)?old:[...old,i])}/>}
           <CorrelationBoard key={run.run_id+'-'+run.step_index} evidence={evidence} inspected={inspected} stage={run.step_index}/>
           <fieldset style={{border:'1px solid #35516b',borderRadius:9,padding:14,marginTop:18}}>
             <legend style={{color:'#65dfc6',fontWeight:700}}>Investigation finding · 5 bonus points</legend>
@@ -98,6 +103,8 @@ export default function MissionWorkspace({run,busy,onDecision,onReplay,onExit}:P
           <span className={styles.eyebrow}>DECISION DESK</span>
           <h3>{run.step?.question}</h3>
           <p className={styles.subtle}>Choose one action. Your score is determined by the server.</p>
+          {run.learning&&<p className={styles.subtle}>{allInspected?(finding===null?'Return to the evidence locker to choose one finding.':'Finding selected. Choose a response, then commit your decision to advance.'):'Return to the evidence locker and inspect every artifact, then choose one finding.'}</p>}
+          {run.learning&&(!allInspected||finding===null)&&<button type="button" className={styles.ghost} onClick={()=>setTab('evidence')}>Return to evidence locker</button>}
           <div className={styles.choices}>{run.step?.options.map((option,i)=><label key={i} className={selected===i?styles.chosen:styles.choice}>
             <input type="radio" name={'mission-'+run.run_id+'-'+run.step_index} checked={selected===i}
               onChange={()=>setSelected(i)} disabled={busy||sending}/>

@@ -3,13 +3,14 @@ import {useCallback,useEffect,useState} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 import MissionWorkspace from './MissionWorkspace';
+import type {MissionLearning,ReviewResult} from './MissionLearning';
 import {useActivityFocus} from '../../lib/use-activity-focus';
 
 const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'').replace(/\/$/,'');
 type Game={id:string;pathway:'secondary'|'university'|'professional';title:string;mechanic:string;mission_ids:string[];summary:string;difficulty:string;mission_count:number;status:'playable'|'planned'};
 type Mission={id:string;title:string;track:string;difficulty:string;summary:string;step_count:number;latest_run:null|{run_id:number;completed:boolean;score:number;step_index:number}};
 type Step={scene:string;story:string;evidence:string[];question:string;options:string[]};
-type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null};
+type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null;learning?:MissionLearning|null};
 type History={id:number;title:string;score:number;max_score:number;completed:boolean;created_at:string};
 
 export default function Missions(){
@@ -90,6 +91,7 @@ export default function Missions(){
           <p className="small">{g.status==='planned'?'Coming soon · not playable yet':`${g.mission_count} playable mission${g.mission_count===1?'':'s'}`}</p>
           {g.mission_ids.map(id=>{const m=missions.find(item=>item.id===id);return m?<div key={id} style={{marginTop:10}}>
             {m.latest_run&&!m.latest_run.completed&&<button className="btn" disabled={busy} onClick={()=>resume(m.latest_run!.run_id)}>Resume {m.title}</button>}
+            {m.latest_run?.completed&&<button className="btn" disabled={busy} onClick={()=>resume(m.latest_run!.run_id)}>View result for {m.title}</button>}
             <button className="btn secondary" style={{marginLeft:8,border:'1px solid #b5c7d3'}} disabled={busy} onClick={()=>start(id)}>{m.latest_run?'New attempt':'Play game'}</button>
             {m.latest_run&&<p className="small">Last attempt: {m.latest_run.completed?'Completed':'In progress'} · {m.latest_run.score} points</p>}
           </div>:<p key={id} className="small">Coming soon</p>})}
@@ -98,6 +100,7 @@ export default function Missions(){
       {run&&<section className="section" id="mission-console">
         <h2 ref={activityHeading} tabIndex={-1} className="activity-heading">Mission workspace</h2>
         <MissionWorkspace key={run.run_id} run={run} busy={busy} onDecision={decide}
+          onReview={(question,option):Promise<ReviewResult>=>request('/api/v1/missions/runs/'+run.run_id+'/review','POST',{question_id:question,option_index:option})}
           onReplay={()=>start(run.mission_id)} onExit={()=>setRun(null)}/>
       </section>}
       <section className="section">

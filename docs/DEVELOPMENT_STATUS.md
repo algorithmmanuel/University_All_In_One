@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 27 October 2026 (Africa/Lagos).  
-**Checkpoint:** Phase 3.2 Cyber Safety Foundations and Digital Citizenship owner-reported local checks passed; Phase 4 mission pilot is next. Python pilot acceptance remains recorded. The formal audit remains deferred until the end of development.  
+**Checkpoint:** Phase 3.2 owner-reported local checks passed; Phase 4.1 Scholarship Email pilot implemented, owner acceptance and beginner/device evidence pending. Python pilot acceptance remains recorded. The formal audit remains deferred until the end of development.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Inspect the mission source and implement a bounded Phase 4 beginner mission pilot for FB-02, FB-04 and FB-05: clear briefing, evidence/actions/completion guidance, useful interactions and varied review questions. Keep beta open. Phase 3.2 owner-reported checks passed; independent beginner walkthrough evidence and the wider educational gate remain outstanding.
+Use [the Phase 4.1 guide](PHASE_4_MISSION_PILOT.md) to update/restart only development, run focused checks and complete the Scholarship Email pilot acceptance checklist. No migration or content publication is required for this build. Verify CI and independent beginner/device completion evidence before broadening the mission redesign. Keep beta open; Phase 3.2 and wider educational/operational/final audit gaps remain as recorded.
 
 The owner instructed on 26 October 2026 that the formal security-audit-skill stage be deferred until the end of all development. This supersedes the earlier audit-first next action. Continue security by design, secure coding/review and normal tests throughout. Resume the formal audit against the then-current source, revalidating changes and unresolved earlier leads; no security clearance is implied.
 
@@ -162,3 +162,12 @@ See [complete PowerShell update/publication/test/restart blocks and acceptance](
 After receiving the update, explicit publication, focused test, restart and acceptance instructions for source `a33769b`, the owner reported: “All tests pass.” Record this as successful owner-reported local checks/acceptance. No detailed logs or separately identified beginner walkthrough, mobile/reduced-motion, full PostgreSQL regression or automated-browser results were supplied. Do not infer these additional outcomes. No owner database or beta service was operated by the assistant.
 
 Next: the bounded Phase 4 mission pilot. The formal Cloudflare audit remains deferred until the end of development; normal security-by-design checks continue.
+
+
+## Phase 4.1 — Scholarship Email mission pilot
+
+Implemented 27 October 2026 from acceptance checkpoint `31cc21a` for FB-02, FB-04 and FB-05. Added role/goals, exact actions and completion conditions, stage tasks and optional hints, stage-specific fictional records shared by 2D/3D, after-decision finding reasoning, five server-checked optional review questions and completed-result reopening. Review is ungraded/nonpersistent and requires ownership of a completed pilot run. Existing mission step order, scoring and saved history are preserved; no migration/publication. Added a synchronous decision guard and 3D error boundary with 2D recovery. See [scope, complete commands and acceptance](PHASE_4_MISSION_PILOT.md).
+
+Assistant verification: 191 backend tests and 11 subtests passed, with 20 database-dependent skips; 15 frontend unit tests, TypeScript and production build passed. Existing CSS compatibility and TestClient deprecation warnings remain. Locked environment pip check passed. New HTTP tests use synthetic SQLite/overridden identity, including legacy runs, all missions finishing and review validation/ownership; they do not establish full authentication/PostgreSQL locking. Four new browser cases were attempted but Chromium could not launch because a required UNIX socket is denied. Browser assertions remain unexecuted locally; CI is pending at this checkpoint. No owner database/computer, beta service or mail provider was accessed.
+
+Next: verify CI and owner development acceptance plus independent beginner/device walkthroughs of this pilot, then choose the next mission. Phase 4 is not complete. Formal audit remains deferred by owner instruction until the end of development.

@@ -54,7 +54,7 @@ jobs:
       - name: Browser gameplay journeys (mock API, real browser)
         env:
           NODE_PATH: ${{ github.workspace }}/.ci-browser/node_modules
-        run: node --test tests/browser/gameplay.test.cjs tests/browser/learning-usability.test.cjs tests/browser/python-foundations.test.cjs tests/browser/foundations-courses.test.cjs
+        run: node --test tests/browser/gameplay.test.cjs tests/browser/learning-usability.test.cjs tests/browser/python-foundations.test.cjs tests/browser/foundations-courses.test.cjs tests/browser/mission-learning.test.cjs
       - name: Show server logs on failure
         if: failure()
         run: cat /tmp/educyber-next.log || true

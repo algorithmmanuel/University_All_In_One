@@ -8,6 +8,7 @@ from auth import current_user
 from db_dependencies import get_db
 from mission_data import MISSIONS
 from models import MissionRun, User
+from mission_learning import MISSION_ID as LEARNING_MISSION_ID, finding_explanation, public_learning, review_answer
 
 router = APIRouter(prefix="/api/v1/missions", tags=["missions"])
 
@@ -32,6 +33,7 @@ def state(run: MissionRun):
             "step_index": run.step_index, "step_count": len(mission["steps"]),
             "score": run.score, "max_score": 15 * len(mission["steps"]),
             "completed": complete,
+            "learning": public_learning(run.mission_id, run.step_index, complete),
             "step": None if complete else public_step(mission["steps"][run.step_index]),
             "last_feedback": run.choices[-1]["feedback"] if run.choices else None}
 
@@ -66,6 +68,27 @@ def start(mission_id: str, user: User = Depends(current_user), db: Session = Dep
 def resume(run_id: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
     require_student(user)
     return state(get_run(db, user, run_id))
+
+
+class ReviewAnswer(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    question_id: str = Field(min_length=1, max_length=64, strict=True)
+    option_index: int = Field(ge=0, strict=True)
+
+
+@router.post("/runs/{run_id}/review")
+def review(run_id: int, body: ReviewAnswer, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    """Explain a completed pilot's review answer without saving grades or progress."""
+    require_student(user)
+    run = get_run(db, user, run_id)
+    if run.mission_id != LEARNING_MISSION_ID:
+        raise HTTPException(status_code=404, detail="Review unavailable for this mission")
+    if run.completed_at is None:
+        raise HTTPException(status_code=409, detail="Complete the mission before reviewing")
+    try:
+        return review_answer(body.question_id, body.option_index)
+    except ValueError:
+        raise HTTPException(status_code=422, detail="Invalid review question or option")
 
 class Decision(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -108,7 +131,7 @@ def decide(run_id: int, body: Decision, user: User = Depends(current_user), db: 
                                   "points": selected["points"] + investigation_points,
                                   "finding_index": body.finding_index,
                                   "investigation_points": investigation_points,
-                                  "feedback": selected["feedback"] + (
+                                  "feedback": selected["feedback"] + finding_explanation(run.mission_id, run.step_index) + (
                                       " Investigation finding: +5 points." if investigation_points else
                                       " Investigation finding: +0 points.")}]
     run.score += selected["points"] + investigation_points
