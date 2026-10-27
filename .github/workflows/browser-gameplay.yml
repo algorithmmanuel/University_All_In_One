@@ -33,11 +33,12 @@ jobs:
       - name: Install locked app dependencies
         run: npm ci --no-audit --no-fund
       - name: Install isolated browser harness
-        run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.56.1
+        run: npm install --prefix ../.ci-browser --no-save --package-lock=false --ignore-scripts --no-audit --no-fund playwright@1.56.1
       - name: Install Chromium browser
-        run: npx playwright install --with-deps chromium
-      - name: TypeScript and production build
+        run: ../.ci-browser/node_modules/.bin/playwright install --with-deps chromium
+      - name: Frontend unit checks, TypeScript and production build
         run: |
+          npm test
           npm run typecheck
           npm run build
       - name: Launch production frontend
@@ -51,7 +52,9 @@ jobs:
           cat /tmp/educyber-next.log
           exit 1
       - name: Browser gameplay journeys (mock API, real browser)
-        run: node --test tests/browser/gameplay.test.cjs tests/browser/learning-usability.test.cjs tests/browser/python-foundations.test.cjs
+        env:
+          NODE_PATH: ${{ github.workspace }}/.ci-browser/node_modules
+        run: node --test tests/browser/gameplay.test.cjs tests/browser/learning-usability.test.cjs tests/browser/python-foundations.test.cjs tests/browser/foundations-courses.test.cjs
       - name: Show server logs on failure
         if: failure()
         run: cat /tmp/educyber-next.log || true

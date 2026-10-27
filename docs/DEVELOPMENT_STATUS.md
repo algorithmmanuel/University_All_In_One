@@ -1,7 +1,7 @@
 # Development handover
 
-**Last updated:** 26 October 2026 (Africa/Lagos).  
-**Checkpoint:** Phase 3.1 Python foundations pilot accepted by the owner after local use; next are the remaining Phase 3 course reviews. The owner deferred the formal security-audit-skill workflow until the end of development.  
+**Last updated:** 27 October 2026 (Africa/Lagos).  
+**Checkpoint:** Phase 3.2 Cyber Safety Foundations and Digital Citizenship implemented; explicit development publication and owner acceptance pending. Python pilot acceptance remains recorded. The formal audit remains deferred until the end of development.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Continue Phase 3 with Cyber Safety Foundations and Digital Citizenship: review lesson objectives, add worked examples and guided practice, and align each active assessment bank to taught concepts. Reuse the accepted Python pilot pattern while preserving learner records and beta availability.
+Use [the Phase 3.2 guide](FOUNDATIONS_COURSES.md) to update the separate development worktree, preview and explicitly publish the two course releases, restart development services and complete the acceptance checklist. Keep beta open. After local acceptance and beginner walkthrough evidence, continue to Phase 4 mission clarity and interaction improvements; make no claim that the wider educational gate is complete from automated checks alone.
 
 The owner instructed on 26 October 2026 that the formal security-audit-skill stage be deferred until the end of all development. This supersedes the earlier audit-first next action. Continue security by design, secure coding/review and normal tests throughout. Resume the formal audit against the then-current source, revalidating changes and unresolved earlier leads; no security clearance is implied.
 
@@ -145,3 +145,13 @@ See [implementation, complete PowerShell commands and acceptance](PYTHON_FOUNDAT
 After receiving build `6d70ba9` and its publication/acceptance guide, the owner reported: “All works well.” Record this as successful owner-reported local acceptance of the Python pilot. No detailed test log or separate mobile, accessibility, full PostgreSQL regression or automated-browser evidence was supplied; those earlier verification limits remain. No application code was changed by this acceptance record.
 
 Next action: implement the remaining Phase 3 learning/assessment improvements for Cyber Safety Foundations and Digital Citizenship. The formal security-audit-skill stage remains deferred until the end of development by owner direction.
+
+## Phase 3.2 — Cyber Safety and Digital Citizenship
+
+Implemented on 27 October 2026 for FB-01, FB-06 and FB-07. The two courses now have six expanded lessons, 18 objectives, worked scenarios, 12 guided checks and 40 distinct assessment questions (20 per course). Digital Citizenship no longer selects the Cyber Safety question bank after explicit publication. Practice remains server-checked, ungraded and separate from lesson completion. The shared publisher preflights both courses before changing either, refuses customized/ambiguous/conflicting content and retains old question IDs, saved scores, completion and other learner records. Existing Python commands remain Python-only and the accepted Python release is preserved.
+
+Local verification: full backend collection completed with 179 passed, 20 database-dependent tests skipped and 11 subtests passed using synthetic SQLite for feature HTTP tests; frontend 15 unit tests, TypeScript and production build passed. Existing CSS compatibility warnings remain. A fresh isolated dependency environment passed pip check and pip-audit after two pinned dependency patches. CI checks for this source revision are pending at this documentation checkpoint. Local Chromium remains blocked by UNIX socket restrictions; added browser cases are not counted as executed locally.
+
+Routine CI maintenance fixes an exact-label sign-in locator and practice focus loss caused by disabling the active control; pending checks now prevent duplicate submissions without removing keyboard focus. The browser harness is installed outside app dependencies to preserve the application lockfile. Certifi and filelock minimum/pinned versions address reports from the existing dependency gate. This is ordinary build maintenance, not a resumed formal security-audit-skill stage. No beta data, provider or owner database was accessed.
+
+See [complete PowerShell update/publication/test/restart blocks and acceptance](FOUNDATIONS_COURSES.md). Source implementation is complete for this bounded build; owner publication/acceptance, beginner testing and final assurance remain outstanding.

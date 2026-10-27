@@ -13,3 +13,7 @@ local-backups/
 /exports/
 /.gradle/
 
+
+# Isolated browser CI harness; do not vendor test tooling into source.
+/.ci-browser/
+

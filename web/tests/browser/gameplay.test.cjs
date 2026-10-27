@@ -81,7 +81,7 @@ test('sign in, dashboard pathway navigation and 3D/2D mission evidence',async t=
   await page.goto('/account');
   await page.getByRole('button',{name:'Sign in'}).click();
   await page.getByLabel('Email').fill('learner@example.invalid');
-  await page.getByLabel('Password').fill('fixture-password');
+  await page.getByLabel('Password',{exact:true}).fill('fixture-password');
   await page.getByRole('button',{name:'Sign in',exact:true}).last().click();
   await page.waitForURL('**/dashboard');
   await page.getByRole('heading',{name:'Welcome, Test Learner'}).waitFor();

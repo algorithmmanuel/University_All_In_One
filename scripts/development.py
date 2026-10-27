@@ -105,16 +105,17 @@ def verify(environment):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('api', 'web', 'check', 'content-preview', 'content-apply'))
+    parser.add_argument('action', choices=('api', 'web', 'check', 'content-preview', 'content-apply', 'foundations-preview', 'foundations-apply'))
     action = parser.parse_args().action
     try:
         environment = configuration()
         if action == 'check':
             verify(environment)
             return 0
-        if action in ('content-preview', 'content-apply'):
-            command = [sys.executable, '-m', 'publish_python_foundations']
-            if action == 'content-apply':
+        if action in ('content-preview', 'content-apply', 'foundations-preview', 'foundations-apply'):
+            module = 'publish_foundations' if action.startswith('foundations-') else 'publish_python_foundations'
+            command = [sys.executable, '-m', module]
+            if action.endswith('-apply'):
                 command.append('--apply')
             return subprocess.call(command, cwd=ROOT / 'api', env=environment)
         port = 8010 if action == 'api' else 3010
