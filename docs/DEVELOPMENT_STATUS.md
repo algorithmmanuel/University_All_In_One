@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 27 October 2026 (Africa/Lagos).  
-**Checkpoint:** Phase 4.1 owner-reported acceptance and restored beta access recorded. Phase 4.2 account safety/SOC triage implemented; CI and owner acceptance pending. Formal audit remains deferred until the end of development.
+**Checkpoint:** Phase 4.1 owner-reported acceptance and restored beta access recorded. Phase 4.2 account safety/SOC triage implemented with passing backend/browser CI; owner acceptance and independent beginner/device evidence pending. Formal audit remains deferred until the end of development.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -197,3 +197,12 @@ Implemented 27 October 2026 from `2ef17ef`, for FB-02/FB-04/FB-05. Added mission
 Local verification: 217 backend tests and 11 subtests passed; 20 database-dependent skips. All 15 frontend unit tests, TypeScript and production build passed; pip check passed. Source-generated browser fixtures cover all three guided missions in a 12-case desktop/mobile and 2D/3D matrix. Known local Chromium UNIX-socket restrictions remain; CI is pending at this checkpoint. HTTP tests use synthetic SQLite/overridden identity; no full-authentication, PostgreSQL concurrency, owner runtime or complete real-backend browser claim is made from these local checks. Existing warnings remain. No beta/owner database, beta services or mail provider was accessed.
 
 Next: verify CI and owner development acceptance plus beginner/device walkthroughs of these two missions. Three of 30 existing missions now have the guided pattern; this does not complete Phase 4. Formal Cloudflare audit remains deferred by owner instruction until the end of development.
+
+
+## Phase 4.2 CI evidence — 27 October 2026
+
+Source `a6a04a8` passed [backend run 40472624805](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40472624805): 217 passed, 20 skipped and 11 subtests in the database-independent job; 237 passed and 11 subtests against isolated PostgreSQL; dependency audit/consistency passed. The existing TestClient deprecation warning remains.
+
+[Browser run 40472624786](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40472624786) passed all 24 browser cases, including the 12 guided-mission desktop/mobile × 2D/3D cases using actual static stage content and intercepted API responses. Frontend 15 unit tests, TypeScript and production build also passed. The accepted scholarship source data was additionally verified byte-for-byte against the earlier content block before its module move.
+
+These successful CI results do not establish a complete real-backend browser journey, production operation, independent educational effectiveness, actual-device performance or final security assurance. Owner development acceptance for Phase 4.2 is still pending. Next: use [the complete update/test/restart and acceptance guide](PHASE_4_ACCOUNT_AND_SOC.md), check Password Fortress and Midnight Login Alerts, then choose the next bounded improvement. No migration or publication command is needed. Beta remains separate; formal audit stays deferred.
