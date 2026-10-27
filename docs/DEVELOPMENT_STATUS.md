@@ -171,3 +171,14 @@ Implemented 27 October 2026 from acceptance checkpoint `31cc21a` for FB-02, FB-0
 Assistant verification: 191 backend tests and 11 subtests passed, with 20 database-dependent skips; 15 frontend unit tests, TypeScript and production build passed. Existing CSS compatibility and TestClient deprecation warnings remain. Locked environment pip check passed. New HTTP tests use synthetic SQLite/overridden identity, including legacy runs, all missions finishing and review validation/ownership; they do not establish full authentication/PostgreSQL locking. Four new browser cases were attempted but Chromium could not launch because a required UNIX socket is denied. Browser assertions remain unexecuted locally; CI is pending at this checkpoint. No owner database/computer, beta service or mail provider was accessed.
 
 Next: verify CI and owner development acceptance plus independent beginner/device walkthroughs of this pilot, then choose the next mission. Phase 4 is not complete. Formal audit remains deferred by owner instruction until the end of development.
+
+
+## Phase 4.1 CI evidence — 27 October 2026
+
+Implementation commit: `277164e`; browser assertion maintenance: `bfacb11`. [Backend run 40468541737](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40468541737) passed all jobs: database-independent collection 191 passed, 20 skipped and 11 subtests; isolated PostgreSQL collection 211 passed and 11 subtests; dependency consistency/audit passed. The TestClient deprecation warning remains. This is CI evidence on synthetic/test data, not owner deployment or production assurance.
+
+[Browser run 40468828728](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40468828728) passed all 16 browser cases, plus 15 frontend unit tests, TypeScript and production build. The four new pilot cases cover desktop/mobile 2D/3D controls, hints, three decisions, review focus/duplicate guarding and error/retry, result reopening and partial resume, using synthetic API interception. Earlier run 40468541739 passed all four new pilot cases but failed a stale existing dashboard greeting locator; `bfacb11` now checks the current greeting and actual dashboard heading. No application behavior was changed to satisfy that assertion.
+
+Local Chromium remains blocked by its required UNIX socket; the successful real-browser execution above occurred in GitHub CI. These mock-API browser cases and separate PostgreSQL API tests do not establish a complete real-backend browser journey, independent learner understanding, device performance or final security assurance.
+
+Next action: follow [the pilot guide](PHASE_4_MISSION_PILOT.md) for development update/restart and owner acceptance; gather independent beginner and supported-device walkthrough evidence before extending the redesign. No migration or curriculum publication is required. Beta remains on its separate branch.
