@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 27 October 2026 (Africa/Lagos).  
-**Checkpoint:** Phase 3.2 Cyber Safety Foundations and Digital Citizenship implemented; explicit development publication and owner acceptance pending. Python pilot acceptance remains recorded. The formal audit remains deferred until the end of development.  
+**Checkpoint:** Phase 3.2 Cyber Safety Foundations and Digital Citizenship owner-reported local checks passed; Phase 4 mission pilot is next. Python pilot acceptance remains recorded. The formal audit remains deferred until the end of development.  
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Use [the Phase 3.2 guide](FOUNDATIONS_COURSES.md) to update the separate development worktree, preview and explicitly publish the two course releases, restart development services and complete the acceptance checklist. Keep beta open. After local acceptance and beginner walkthrough evidence, continue to Phase 4 mission clarity and interaction improvements; make no claim that the wider educational gate is complete from automated checks alone.
+Inspect the mission source and implement a bounded Phase 4 beginner mission pilot for FB-02, FB-04 and FB-05: clear briefing, evidence/actions/completion guidance, useful interactions and varied review questions. Keep beta open. Phase 3.2 owner-reported checks passed; independent beginner walkthrough evidence and the wider educational gate remain outstanding.
 
 The owner instructed on 26 October 2026 that the formal security-audit-skill stage be deferred until the end of all development. This supersedes the earlier audit-first next action. Continue security by design, secure coding/review and normal tests throughout. Resume the formal audit against the then-current source, revalidating changes and unresolved earlier leads; no security clearance is implied.
 
@@ -155,3 +155,10 @@ Local verification: full backend collection completed with 179 passed, 20 databa
 Routine CI maintenance fixes an exact-label sign-in locator and practice focus loss caused by disabling the active control; pending checks now prevent duplicate submissions without removing keyboard focus. The browser harness is installed outside app dependencies to preserve the application lockfile. Certifi and filelock minimum/pinned versions address reports from the existing dependency gate. This is ordinary build maintenance, not a resumed formal security-audit-skill stage. No beta data, provider or owner database was accessed.
 
 See [complete PowerShell update/publication/test/restart blocks and acceptance](FOUNDATIONS_COURSES.md). Source implementation is complete for this bounded build; owner publication/acceptance, beginner testing and final assurance remain outstanding.
+
+
+## Phase 3.2 owner acceptance — 27 October 2026
+
+After receiving the update, explicit publication, focused test, restart and acceptance instructions for source `a33769b`, the owner reported: “All tests pass.” Record this as successful owner-reported local checks/acceptance. No detailed logs or separately identified beginner walkthrough, mobile/reduced-motion, full PostgreSQL regression or automated-browser results were supplied. Do not infer these additional outcomes. No owner database or beta service was operated by the assistant.
+
+Next: the bounded Phase 4 mission pilot. The formal Cloudflare audit remains deferred until the end of development; normal security-by-design checks continue.
