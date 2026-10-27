@@ -8,7 +8,7 @@ from auth import current_user
 from db_dependencies import get_db
 from mission_data import MISSIONS
 from models import MissionRun, User
-from mission_learning import MISSION_ID as LEARNING_MISSION_ID, finding_explanation, public_learning, review_answer
+from mission_learning import has_learning, finding_explanation, public_learning, review_answer
 
 router = APIRouter(prefix="/api/v1/missions", tags=["missions"])
 
@@ -78,15 +78,15 @@ class ReviewAnswer(BaseModel):
 
 @router.post("/runs/{run_id}/review")
 def review(run_id: int, body: ReviewAnswer, user: User = Depends(current_user), db: Session = Depends(get_db)):
-    """Explain a completed pilot's review answer without saving grades or progress."""
+    """Explain a completed guided mission's review answer without saving grades or progress."""
     require_student(user)
     run = get_run(db, user, run_id)
-    if run.mission_id != LEARNING_MISSION_ID:
+    if not has_learning(run.mission_id):
         raise HTTPException(status_code=404, detail="Review unavailable for this mission")
     if run.completed_at is None:
         raise HTTPException(status_code=409, detail="Complete the mission before reviewing")
     try:
-        return review_answer(body.question_id, body.option_index)
+        return review_answer(run.mission_id, body.question_id, body.option_index)
     except ValueError:
         raise HTTPException(status_code=422, detail="Invalid review question or option")
 

@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 27 October 2026 (Africa/Lagos).  
-**Checkpoint:** Phase 3.2 owner-reported local checks passed; Phase 4.1 Scholarship Email pilot implemented, owner acceptance and beginner/device evidence pending. Python pilot acceptance remains recorded. The formal audit remains deferred until the end of development.
+**Checkpoint:** Phase 4.1 owner-reported acceptance and restored beta access recorded. Phase 4.2 account safety/SOC triage implemented; CI and owner acceptance pending. Formal audit remains deferred until the end of development.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Use [the Phase 4.1 guide](PHASE_4_MISSION_PILOT.md) to update/restart only development, run focused checks and complete the Scholarship Email pilot acceptance checklist. No migration or content publication is required for this build. Verify CI and independent beginner/device completion evidence before broadening the mission redesign. Keep beta open; Phase 3.2 and wider educational/operational/final audit gaps remain as recorded.
+Inspect CI and use [the Phase 4.2 guide](PHASE_4_ACCOUNT_AND_SOC.md) to update/restart only development and accept Password Fortress/Midnight Login Alerts. No migration or curriculum publication is required. Keep beta open. Gather independent beginner and supported-device evidence; wider educational, operational and final audit gates remain outstanding.
 
 The owner instructed on 26 October 2026 that the formal security-audit-skill stage be deferred until the end of all development. This supersedes the earlier audit-first next action. Continue security by design, secure coding/review and normal tests throughout. Resume the formal audit against the then-current source, revalidating changes and unresolved earlier leads; no security clearance is implied.
 
@@ -182,3 +182,18 @@ Implementation commit: `277164e`; browser assertion maintenance: `bfacb11`. [Bac
 Local Chromium remains blocked by its required UNIX socket; the successful real-browser execution above occurred in GitHub CI. These mock-API browser cases and separate PostgreSQL API tests do not establish a complete real-backend browser journey, independent learner understanding, device performance or final security assurance.
 
 Next action: follow [the pilot guide](PHASE_4_MISSION_PILOT.md) for development update/restart and owner acceptance; gather independent beginner and supported-device walkthrough evidence before extending the redesign. No migration or curriculum publication is required. Beta remains on its separate branch.
+
+
+## Phase 4.1 owner acceptance and beta access — 27 October 2026
+
+After handover `2ef17ef` and its development test/restart/acceptance guide, the owner reported: “All phase 4.1 tests pass and beta testers can access the link, lets proceed. I will let you know if further issues arise.” Record this as successful owner-reported Phase 4.1 local acceptance and restored tester access. The preceding 404 was on an unimplemented frontend /app path; the owner subsequently confirmed access after receiving the implemented entry routes. No beta service, tunnel, port, credentials or source branch was changed by the assistant. Do not infer detailed independent beginner, device performance, accessibility or deployed end-to-end evidence from this report.
+
+The owner explicitly authorised proceeding. Next bounded build: extend the accepted guidance/review pattern to Password Fortress and Midnight Login Alerts while keeping beta separate.
+
+## Phase 4.2 — Account safety and SOC triage
+
+Implemented 27 October 2026 from `2ef17ef`, for FB-02/FB-04/FB-05. Added mission-specific goals, tasks, detailed stage records, six hints and five explained review questions to each of Password Fortress and Midnight Login Alerts. A static registry shares the existing route/UI across three guides; accepted Scholarship Email data is moved unchanged into a content module. Reviews are selected from the owned completed run, remain ungraded/nonpersistent and reject cross-mission question IDs. Existing engine steps, answer/finding keys, scoring and saved run history are unchanged; no migration/publication. See [complete commands, scope and acceptance](PHASE_4_ACCOUNT_AND_SOC.md).
+
+Local verification: 217 backend tests and 11 subtests passed; 20 database-dependent skips. All 15 frontend unit tests, TypeScript and production build passed; pip check passed. Source-generated browser fixtures cover all three guided missions in a 12-case desktop/mobile and 2D/3D matrix. Known local Chromium UNIX-socket restrictions remain; CI is pending at this checkpoint. HTTP tests use synthetic SQLite/overridden identity; no full-authentication, PostgreSQL concurrency, owner runtime or complete real-backend browser claim is made from these local checks. Existing warnings remain. No beta/owner database, beta services or mail provider was accessed.
+
+Next: verify CI and owner development acceptance plus beginner/device walkthroughs of these two missions. Three of 30 existing missions now have the guided pattern; this does not complete Phase 4. Formal Cloudflare audit remains deferred by owner instruction until the end of development.

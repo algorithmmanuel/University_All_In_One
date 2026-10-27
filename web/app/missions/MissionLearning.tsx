@@ -25,7 +25,7 @@ export function MissionBriefing({learning}:{learning:MissionLearning}){
 
 export function MissionArtifacts({artifacts,inspected,onInspect}:{artifacts:Artifact[];inspected:number[];onInspect:(index:number)=>void}){
   const [active,setActive]=useState<number|null>(null);
-  return <section aria-label="Scholarship case artifacts">
+  return <section aria-label="Case artifacts">
     <p className={styles.subtle}>Open each fictional record and read what it shows. Then choose the finding that best answers this stage’s task.</p>
     <div className={styles.artifacts}>{artifacts.map((item,index)=><button key={item.title} type="button"
       className={styles.artifact} aria-pressed={active===index}
