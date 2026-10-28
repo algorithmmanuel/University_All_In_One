@@ -25,6 +25,12 @@ import identity_mission_learning
 import delivery_mission_learning
 import hunt_mission_learning
 import response_mission_learning
+import risk_mission_learning
+import zerotrust_mission_learning
+import cloud_command_mission_learning
+import supplier_mission_learning
+import recovery_command_mission_learning
+import privileged_mission_learning
 
 GUIDES = {
     guide.MISSION_ID: guide for guide in (
@@ -34,7 +40,9 @@ GUIDES = {
         mfa_mission_learning, backup_mission_learning, firewall_mission_learning,
         network_mission_learning, web_mission_learning, cloud_mission_learning,
         forensics_mission_learning, malware_mission_learning, identity_mission_learning,
-        delivery_mission_learning, hunt_mission_learning, response_mission_learning
+        delivery_mission_learning, hunt_mission_learning, response_mission_learning,
+        risk_mission_learning, zerotrust_mission_learning, cloud_command_mission_learning,
+        supplier_mission_learning, recovery_command_mission_learning, privileged_mission_learning
     )
 }
 

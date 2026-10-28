@@ -79,6 +79,12 @@ def test_guided_three_stage_journey_retains_server_scoring_and_withholds_review(
         'secure-code-review': [(0, 0), (1, 0), (2, 1)],
         'threat-hunter': [(0, 0), (1, 0), (2, 0)],
         'incident-response': [(0, 0), (1, 0), (2, 1)],
+        'risk-command': [(1, 1), (0, 0), (2, 2)],
+        'zero-trust-briefing': [(0, 1), (1, 2), (2, 1)],
+        'cloud-incident': [(0, 1), (1, 0), (2, 2)],
+        'supply-chain-watch': [(0, 1), (1, 0), (2, 2)],
+        'ransomware-recovery': [(0, 1), (1, 2), (2, 0)],
+        'identity-crisis': [(0, 1), (1, 0), (2, 1)],
     }
     response = client.post(f'/api/v1/missions/{guide.MISSION_ID}/start')
     assert response.status_code == 201
