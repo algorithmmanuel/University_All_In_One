@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner authorised continuing after Phase 4.5 without reporting its local acceptance. Phase 4.6 six-game Command batch implemented with passing CI; local acceptance for Phases 4.5/4.6 and independent learner/device evidence remain pending. Twenty-seven of 30 guides are implemented. Formal audit remains deferred.
+**Checkpoint:** Owner reported all tests passed after the Phase 4.6 handover. Record successful owner-reported local acceptance for that batch; separate Phase 4.5 acceptance and independent learner/device evidence remain pending. Twenty-seven of 30 guides are implemented. Formal audit remains deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,9 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify CI and use [the Phase 4.6 guide](PHASE_4_COMMAND_BATCH.md) to update/restart only development and accept Risk Command, Zero Trust Briefing, Cloud Incident, Supply Chain Watch, Ransomware Recovery and Identity Crisis. Also record the still-unreported Phase 4.5 local acceptance. No migration or content publication is needed; keep beta open. The owner explicitly authorised further development without supplying Phase 4.5 test results, so do not invent acceptance or treat wider gates as waived.
-
-Then finish Boardroom Breach, AI Governance and Audit Trail, preserving independent educational/device, operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; secure coding, review and ordinary tests continue.
+Finish the final three guidance upgrades: Boardroom Breach, AI Governance and Audit Trail. The owner reported all tests passed after Phase 4.6 handover `1193d5f`; record that batch as locally accepted on the basis of the owner report. Separate Phase 4.5 acceptance was not supplied. Keep beta open and preserve independent educational/device, operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; secure coding, review and ordinary tests continue.
 
 ## Implemented source changes and checks
 
@@ -294,3 +292,10 @@ Implementation `57f395b` passed [backend run 40679518968](https://github.com/alg
 [Browser run 40679519091](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40679519091) passed all 120 browser cases, including 108 guided desktop/mobile × 2D/3D journeys across all 27 guides and existing course/navigation cases. The job also passed 15 frontend unit tests, TypeScript and production build. Browser replies are synthetic with actual static content and catalogue pathways; separate API/PostgreSQL cases verify grading/persistence. No complete real-backend browser, actual-device performance, independent educational effectiveness or final security assurance result is claimed.
 
 Next: use [the full Phase 4.6 guide](PHASE_4_COMMAND_BATCH.md) to update/restart development and accept the six Command games, and report the still-outstanding Phase 4.5 local checks. No migration or publication is needed. Twenty-seven of 30 guides are implemented; Boardroom Breach, AI Governance and Audit Trail remain. The owner authorised continuing development but did not assert Phase 4.5 acceptance. Keep beta separate and preserve all wider gates.
+
+
+## Phase 4.6 owner acceptance — 28 October 2026
+
+After handover `1193d5f`, the owner reported: “all tests passed.” Record successful owner-reported local acceptance of the latest six-game Command batch. No detailed local logs or separate Phase 4.5 acceptance, actual-device observations, independent learner results or security assurance evidence were supplied. Existing CI evidence and its scope remain as recorded above. This acceptance record changes documentation only; no beta service or database was accessed.
+
+Next: complete the guidance upgrades for Boardroom Breach, AI Governance and Audit Trail, bringing implemented coverage to all 30 existing games once verified. Keep the outstanding wider roadmap gates open.
