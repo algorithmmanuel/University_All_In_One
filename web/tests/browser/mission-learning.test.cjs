@@ -1,8 +1,12 @@
 // Real browser; synthetic API. Actual handlers/scoring: api/test_mission_learning.py.
-const {test}=require('node:test');
+const {test,after}=require('node:test');
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 const WEB=process.env.EDUCYBER_E2E_WEB_URL||'http://127.0.0.1:3100';
+// Reuse the browser process, but isolate storage/routes in a fresh context for
+// every case. Larger content batches should not pay browser startup per test.
+let browser;
+after(async()=>{if(browser)await browser.close();});
 // Only static Python data/helpers are loaded: no server, credentials or database.
 // This keeps stage shapes/text aligned with source; grading/ownership is tested
 // separately through real HTTP handlers in test_mission_learning.py.
@@ -26,12 +30,12 @@ print(json.dumps(fixtures))
 const fixtures=JSON.parse(execFileSync(process.env.EDUCYBER_TEST_PYTHON||(process.platform==='win32'?'python':'python3'),['-c',fixtureSource],{
  cwd:path.resolve(__dirname,'../../../api'),encoding:'utf8'
 }));
-for(const missionId of ['phishing-investigation','password-fortress','soc-alert-triage'])for(const mobile of [false,true])for(const use3D of [false,true]){
+for(const missionId of Object.keys(fixtures))for(const mobile of [false,true])for(const use3D of [false,true]){
  const source=fixtures[missionId],title=source.title,pathway=missionId==='soc-alert-triage'?'university':'secondary';
  test(`${title} journey, review and resume; mobile=${mobile}, 3D=${use3D}`,async t=>{
-  const browser=await chromium.launch({channel:'chromium',headless:true,args:['--disable-dev-shm-usage','--enable-unsafe-swiftshader']});
-  t.after(()=>browser.close());
+  browser ||= await chromium.launch({channel:'chromium',headless:true,args:['--disable-dev-shm-usage','--enable-unsafe-swiftshader']});
   const context=await browser.newContext({baseURL:WEB,viewport:mobile?{width:390,height:844}:{width:1280,height:720},reducedMotion:'reduce'});
+  t.after(()=>context.close());
   await context.addInitScript(()=>sessionStorage.setItem('educyber_token','synthetic-mission-token'));
   const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
   let stage=0,started=false,decisions=0,reviews=0,releaseReview;

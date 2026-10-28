@@ -1,7 +1,7 @@
 # Development handover
 
-**Last updated:** 27 October 2026 (Africa/Lagos).  
-**Checkpoint:** Phase 4.1 owner-reported acceptance and restored beta access recorded. Phase 4.2 account safety/SOC triage implemented with passing backend/browser CI; owner acceptance and independent beginner/device evidence pending. Formal audit remains deferred until the end of development.
+**Last updated:** 28 October 2026 (Africa/Lagos).
+**Checkpoint:** Phase 4.2 owner-reported acceptance recorded; Phase 4.3 six-game Explorer batch implemented, CI and owner acceptance pending. Nine of 30 games have guidance in source. Formal audit remains deferred until the end of development.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,9 +76,9 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Inspect CI and use [the Phase 4.2 guide](PHASE_4_ACCOUNT_AND_SOC.md) to update/restart only development and accept Password Fortress/Midnight Login Alerts. No migration or curriculum publication is required. Keep beta open. Gather independent beginner and supported-device evidence; wider educational, operational and final audit gates remain outstanding.
+Verify CI and follow [the six-game Phase 4.3 guide](PHASE_4_EXPLORERS_BATCH.md) to update/restart only development, run focused checks and accept all six improved Explorer games. No migration or curriculum publication is needed. Keep beta open. Continue the remaining games in approved five-to-six-game batches after acceptance, preserving independent beginner/device, operational and final security assurance gates.
 
-The owner instructed on 26 October 2026 that the formal security-audit-skill stage be deferred until the end of all development. This supersedes the earlier audit-first next action. Continue security by design, secure coding/review and normal tests throughout. Resume the formal audit against the then-current source, revalidating changes and unresolved earlier leads; no security clearance is implied.
+The owner's instruction to defer the formal security-audit-skill workflow until the end of development remains in effect. Continue security by design, code review and ordinary tests throughout; no security clearance is implied.
 
 ## Implemented source changes and checks
 
@@ -206,3 +206,16 @@ Source `a6a04a8` passed [backend run 40472624805](https://github.com/algorithmma
 [Browser run 40472624786](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40472624786) passed all 24 browser cases, including the 12 guided-mission desktop/mobile × 2D/3D cases using actual static stage content and intercepted API responses. Frontend 15 unit tests, TypeScript and production build also passed. The accepted scholarship source data was additionally verified byte-for-byte against the earlier content block before its module move.
 
 These successful CI results do not establish a complete real-backend browser journey, production operation, independent educational effectiveness, actual-device performance or final security assurance. Owner development acceptance for Phase 4.2 is still pending. Next: use [the complete update/test/restart and acceptance guide](PHASE_4_ACCOUNT_AND_SOC.md), check Password Fortress and Midnight Login Alerts, then choose the next bounded improvement. No migration or publication command is needed. Beta remains separate; formal audit stays deferred.
+
+
+## Phase 4.2 owner acceptance and larger batches — 28 October 2026
+
+After handover `f4c9976`, the owner reported “This phase passes” and requested more than two games per build to accelerate improving all 30. The assistant proposed five-to-six-game batches and a next six-game batch; the owner instructed “do so.” Record successful owner-reported Phase 4.2 acceptance and authorisation for the batch-size change. No detailed logs or separately identified independent beginner, actual-device performance, accessibility or real-backend browser evidence was supplied. These wider gates remain outstanding. The beta-access restoration from the prior report remains recorded; no new beta incident or change was requested.
+
+## Phase 4.3 — Six Cyber Explorers games
+
+Implemented 28 October 2026 from `f4c9976`, addressing FB-02/FB-04/FB-05. Privacy Patrol, Scam Spotter, Safe Social, Device Defender, Wi-Fi Wise and Digital Footprints each gain three objectives/tasks, six hints, stage-specific fictional records, finding reasoning and five explained optional review questions. The shared allowlisted registry/API/UI serves all nine guided missions. Accepted guide data, mission definitions, score/finding keys, historic runs and schema are unchanged. Review remains server-checked, owned-run scoped, ungraded and nonpersistent. No migration/publication, dependency changes or beta changes.
+
+[Scope, complete commands and per-game acceptance](PHASE_4_EXPLORERS_BATCH.md). Tests now cover all nine guides and the browser matrix automatically covers every guide (36 desktop/mobile × 2D/3D journeys). Browser contexts remain isolated while the process is reused for faster batches; API-only content changes trigger browser CI. Local checks: 289 backend tests and 11 subtests passed, with 20 database-dependent skips; all 15 frontend unit tests, TypeScript and production build passed. Locked-environment pip check passed. HTTP checks use synthetic SQLite/overridden identity, not full authentication or PostgreSQL lock proof. Existing TestClient deprecation/CSS compatibility warnings remain as applicable. CI results are pending at this checkpoint, not inferred from added cases. Local Chromium's known UNIX-socket blocker remains. No owner database/computer, beta service or mail provider was accessed.
+
+Next: verify CI, run owner development acceptance for all six games, then select the next five-to-six-game batch. Nine of 30 games have the guided pattern in source; Phase 4 and the wider educational/device/final-audit gates are not complete.

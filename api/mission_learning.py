@@ -7,10 +7,18 @@ is additive: it does not change the mission engine's steps, scoring or history.
 import account_mission_learning
 import scholarship_mission_learning
 import soc_mission_learning
+import privacy_mission_learning
+import scam_mission_learning
+import social_mission_learning
+import device_mission_learning
+import wifi_mission_learning
+import footprint_mission_learning
 
 GUIDES = {
     guide.MISSION_ID: guide for guide in (
-        scholarship_mission_learning, account_mission_learning, soc_mission_learning
+        scholarship_mission_learning, account_mission_learning, soc_mission_learning,
+        privacy_mission_learning, scam_mission_learning, social_mission_learning,
+        device_mission_learning, wifi_mission_learning, footprint_mission_learning
     )
 }
 

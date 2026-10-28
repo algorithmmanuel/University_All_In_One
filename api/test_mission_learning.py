@@ -5,6 +5,7 @@ These cases do not establish full authentication or PostgreSQL lock behaviour.
 from datetime import datetime, timezone
 from types import SimpleNamespace
 import pytest
+from mission_learning import GUIDES
 
 
 @pytest.fixture
@@ -42,7 +43,7 @@ def mission_client():
     engine.dispose()
 
 
-@pytest.fixture(params=['phishing-investigation', 'password-fortress', 'soc-alert-triage'])
+@pytest.fixture(params=list(GUIDES))
 def guided_client(mission_client, request):
     from mission_learning import GUIDES
     from models import MissionRun
@@ -60,6 +61,12 @@ def test_guided_three_stage_journey_retains_server_scoring_and_withholds_review(
         'phishing-investigation': [(0, 2), (1, 1), (2, 0)],
         'password-fortress': [(0, 0), (1, 1), (2, 0)],
         'soc-alert-triage': [(1, 1), (0, 0), (2, 0)],
+        'privacy-patrol': [(0, 1), (1, 2), (2, 1)],
+        'scam-spotter': [(0, 1), (1, 1), (2, 0)],
+        'safe-social': [(0, 1), (1, 2), (2, 1)],
+        'device-defender': [(0, 1), (1, 0), (2, 1)],
+        'wifi-wise': [(0, 0), (1, 0), (2, 1)],
+        'digital-footprints': [(0, 1), (1, 1), (2, 0)],
     }
     response = client.post(f'/api/v1/missions/{guide.MISSION_ID}/start')
     assert response.status_code == 201

@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'web/**'
+      - 'api/**'
       - '.github/workflows/browser-gameplay.yml'
   push:
     branches:
@@ -11,6 +12,7 @@ on:
       - feature/beta-continuous-improvement
     paths:
       - 'web/**'
+      - 'api/**'
       - '.github/workflows/browser-gameplay.yml'
 
 permissions:

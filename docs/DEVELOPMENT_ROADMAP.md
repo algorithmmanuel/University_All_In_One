@@ -73,3 +73,8 @@ Following successful owner-reported baseline learner checks, the owner approved 
 
 The owner deferred the formal Cloudflare security-audit-skill workflow until the end of development and instructed that Phase 3 proceed now. Security by design, secure coding/review, authorization/input checks and meaningful ordinary tests remain required in every build. Resume the formal audit against the final source, revalidating changed code and unresolved checkpoints. This change provides no security clearance and does not remove final assurance/release gates. Phase 3 starts with the [Python foundations pilot](PYTHON_FOUNDATIONS.md); the other course reviews remain pending.
 
+
+
+## Approved delivery-size update — 28 October 2026
+
+After reporting Phase 4.2 passed, the owner requested larger batches to move the remaining games to the accepted guidance/interaction/review standard faster. The owner approved the proposed next six-game batch. Work in bounded batches of five to six related games where the shared framework supports it; retain per-game distinct evidence/tasks/hints/review, automated checks, secure coding and focused local acceptance. This changes delivery size, not security, educational or release gates. The next batch is Privacy Patrol, Scam Spotter, Safe Social, Device Defender, Wi-Fi Wise and Digital Footprints. Three guides were implemented before this batch; completing its source brings the count to nine of 30 existing games, not 30 independently validated experiences.
