@@ -38,6 +38,8 @@ export default function CyberLab() {
     [sessions, setSessions] = useState<PracticePreview[]>([]);
   const [practiceCursor, setPracticeCursor] = useState<number | null>(null);
   const [module, setModule] = useState("protect");
+  const [scenario, setScenario] = useState("branch");
+  const [practiceMode, setPracticeMode] = useState("fresh");
   const [topic, setTopic] = useState("all"),
     [difficulty, setDifficulty] = useState("all"),
     [count, setCount] = useState(10);
@@ -146,6 +148,22 @@ export default function CyberLab() {
       }
     });
   }
+  const selectedScenario = catalog?.scenarios?.find(
+    (item) => item.id === scenario,
+  );
+  const eligibleCount = (catalog?.topics ?? [])
+    .filter((item) => topic === "all" || item.id === topic)
+    .reduce(
+      (sum, item) =>
+        sum +
+        (practiceMode === "mistakes"
+          ? (item.mistakes?.[difficulty] ?? 0)
+          : difficulty === "all"
+            ? item.count
+            : (item.counts?.[difficulty] ?? 0)),
+      0,
+    );
+  const sessionCount = Math.min(count, eligibleCount, 20);
   const selectedModule =
     catalog?.modules.find((m) => m.id === module) ?? catalog?.modules[0];
   return (
@@ -162,7 +180,7 @@ export default function CyberLab() {
         <h1>Cybersecurity in motion.</h1>
         <p>
           Defend a fictional branch, build your knowledge and practise across{" "}
-          {catalog?.question_count ?? 100} cybersecurity questions.
+          {catalog?.question_count ?? 250} cybersecurity questions.
         </p>
         <div
           className={styles.tabs}
@@ -215,12 +233,12 @@ export default function CyberLab() {
                 <div className={styles.launch}>
                   <div>
                     <span className={styles.eyebrow}>
-                      FIRST STRATEGY SCENARIO
+                      CHOOSE YOUR NEXT SHIFT
                     </span>
                     <h2>
                       Operation Firewall:
                       <br />
-                      Defend the branch
+                      {selectedScenario?.title ?? "Defend the branch"}
                     </h2>
                     <p>
                       Six assets. A limited budget. An incident that changes
@@ -231,12 +249,27 @@ export default function CyberLab() {
                       recover services. The opponent uses fictional programmed
                       rules. Pause between turns and resume whenever you need.
                     </p>
+                    <label className={styles.scenarioChoice}>
+                      Scenario
+                      <select
+                        aria-label="Scenario"
+                        value={scenario}
+                        onChange={(e) => setScenario(e.target.value)}
+                      >
+                        {catalog.scenarios.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.title} · {item.difficulty}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <p>{selectedScenario?.summary}</p>
                     <button
                       className={styles.primary}
                       disabled={busy}
                       onClick={() =>
                         void work(async () => {
-                          setRun(await request("/runs", "POST"));
+                          setRun(await request("/runs", "POST", { scenario }));
                           pending.current = null;
                           setRetry(false);
                           await refresh();
@@ -321,6 +354,7 @@ export default function CyberLab() {
                           }
                         >
                           <strong>Shift #{r.id}</strong>
+                          <span>{r.title ?? "Defend the branch"}</span>
                           <span>
                             Turn {r.turn} · {r.status}
                           </span>
@@ -373,6 +407,14 @@ export default function CyberLab() {
                     {selectedModule.revision}
                   </span>
                   <h2>{selectedModule.title}</h2>
+                  {selectedModule.previously_completed &&
+                    !selectedModule.completed && (
+                      <p className={styles.callout}>
+                        You completed an earlier edition. Your previous record
+                        is preserved; review the new material before marking
+                        this edition complete.
+                      </p>
+                    )}
                   <p className={styles.callout}>
                     <strong>Worked incident: </strong>
                     {selectedModule.example}
@@ -413,6 +455,7 @@ export default function CyberLab() {
                           setTopic(section.id);
                           setCount(5);
                           setDifficulty("all");
+                          setPracticeMode("fresh");
                           setTab("practice");
                           setPractice(null);
                         }}
@@ -470,7 +513,8 @@ export default function CyberLab() {
                           await request("/practice", "POST", {
                             topic,
                             difficulty,
-                            count,
+                            mode: practiceMode,
+                            count: sessionCount,
                           }),
                         );
                         setAnswers({});
@@ -480,6 +524,17 @@ export default function CyberLab() {
                     }}
                     className={styles.practiceControls}
                   >
+                    <label>
+                      Practice mode
+                      <select
+                        aria-label="Practice mode"
+                        value={practiceMode}
+                        onChange={(e) => setPracticeMode(e.target.value)}
+                      >
+                        <option value="fresh">Fresh practice</option>
+                        <option value="mistakes">Review recent mistakes</option>
+                      </select>
+                    </label>
                     <label>
                       Topic
                       <select
@@ -505,6 +560,7 @@ export default function CyberLab() {
                         <option value="all">All difficulties</option>
                         <option value="foundational">Foundational</option>
                         <option value="applied">Applied</option>
+                        <option value="challenging">Challenging</option>
                       </select>
                     </label>
                     <label>
@@ -512,12 +568,25 @@ export default function CyberLab() {
                       <input
                         type="number"
                         min={1}
-                        max={20}
-                        value={count}
+                        max={Math.max(1, Math.min(20, eligibleCount))}
+                        value={sessionCount || 1}
                         onChange={(e) => setCount(Number(e.target.value))}
                       />
                     </label>
-                    <button className={styles.primary} disabled={busy}>
+                    <p role="status">
+                      {eligibleCount} eligible questions
+                      {practiceMode === "mistakes"
+                        ? " from the latest graded verdicts within your last 50 submitted sessions"
+                        : ""}
+                      .{" "}
+                      {eligibleCount === 0
+                        ? "Choose another topic or complete practice first."
+                        : ""}
+                    </p>
+                    <button
+                      className={styles.primary}
+                      disabled={busy || eligibleCount === 0}
+                    >
                       Start practice →
                     </button>
                   </form>

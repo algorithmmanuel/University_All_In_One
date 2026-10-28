@@ -12,8 +12,8 @@ from cyber_content import BANK, TOPICS, lessons
 
 
 def test_distinct_teaching_and_practice_content():
-    assert len(BANK) == len({q['id'] for q in BANK}) == len({q['prompt'].casefold() for q in BANK}) == 100
-    assert Counter(q['topic'] for q in BANK) == {key: 10 for key in TOPICS}
+    assert len(BANK) == len({q['id'] for q in BANK}) == len({q['prompt'].casefold() for q in BANK}) == 250
+    assert Counter(q['topic'] for q in BANK) == {key: 25 for key in TOPICS}
     modules = lessons()
     assert len(modules) == 3
     assert {s['id'] for m in modules for s in m['sections']} == set(TOPICS)
@@ -163,7 +163,7 @@ def test_practice_freshness_balance_pinned_grading_and_idempotency(lab_client, m
     assert client.get(f"/api/v1/cyber-lab/practice/{first['id']}").status_code == 404
 
 
-@pytest.mark.parametrize('body', [{'count': True}, {'count': 21}, {'topic': 'unknown'}, {'difficulty': 'expert'}, {'topic': 'identity', 'count': 20}, {'user_id': 2}])
+@pytest.mark.parametrize('body', [{'count': True}, {'count': 21}, {'topic': 'unknown'}, {'difficulty': 'expert'}, {'topic': 'identity', 'difficulty': 'foundational', 'count': 20}, {'user_id': 2}])
 def test_practice_rejects_unknown_and_out_of_bounds(lab_client, body):
     assert lab_client[0].post('/api/v1/cyber-lab/practice', json=body).status_code == 422
 

@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Build A is delivered and all automated gates passed for `718dc9b`: 616 backend tests + 11 subtests, 147 existing browser cases and 5 real-API/PostgreSQL browser journeys; frontend/dependency checks passed. Branch Defender, three cybersecurity modules and 100 new questions are ready for development installation and local acceptance using [the one release guide](BUILD_A_BRANCH_DEFENDER.md). Beta and wider learner/device/operational/final-security gates remain separate.
+**Checkpoint:** Owner reported successful local checks/acceptance of Build A after navigation correction and authorised continuing. Build B now implements two additional strategy scenarios, a preserved original mode, 250 Cyber Lab questions, challenging/mistake review and expanded versioned learning. Local checks passed as recorded below; Build B CI/owner acceptance remain pending. See [the one Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md). Beta and independent learner/device/operational/final-security gates remain separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify the subsequent dashboard-navigation correction CI, then use [the complete Build A guide](BUILD_A_BRANCH_DEFENDER.md) for one development update/migration/check/restart and local acceptance pass. All original Build A automated CI gates for application source `718dc9b` passed; the navigation correction has separate targeted local evidence below. This build adds schema revision `0011_strategy_learning`; stop only development services before using the guarded migrator, and do not restart an unmigrated development database. English only, rules-based opponent, three new cybersecurity modules and 100 new practice questions. AI/languages remain deferred. Preserve legacy records, leave beta open and do not infer owner installation/acceptance or promotion from automated checks.
+Verify Build B CI, including new scenario and mistake-review journeys on actual API/PostgreSQL, then use [the complete Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md) for development update/check/restart and local acceptance. No additional migration beyond accepted `0011_strategy_learning`, dependencies or publisher command. Preserve v1 saved runs, original question snapshots and earlier module completion records. English only; languages/AI remain deferred. Do not infer Build B acceptance or beta promotion from Build A acceptance.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -438,3 +438,16 @@ Owner screenshots showed no Branch Defender entry on the normal student dashboar
 Added desktop/mobile assertions that the normal dashboard contains the game card/navigation destination and that the teacher view excludes them. The real-API browser journeys now begin by following **Play Branch Defender →** from the dashboard rather than going straight to the lab. Production build/type validation passed; all seven focused browser cases passed locally against the supported headless shell, including both real-API/disposable-SQLite journeys. CI for this navigation correction is pending at this source checkpoint; original Build A CI evidence remains recorded without implying that it had checked dashboard discoverability.
 
 Next: verify correction CI and use the existing complete Build A release guide to update/restart development. There is no additional migration beyond Build A `0011_strategy_learning`. After updating, locate **Cyber Lab** in the top navigation or **Play Branch Defender →** above **Your saved progress**. Direct route: `/cyber-lab`. Owner acceptance remains pending.
+
+
+## Build A owner acceptance and continuation — 28 October 2026
+
+After the navigation correction handover `a0291df`, the owner reported “All test passed. Lets move onto the next thing”. Record successful owner-reported local checks/acceptance of the latest Build A and authorisation to continue to the next planned build. No detailed logs, separate independent learner/physical-device/learning-gain, operational-recovery or final security evidence was supplied; those gates remain open. Navigation correction [browser run 40742369052](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40742369052) and [real API run 40742369062](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40742369062) also completed successfully. This does not imply deployment or beta promotion.
+
+## Build B — scenarios and 250-question practice, 28 October 2026
+
+Implemented Supplier Access Crisis (recurring service-credential entry and separate revocation) and Recovery Under Pressure (pre-existing compromise/encrypted service and controlled restoration) alongside the unchanged original scenario. Original rule source is retained byte-for-byte in `strategy_v1.py`; stored revisions select their rules. Added 150 original questions for 250 total, challenging difficulty, server-validated eligible counts and review based on actual saved incorrect verdicts within a bounded graded-session window. New submissions record server submission time; legacy results without it retain a documented creation-order limitation. All three modules add explanations/250 worked decisions and specific public reading; versioned earlier completion remains stored and acknowledged. No schema/dependency/publisher change or beta access. See [scope, preservation, complete PowerShell blocks and acceptance](BUILD_B_SCENARIOS_AND_PRACTICE.md).
+
+Local checkpoint: full backend 609 passed + 11 subtests, 21 PostgreSQL-dependent skips; subsequent focused Build B checks passed all 16 after the final review-window/pending-restoration fixes. Frontend 15 unit tests, typecheck, production build and pip check passed. Seven actual-API/SQLite browser cases passed locally, covering original and both new scenarios at desktop/mobile plus actual saved-mistake review. Existing v1 rule source and 100-question source are byte-for-byte preserved. CI is pending at this source checkpoint. No owner database/runtime, beta source/service or mail/model provider was accessed; independent content/educational/device/operational/final assurance remain open.
+
+Next: verify all Build B CI and hand over the one complete update/check/restart/acceptance guide. Keep the original mission/course histories and latest Build A owner acceptance intact; do not infer Build B owner acceptance.

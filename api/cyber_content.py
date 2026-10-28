@@ -4,12 +4,42 @@ Sources are references, not scraped text. Keep this revision available for saved
 practice snapshots and study completion. No provider calls or model-generated runtime text.
 """
 from pathlib import Path
-REVISION = 'cyber-lab-v1'
+LEGACY_REVISION = 'cyber-lab-v1'
+REVISION = 'cyber-lab-v2'
 SOURCES = {
     'nist': {'title': 'NIST Cybersecurity Framework', 'url': 'https://www.nist.gov/cyberframework', 'reviewed': '2026-10-28'},
     'owasp': {'title': 'OWASP Top 10', 'url': 'https://owasp.org/projects/top-ten', 'reviewed': '2026-10-28'},
     'mitre': {'title': 'MITRE ATT&CK', 'url': 'https://attack.mitre.org/', 'reviewed': '2026-10-28'},
 }
+# Public reference sections for the new edition; original question sources remain frozen.
+READINGS = {
+ 'phishing': ('MITRE ATT&CK: Phishing (T1566)', 'https://attack.mitre.org/techniques/T1566/'),
+ 'identity': ('OWASP Authentication Cheat Sheet', 'https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html'),
+ 'network': ('MITRE ATT&CK: Network Segmentation (M1030)', 'https://attack.mitre.org/mitigations/M1030/'),
+ 'endpoint': ('MITRE ATT&CK: Update Software (M1051)', 'https://attack.mitre.org/mitigations/M1051/'),
+ 'application': ('OWASP Authorization Cheat Sheet', 'https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html'),
+ 'cloud': ('NIST SP 800-144: public-cloud security and privacy considerations (2011)', 'https://csrc.nist.gov/pubs/sp/800/144/final'),
+ 'response': ('NIST SP 800-61 Rev. 3: Incident Response (2025)', 'https://csrc.nist.gov/pubs/sp/800/61/r3/final'),
+ 'recovery': ('NIST SP 800-34 Rev. 1: Contingency Planning (2010)', 'https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final'),
+}
+EXTENSIONS = {
+ 'fundamentals': 'Consider two redundant branch servers that share one identity provider. The server count suggests resilience, but a failed shared dependency can still stop both. Map the service path, set measurable targets and test the whole dependency chain. State the assumptions and scope of each conclusion. A laboratory test and a production control test support different claims.',
+ 'phishing': 'A real colleague account can be compromised and an expected invoice can carry substituted payment details. Verify consequential changes through established independent channels even when the business context looks plausible. Encourage prompt reporting without blame. Receipt, opening an attachment, submitting credentials and session exposure are different events; response should follow evidence of what actually happened.',
+ 'identity': 'In Supplier Access Crisis, staff MFA does not revoke the supplier service credential. Inventory non-human identities and their owners, scopes and expiry conditions. Removing one role may leave group-based access or delegated application permissions. Rotation must invalidate the obsolete credential, and disabling an account may require separate verification of sessions. Review effective access rather than one reassuring control label.',
+ 'network': 'Compare the intended network diagram with actual permitted paths. One restrictive rule can be bypassed by another route. Isolating the identity service can interrupt other applications, so containment needs a dependency-aware decision and rollback plan. DNSSEC addresses origin authentication and integrity of signed DNS data; it does not encrypt all application traffic or establish that a business request is legitimate.',
+ 'endpoint': 'Patching a compromised device closes a modeled weakness without proving a trusted operating state. Preserve relevant records, assess persistence and exposed credentials, then validate recovery. A signed binary, known hash or healthy dashboard is one evidence input with limits. Requested remote wipe, requested agent installation and confirmed execution/effectiveness are separate states.',
+ 'application': 'A game retry after a lost response must reuse its original command identity. A conflicting reuse is rejected, while an identical retry cannot spend credits twice. Transactions and version checks protect concurrent state changes. Keep practice question/options snapshots fixed so later authoring cannot change what an earlier learner is graded against. Enforce ownership on every object request and avoid secrets in logs.',
+ 'cloud': 'Review effective cloud access across identity, resource and inherited policies. Production and backup permissions controlled by the same powerful identity can create a shared recovery failure path. A provider health report does not validate customer configuration. The linked 2011 NIST publication supplies general outsourcing/security considerations, not current provider-specific setup instructions; validate actual service controls against current official documentation.',
+ 'response': 'Supplier credential revocation closes future entry but does not remove compromise already present. Coordinate containment, evidence collection and restoration under an incident decision authority. Keep confirmed facts separate from hypotheses and record what was known when each decision was made. Verify that requested actions executed and achieved their intended effects. A final report may truthfully retain unresolved questions.',
+ 'recovery': 'Recovery Under Pressure begins with encrypted services: disconnection alone cannot restore availability. Contain affected assets, verify a recovery source, restore isolated systems, validate and reconnect deliberately. Include identities, keys, application dependencies, people and runbooks in recovery tests. Report component and service-level results separately. The linked NIST planning guide is an older reference for concepts, not a claim of compliance or a vendor runbook.',
+ 'governance': 'A closed remediation ticket, training completion or policy document does not establish the corresponding outcome. Match evidence to scope, time and objective. Record sample limitations, supplier report scope, exception expiry and cross-team responsibilities. AI or multiplayer expansion should follow demonstrated value, dependable operation and relevant data/safety/cost evaluation rather than a feature-count target.',
+}
+
+
+def further_reading(topic):
+    title, url = READINGS.get(topic, (SOURCES['nist']['title'], SOURCES['nist']['url']))
+    return {'title': title, 'url': url, 'reviewed': '2026-10-28'}
+
 # Each topic teaches the complete assessed concept set through its worked cases below.
 TOPICS = {
  'fundamentals': ('Security goals and risk', 'nist', 'A service can be online while leaking data or accepting incorrect transactions. Separate confidentiality, integrity and availability when describing impact. Identify critical services and dependencies before prioritising controls. A threat can exploit a vulnerability; risk depends on context and potential consequences. Layered controls reduce different paths, and accountable owners must decide how to handle remaining risk.'),
@@ -36,28 +66,36 @@ MODULES = [
 ]
 
 
-def load_bank():
+def _load_file(filename, revision, offset=0):
     bank = []; topic = None
-    for line in Path(__file__).with_name('content').joinpath('cyber_practice_v1.txt').read_text(encoding='utf-8').splitlines():
+    for line in Path(__file__).with_name('content').joinpath(filename).read_text(encoding='utf-8').splitlines():
         if not line: continue
         if line.startswith('['): topic = line[1:-1]; continue
         prompt, correct, wrong1, wrong2, explanation = line.split('|')
-        index = sum(q['topic'] == topic for q in bank) + 1
+        index = sum(q['topic'] == topic for q in bank) + 1 + offset
         position = (index - 1) % 3
         options = [wrong1, wrong2]; options.insert(position, correct)
-        bank.append({'id': f'{topic}-{index:02}', 'revision': REVISION, 'topic': topic,
-            'objective': topic + '-apply', 'difficulty': 'foundational' if index <= 4 else 'applied',
+        bank.append({'id': f'{topic}-{index:02}', 'revision': revision, 'topic': topic,
+            'objective': topic + '-apply', 'difficulty': 'foundational' if index <= 4 else ('challenging' if index >= 21 else 'applied'),
             'module': next(m['id'] for m in MODULES if topic in m['topics']),
             'prompt': prompt, 'options': options, 'answer': position,
-            'explanation': explanation, 'source': SOURCES[TOPICS[topic][1]]})
+            'explanation': explanation, 'source': further_reading(topic) if revision == REVISION else SOURCES[TOPICS[topic][1]]})
     return bank
 
+def load_bank():
+    return (_load_file('cyber_practice_v1.txt', LEGACY_REVISION)
+            + _load_file('cyber_practice_v2.txt', REVISION, offset=10))
+
 BANK = load_bank()
+for question in BANK:
+    if question['id'] == 'network-21':
+        question['source'] = {'title': 'RFC 4033: DNSSEC services and limitations (updated by later RFCs)',
+            'url': 'https://www.rfc-editor.org/info/rfc4033/', 'reviewed': '2026-10-28'}
 
 
 def lessons():
     return [{**module, 'revision': REVISION, 'sections': [{
         'id': topic, 'title': TOPICS[topic][0], 'objective': 'Apply ' + TOPICS[topic][0].lower() + ' to an evidence-based decision.',
-        'body': TOPICS[topic][2], 'source': SOURCES[TOPICS[topic][1]],
+        'body': TOPICS[topic][2] + ' ' + EXTENSIONS[topic], 'source': further_reading(topic),
         'worked_cases': [{'situation': q['prompt'], 'reasoning': q['explanation']} for q in BANK if q['topic'] == topic]
     } for topic in module['topics']]} for module in MODULES]

@@ -25,7 +25,11 @@ export default function GameBoard({
           <span className={styles.eyebrow}>
             OPERATION FIREWALL / BRANCH DEFENDER
           </span>
-          <h2>Protect the branch.</h2>
+          <h2>
+            {run.scenario === undefined || run.scenario === "branch"
+              ? "Protect the branch."
+              : run.scenario_info?.title}
+          </h2>
           <p>
             Run #{run.id} ·{" "}
             {run.status === "active"
@@ -78,6 +82,13 @@ export default function GameBoard({
         </div>
       </div>
       <div className={styles.controlStrip}>
+        {run.scenario === "supplier" && (
+          <span>
+            {run.vendor_revoked
+              ? "✓ Supplier access revoked"
+              : "○ Supplier access enabled"}
+          </span>
+        )}
         <span>{run.mfa ? "✓ Sign-in protected" : "○ Sign-in exposed"}</span>
         <span>
           {run.segmented ? "✓ Database segmented" : "○ Database path open"}
@@ -97,20 +108,21 @@ export default function GameBoard({
         <div className={styles.briefing}>
           <h3>Your objective</h3>
           <p>
-            By turn 18, clear all compromise, verify recovery and keep at least
-            80% service available. Victory can occur from turn 8. Lose at 100%
-            data exposure, or after two consecutive turn advances below 25%
-            service.
+            {run.scenario_info?.objective ??
+              "By turn 18, clear all compromise, verify recovery and keep at least 80% service available. Victory can occur from turn 8."}{" "}
+            Lose at 100% data exposure, or after two consecutive turn advances
+            below 25% service.
           </p>
+          {run.scenario_info && <p>{run.scenario_info.summary}</p>}
           <ol>
             <li>
               Select an asset on the map. Spend up to three staff actions, then
               advance the turn.
             </li>
             <li>
-              Protect sign-in early, patch exposed services, deploy monitoring
-              and investigate. Hidden compromise may exist even when no alert is
-              visible.
+              Protect relevant entry paths, patch exposed services, deploy
+              monitoring and investigate. Hidden compromise may exist even when
+              no alert is visible.
             </li>
             <li>
               Isolation stops links but removes service. With a verified
@@ -179,7 +191,7 @@ export default function GameBoard({
                   asset.id === a.id ? styles.selected : "",
                   a.isolated
                     ? styles.isolated
-                    : a.condition === "Compromise detected"
+                    : a.condition === "Compromise detected" || a.encrypted
                       ? styles.alert
                       : "",
                 ].join(" ")}
@@ -203,11 +215,13 @@ export default function GameBoard({
                     ? "Maintenance: " + a.pending
                     : a.isolated
                       ? "ISOLATED"
-                      : a.condition === "Compromise detected"
+                      : a.condition === "Compromise detected" || a.encrypted
                         ? "COMPROMISE DETECTED"
                         : a.monitored
                           ? "MONITORED"
-                          : "SELECT TO INVESTIGATE"}
+                          : a.encrypted
+                            ? "SERVICE ENCRYPTED"
+                            : "SELECT TO INVESTIGATE"}
                 </small>
               </button>
             ))}
@@ -296,7 +310,12 @@ export default function GameBoard({
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <a href="/cyber-lab?tab=learn&module=recover">
+              <a
+                href={
+                  "/cyber-lab?tab=learn&module=" +
+                  (run.scenario_info?.lesson ?? "recover")
+                }
+              >
                 Review response and recovery lessons →
               </a>
             </>

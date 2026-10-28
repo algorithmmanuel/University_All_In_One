@@ -10,7 +10,7 @@ This is the continuation entry point for maintainers and future assistant sessio
 2. Read [the approved roadmap and acceptance gates](docs/DEVELOPMENT_ROADMAP.md).
 For the combined Phase 5 development release, use [the single release guide](docs/PHASE_5_RELEASE.md); separate Phase 5.2 installation is superseded by owner direction.
 
-Build A continuation: read [the implementation/release guide](docs/BUILD_A_BRANCH_DEFENDER.md) and current status first.
+Build B continuation: read [the current implementation/release guide](docs/BUILD_B_SCENARIOS_AND_PRACTICE.md) and status first. Build A has owner-reported local acceptance; its guide/evidence remain historical.
 
 Phase 6 direction: read [the current gameplay and learning plan](docs/PHASE_6_GAMEPLAY_PLAN.md), which supersedes the earlier next-build recommendation. Owner direction is English-only consequential browser gameplay, richer cybersecurity teaching and extensive topic practice; AI is for later. The [source inventory](docs/PHASE_6_SCOPE.md) remains historical evidence.
 

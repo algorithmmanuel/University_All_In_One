@@ -6,7 +6,7 @@ from uuid import UUID
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from sqlalchemy import select, func
+from sqlalchemy import select, func, cast, Text
 from sqlalchemy.orm import Session
 from auth import current_user
 from db_dependencies import get_db
@@ -14,6 +14,7 @@ from models import User, StrategyRun, StrategyCommand, CyberPracticeSession, Cyb
 from learning_routes import student_only
 import strategy_engine as engine
 from cyber_content import BANK, MODULES, TOPICS, REVISION, lessons
+from strategy_scenarios import SCENARIOS
 
 router = APIRouter(prefix='/api/v1/cyber-lab', tags=['cyber-lab'])
 
@@ -38,9 +39,20 @@ def creation_limit(db, model, user_id):
 def catalog(user=Depends(student_only), db: Session = Depends(get_db)):
     completed = set(db.scalars(select(CyberStudyProgress.module_id).where(
         CyberStudyProgress.user_id == user.id, CyberStudyProgress.revision == REVISION)))
-    return {'revision': REVISION, 'question_count': len(BANK), 'modules': [
-        {**item, 'completed': item['id'] in completed} for item in lessons()],
-        'topics': [{'id': key, 'title': value[0], 'count': sum(q['topic'] == key for q in BANK)} for key, value in TOPICS.items()]}
+    previous = set(db.scalars(select(CyberStudyProgress.module_id).where(
+        CyberStudyProgress.user_id == user.id, CyberStudyProgress.revision != REVISION)))
+    mistakes = recent_mistakes(db, user.id)
+    return {'revision': REVISION, 'question_count': len(BANK), 'scenarios': list(SCENARIOS.values()),
+        'modules': [{**item, 'completed': item['id'] in completed,
+                     'previously_completed': item['id'] in previous} for item in lessons()],
+        'topics': [{'id': key, 'title': value[0], 'count': sum(q['topic'] == key for q in BANK),
+            'counts': {level: sum(q['topic'] == key and q['difficulty'] == level for q in BANK)
+                       for level in ('foundational', 'applied', 'challenging')},
+            'mistakes': {level: sum(q['topic'] == key and q['id'] in mistakes and
+                              (level == 'all' or q['difficulty'] == level) for q in BANK)
+                         for level in ('all', 'foundational', 'applied', 'challenging')}}
+                   for key, value in TOPICS.items()]}
+
 
 
 @router.post('/study/{module_id}/complete')
@@ -54,10 +66,16 @@ def study_complete(module_id: str, user=Depends(student_only), db: Session = Dep
     return {'module_id': module_id, 'completed': True, 'revision': REVISION}
 
 
+class StrategyStart(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    scenario: str = Field(default='branch', max_length=30)
+
+
 @router.post('/runs', status_code=201)
-def start(user=Depends(student_only), db: Session = Depends(get_db)):
+def start(body: StrategyStart = StrategyStart(), user=Depends(student_only), db: Session = Depends(get_db)):
+    if body.scenario not in SCENARIOS: raise HTTPException(422, 'Unknown scenario')
     creation_limit(db, StrategyRun, user.id)
-    run = StrategyRun(user_id=user.id, state=engine.new_state(token_hex(16)))
+    run = StrategyRun(user_id=user.id, state=engine.new_state(token_hex(16), body.scenario))
     db.add(run); db.commit(); db.refresh(run)
     return {'id': run.id, **engine.public(run.state)}
 
@@ -68,6 +86,8 @@ def runs(before_id: int | None = Query(None, ge=1), user=Depends(student_only), 
     if before_id: stmt = stmt.where(StrategyRun.id < before_id)
     page = db.scalars(stmt.order_by(StrategyRun.id.desc()).limit(21)).all()
     return {'runs': [{'id': row.id, 'turn': row.state['turn'], 'status': row.state['status'],
+        'scenario': row.state.get('scenario', 'branch'),
+        'title': SCENARIOS[row.state.get('scenario', 'branch')]['title'],
         'created_at': row.created_at.isoformat()} for row in page[:20]],
         'next_before_id': page[19].id if len(page) > 20 else None}
 
@@ -109,24 +129,43 @@ def command(run_id: int, body: Command, user=Depends(student_only), db: Session 
 
 class PracticeStart(BaseModel):
     model_config = ConfigDict(extra='forbid')
+    mode: str = Field(default='fresh', max_length=20)
     topic: str = Field(default='all', max_length=30)
     difficulty: str = Field(default='all', max_length=20)
     count: StrictInt = Field(default=10, ge=1, le=20)
 
 
 def practice_public(row):
-    return {'id': row.id, 'revision': row.snapshot[0]['revision'], 'questions': [
+    return {'id': row.id, 'revision': row.snapshot[0]['revision'] if len({q['revision'] for q in row.snapshot}) == 1 else 'mixed', 'questions': [
         {key: q[key] for key in ('id', 'revision', 'topic', 'objective', 'difficulty', 'prompt', 'options', 'module')}
         for q in row.snapshot], 'result': row.result}
+
+
+def recent_mistakes(db, user_id):
+    """Latest graded verdict per ID within a bounded 50-session review window."""
+    rows = db.scalars(select(CyberPracticeSession).where(CyberPracticeSession.user_id == user_id,
+        CyberPracticeSession.result.is_not(None), cast(CyberPracticeSession.result, Text) != 'null').order_by(CyberPracticeSession.id.desc()).limit(50)).all()
+    # New submissions carry server time. Older results keep their existing data
+    # and use creation order only as an explicit legacy fallback.
+    rows = sorted(rows, key=lambda row: (row.result or {}).get('submitted_at') or (row.created_at.astimezone(timezone.utc) if row.created_at.tzinfo else row.created_at.replace(tzinfo=timezone.utc)).isoformat(), reverse=True)
+    verdicts = {}
+    for row in rows:
+        if not row.result: continue
+        for item in row.result.get('feedback', []): verdicts.setdefault(item['id'], item['correct'])
+    return {key for key, correct in verdicts.items() if not correct}
 
 
 @router.post('/practice', status_code=201)
 def start_practice(body: PracticeStart, user=Depends(student_only), db: Session = Depends(get_db)):
     if body.topic != 'all' and body.topic not in TOPICS: raise HTTPException(422, 'Unknown topic')
-    if body.difficulty not in ('all', 'foundational', 'applied'): raise HTTPException(422, 'Unknown difficulty')
+    if body.mode not in ('fresh', 'mistakes'): raise HTTPException(422, 'Unknown practice mode')
+    if body.difficulty not in ('all', 'foundational', 'applied', 'challenging'): raise HTTPException(422, 'Unknown difficulty')
     eligible = [q for q in BANK if (body.topic == 'all' or q['topic'] == body.topic)
                 and (body.difficulty == 'all' or q['difficulty'] == body.difficulty)]
-    if body.count > len(eligible): raise HTTPException(422, 'Choose no more than the eligible question count')
+    if body.mode == 'mistakes':
+        mistakes = recent_mistakes(db, user.id)
+        eligible = [q for q in eligible if q['id'] in mistakes]
+    if body.count > len(eligible): raise HTTPException(422, f'Only {len(eligible)} questions match these choices; choose a smaller session or another mode')
     creation_limit(db, CyberPracticeSession, user.id)
     recent = db.scalars(select(CyberPracticeSession).where(CyberPracticeSession.user_id == user.id)
         .order_by(CyberPracticeSession.id.desc()).limit(50)).all()
@@ -182,7 +221,7 @@ def submit_practice(session_id: int, body: Answers, user=Depends(student_only), 
     feedback = [{'id': q['id'], 'prompt': q['prompt'], 'topic': q['topic'], 'module': q['module'],
         'correct': body.answers[q['id']] == q['answer'], 'selected': q['options'][body.answers[q['id']]],
         'expected': q['options'][q['answer']], 'explanation': q['explanation'], 'source': q['source']} for q in row.snapshot]
-    row.result = {'answers': body.answers, 'score': sum(q['correct'] for q in feedback),
+    row.result = {'submitted_at': datetime.now(timezone.utc).isoformat(), 'answers': body.answers, 'score': sum(q['correct'] for q in feedback),
         'total': len(feedback), 'feedback': feedback,
         'notice': 'This practice sample is not a certification or a complete measure of topic mastery.'}
     db.commit()

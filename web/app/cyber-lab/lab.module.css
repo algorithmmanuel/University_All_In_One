@@ -666,3 +666,18 @@
     transition: none;
   }
 }
+
+.scenarioChoice {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+.scenarioChoice select {
+  padding: 13px;
+  border: 1px solid #4f7087;
+  border-radius: 8px;
+  background: #091a28;
+  color: #e6f1fa;
+  max-width: 100%;
+}
