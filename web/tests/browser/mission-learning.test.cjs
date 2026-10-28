@@ -13,15 +13,23 @@ after(async()=>{if(browser)await browser.close();});
 const {execFileSync}=require('node:child_process');
 const path=require('node:path');
 const fixtureSource=`
-import json
+import ast, json
+from pathlib import Path
 from mission_data import MISSIONS
 from mission_learning import GUIDES, public_learning
+# Read the literal catalogue mapping without importing application dependencies.
+# Fail visibly if its shape changes, rather than defaulting games to a pathway.
+catalog = ast.parse(Path('game_catalog.py').read_text(encoding='utf-8'))
+playable_node = next(node.value for node in catalog.body if isinstance(node, ast.Assign)
+                     and any(isinstance(t, ast.Name) and t.id == 'PLAYABLE' for t in node.targets))
+pathways = {mission_id: pathway for _, pathway, _, _, ids in ast.literal_eval(playable_node)
+            for mission_id in ids}
 fixtures = {}
 for mission_id, guide in GUIDES.items():
     mission = MISSIONS[mission_id]
     steps = [{**{key: step[key] for key in ('scene', 'story', 'evidence', 'question')},
               'options': [item['text'] for item in step['options']]} for step in mission['steps']]
-    fixtures[mission_id] = {'title': mission['title'], 'steps': steps,
+    fixtures[mission_id] = {'title': mission['title'], 'pathway': pathways[mission_id], 'steps': steps,
         'learning': [public_learning(mission_id, i, False) for i in range(len(steps))],
         'completed_learning': public_learning(mission_id, len(steps), True),
         'review_keys': guide.REVIEW}
@@ -31,7 +39,7 @@ const fixtures=JSON.parse(execFileSync(process.env.EDUCYBER_TEST_PYTHON||(proces
  cwd:path.resolve(__dirname,'../../../api'),encoding:'utf8'
 }));
 for(const missionId of Object.keys(fixtures))for(const mobile of [false,true])for(const use3D of [false,true]){
- const source=fixtures[missionId],title=source.title,pathway=missionId==='soc-alert-triage'?'university':'secondary';
+ const source=fixtures[missionId],title=source.title,pathway=source.pathway;
  test(`${title} journey, review and resume; mobile=${mobile}, 3D=${use3D}`,async t=>{
   browser ||= await chromium.launch({channel:'chromium',headless:true,args:['--disable-dev-shm-usage','--enable-unsafe-swiftshader']});
   const context=await browser.newContext({baseURL:WEB,viewport:mobile?{width:390,height:844}:{width:1280,height:720},reducedMotion:'reduce'});

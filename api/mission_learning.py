@@ -13,12 +13,20 @@ import social_mission_learning
 import device_mission_learning
 import wifi_mission_learning
 import footprint_mission_learning
+import mfa_mission_learning
+import backup_mission_learning
+import firewall_mission_learning
+import network_mission_learning
+import web_mission_learning
+import cloud_mission_learning
 
 GUIDES = {
     guide.MISSION_ID: guide for guide in (
         scholarship_mission_learning, account_mission_learning, soc_mission_learning,
         privacy_mission_learning, scam_mission_learning, social_mission_learning,
-        device_mission_learning, wifi_mission_learning, footprint_mission_learning
+        device_mission_learning, wifi_mission_learning, footprint_mission_learning,
+        mfa_mission_learning, backup_mission_learning, firewall_mission_learning,
+        network_mission_learning, web_mission_learning, cloud_mission_learning
     )
 }
 

@@ -67,6 +67,12 @@ def test_guided_three_stage_journey_retains_server_scoring_and_withholds_review(
         'device-defender': [(0, 1), (1, 0), (2, 1)],
         'wifi-wise': [(0, 0), (1, 0), (2, 1)],
         'digital-footprints': [(0, 1), (1, 1), (2, 0)],
+        'mfa-guardian': [(0, 1), (1, 0), (2, 1)],
+        'backup-buddy': [(0, 0), (1, 0), (2, 1)],
+        'operation-firewall': [(0, 1), (1, 0), (2, 2)],
+        'network-watch': [(1, 1), (0, 2), (2, 0)],
+        'web-defense': [(0, 1), (1, 0), (2, 1)],
+        'cloud-perimeter': [(0, 1), (1, 0), (2, 2)],
     }
     response = client.post(f'/api/v1/missions/{guide.MISSION_ID}/start')
     assert response.status_code == 201

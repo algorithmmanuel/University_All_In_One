@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 4.2 owner-reported acceptance recorded; Phase 4.3 six-game Explorer batch implemented with passing CI; owner acceptance and independent beginner/device evidence pending. Nine of 30 games have guidance in source. Formal audit remains deferred until the end of development.
+**Checkpoint:** Phase 4.3 owner-reported acceptance recorded. Phase 4.4 six-game recovery/Academy batch implemented; CI and owner acceptance pending. Fifteen of 30 guides are implemented, including all ten Explorers. Formal audit remains deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,9 +76,9 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify CI and follow [the six-game Phase 4.3 guide](PHASE_4_EXPLORERS_BATCH.md) to update/restart only development, run focused checks and accept all six improved Explorer games. No migration or curriculum publication is needed. Keep beta open. Continue the remaining games in approved five-to-six-game batches after acceptance, preserving independent beginner/device, operational and final security assurance gates.
+Verify CI and follow [the Phase 4.4 guide](PHASE_4_RECOVERY_AND_ACADEMY.md) to update/restart only development, run focused checks and accept MFA Guardian, Backup Buddy, Operation Firewall, Network Watch, Web Defense and Cloud Perimeter. No migration or content publication is required. Keep beta open. Continue the remaining games in approved five-to-six-game batches after acceptance; independent educational/device, operational and final security assurance gates remain open.
 
-The owner's instruction to defer the formal security-audit-skill workflow until the end of development remains in effect. Continue security by design, code review and ordinary tests throughout; no security clearance is implied.
+The owner-directed deferral of the formal security-audit-skill workflow until the end of development remains in effect. Security by design, review and ordinary testing continue throughout; no security clearance is implied.
 
 ## Implemented source changes and checks
 
@@ -228,3 +228,16 @@ Implementation `4e5df28` passed [backend run 40654992864](https://github.com/alg
 [Browser run 40654992839](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40654992839) passed all 48 browser cases, including 36 guided-mission journeys across all nine guides × desktop/mobile × 2D/3D. The job also passed 15 frontend unit tests, TypeScript and production build. Browser responses are intercepted synthetic API replies with actual static stage content; the separate API/PostgreSQL suite supplies grading and persistence evidence. No complete real-backend browser, production performance, independent learner understanding or final security clearance is claimed.
 
 Next: follow [the complete Phase 4.3 guide](PHASE_4_EXPLORERS_BATCH.md) to update/restart development and accept Privacy Patrol, Scam Spotter, Safe Social, Device Defender, Wi-Fi Wise and Digital Footprints. No migration or publication command is needed. Nine of 30 guides are implemented; 21 remain. Keep beta separate and continue in approved five-to-six-game batches after acceptance.
+
+
+## Phase 4.3 owner acceptance — 28 October 2026
+
+After handover `954c086` and its six-game update/test/restart/acceptance guide, the owner reported “all test pass, lets go to next phase.” Record this as successful owner-reported local acceptance and authorisation for the next approved-size batch. No detailed logs, separately identified independent learner walkthroughs, actual-device performance, accessibility or full real-backend browser evidence were supplied. Do not infer these wider outcomes. No new beta incident or configuration change was requested.
+
+## Phase 4.4 — Recovery and Cyber Academy batch
+
+Implemented 28 October 2026 from `954c086` for FB-02/FB-04/FB-05. Added distinct goals, stage tasks/records, six hints, post-decision finding reasoning and five explained optional review questions to each of MFA Guardian, Backup Buddy, Operation Firewall, Network Watch, Web Defense and Cloud Perimeter. The accepted registry/API/UI now serves 15 guides: all ten Explorers plus five Academy games. Existing mission definitions, keys, scoring, saved history, schema and earlier guide content are unchanged. No migration/publication, dependency pin change or beta change.
+
+[Complete commands, scope and acceptance](PHASE_4_RECOVERY_AND_ACADEMY.md). Backend cases expand to all 15 guides; the browser matrix contains 60 guided desktop/mobile × 2D/3D journeys with actual static content and catalogue-derived pathways. Browser responses are synthetic and not a full real-backend journey. Local Chromium's known UNIX-socket blocker remains. Local checks passed: 361 backend tests and 11 subtests, with 20 database-dependent skips; 15 frontend unit tests, TypeScript, production build and pip check passed. Existing TestClient deprecation/CSS compatibility warnings remain as applicable. These local HTTP checks use SQLite/overridden identity, not full authentication or PostgreSQL lock proof. CI is pending at this checkpoint. No owner computer/database, beta services or mail provider was accessed.
+
+Next: verify CI and owner acceptance for the six games, then choose the next approved-size batch. Fifteen games remain. Phase 4, independent beginner/device assurance and final audit gates are not complete.
