@@ -73,6 +73,12 @@ def test_guided_three_stage_journey_retains_server_scoring_and_withholds_review(
         'network-watch': [(1, 1), (0, 2), (2, 0)],
         'web-defense': [(0, 1), (1, 0), (2, 1)],
         'cloud-perimeter': [(0, 1), (1, 0), (2, 2)],
+        'forensics-desk': [(0, 1), (1, 0), (2, 2)],
+        'malware-clues': [(0, 0), (1, 0), (2, 1)],
+        'identity-lab': [(0, 1), (1, 0), (2, 1)],
+        'secure-code-review': [(0, 0), (1, 0), (2, 1)],
+        'threat-hunter': [(0, 0), (1, 0), (2, 0)],
+        'incident-response': [(0, 0), (1, 0), (2, 1)],
     }
     response = client.post(f'/api/v1/missions/{guide.MISSION_ID}/start')
     assert response.status_code == 201
@@ -138,9 +144,14 @@ def test_review_completion_ownership_role_and_legacy_boundaries(guided_client):
     learner.role = 'teacher'
     assert client.post('/api/v1/missions/runs/1/review', json=body).status_code == 403
     learner.role = 'student'
-    legacy = client.post('/api/v1/missions/incident-response/start').json()
-    assert legacy['learning'] is None
-    assert client.post(f"/api/v1/missions/runs/{legacy['run_id']}/review", json=body).status_code == 404
+    # Unsupported review applies only while unregistered guides remain. Choose
+    # from source so adding a guide cannot silently invalidate this boundary case.
+    from mission_data import MISSIONS
+    legacy_id = next((key for key in MISSIONS if key not in GUIDES), None)
+    if legacy_id is not None:
+        legacy = client.post(f'/api/v1/missions/{legacy_id}/start').json()
+        assert legacy['learning'] is None
+        assert client.post(f"/api/v1/missions/runs/{legacy['run_id']}/review", json=body).status_code == 404
 
 
 def test_review_questions_cannot_cross_mission_boundaries(guided_client):

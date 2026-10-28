@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 4.3 owner-reported acceptance recorded. Phase 4.4 six-game recovery/Academy batch implemented with passing CI; owner acceptance and independent beginner/device evidence pending. Fifteen of 30 guides are implemented, including all ten Explorers. Formal audit remains deferred.
+**Checkpoint:** Phase 4.4 owner-reported acceptance recorded. Phase 4.5 Academy/branch-response batch implemented; CI and owner acceptance pending. Twenty-one of 30 guides are implemented, including all Explorer and Academy games. Formal audit remains deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,9 +76,9 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify CI and follow [the Phase 4.4 guide](PHASE_4_RECOVERY_AND_ACADEMY.md) to update/restart only development, run focused checks and accept MFA Guardian, Backup Buddy, Operation Firewall, Network Watch, Web Defense and Cloud Perimeter. No migration or content publication is required. Keep beta open. Continue the remaining games in approved five-to-six-game batches after acceptance; independent educational/device, operational and final security assurance gates remain open.
+Verify CI and use [the Phase 4.5 guide](PHASE_4_ACADEMY_AND_RESPONSE.md) to update/restart only development, run focused checks and accept Forensics Desk, Malware Clues, Identity Lab, Secure Code Review, Threat Hunter and Branch Resilience (mission title Ransomware at the Branch). No migration or content publication is required. Keep beta open. Continue the remaining professional games in approved batches after acceptance; independent educational/device, operational and final security assurance gates remain outstanding.
 
-The owner-directed deferral of the formal security-audit-skill workflow until the end of development remains in effect. Security by design, review and ordinary testing continue throughout; no security clearance is implied.
+The owner-directed formal security-audit-skill deferral until the end of development remains in effect. Security by design, review and ordinary tests continue; no security clearance is implied.
 
 ## Implemented source changes and checks
 
@@ -250,3 +250,16 @@ Implementation `ad8f244` passed [backend run 40661421407](https://github.com/alg
 [Browser run 40661421374](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40661421374) passed all 72 browser cases, including 60 guided-mission journeys across all 15 guides × desktop/mobile × 2D/3D, plus existing course/navigation cases. The job also passed 15 frontend unit tests, TypeScript and production build. Browser responses are synthetic intercepted replies using actual static stage content and catalogue pathways; actual API/PostgreSQL checks separately verify grading and persistence. No complete real-backend browser, independent learner effectiveness, actual-device performance or final security clearance is claimed.
 
 Next: use [the complete Phase 4.4 guide](PHASE_4_RECOVERY_AND_ACADEMY.md) to update/restart development and accept MFA Guardian, Backup Buddy, Operation Firewall, Network Watch, Web Defense and Cloud Perimeter. No migration or publication command is needed. Fifteen of 30 games have guidance implemented: all ten Explorers and five Academy games. Continue the remaining 15 games in approved batches after owner acceptance, keeping beta separate.
+
+
+## Phase 4.4 owner acceptance — 28 October 2026
+
+After handover `f4a2c67` and its six-game update/test/restart/acceptance guide, the owner reported “all tests pass, go on.” Record successful owner-reported local acceptance and authorisation for the next approved-size batch. No detailed log or separately identified independent learner, actual-device performance, accessibility or complete real-backend browser evidence was supplied. These wider gates remain open. No new beta incident or change was requested.
+
+## Phase 4.5 — Academy and branch-response batch
+
+Implemented 28 October 2026 from `f4a2c67`, addressing FB-02/FB-04/FB-05. Added distinct goals, tasks/records, six hints, post-decision finding reasoning and five explained optional review questions to each of Forensics Desk, Malware Clues, Identity Lab, Secure Code Review, Threat Hunter and Branch Resilience (mission ID incident-response; workspace title Ransomware at the Branch). All ten Explorer and all ten Academy games now have guides, plus one professional game, for 21 of 30. Previous guide data, mission definitions, keys, scoring, history and schema are unchanged. No migration/publication, dependency pin or beta change.
+
+[Complete commands, scope and acceptance](PHASE_4_ACADEMY_AND_RESPONSE.md). Backend cases cover all 21 guides; unsupported-review checks choose a still-unregistered mission from source so the newly guided incident-response mission does not invalidate them. Browser coverage expands automatically to 84 guided desktop/mobile × 2D/3D journeys with catalogue pathways, including Cyber Command; replies remain synthetic. Local Chromium's known UNIX-socket blocker remains. Local checks passed: 433 backend tests and 11 subtests with 20 database-dependent skips; 15 frontend unit tests, TypeScript, production build and pip check passed. Existing TestClient deprecation/CSS compatibility warnings remain as applicable. HTTP tests use synthetic SQLite/overridden identity, not full authentication or PostgreSQL lock proof. CI is pending at this checkpoint. No owner computer/database, beta service or mail provider was accessed.
+
+Next: verify CI and owner acceptance of the six games, then continue the nine remaining professional games. Phase 4 and the independent educational/device/final-audit gates are not complete.
