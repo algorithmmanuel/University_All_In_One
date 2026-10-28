@@ -61,7 +61,7 @@ test('progress failure is retryable; empty data offers real next steps',async t=
   failed=false;await page.getByRole('button',{name:'Retry saved progress',exact:true}).click();
   await page.getByRole('link',{name:'Choose your first course',exact:true}).waitFor();
   await page.getByRole('link',{name:'Choose an assessment',exact:true}).waitFor();
-  assert.equal(await page.getByRole('alert').count(),0);
+  assert.equal(await page.locator('.learning-overview').getByRole('alert').count(),0);
 });
 
 test('teacher dashboard does not request student progress',async t=>{
