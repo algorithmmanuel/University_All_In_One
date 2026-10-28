@@ -130,3 +130,8 @@ The first intercepted-API progression run passed 14/15 cases, including all seve
 Fixture correction `def9fae` passed [intercepted-API browser run 40728703388](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40728703388): 15 progression cases and 132 existing journeys, **147/147** total. It also passed all 15 frontend unit tests, TypeScript and production build. [Real API browser rerun 40728703380](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40728703380) passed all **3/3** actual FastAPI/PostgreSQL cases again. Backend/PostgreSQL run 40728223888 passed **594 tests and 11 subtests**; dependency checks passed. No application-source change was needed for the fixture correction. This supersedes the earlier pending/failed fixture checkpoints.
 
 All planned Phase 5 implementation is now in this single release. Next: use the one combined update/check/restart sequence above, then complete one local acceptance pass. Phase 5.2 remains uninstalled separately; no intermediate installation/acceptance is required. Independent learner/device understanding and operational/final security assurance remain separate open gates.
+
+
+### Owner local acceptance — 28 October 2026
+
+After receiving handover `f081cb8` and this combined guide, the owner reported "all test passed". The combined Phase 5 build therefore has owner-reported successful local checks/acceptance; this supersedes the earlier pending-local-acceptance checkpoints. No separate 5.2 installation/acceptance cycle is needed. No detailed logs, independent learner/physical-device or operational/final-security evidence is inferred. Beta promotion is not claimed. The next source task is the Phase 6 catalogue/tutor gap inspection recorded in DEVELOPMENT_STATUS.md.

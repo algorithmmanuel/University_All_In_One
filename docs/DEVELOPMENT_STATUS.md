@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Combined Phase 5 implementation is ready as one release: backend/PostgreSQL 594 tests + 11 subtests; 147 intercepted-API browser cases and 3 real-API/PostgreSQL browser cases passed. Owner has not installed 5.2 separately; use one combined update/acceptance guide. Local combined acceptance, independent learner/device and final assurance gates remain open.
+**Checkpoint:** Combined Phase 5 has owner-reported local acceptance following the passing automated gates (594 backend tests + 11 subtests, 147 intercepted-API and 3 real-API browser cases). All planned Phase 5 implementation was delivered in one release. Next: inspect the actual catalogue/tutor implementation for Phase 6 scope. Independent learner/device, operational and final security assurance gates remain open.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Use [the single update/schema-check/test/restart and acceptance guide](PHASE_5_RELEASE.md). Do not request an intermediate 5.2 installation or acceptance: the owner explicitly has not installed it and wants one release. Finish all planned Phase 5 implementation and one acceptance cycle before Phase 6 expansion; retain independent learner/device and final assurance gates.
+Inspect the current game catalogue and tutor implementation against Phase 6 before adding content. The committed inventory already contains ten games per category (30 total), so do not infer that another 30 games are required. Identify the actual remaining investigation and Yoruba/Igbo tutor gaps, language-review/AI-safety prerequisites and verification limits, then define a cohesive next build. Combined Phase 5 local acceptance is recorded below; preserve outstanding independent learner/device and final assurance gates.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -382,3 +382,12 @@ Combined Phase 5 subsequent checks: application source `c0d5e75` passed backend/
 All planned Phase 5 implementation is bundled; no further planned 5.3/5.4 feature releases or intermediate 5.2 installation are required. Application source `c0d5e75` passed backend/PostgreSQL run 40728223888 (594 tests and 11 subtests, unit/dependency jobs included). Test-fixture correction `def9fae` passed intercepted-API browser run 40728703388 (147 cases: 15 progression + 132 existing), frontend unit/type/build checks, and real-API browser rerun 40728703380 (3 cases including desktop/mobile registration through saved learning/assessment results and server-verified logout). No application source changed for the fixture correction. These outcomes supersede the earlier in-progress checks.
 
 The owner explicitly has not installed Phase 5.2; no acceptance of it or the combined release is inferred. Next: use [the one combined release guide](PHASE_5_RELEASE.md) to update/schema-check/test/restart development, then complete one combined local acceptance pass. Keep beta open and unchanged. Independent learner/device, wider real-backend/operational and final formal security-audit gates remain open; defects can still require fixes.
+
+
+## Combined Phase 5 owner acceptance — 28 October 2026
+
+After receiving combined release handover `f081cb8` and its single update/schema-check/test/restart and acceptance guide, the owner reported: "all test passed". Record this as successful owner-reported local checks/acceptance of the combined Phase 5 build, including the previously uninstalled Phase 5.2 changes. No separate incremental 5.2 acceptance is required.
+
+No detailed logs or separately identified independent learner/physical-device, accessibility, operational-recovery or formal security evidence was supplied. Do not infer those outcomes or promotion to beta. Earlier CI evidence remains as recorded; this acceptance update changes documentation only and does not rerun application tests.
+
+Next: inspect the actual Phase 6 catalogue/tutor gaps and define a cohesive build from evidence; retain the existing 30-game inventory and outstanding assurance gates.
