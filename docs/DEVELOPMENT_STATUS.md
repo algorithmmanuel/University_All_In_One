@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Combined Phase 5 has owner-reported local acceptance following the passing automated gates (594 backend tests + 11 subtests, 147 intercepted-API and 3 real-API browser cases). All planned Phase 5 implementation was delivered in one release. Next: inspect the actual catalogue/tutor implementation for Phase 6 scope. Independent learner/device, operational and final security assurance gates remain open.
+**Checkpoint:** Combined Phase 5 has owner-reported local acceptance following the passing automated gates (594 backend tests + 11 subtests, 147 intercepted-API and 3 real-API browser cases). All planned Phase 5 implementation was delivered in one release. Phase 6 source inspection is complete; see [the inventory and next-build contract](PHASE_6_SCOPE.md). Next: implement the six-game investigation-practice and grounded study-helper foundation. Independent learner/device, operational and final security assurance gates remain open.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Inspect the current game catalogue and tutor implementation against Phase 6 before adding content. The committed inventory already contains ten games per category (30 total), so do not infer that another 30 games are required. Identify the actual remaining investigation and Yoruba/Igbo tutor gaps, language-review/AI-safety prerequisites and verification limits, then define a cohesive next build. Combined Phase 5 local acceptance is recorded below; preserve outstanding independent learner/device and final assurance gates.
+Implement the [Phase 6 investigation-practice and grounded study-helper foundation](PHASE_6_SCOPE.md) as one development build. The inspected source has all 30 games and guides, 90 stages, 260 artifacts and 150 optional review questions; no additional games are required to meet the count. Deepen six Cyber Academy investigations in the active guided workspace and add a deterministic, curriculum-linked helper foundation. There is no implemented tutor or Yoruba/Igbo content in the current web/API source. Keep translations unpublished until fluent review and generative AI disabled pending provider/privacy/cost/safety prerequisites. Preserve existing scored stages/keys/history, Phase 5 acceptance and outstanding learner/device/operational/final-assurance gates.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -391,3 +391,12 @@ After receiving combined release handover `f081cb8` and its single update/schema
 No detailed logs or separately identified independent learner/physical-device, accessibility, operational-recovery or formal security evidence was supplied. Do not infer those outcomes or promotion to beta. Earlier CI evidence remains as recorded; this acceptance update changes documentation only and does not rerun application tests.
 
 Next: inspect the actual Phase 6 catalogue/tutor gaps and define a cohesive build from evidence; retain the existing 30-game inventory and outstanding assurance gates.
+
+
+## Phase 6 source inspection — 28 October 2026
+
+Inspected clean development source `9950eed`; [inventory, gaps, prerequisites and next-build acceptance contract](PHASE_6_SCOPE.md) now recorded. All 30 games already have guides (ten per pathway), 90 stages, 260 detailed artifacts and 150 optional review questions. The active guided UI selects shared artifact cards; older themed investigation components are fallbacks, and correlation/hypothesis work remains a local ungraded scratchpad. Source inspection found no web/API tutor or Yoruba/Igbo content. Do not count the AI Governance mission as tutor support.
+
+Executed static-source inventory checks confirm catalogue/mission/guide alignment and matching artifact/evidence counts across every stage. Seven dependency-free frontend assertions passed; the full Node unit invocation could not load two test files because TypeScript is absent, and pytest is unavailable in this fresh checkout. No new full regression/build/browser/PostgreSQL result is claimed. No application source, dependencies, schema, owner runtime/database or beta was changed, and no formal audit ran. Previous Phase 5 CI and owner-reported acceptance remain unchanged; Phase 4.5 separate local acceptance and wider assurance gates remain open.
+
+Next: implement one development build with six deeper Academy investigation practices plus the deterministic source-linked study-helper foundation specified in the contract. Yoruba/Igbo publication needs fluent review; a future generative provider needs separate data/cost/safety decisions and evaluation. This documentation checkpoint requires no local installation or restart.
