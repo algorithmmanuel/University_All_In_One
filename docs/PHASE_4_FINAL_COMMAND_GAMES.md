@@ -108,3 +108,10 @@ The backend suite automatically exercises all 30 guides: actual HTTP scoring, al
 Local checks passed: 541 backend tests and 11 subtests with 20 database-dependent skips; all 15 frontend unit tests, TypeScript, production build and pip check passed. The existing TestClient deprecation warning remains. Local HTTP tests use synthetic SQLite and overridden identity, not full authentication or PostgreSQL lock proof. CI results are pending at this implementation checkpoint. Formal audit remains deferred until the end of development. No owner computer/database, beta service or mail provider was accessed.
 
 Next: verify checks, update/restart development and complete local acceptance. Then inspect actual progression/results/usability for Phase 5 gaps (FB-03) before implementing recommendations; retain outstanding educational/device, operational and final security gates.
+
+
+### Subsequent CI verification
+
+Implementation `576fe7d` passed [backend run 40682317930](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40682317930): 561 tests and 11 subtests against isolated PostgreSQL, plus unit and dependency checks. [Browser run 40682317923](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40682317923) passed all 132 browser cases, including 120 guided journeys across all 30 games × desktop/mobile × 2D/3D. The browser job also passed 15 frontend unit tests, TypeScript and production build. API replies in browser journeys remain synthetic; full real-backend browser, independent learner/device and final security gates remain open.
+
+Next: use the complete blocks above to update/restart development and accept the final three games. Phase 4.7 local acceptance remains pending; Phase 4.6 has owner-reported acceptance and separate Phase 4.5 acceptance is still unreported. No migration/publication is required.
