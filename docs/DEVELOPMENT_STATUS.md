@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner authorised continuing after Phase 4.5 without reporting its local acceptance. Phase 4.6 six-game Command batch implemented; CI and local acceptance pending. Twenty-seven of 30 guides are implemented. Formal audit remains deferred.
+**Checkpoint:** Owner authorised continuing after Phase 4.5 without reporting its local acceptance. Phase 4.6 six-game Command batch implemented with passing CI; local acceptance for Phases 4.5/4.6 and independent learner/device evidence remain pending. Twenty-seven of 30 guides are implemented. Formal audit remains deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -285,3 +285,12 @@ Implemented 28 October 2026 from `683cbc8` for FB-02/FB-04/FB-05. Added distinct
 [Complete commands, scope and acceptance](PHASE_4_COMMAND_BATCH.md). Backend cases cover all 27 guides; browser coverage automatically includes 108 guided desktop/mobile × 2D/3D journeys with actual static content/catalogue pathways and synthetic API replies. Local Chromium's known UNIX-socket limitation remains. Local checks passed: 505 backend tests and 11 subtests, with 20 database-dependent skips; 15 frontend unit tests, TypeScript, production build and pip check passed. Existing TestClient deprecation/CSS compatibility warnings remain as applicable. Local HTTP cases use SQLite/overridden identity, not full authentication or PostgreSQL lock proof. CI is pending at this checkpoint. No owner computer/database, beta service or mail provider was accessed.
 
 Next: verify CI and local acceptance for this batch, record Phase 4.5 results when supplied, then finish Boardroom Breach, AI Governance and Audit Trail. Phase 4 and wider assurance gates remain open.
+
+
+## Phase 4.6 CI evidence — 28 October 2026
+
+Implementation `57f395b` passed [backend run 40679518968](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40679518968): 505 tests and 11 subtests with 20 database-dependent skips in the unit job; 525 tests and 11 subtests against isolated PostgreSQL; dependency consistency/audit passed. The existing TestClient deprecation warning remains.
+
+[Browser run 40679519091](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40679519091) passed all 120 browser cases, including 108 guided desktop/mobile × 2D/3D journeys across all 27 guides and existing course/navigation cases. The job also passed 15 frontend unit tests, TypeScript and production build. Browser replies are synthetic with actual static content and catalogue pathways; separate API/PostgreSQL cases verify grading/persistence. No complete real-backend browser, actual-device performance, independent educational effectiveness or final security assurance result is claimed.
+
+Next: use [the full Phase 4.6 guide](PHASE_4_COMMAND_BATCH.md) to update/restart development and accept the six Command games, and report the still-outstanding Phase 4.5 local checks. No migration or publication is needed. Twenty-seven of 30 guides are implemented; Boardroom Breach, AI Governance and Audit Trail remain. The owner authorised continuing development but did not assert Phase 4.5 acceptance. Keep beta separate and preserve all wider gates.
