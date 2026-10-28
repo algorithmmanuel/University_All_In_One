@@ -25,6 +25,10 @@ export default function Assessments(){
   const [activeCount,setActiveCount]=useState(0);
   const [questions,setQuestions]=useState<Question[]>([]);
   const [answers,setAnswers]=useState<Record<number,number>>({});
+  const [historyCursor,setHistoryCursor]=useState<number|null>(null);
+  const [catalogLoading,setCatalogLoading]=useState(true);
+  const [catalogError,setCatalogError]=useState(false);
+  const [catalogRetry,setCatalogRetry]=useState(0);
   const [attempts,setAttempts]=useState<Attempt[]>([]);
   const [result,setResult]=useState<Result|null>(null);
   const [savedResult,setSavedResult]=useState<(Attempt & {analysis:Analysis|null})|null>(null);
@@ -53,8 +57,9 @@ export default function Assessments(){
   },[router]);
 
   useEffect(()=>{
-    request('/api/v1/learning/enrollments').then(d=>setCourses(d.enrollments)).catch(e=>setError(e.message));
-  },[request]);
+    setCatalogLoading(true);setCatalogError(false);
+    request('/api/v1/learning/enrollments').then(d=>setCourses(d.enrollments)).catch(e=>{setError(e.message);setCatalogError(true);}).finally(()=>setCatalogLoading(false));
+  },[request,catalogRetry]);
 
   useEffect(()=>{
     if(linkedOpened.current||courses.length===0)return;
@@ -70,7 +75,7 @@ export default function Assessments(){
 
   async function choose(id:number, linkedAttempt?:number){
     setBusy(true);setError('');setSavedResult(null);setResult(null);setAnswers({});setQuestions([]);
-    setAvailable(0);setAttempts([]);setCourseId(id);setActiveCount(0);
+    setAvailable(0);setAttempts([]);setHistoryCursor(null);setCourseId(id);setActiveCount(0);
     try{
       const [options,history]=await Promise.all([
         request('/api/v1/quizzes/courses/'+id+'/options'),
@@ -78,7 +83,7 @@ export default function Assessments(){
       setAvailable(options.available_count);
       setCount(String(Math.min(10,options.available_count)));
       setPreset(options.available_count>=10?'standard':'custom');
-      setAttempts(history.attempts);
+      setAttempts(history.attempts);setHistoryCursor(history.next_before_id??null);
       if(linkedAttempt){
         setSavedResult(await request(`/api/v1/quizzes/courses/${id}/attempts/${linkedAttempt}`));
         setSavedSequence(value=>value+1);
@@ -108,9 +113,16 @@ export default function Assessments(){
         {answers,question_count:activeCount});
       setResult(data);
       const history=await request('/api/v1/quizzes/courses/'+courseId+'/attempts');
-      setAttempts(history.attempts);
+      setAttempts(history.attempts);setHistoryCursor(history.next_before_id??null);
     }catch(e){setError(e instanceof Error?e.message:'Unable to submit assessment');}
     finally{submitting.current=false;setBusy(false);}
+  }
+
+  async function olderAttempts(){
+    if(busy||courseId===null||historyCursor===null)return;
+    setBusy(true);setError('');
+    try{const page=await request(`/api/v1/quizzes/courses/${courseId}/attempts?before_id=${historyCursor}`);setAttempts(old=>[...old,...page.attempts]);setHistoryCursor(page.next_before_id??null);}
+    catch(e){setError(e instanceof Error?e.message:'Unable to load older attempts');}finally{setBusy(false);}
   }
 
   async function reopen(id:number){
@@ -125,10 +137,10 @@ export default function Assessments(){
     <Link href="/dashboard">← Dashboard</Link>
     <h1>Assessments & cyber missions</h1>
     <p className="muted">Choose a practice length that suits your time. The server grades your answers and saves the number of questions with your score.</p>
-    {error&&<p role="alert" style={{color:'#b42318'}}>{error}</p>}
+    {error&&<p role="alert" className="status-error">{error}</p>}
     <section className="card">
       <h2>Choose an enrolled course</h2>
-      {courses.length===0?<p>Enroll in a course first at <Link href="/learn">My learning</Link>.</p>:
+      {catalogLoading?<p role="status">Loading enrolled courses…</p>:catalogError?<button className="btn secondary" onClick={()=>{setError('');setCatalogRetry(value=>value+1);}}>Retry enrolled courses</button>:courses.length===0?<p>Enroll in a course first at <Link href="/learn">My learning</Link>.</p>:
         <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
           {courses.map(c=><button className="btn" key={c.id} disabled={busy}
             onClick={()=>choose(c.id)} aria-pressed={courseId===c.id}>{c.title}</button>)}
@@ -179,7 +191,7 @@ export default function Assessments(){
             </label>)}
             {result&&(()=>{
               const feedback=result.feedback.find(f=>f.question_id===q.id);
-              return feedback?<p role="status" style={{color:feedback.correct?'#087443':'#a52626'}}>
+              return feedback?<p role="status" className={feedback.correct?'status-success':'status-error'}>
                 {feedback.correct?'Correct':'Incorrect'} — Correct answer: {q.options[feedback.correct_index]}. {feedback.explanation}
               </p>:null;
             })()}
@@ -196,6 +208,7 @@ export default function Assessments(){
       {attempts.length===0?<p className="muted">No attempts yet.</p>:<ul>
         {attempts.map(a=><li key={a.id}>{new Date(a.submitted_at).toLocaleString()} — {a.total} questions · {a.score}/{a.total} ({a.percentage}%) <button type="button" disabled={busy} onClick={()=>reopen(a.id)}>View result {a.id}</button></li>)}
       </ul>}
+      {historyCursor!==null&&<button className="btn secondary" disabled={busy} onClick={olderAttempts}>Load older assessment attempts</button>}
       {savedResult&&<section className="panel" aria-label="Saved attempt result">
         <h2 ref={savedHeading} tabIndex={-1} className="activity-heading">Saved result: {savedResult.score}/{savedResult.total} ({savedResult.percentage}%)</h2>
         <p>{new Date(savedResult.submitted_at).toLocaleString()}</p>

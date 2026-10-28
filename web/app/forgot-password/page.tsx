@@ -35,6 +35,6 @@ export default function ForgotPassword() {
       <button type="submit" disabled={busy}>{busy?'Please wait…':'Email reset link'}</button>
     </form>}
     {message && <p role="status">{message}</p>}
-    {error && <p role="alert" style={{color:'#b42318'}}>{error}</p>}
+    {error && <p role="alert" className="status-error">{error}</p>}
   </main>;
 }

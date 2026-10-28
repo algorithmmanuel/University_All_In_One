@@ -52,7 +52,7 @@ function ResetPasswordForm() {
       <button disabled={busy} type="submit">{busy?'Please wait…':'Update password'}</button>
     </form>}
     {notice && <p role="status">{notice} <Link href="/account">Sign in</Link></p>}
-    {error && <p role="alert" style={{color:'#b42318'}}>{error}</p>}
+    {error && <p role="alert" className="status-error">{error}</p>}
   </main>;
 }
 

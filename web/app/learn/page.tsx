@@ -20,6 +20,7 @@ export default function Learn() {
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
   const [loading,setLoading]=useState(true);
+  const [hasLoaded,setHasLoaded]=useState(false);
   const [openSequence,setOpenSequence]=useState(0);
   const linkedLessonFocused=useRef(false);
   const activityHeading=useActivityFocus(openSequence);
@@ -41,7 +42,7 @@ export default function Learn() {
       request('/api/v1/learning/catalog'),
       request('/api/v1/learning/enrollments')
     ]);
-    setCatalog(courses.courses);setEnrollments(mine.enrollments);
+    setCatalog(courses.courses);setEnrollments(mine.enrollments);setHasLoaded(true);
   },[request]);
 
   useEffect(()=>{
@@ -101,8 +102,8 @@ export default function Learn() {
     <Link href="/dashboard">← Dashboard</Link>
     <h1>My learning</h1>
     <p className="muted">Explore published courses, enroll and track completed lessons. Your progress is saved to your account.</p>
-    {error&&<p role="alert" style={{color:'#a52626'}}>{error}</p>}
-    {loading?<p role="status">Loading courses…</p>:<>
+    {error&&<div><p role="alert" className="status-error">{error}</p><button className="btn secondary" disabled={busy||loading} onClick={()=>{setError('');setLoading(true);refresh().catch(e=>setError(e.message)).finally(()=>setLoading(false));}}>Retry learning data</button></div>}
+    {loading?<p role="status">Loading courses…</p>:!hasLoaded?null:<>
       <section>
         <h2>Enrolled courses</h2>
         {enrollments.length===0?<p className="muted">You have not enrolled in a course yet.</p>:<div className="grid">

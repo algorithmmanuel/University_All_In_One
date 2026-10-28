@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -19,6 +19,10 @@ export default function Account() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [busy, setBusy] = useState(false);
+  const errorHeading=useRef<HTMLParagraphElement>(null);
+  const noticeHeading=useRef<HTMLParagraphElement>(null);
+  useEffect(()=>{if(error)errorHeading.current?.focus();},[error]);
+  useEffect(()=>{if(notice)noticeHeading.current?.focus();},[notice]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -57,8 +61,8 @@ export default function Account() {
       <button onClick={()=>{setMode('login');setError('');}} aria-pressed={mode==='login'}>Sign in</button>
     </div>
     <form onSubmit={submit} style={{display:'grid',gap:16}}>
-      {mode==='register'&&<label>Full name<input required minLength={2} maxLength={120} value={name} onChange={e=>setName(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>}
-      {mode==='register'&&<label>Date of birth<input required type="date" value={dateOfBirth} max={new Date().toISOString().slice(0,10)} onChange={e=>setDateOfBirth(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>}
+      {mode==='register'&&<label>Full name<input autoComplete="name" required minLength={2} maxLength={120} value={name} onChange={e=>setName(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>}
+      {mode==='register'&&<label>Date of birth<input required autoComplete="bday" type="date" value={dateOfBirth} max={new Date().toISOString().slice(0,10)} onChange={e=>setDateOfBirth(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>}
       {mode==='register'&&<p style={{fontSize:13,margin:0}}>Under-13 registration is not available. Ages 13–17 require guardian verification before account activation. Date of birth is self-declared and is not displayed publicly.</p>}
       {mode==='register'&&<label>Beta invitation code (if provided)<input autoComplete="off" value={betaInvite} onChange={e=>setBetaInvite(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>}
       <label>Email<input required type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} style={{display:'block',width:'100%',padding:12}}/></label>
@@ -70,8 +74,8 @@ export default function Account() {
       {mode==='login'&&<Link href="/forgot-password">Forgot password?</Link>}
       <button disabled={busy} type="submit" style={{padding:14,background:'#0e766f',color:'white',border:0,borderRadius:8}}>{busy?'Please wait…':mode==='register'?'Create account':'Sign in'}</button>
     </form>
-    {error&&<p role="alert" style={{color:'#b42318'}}>{error}</p>}
-    {notice&&<p role="status" style={{color:'#087443'}}>{notice}</p>}
+    {error&&<p ref={errorHeading} tabIndex={-1} role="alert" className="status-error">{error}</p>}
+    {notice&&<p ref={noticeHeading} tabIndex={-1} role="status" className="status-success">{notice}</p>}
     <p style={{fontSize:13,marginTop:24}}>Development preview. Do not use a password from another account.</p>
   </main>;
 }

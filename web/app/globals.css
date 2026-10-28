@@ -111,3 +111,11 @@ input[type=radio],input[type=checkbox]{accent-color:var(--accent)}
 .learning-overview a{color:var(--accent)}
 .learning-overview li{margin-bottom:14px}
 .learning-overview .card{min-width:0}
+
+/* Phase 5: readable status text and narrow-screen form controls in the dark theme. */
+.status-error{color:#ffb4ab}
+.status-success{color:#83ebbd}
+fieldset{min-inline-size:0}
+legend{max-width:100%;overflow-wrap:anywhere}
+.card,.panel{overflow-wrap:anywhere}
+@media(max-width:760px){.nav{flex-wrap:wrap}.container{padding-left:16px;padding-right:16px}main input:not([type=radio]):not([type=checkbox]),main select,main textarea{max-width:100%}}

@@ -78,3 +78,8 @@ The owner deferred the formal Cloudflare security-audit-skill workflow until the
 ## Approved delivery-size update — 28 October 2026
 
 After reporting Phase 4.2 passed, the owner requested larger batches to move the remaining games to the accepted guidance/interaction/review standard faster. The owner approved the proposed next six-game batch. Work in bounded batches of five to six related games where the shared framework supports it; retain per-game distinct evidence/tasks/hints/review, automated checks, secure coding and focused local acceptance. This changes delivery size, not security, educational or release gates. The next batch is Privacy Patrol, Scam Spotter, Safe Social, Device Defender, Wi-Fi Wise and Digital Footprints. Three guides were implemented before this batch; completing its source brings the count to nine of 30 existing games, not 30 independently validated experiences.
+
+
+## Approved Phase 5 batching — 28 October 2026
+
+The owner confirmed Phase 5.2 had not been installed and requested all remaining Phase 5 work in one release to reduce update/acceptance cycles. Complete the progression/results/dashboard, mission next-step/history, onboarding/mobile/dark-theme/logout and load-recovery implementation together; run automated checks as one batch and provide one [combined release guide](PHASE_5_RELEASE.md). Earlier incremental Phase 5.2 acceptance sequencing is superseded. Phase 5.1 local acceptance remains recorded. This changes delivery size, not evidence: retain accurate historical data, access controls, independent learner/device evidence, operational targets and the deferred final formal security audit. Do not require separate installation of 5.2 before this combined build.

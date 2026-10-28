@@ -8,6 +8,8 @@ This is the continuation entry point for maintainers and future assistant sessio
 
 1. Read [the current handover and exact next action](docs/DEVELOPMENT_STATUS.md).
 2. Read [the approved roadmap and acceptance gates](docs/DEVELOPMENT_ROADMAP.md).
+For the combined Phase 5 development release, use [the single release guide](docs/PHASE_5_RELEASE.md); separate Phase 5.2 installation is superseded by owner direction.
+
 3. Inspect the actual branch, commit, working tree and relevant code before making changes. The default `master` branch contains older Android project code and does not represent the current web/API work.
 4. Distinguish reported local runtime evidence from committed source. Do not mark work complete merely because commands were provided.
 5. After each verified milestone, update the status document, outstanding risks and next action in the same development branch. Commit the update so another chat can resume.

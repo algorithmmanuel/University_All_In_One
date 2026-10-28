@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import DashboardGamePaths from './DashboardGamePaths';
 import LearningOverview from './LearningOverview';
+import MissionProgress from './MissionProgress';
+import {signOutLocally} from '../../lib/sign-out';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
 type Profile = {id:number;full_name:string;email:string;role:string;is_approved:boolean};
@@ -27,9 +29,7 @@ export default function Dashboard() {
   async function signOut(){
     if(signingOut)return;
     setSigningOut(true);
-    const token=sessionStorage.getItem('educyber_token');
-    if(token){try{await fetch(API+'/api/v1/auth/logout',{method:'POST',headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(5000)});}catch{}}
-    sessionStorage.removeItem('educyber_token');router.replace('/account');
+    await signOutLocally(API);router.replace('/account');
   }
 
   return <main className="cyber-dashboard">
@@ -66,6 +66,7 @@ export default function Dashboard() {
            user.role==='teacher'||user.role==='admin'?<div className="cyber-feature"><h2>Teacher workspace</h2><p>Course authoring and learner reporting are being developed.</p></div>:
            <>
             <LearningOverview />
+            <MissionProgress />
             <div className="cyber-section-heading"><div><span className="cyber-eyebrow">YOUR CYBER JOURNEY</span><h2>Choose your next challenge</h2></div><p>Start learning, put your skills to work, or measure your progress.</p></div>
             <div className="cyber-feature-grid">
               <Link className="cyber-feature cyber-feature-courses" href="/learn"><span className="cyber-feature-icon">▤</span><h3>Interactive courses</h3><p>Build your foundations through structured lessons and practical exercises.</p><span className="cyber-feature-link">Start learning ↗</span></Link>

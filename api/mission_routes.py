@@ -1,6 +1,6 @@
 """Server-authoritative simulated missions with persistent user-specific runs."""
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -8,6 +8,7 @@ from auth import current_user
 from db_dependencies import get_db
 from mission_data import MISSIONS
 from models import MissionRun, User
+from mission_progress import decision_recap, progress
 from mission_learning import has_learning, finding_explanation, public_learning, review_answer
 
 router = APIRouter(prefix="/api/v1/missions", tags=["missions"])
@@ -33,9 +34,16 @@ def state(run: MissionRun):
             "step_index": run.step_index, "step_count": len(mission["steps"]),
             "score": run.score, "max_score": 15 * len(mission["steps"]),
             "completed": complete,
+            "decision_recap": decision_recap(run),
             "learning": public_learning(run.mission_id, run.step_index, complete),
             "step": None if complete else public_step(mission["steps"][run.step_index]),
             "last_feedback": run.choices[-1]["feedback"] if run.choices else None}
+
+@router.get('/progress')
+def mission_progress(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    require_student(user)
+    return progress(db, user.id)
+
 
 @router.get("")
 def catalog(user: User = Depends(current_user), db: Session = Depends(get_db)):
@@ -142,11 +150,14 @@ def decide(run_id: int, body: Decision, user: User = Depends(current_user), db: 
     return state(run)
 
 @router.get("/history")
-def history(user: User = Depends(current_user), db: Session = Depends(get_db)):
+def history(before_id: int | None = Query(default=None, ge=1), user: User = Depends(current_user), db: Session = Depends(get_db)):
     require_student(user)
-    runs = db.scalars(select(MissionRun).where(MissionRun.user_id == user.id)
-                      .order_by(MissionRun.id.desc()).limit(50)).all()
-    return {"runs": [{"id": r.id, "title": MISSIONS[r.mission_id]["title"],
+    stmt = select(MissionRun).where(MissionRun.user_id == user.id, MissionRun.mission_id.in_(list(MISSIONS)))
+    if before_id is not None:
+        stmt = stmt.where(MissionRun.id < before_id)
+    rows = db.scalars(stmt.order_by(MissionRun.id.desc()).limit(51)).all()
+    runs = rows[:50]
+    return {"next_before_id": runs[-1].id if len(rows) > 50 else None, "runs": [{"id": r.id, "title": MISSIONS[r.mission_id]["title"],
                       "score": r.score, "max_score": len(MISSIONS[r.mission_id]["steps"]) * 15,
                       "completed": r.completed_at is not None,
                       "created_at": r.created_at.isoformat()} for r in runs if r.mission_id in MISSIONS]}

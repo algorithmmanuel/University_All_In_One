@@ -148,6 +148,10 @@ def test_learning_quiz_and_mission_access_boundaries():
             assert detail.status_code == 200
             assert detail.json()["analysis"] == graded.json()["analysis"]
             assert detail.json()["analysis"]["unmapped_count"] == 1
+            assert client.get('/api/v1/missions/progress').status_code == 401
+            assert client.get('/api/v1/missions/progress',headers=headers['teacher']).status_code == 403
+            assert client.get('/api/v1/missions/progress',headers=headers['owner']).json()['active_missions'] == 1
+            assert client.get('/api/v1/missions/progress',headers=headers['other']).json()['recent_missions'] == []
             assert client.get('/api/v1/learning/overview').status_code == 401
             assert client.get('/api/v1/learning/overview', headers=headers['teacher']).status_code == 403
             overview = client.get('/api/v1/learning/overview', headers=headers['owner'])

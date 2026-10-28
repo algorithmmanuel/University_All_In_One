@@ -1,5 +1,7 @@
 # Phase 5.2 — Saved progress previews and dashboard usability
 
+**Superseded installation guide:** the owner has not installed this build and requested one combined Phase 5 release. Use [PHASE_5_RELEASE.md](PHASE_5_RELEASE.md) for the single update and acceptance cycle. This file remains an implementation/CI checkpoint; it is not owner acceptance.
+
 Implemented 28 October 2026 after owner-reported Phase 5.1 local acceptance ("All tests pass"). Addresses the Phase 5 progression/usability scope and FB-03 by making saved learning records and suitable next steps visible on the dashboard. This is a bounded build, not completion of the full Phase 5 gate.
 
 ## What changed and why

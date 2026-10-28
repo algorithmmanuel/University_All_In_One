@@ -1,7 +1,7 @@
 """Course quizzes: server-side grading and persisted attempts."""
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field, ConfigDict, StrictInt
-from sqlalchemy import select
+from sqlalchemy import and_, or_, select
 from sqlalchemy.orm import Session
 from auth import current_user
 from db_dependencies import get_db
@@ -76,12 +76,19 @@ def submit(course_id: int, body: Submission, user: User = Depends(current_user),
     return {"attempt_id": attempt.id, **result, "analysis": attempt.result_snapshot}
 
 @router.get("/courses/{course_id}/attempts")
-def attempts(course_id: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
+def attempts(course_id: int, before_id: int | None = Query(default=None, ge=1), user: User = Depends(current_user), db: Session = Depends(get_db)):
     eligible(db, user, course_id)
-    rows = db.scalars(select(QuizAttempt).where(
-        QuizAttempt.user_id == user.id, QuizAttempt.course_id == course_id)
-        .order_by(QuizAttempt.submitted_at.desc(), QuizAttempt.id.desc()).limit(20)).all()
-    return {"attempts": [{"id": a.id, "score": a.score, "total": a.total,
+    stmt = select(QuizAttempt).where(QuizAttempt.user_id == user.id, QuizAttempt.course_id == course_id)
+    if before_id is not None:
+        cursor = db.scalar(select(QuizAttempt).where(QuizAttempt.id == before_id,
+            QuizAttempt.user_id == user.id, QuizAttempt.course_id == course_id))
+        if cursor is None:
+            raise HTTPException(status_code=404, detail="Attempt not found")
+        stmt = stmt.where(or_(QuizAttempt.submitted_at < cursor.submitted_at,
+            and_(QuizAttempt.submitted_at == cursor.submitted_at, QuizAttempt.id < cursor.id)))
+    page = db.scalars(stmt.order_by(QuizAttempt.submitted_at.desc(), QuizAttempt.id.desc()).limit(21)).all()
+    rows = page[:20]
+    return {"next_before_id": rows[-1].id if len(page) > 20 else None, "attempts": [{"id": a.id, "score": a.score, "total": a.total,
                            "percentage": round(100 * a.score / a.total) if a.total else 0,
                            "submitted_at": a.submitted_at.isoformat()} for a in rows]}
 

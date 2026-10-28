@@ -9,7 +9,7 @@ import SceneBoundary from './SceneBoundary';
 import {MissionArtifacts,MissionBriefing,MissionReview,type MissionLearning,type ReviewResult} from './MissionLearning';
 
 type Step={scene:string;story:string;evidence:string[];question:string;options:string[]};
-type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null;learning?:MissionLearning|null};
+type Run={run_id:number;mission_id:string;title:string;step_index:number;step_count:number;score:number;max_score:number;completed:boolean;step:Step|null;last_feedback:string|null;learning?:MissionLearning|null;decision_recap?:{stage:number;points:number|null;feedback:string;next_step:string}[]};
 type Props={run:Run;busy:boolean;onDecision:(option:number,finding:number)=>Promise<void>;onReview:(question:string,option:number)=>Promise<ReviewResult>;onReplay:()=>void;onExit:()=>void};
 
 export default function MissionWorkspace({run,busy,onDecision,onReview,onReplay,onExit}:Props){
@@ -59,6 +59,14 @@ export default function MissionWorkspace({run,busy,onDecision,onReview,onReplay,
       <h3>Mission complete</h3>
       <p>You scored <strong>{run.score} out of {run.max_score}</strong> points ({Math.round(run.score/run.max_score*100)}%). Your result has been saved to your account.</p>
       {(feedback||run.last_feedback)&&<div className={styles.feedback}>{feedback||run.last_feedback}</div>}
+      <section aria-label="Saved mission decisions"><h3>Saved decisions and next steps</h3>
+        <p>Simulation points describe this attempt, not mastery. Optional review answers do not change your saved score.</p>
+        {run.decision_recap?.length?run.decision_recap.map((item,index)=><article className="card" key={index} style={{textAlign:'left',marginBottom:12}}>
+          <h4>Stage {item.stage} · {item.points===null?'Detailed scoring unavailable':`${item.points}/15 simulation points`}</h4>
+          <p>{item.feedback}</p><p>{item.next_step}</p>
+        </article>):<p>Detailed saved decisions are unavailable for this historical attempt. Your original score is unchanged.</p>}
+        <p>Review the explanations, try the optional questions, then replay or choose another mission on the board.</p>
+      </section>
       {run.learning?.review.length? <MissionReview questions={run.learning.review} check={onReview}/>:null}
       <button className={styles.primary} onClick={onReplay} disabled={busy}>Replay this mission</button>
       <button className={styles.ghost} onClick={onExit}>Return to mission board</button>

@@ -16,7 +16,7 @@ export default function LearningOverview(){
     setError('');
     fetch(API+'/api/v1/learning/overview',{headers:{Authorization:'Bearer '+sessionStorage.getItem('educyber_token')},signal:controller.signal})
       .then(async response=>{if(!response.ok)throw new Error('Unable to load saved progress. Please try again.');return response.json();})
-      .then(value=>{if(!controller.signal.aborted)setData(value);})
+      .then(value=>{if(!Array.isArray(value.courses)||!Array.isArray(value.recent_attempts))throw new Error('Unable to load saved progress. Please try again.');if(!controller.signal.aborted)setData(value);})
       .catch(error=>{if(!controller.signal.aborted)setError(error.message);});
     return ()=>controller.abort();
   },[retry]);

@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 5.1 has owner-reported local acceptance. Phase 5.2 saved dashboard progress, recent-result links and bounded dashboard logout are implemented with passing backend/PostgreSQL and 140-case browser CI; owner acceptance pending. Historical progress is preserved. Phase 4 independent learner/device and separate Phase 4.5 acceptance remain open; formal audit stays deferred.
+**Checkpoint:** Owner confirms Phase 5.2 is not installed and requests one combined Phase 5 release. Remaining implementation is batched with 5.2; local checks pass, combined CI/owner acceptance pending. Use the combined guide, not separate 5.2 instructions. Phase 5.1 acceptance remains recorded; formal audit and independent evidence gates remain open.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Use [the complete update/test/restart and acceptance guide](PHASE_5_DASHBOARD.md) on development only. No new migration/publication is required; keep the accepted Phase 5.1 schema. After owner acceptance, review remaining Phase 5 usability/mission-progression gaps and independent learner/device evidence before catalogue expansion. Separate Phase 4.5 acceptance remains unreported.
+Verify the combined Phase 5 CI results, then use [the single update/schema-check/test/restart and acceptance guide](PHASE_5_RELEASE.md). Do not request an intermediate 5.2 installation or acceptance: the owner explicitly has not installed it and wants one release. Finish all planned Phase 5 implementation and one acceptance cycle before Phase 6 expansion; retain independent learner/device and final assurance gates.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -364,3 +364,12 @@ Phase 5.2 subsequent CI: [backend run 40698410040](https://github.com/algorithmm
 ### Phase 5.2 final source handover
 
 Source implementation `003fed0` passed backend/PostgreSQL run 40698410040 (590 tests and 11 subtests). Test-assertion correction `9edc7e4` passed browser run 40698843615 (140 cases), frontend unit/type/build checks included. No application code changed for the test correction. The handover records the owner's Phase 5.1 acceptance but does not infer Phase 5.2 acceptance. Next: update/restart development and complete the Phase 5.2 checklist; no new migration/content publication. Beta remains unchanged, and the formal audit stays deferred.
+
+
+## Combined Phase 5 release — owner batching direction, 28 October 2026
+
+The owner clarified that Phase 5.2 had not been installed and requested all remaining Phase 5 work at once. This supersedes the previous next-action requirement to accept 5.2 separately. No 5.2 owner acceptance is recorded. Scope now includes the uninstalled 5.2 dashboard changes plus owned mission progress/reopening and original saved decision recaps, older assessment/mission history access, onboarding feedback focus, dark/mobile readability/layout fixes, shared bounded home/dashboard logout and failed-load recovery. No further planned incremental Phase 5 feature releases are required before the combined acceptance; fix defects as needed. See [the unified scope/evidence matrix and complete guide](PHASE_5_RELEASE.md).
+
+Local checks: 574 backend tests and 11 subtests passed with 20 database-dependent skips; 15 frontend unit tests, TypeScript, clean production build and pip check passed. Seven mock-browser cases and two real-API/PostgreSQL browser journeys were added; combined CI remains pending at this checkpoint. Tests and fixtures use synthetic data only. No beta source/services, owner database or mail provider was accessed. New source introduces no migration beyond the accepted Phase 5.1 schema.
+
+Next: verify all combined CI gates and hand over one release for development update/acceptance. Keep independent learner/device/operational evidence and the final formal security audit open.
