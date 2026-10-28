@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Build A strategy-game foundation is implemented: Branch Defender, three cybersecurity modules and 100 new practice questions. Local backend/unit/type/build and two real-API SQLite browser journeys passed; PostgreSQL/CI and owner acceptance remain pending. See [one release guide](BUILD_A_BRANCH_DEFENDER.md). Beta remains separate; independent learner/device, operational and final security gates remain open.
+**Checkpoint:** Build A is delivered and all automated gates passed for `718dc9b`: 616 backend tests + 11 subtests, 147 existing browser cases and 5 real-API/PostgreSQL browser journeys; frontend/dependency checks passed. Branch Defender, three cybersecurity modules and 100 new questions are ready for development installation and local acceptance using [the one release guide](BUILD_A_BRANCH_DEFENDER.md). Beta and wider learner/device/operational/final-security gates remain separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify Build A CI, including PostgreSQL command concurrency and real-API browser checks, then use [the complete Build A guide](BUILD_A_BRANCH_DEFENDER.md) for one development update/migration/check/restart and local acceptance pass. It adds schema revision `0011_strategy_learning`; do not restart an unmigrated development database. English only, with a rules-based opponent; languages and AI remain deferred. Preserve legacy records and do not promote beta automatically.
+Use [the complete Build A guide](BUILD_A_BRANCH_DEFENDER.md) for one development update/migration/check/restart and local acceptance pass. All automated CI gates for application source `718dc9b` passed. This build adds schema revision `0011_strategy_learning`; stop only development services before using the guarded migrator, and do not restart an unmigrated development database. English only, rules-based opponent, three new cybersecurity modules and 100 new practice questions. AI/languages remain deferred. Preserve legacy records, leave beta open and do not infer owner installation/acceptance or promotion from automated checks.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -420,3 +420,12 @@ After reviewing the gameplay/learning plan, the owner instructed “Lets start�
 Assistant local verification: 595 backend tests and 11 subtests passed with 21 PostgreSQL-dependent skips; 21 focused rules/HTTP/migration checks passed. Frontend 15 unit tests, TypeScript, production build and pip check passed. Both desktop/mobile browser journeys passed against real FastAPI/disposable SQLite with real synthetic bearer sessions, including game save/reload/win, study completion and saved practice results; screenshots were inspected. No beta/owner runtime, mail provider or live target was accessed. Existing global CSS/TestClient warnings remain; generated frontend declaration changes stay unstaged. CI, the 147-case existing browser regression and owner acceptance are pending at this source checkpoint. No PostgreSQL locking, independent educator/learner effectiveness, physical-device performance, full recovery or final formal security claim follows from local SQLite evidence.
 
 Next: verify CI and hand over the single Build A update/migration/check/restart/acceptance guide. This is the first strategy foundation, not ThreatGEN parity or completion of the 500-question goal. Keep the running beta, historical evidence and final assurance gates intact.
+
+
+## Build A final automated verification and handover — 28 October 2026
+
+Implementation `718dc9b5fc795dd50cb4a6e5ab4ba3227f550212` passed [backend/PostgreSQL run 40739042384](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40739042384): 616 tests and 11 subtests; unit and dependency jobs also passed. This includes real bearer-session ownership/revocation and concurrent duplicate/conflicting-command checks on isolated PostgreSQL. [Browser run 40739042859](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40739042859) passed all 147 existing cases (15 progression + 132 gameplay/learning), frontend 15 unit tests, typecheck and production build. [Real API browser run 40739042498](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40739042498) passed all five cases, including both new desktop/mobile saved game/debrief, learning completion and saved practice/result journeys against FastAPI/PostgreSQL, alongside all three previous journeys.
+
+The 147 existing browser assertions also passed locally using headless shell; full Chromium's local process-singleton socket was denied. The supported local harness fallback did not change assertions, and ordinary CI Chromium supplied independent passing evidence. These results supersede earlier pending/interrupted checkpoints. The final evidence update changes documentation only and does not rerun application tests. No beta source/services/data, owner runtime or mail/model provider was accessed. Generated frontend declaration changes remain unstaged.
+
+Next: follow [the complete single release guide](BUILD_A_BRANCH_DEFENDER.md) to update/migrate/check/restart development, verify isolation and accept `/cyber-lab`. Owner installation/acceptance is pending. This first strategy foundation does not establish ThreatGEN parity, measured educational effectiveness/device performance, production readiness or final security assurance, and the proposed 250/500-question milestones remain future work.

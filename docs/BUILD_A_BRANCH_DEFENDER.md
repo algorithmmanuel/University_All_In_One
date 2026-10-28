@@ -114,4 +114,21 @@ Content is original source-authored material with structural/coverage checks and
 
 Prefer a forward fix while retaining new run/practice data. Do not run Alembic downgrade as routine recovery: dropping the four tables loses new strategy/practice/study records. Preserve source and backup state before any recovery decision. Earlier foundation course/question rows, scores, progress and legacy mission histories were not changed by this build.
 
-Next: verify all CI gates, then use this single guide for development migration/update/restart and local acceptance. Tune the first game using learner feedback before expanding to more scenario variants and 250/500 questions. Keep beta separate and the final formal audit deferred under the recorded owner direction.
+Next: use this single guide for development migration/update/restart and local acceptance; all automated CI gates passed as recorded below. Tune the first game using learner feedback before expanding to more scenario variants and 250/500 questions. Keep beta separate and the final formal audit deferred under the recorded owner direction.
+
+
+## Final automated gates — source `718dc9b`, 28 October 2026
+
+All three CI workflows passed for implementation `718dc9b5fc795dd50cb4a6e5ab4ba3227f550212`:
+
+| Gate | Observed result | Evidence |
+| --- | --- | --- |
+| Backend/PostgreSQL | 616 tests and 11 subtests passed; unit/dependency jobs passed too | [Backend run 40739042384](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40739042384) |
+| Existing browser regressions | 15 progression + 132 existing gameplay/learning cases passed (147 total); frontend 15 unit tests, typecheck and production build passed | [Browser run 40739042859](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40739042859) |
+| Actual API/PostgreSQL browser | All five cases passed, including new desktop/mobile Branch Defender → saved run/debrief → learning completion → saved practice/result journeys, plus the three existing cases | [Real API run 40739042498](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40739042498) |
+
+The PostgreSQL gate includes real bearer-session ownership/revocation and concurrent duplicate/conflicting-command tests; it verifies those specific boundaries rather than all possible concurrency schedules. The 147 existing cases also passed locally using the supported headless shell. Full Chromium's local process-singleton socket remained denied, so the local harness selected headless shell without changing test assertions; normal CI Chromium passed independently. These results supersede the earlier pending and interrupted local-browser checkpoints.
+
+The final evidence update changes documentation only. **Owner development installation and local acceptance are still pending.** No beta source/service/database, owner runtime or external mail/model provider was accessed. Independent content/learner/physical-device/accessibility/performance, operational recovery and final formal security gates remain open.
+
+**Immediate next action:** stop only development services, follow the complete update/migration/check/restart blocks above, verify isolation, then complete the single acceptance checklist at `/cyber-lab`. No separate content publication is required.
