@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reported all tests passed after the Phase 4.6 handover. Record successful owner-reported local acceptance for that batch; separate Phase 4.5 acceptance and independent learner/device evidence remain pending. Twenty-seven of 30 guides are implemented. Formal audit remains deferred.
+**Checkpoint:** Phase 4.7 final three Command guides implemented; all 30 existing games now have guidance source. Verification and Phase 4.7 local acceptance are pending. Phase 4.6 has owner-reported acceptance; separate Phase 4.5 and independent learner/device evidence remain pending. Formal audit stays deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,9 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Finish the final three guidance upgrades: Boardroom Breach, AI Governance and Audit Trail. The owner reported all tests passed after Phase 4.6 handover `1193d5f`; record that batch as locally accepted on the basis of the owner report. Separate Phase 4.5 acceptance was not supplied. Keep beta open and preserve independent educational/device, operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; secure coding, review and ordinary tests continue.
+Verify Phase 4.7 checks and use [the final three-game guide](PHASE_4_FINAL_COMMAND_GAMES.md) to update/restart development and accept Boardroom Breach, AI Governance and Audit Trail. No migration/publication is needed. All 30 guidance modules are implemented; Phase 4 educational/device evidence remains open. Phase 4.6 is locally accepted by owner report, while separate Phase 4.5 acceptance remains unreported.
+
+After this acceptance, inspect existing results/progression/usability against Phase 5 (FB-03) before implementing gaps. Keep beta open and preserve independent learner/device, operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
 ## Implemented source changes and checks
 
@@ -299,3 +301,10 @@ Next: use [the full Phase 4.6 guide](PHASE_4_COMMAND_BATCH.md) to update/restart
 After handover `1193d5f`, the owner reported: “all tests passed.” Record successful owner-reported local acceptance of the latest six-game Command batch. No detailed local logs or separate Phase 4.5 acceptance, actual-device observations, independent learner results or security assurance evidence were supplied. Existing CI evidence and its scope remain as recorded above. This acceptance record changes documentation only; no beta service or database was accessed.
 
 Next: complete the guidance upgrades for Boardroom Breach, AI Governance and Audit Trail, bringing implemented coverage to all 30 existing games once verified. Keep the outstanding wider roadmap gates open.
+
+
+## Phase 4.7 — Final three Command guidance upgrades
+
+Implemented 28 October 2026 from `94f3010` after owner-reported Phase 4.6 acceptance and authorisation to continue. Boardroom Breach, AI Governance and Audit Trail add nine tasks, 18 hints, 27 detailed records, post-decision explanations and 15 optional explained review questions for FB-02/FB-04/FB-05. All 30 existing games now have guidance (ten per pathway), with 150 optional review questions. Source coverage does not establish independent educational success or actual-device performance.
+
+The shared registry and parameterised backend/browser suites include all three. Underlying definitions, keys, scoring, existing history/schema and earlier guidance are preserved. No migration/publication, dependencies or beta service changes. [Complete PowerShell blocks and acceptance](PHASE_4_FINAL_COMMAND_GAMES.md). Local verification passed: 541 backend tests and 11 subtests with 20 database-dependent skips; 15 frontend unit tests, TypeScript, production build and pip check passed. The TestClient deprecation warning remains. Local HTTP tests use SQLite/overridden identity; local Chromium remains blocked by its known UNIX-socket limitation. CI is pending at this checkpoint; no owner computer/database or mail provider was accessed. Phase 4.7 local acceptance and wider gates remain open.
