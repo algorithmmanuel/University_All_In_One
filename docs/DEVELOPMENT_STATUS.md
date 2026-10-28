@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 4.2 owner-reported acceptance recorded; Phase 4.3 six-game Explorer batch implemented, CI and owner acceptance pending. Nine of 30 games have guidance in source. Formal audit remains deferred until the end of development.
+**Checkpoint:** Phase 4.2 owner-reported acceptance recorded; Phase 4.3 six-game Explorer batch implemented with passing CI; owner acceptance and independent beginner/device evidence pending. Nine of 30 games have guidance in source. Formal audit remains deferred until the end of development.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -219,3 +219,12 @@ Implemented 28 October 2026 from `f4c9976`, addressing FB-02/FB-04/FB-05. Privac
 [Scope, complete commands and per-game acceptance](PHASE_4_EXPLORERS_BATCH.md). Tests now cover all nine guides and the browser matrix automatically covers every guide (36 desktop/mobile × 2D/3D journeys). Browser contexts remain isolated while the process is reused for faster batches; API-only content changes trigger browser CI. Local checks: 289 backend tests and 11 subtests passed, with 20 database-dependent skips; all 15 frontend unit tests, TypeScript and production build passed. Locked-environment pip check passed. HTTP checks use synthetic SQLite/overridden identity, not full authentication or PostgreSQL lock proof. Existing TestClient deprecation/CSS compatibility warnings remain as applicable. CI results are pending at this checkpoint, not inferred from added cases. Local Chromium's known UNIX-socket blocker remains. No owner database/computer, beta service or mail provider was accessed.
 
 Next: verify CI, run owner development acceptance for all six games, then select the next five-to-six-game batch. Nine of 30 games have the guided pattern in source; Phase 4 and the wider educational/device/final-audit gates are not complete.
+
+
+## Phase 4.3 CI evidence — 28 October 2026
+
+Implementation `4e5df28` passed [backend run 40654992864](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40654992864): 289 tests and 11 subtests passed with 20 database-dependent skips in the unit job; 309 tests and 11 subtests passed against isolated PostgreSQL; dependency consistency/audit passed. The existing TestClient deprecation warning remains.
+
+[Browser run 40654992839](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40654992839) passed all 48 browser cases, including 36 guided-mission journeys across all nine guides × desktop/mobile × 2D/3D. The job also passed 15 frontend unit tests, TypeScript and production build. Browser responses are intercepted synthetic API replies with actual static stage content; the separate API/PostgreSQL suite supplies grading and persistence evidence. No complete real-backend browser, production performance, independent learner understanding or final security clearance is claimed.
+
+Next: follow [the complete Phase 4.3 guide](PHASE_4_EXPLORERS_BATCH.md) to update/restart development and accept Privacy Patrol, Scam Spotter, Safe Social, Device Defender, Wi-Fi Wise and Digital Footprints. No migration or publication command is needed. Nine of 30 guides are implemented; 21 remain. Keep beta separate and continue in approved five-to-six-game batches after acceptance.
