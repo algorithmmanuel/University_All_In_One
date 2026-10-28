@@ -120,3 +120,7 @@ The browser matrix automatically includes all 21 guides: 84 desktop/mobile × 2D
 Owner acceptance of this batch, independent educational/actual-device evidence, complete real-backend browser journeys, production readiness and final security assurance remain separate gates. Formal Cloudflare audit execution remains deferred until the end of development by owner instruction. No owner computer/database, beta source/services or mail provider was accessed.
 
 Next: verify CI and use the complete blocks above to update/restart development and accept all six games. Continue with the nine remaining professional games in the approved batch sizes after acceptance.
+
+### Subsequent CI verification
+
+Implementation `08fd752` passed [backend run 40677079039](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40677079039): 453 tests and 11 subtests against isolated PostgreSQL, plus unit and dependency checks. [Browser run 40677079256](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40677079256) passed all 96 browser cases (including 84 guided desktop/mobile × 2D/3D journeys), 15 frontend unit tests, TypeScript and production build. Browser API replies are synthetic; this is not a complete real-backend browser journey. Owner acceptance of this batch and independent learner/actual-device evidence remain pending.

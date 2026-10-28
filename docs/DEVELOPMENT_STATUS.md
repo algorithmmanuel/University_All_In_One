@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 4.4 owner-reported acceptance recorded. Phase 4.5 Academy/branch-response batch implemented; CI and owner acceptance pending. Twenty-one of 30 guides are implemented, including all Explorer and Academy games. Formal audit remains deferred.
+**Checkpoint:** Phase 4.4 owner-reported acceptance recorded. Phase 4.5 Academy/branch-response batch implemented with passing CI; owner acceptance and independent beginner/device evidence pending. Twenty-one of 30 guides are implemented, including all Explorer and Academy games. Formal audit remains deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -263,3 +263,12 @@ Implemented 28 October 2026 from `f4a2c67`, addressing FB-02/FB-04/FB-05. Added 
 [Complete commands, scope and acceptance](PHASE_4_ACADEMY_AND_RESPONSE.md). Backend cases cover all 21 guides; unsupported-review checks choose a still-unregistered mission from source so the newly guided incident-response mission does not invalidate them. Browser coverage expands automatically to 84 guided desktop/mobile × 2D/3D journeys with catalogue pathways, including Cyber Command; replies remain synthetic. Local Chromium's known UNIX-socket blocker remains. Local checks passed: 433 backend tests and 11 subtests with 20 database-dependent skips; 15 frontend unit tests, TypeScript, production build and pip check passed. Existing TestClient deprecation/CSS compatibility warnings remain as applicable. HTTP tests use synthetic SQLite/overridden identity, not full authentication or PostgreSQL lock proof. CI is pending at this checkpoint. No owner computer/database, beta service or mail provider was accessed.
 
 Next: verify CI and owner acceptance of the six games, then continue the nine remaining professional games. Phase 4 and the independent educational/device/final-audit gates are not complete.
+
+
+## Phase 4.5 CI evidence — 28 October 2026
+
+Implementation `08fd752` passed [backend run 40677079039](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40677079039): 433 tests and 11 subtests with 20 database-dependent skips in the unit job; 453 tests and 11 subtests against isolated PostgreSQL; dependency consistency/audit passed. The existing TestClient deprecation warning remains.
+
+[Browser run 40677079256](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40677079256) passed all 96 browser cases, including 84 guided journeys across all 21 guides × desktop/mobile × 2D/3D and existing course/navigation cases. The job also passed 15 frontend unit tests, TypeScript and production build. Browser replies are synthetic with actual static content and catalogue pathways; separate API/PostgreSQL tests provide grading/persistence evidence. This is not a complete real-backend browser, actual-device performance, independent learning-effectiveness or final security result.
+
+Next: use [the full Phase 4.5 guide](PHASE_4_ACADEMY_AND_RESPONSE.md) to update/restart development and accept Forensics Desk, Malware Clues, Identity Lab, Secure Code Review, Threat Hunter and Branch Resilience (workspace title Ransomware at the Branch). No migration or publication is needed. All ten Explorer and all ten Academy games plus one professional game have guided content: 21 of 30, with nine Cyber Command games remaining. Keep beta separate and continue approved batches after owner acceptance.
