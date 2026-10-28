@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner confirms Phase 5.2 is not installed and requests one combined Phase 5 release. Remaining implementation is batched with 5.2; local checks pass, combined CI/owner acceptance pending. Use the combined guide, not separate 5.2 instructions. Phase 5.1 acceptance remains recorded; formal audit and independent evidence gates remain open.
+**Checkpoint:** Combined Phase 5 implementation is ready as one release: backend/PostgreSQL 594 tests + 11 subtests; 147 intercepted-API browser cases and 3 real-API/PostgreSQL browser cases passed. Owner has not installed 5.2 separately; use one combined update/acceptance guide. Local combined acceptance, independent learner/device and final assurance gates remain open.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify the combined Phase 5 CI results, then use [the single update/schema-check/test/restart and acceptance guide](PHASE_5_RELEASE.md). Do not request an intermediate 5.2 installation or acceptance: the owner explicitly has not installed it and wants one release. Finish all planned Phase 5 implementation and one acceptance cycle before Phase 6 expansion; retain independent learner/device and final assurance gates.
+Use [the single update/schema-check/test/restart and acceptance guide](PHASE_5_RELEASE.md). Do not request an intermediate 5.2 installation or acceptance: the owner explicitly has not installed it and wants one release. Finish all planned Phase 5 implementation and one acceptance cycle before Phase 6 expansion; retain independent learner/device and final assurance gates.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -373,3 +373,12 @@ The owner clarified that Phase 5.2 had not been installed and requested all rema
 Local checks: 574 backend tests and 11 subtests passed with 20 database-dependent skips; 15 frontend unit tests, TypeScript, clean production build and pip check passed. Seven mock-browser cases and two real-API/PostgreSQL browser journeys were added; combined CI remains pending at this checkpoint. Tests and fixtures use synthetic data only. No beta source/services, owner database or mail provider was accessed. New source introduces no migration beyond the accepted Phase 5.1 schema.
 
 Next: verify all combined CI gates and hand over one release for development update/acceptance. Keep independent learner/device/operational evidence and the final formal security audit open.
+
+Combined Phase 5 subsequent checks: application source `c0d5e75` passed backend/PostgreSQL run 40728223888 with 594 tests and 11 subtests, unit/dependency checks included. Real API browser run 40728223984 passed all three cases, including both new desktop/mobile registration→lesson/assessment persistence→dashboard/result→server-verified logout journeys. The intercepted-API job exposed an older fixture's missing mission-progress response and broad two-panel alert locator; fixtures were corrected at `def9fae` without application-source changes. Corrected progression checks passed; full intercepted-API and automatic real-API reruns are pending at this drafting checkpoint.
+
+
+## Combined Phase 5 final handover — 28 October 2026
+
+All planned Phase 5 implementation is bundled; no further planned 5.3/5.4 feature releases or intermediate 5.2 installation are required. Application source `c0d5e75` passed backend/PostgreSQL run 40728223888 (594 tests and 11 subtests, unit/dependency jobs included). Test-fixture correction `def9fae` passed intercepted-API browser run 40728703388 (147 cases: 15 progression + 132 existing), frontend unit/type/build checks, and real-API browser rerun 40728703380 (3 cases including desktop/mobile registration through saved learning/assessment results and server-verified logout). No application source changed for the fixture correction. These outcomes supersede the earlier in-progress checks.
+
+The owner explicitly has not installed Phase 5.2; no acceptance of it or the combined release is inferred. Next: use [the one combined release guide](PHASE_5_RELEASE.md) to update/schema-check/test/restart development, then complete one combined local acceptance pass. Keep beta open and unchanged. Independent learner/device, wider real-backend/operational and final formal security-audit gates remain open; defects can still require fixes.

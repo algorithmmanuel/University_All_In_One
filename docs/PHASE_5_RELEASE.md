@@ -114,3 +114,19 @@ Assistant checks before CI: 574 backend tests and 11 subtests passed with 20 dat
 Seven new mock-API browser cases cover mission dashboard/result links and history at desktop/320px, learning/assessment retry, onboarding/focus/dark-error contrast and older assessment reopening. They join the eight earlier progression cases and 132 existing journeys. No new local browser assertions are credited under the previously observed socket restriction; CI must supply the browser results.
 
 The real-API browser workflow now selects this development branch and includes two new desktop/mobile journeys through registration, enrolment, persisted lesson completion, assessment topic evidence, result reopening and reachable-server logout revocation. Its fixture explicitly permits only an isolated localhost PostgreSQL database named `educyber_test`; it publishes only synthetic reviewed Python teaching/questions there, not to development or beta. CI execution and combined owner acceptance are pending at this checkpoint.
+
+
+### Subsequent CI evidence
+
+Application source `c0d5e75` passed [backend/PostgreSQL run 40728223888](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40728223888): 594 tests and 11 subtests, plus unit and dependency checks. The suite includes the new real-session mission-progress boundaries; synthetic content fixtures deliberately remain SQLite/auth-overridden where defined.
+
+[Real API browser run 40728223984](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40728223984) passed all three cases: the existing 30-game catalogue/persistent mission/2D–3D journey and both new desktop/mobile onboarding-to-progress/result/logout journeys. These use actual FastAPI/PostgreSQL and synthetic isolated accounts/content. This establishes those bounded journeys, not every real-backend mission/device/accessibility or operational scenario.
+
+The first intercepted-API progression run passed 14/15 cases, including all seven new combined-release cases. An older dashboard fixture lacked the newly introduced mission-progress response and counted alerts across two panels sharing a CSS class. The fixture now supplies the new response and scopes the assertion by the saved-course-progress region's accessible name. Legacy dashboard/game fixtures were updated to the current read-only contracts. This correction changes no application source. Corrected source `def9fae` is being checked in runs 40728703388 (intercepted API) and 40728703380 (real API).
+
+
+### Final combined-release result
+
+Fixture correction `def9fae` passed [intercepted-API browser run 40728703388](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40728703388): 15 progression cases and 132 existing journeys, **147/147** total. It also passed all 15 frontend unit tests, TypeScript and production build. [Real API browser rerun 40728703380](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40728703380) passed all **3/3** actual FastAPI/PostgreSQL cases again. Backend/PostgreSQL run 40728223888 passed **594 tests and 11 subtests**; dependency checks passed. No application-source change was needed for the fixture correction. This supersedes the earlier pending/failed fixture checkpoints.
+
+All planned Phase 5 implementation is now in this single release. Next: use the one combined update/check/restart sequence above, then complete one local acceptance pass. Phase 5.2 remains uninstalled separately; no intermediate installation/acceptance is required. Independent learner/device understanding and operational/final security assurance remain separate open gates.
