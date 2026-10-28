@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 5.1 topic-level assessment evidence, preserved result snapshots and lesson recommendations implemented; assistant checks pass as detailed below. Development migration, CI verification and owner acceptance pending. Historical attempts are not regraded. Phase 4 independent learner/device and separate Phase 4.5 acceptance remain open; formal audit stays deferred.
+**Checkpoint:** Phase 5.1 assessment evidence and recommendations implemented. Backend/PostgreSQL CI passed; all three new browser cases passed after a test synchronization fix. The corrected browser CI run passed all 135 cases (three assessment-evidence cases and 132 existing journeys), plus frontend unit/type/build checks. Development migration and owner acceptance remain pending. Historical attempts are not regraded. Phase 4 independent learner/device and separate Phase 4.5 acceptance remain open; formal audit stays deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify Phase 5.1 backend/PostgreSQL and browser CI, then use [the complete update/migration/test/restart and acceptance guide](PHASE_5_RESULTS.md) on development only. Migration `0010_attempt_results` is required. Obtain owner acceptance before expanding this build; then inspect dashboard progress previews and remaining onboarding/mobile/dark-theme/logout gaps against actual behavior. The owner has reported Phase 4.7 acceptance; separate Phase 4.5 and independent learner/device evidence remain pending.
+Use [the complete update/migration/test/restart and acceptance guide](PHASE_5_RESULTS.md) on development only. Migration `0010_attempt_results` is required. Obtain owner acceptance before expanding this build; then inspect dashboard progress previews and remaining onboarding/mobile/dark-theme/logout gaps against actual behavior. The owner has reported Phase 4.7 acceptance; separate Phase 4.5 and independent learner/device evidence remain pending.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -335,3 +335,12 @@ Assistant verification: 560 backend tests and 11 subtests passed with 20 databas
 This is a bounded Phase 5 source milestone, not completion of the full phase. Dashboard previews, wider progression and outstanding usability/device/learner evidence remain open. Phase 4.5 acceptance, independent Phase 4 evidence, operational assurance and final formal security audit remain outstanding. Next: verify CI and development migration/acceptance using the linked guide.
 
 Phase 5.1 subsequent CI: implementation `32549cd` passed [backend run 40686917851](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40686917851). Migration and the complete suite passed with isolated PostgreSQL available: 583 tests and 11 subtests, including real-session result ownership checks. The many synthetic content fixtures remain SQLite/auth-overridden by design. Database-independent and dependency audit jobs passed as well. The first browser run passed all 132 existing journeys plus two new cases (134/135); the new mobile test failed because it enumerated the question fields before asynchronous loading completed. The test now waits for all five fields, with no product-source change. Corrected browser verification is pending.
+
+Corrected browser checkpoint: source `d64bf41`, [run 40688326456](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40688326456), passed the dedicated three new assessment-evidence browser cases, all 15 frontend unit tests, TypeScript and production build. The second 132-case baseline run remains in progress; the initial run already passed those cases against identical application source. The first workflow was not green (134/135); its mobile synchronization failure is now verified fixed in the dedicated step. Check final rerun status before calling the full workflow green. Development migration/owner acceptance are still pending.
+
+
+### Phase 5.1 final CI outcome — 28 October 2026
+
+Resumed after a workspace-credit interruption and verified [browser run 40688326456](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40688326456) completed successfully at source `d64bf41`. Logs show 3/3 new assessment-evidence cases and 132/132 existing browser journeys passed, plus all 15 frontend unit tests, TypeScript and production build. This supersedes the earlier in-progress browser checkpoint. API replies in browser tests are synthetic; real-backend browser and independent learner/device gates remain open. Backend/PostgreSQL run 40686917851 passed 583 tests and 11 subtests as recorded above.
+
+The credit interruption prevented the preceding draft handover from reaching the branch; this update reconciles the final observed outcome. Next: stop only development services, follow the complete Phase 5.1 update/migration/test/restart blocks, and perform local acceptance. No owner migration or acceptance has been reported. Beta remains unchanged; defer wider Phase 5 work until this bounded build is accepted.
