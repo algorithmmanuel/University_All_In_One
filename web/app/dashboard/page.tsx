@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import DashboardGamePaths from './DashboardGamePaths';
+import LearningOverview from './LearningOverview';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
 type Profile = {id:number;full_name:string;email:string;role:string;is_approved:boolean};
@@ -11,6 +12,7 @@ export default function Dashboard() {
   const router=useRouter();
   const [user,setUser]=useState<Profile|null>(null);
   const [error,setError]=useState('');
+  const [signingOut,setSigningOut]=useState(false);
   useEffect(()=>{
     const token=sessionStorage.getItem('educyber_token');
     if(!token){router.replace('/account');return;}
@@ -23,8 +25,10 @@ export default function Dashboard() {
   },[router]);
 
   async function signOut(){
+    if(signingOut)return;
+    setSigningOut(true);
     const token=sessionStorage.getItem('educyber_token');
-    if(token){try{await fetch(API+'/api/v1/auth/logout',{method:'POST',headers:{Authorization:'Bearer '+token}});}catch{}}
+    if(token){try{await fetch(API+'/api/v1/auth/logout',{method:'POST',headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(5000)});}catch{}}
     sessionStorage.removeItem('educyber_token');router.replace('/account');
   }
 
@@ -37,7 +41,7 @@ export default function Dashboard() {
         <Link href="/assessments">Assessments</Link>
         <Link href="/feedback">Feedback</Link>
       </nav>
-      <button className="cyber-signout" onClick={signOut}>Sign out</button>
+      <button className="cyber-signout" disabled={signingOut} onClick={signOut}>{signingOut?'Signing out…':'Sign out'}</button>
     </header>
     {error?<section className="cyber-shell"><h1>Unable to load dashboard</h1><p role="alert">{error}</p><button className="btn" onClick={signOut}>Sign in again</button></section>:
       !user?<div className="cyber-shell" role="status">Loading your dashboard…</div>:<>
@@ -61,6 +65,7 @@ export default function Dashboard() {
           {user.role==='teacher'&&!user.is_approved?<div className="cyber-feature"><h2>Teacher approval pending</h2><p>Your account is registered. Teaching tools will be available after administrator approval.</p></div>:
            user.role==='teacher'||user.role==='admin'?<div className="cyber-feature"><h2>Teacher workspace</h2><p>Course authoring and learner reporting are being developed.</p></div>:
            <>
+            <LearningOverview />
             <div className="cyber-section-heading"><div><span className="cyber-eyebrow">YOUR CYBER JOURNEY</span><h2>Choose your next challenge</h2></div><p>Start learning, put your skills to work, or measure your progress.</p></div>
             <div className="cyber-feature-grid">
               <Link className="cyber-feature cyber-feature-courses" href="/learn"><span className="cyber-feature-icon">▤</span><h3>Interactive courses</h3><p>Build your foundations through structured lessons and practical exercises.</p><span className="cyber-feature-link">Start learning ↗</span></Link>

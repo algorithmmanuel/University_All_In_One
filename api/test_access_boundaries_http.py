@@ -148,6 +148,14 @@ def test_learning_quiz_and_mission_access_boundaries():
             assert detail.status_code == 200
             assert detail.json()["analysis"] == graded.json()["analysis"]
             assert detail.json()["analysis"]["unmapped_count"] == 1
+            assert client.get('/api/v1/learning/overview').status_code == 401
+            assert client.get('/api/v1/learning/overview', headers=headers['teacher']).status_code == 403
+            overview = client.get('/api/v1/learning/overview', headers=headers['owner'])
+            assert overview.status_code == 200
+            assert overview.json()['courses'][0]['id'] == course_id
+            assert overview.json()['recent_attempts'][0]['id'] == graded.json()['attempt_id']
+            assert client.get('/api/v1/learning/overview', headers=headers['other']).json()['courses'] == []
+
             # An enrolled second learner must still be unable to read this snapshot.
             assert client.post(f"/api/v1/learning/enrollments/{course_id}", headers=headers["other"]).status_code == 201
             assert client.get(detail_url, headers=headers["other"]).status_code == 404

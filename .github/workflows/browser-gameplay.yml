@@ -56,10 +56,10 @@ jobs:
           done
           cat /tmp/educyber-next.log
           exit 1
-      - name: Browser assessment evidence journeys (mock API, real browser)
+      - name: Browser progression journeys (mock API, real browser)
         env:
           NODE_PATH: ${{ github.workspace }}/.ci-browser/node_modules
-        run: node --test tests/browser/assessment-results.test.cjs
+        run: node --test tests/browser/assessment-results.test.cjs tests/browser/dashboard-progress.test.cjs
       - name: Browser gameplay journeys (mock API, real browser)
         env:
           NODE_PATH: ${{ github.workspace }}/.ci-browser/node_modules

@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 5.1 assessment evidence and recommendations implemented. Backend/PostgreSQL CI passed; all three new browser cases passed after a test synchronization fix. The corrected browser CI run passed all 135 cases (three assessment-evidence cases and 132 existing journeys), plus frontend unit/type/build checks. Development migration and owner acceptance remain pending. Historical attempts are not regraded. Phase 4 independent learner/device and separate Phase 4.5 acceptance remain open; formal audit stays deferred.
+**Checkpoint:** Phase 5.1 has owner-reported local acceptance. Phase 5.2 saved dashboard progress, recent-result links and bounded dashboard logout are implemented with passing local backend/frontend checks; CI and owner acceptance pending. Historical progress is preserved. Phase 4 independent learner/device and separate Phase 4.5 acceptance remain open; formal audit stays deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Use [the complete update/migration/test/restart and acceptance guide](PHASE_5_RESULTS.md) on development only. Migration `0010_attempt_results` is required. Obtain owner acceptance before expanding this build; then inspect dashboard progress previews and remaining onboarding/mobile/dark-theme/logout gaps against actual behavior. The owner has reported Phase 4.7 acceptance; separate Phase 4.5 and independent learner/device evidence remain pending.
+Verify Phase 5.2 CI, then use [the complete update/test/restart and acceptance guide](PHASE_5_DASHBOARD.md) on development only. No new migration/publication is required; keep the accepted Phase 5.1 schema. After owner acceptance, review remaining Phase 5 usability/mission-progression gaps and independent learner/device evidence before catalogue expansion. Separate Phase 4.5 acceptance remains unreported.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -344,3 +344,16 @@ Corrected browser checkpoint: source `d64bf41`, [run 40688326456](https://github
 Resumed after a workspace-credit interruption and verified [browser run 40688326456](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40688326456) completed successfully at source `d64bf41`. Logs show 3/3 new assessment-evidence cases and 132/132 existing browser journeys passed, plus all 15 frontend unit tests, TypeScript and production build. This supersedes the earlier in-progress browser checkpoint. API replies in browser tests are synthetic; real-backend browser and independent learner/device gates remain open. Backend/PostgreSQL run 40686917851 passed 583 tests and 11 subtests as recorded above.
 
 The credit interruption prevented the preceding draft handover from reaching the branch; this update reconciles the final observed outcome. Next: stop only development services, follow the complete Phase 5.1 update/migration/test/restart blocks, and perform local acceptance. No owner migration or acceptance has been reported. Beta remains unchanged; defer wider Phase 5 work until this bounded build is accepted.
+
+
+## Phase 5.1 owner acceptance — 28 October 2026
+
+After receiving handover `e272f34`, the complete development migration/update/test/restart guide and acceptance checklist, the owner reported: "All tests pass". Record this as successful owner-reported local checks/acceptance. No detailed logs or separately identified mobile, independent learner, real-backend browser or operational evidence was supplied; do not infer those outcomes.
+
+## Phase 5.2 — Saved dashboard progress and usability
+
+Implemented after the Phase 5.1 acceptance above. Source inspection confirmed missing saved-progress dashboard previews and an unbounded dashboard logout request. Added a read-only student overview of owned, enrolled published course progress, first incomplete lessons and chronological recent attempts; previews are limited to three courses/attempts. Added lesson/result navigation, loading/empty/error-retry behavior, and bounded dashboard logout/local token removal. No data migration, content publication or dependency change. Existing history is preserved. See [scope, complete commands, acceptance and limits](PHASE_5_DASHBOARD.md).
+
+Assistant checks: 570 backend tests and 11 subtests passed with 20 database-dependent skips; all 15 frontend unit tests, TypeScript, production build, pip check and whitespace checks passed. New HTTP fixtures use synthetic SQLite/overridden identity; real-session overview assertions are included in PostgreSQL CI. Five new browser cases join the early progression step; no local browser assertions are credited. CI and owner development acceptance remain pending at this source checkpoint. Formal audit remains deferred; no beta source/data/service or owner database was accessed.
+
+Next: verify Phase 5.2 CI, then update/restart development and run local acceptance using the linked guide. Keep independent learner/device, full real-backend browser and operational/final security gates open.

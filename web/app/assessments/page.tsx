@@ -31,6 +31,7 @@ export default function Assessments(){
   const [error,setError]=useState('');
   const [busy,setBusy]=useState(false);
   const submitting=useRef(false);
+  const linkedOpened=useRef(false);
   const [savedSequence,setSavedSequence]=useState(0);
   const savedHeading=useActivityFocus(savedSequence);
   const [openSequence,setOpenSequence]=useState(0);
@@ -55,7 +56,19 @@ export default function Assessments(){
     request('/api/v1/learning/enrollments').then(d=>setCourses(d.enrollments)).catch(e=>setError(e.message));
   },[request]);
 
-  async function choose(id:number){
+  useEffect(()=>{
+    if(linkedOpened.current||courses.length===0)return;
+    const params=new URLSearchParams(window.location.search);
+    const id=Number(params.get('course'));
+    if(!Number.isSafeInteger(id)||!courses.some(course=>course.id===id))return;
+    linkedOpened.current=true;
+    const attempt=Number(params.get('attempt'));
+    choose(id,Number.isSafeInteger(attempt)&&attempt>0?attempt:undefined);
+    // Initial enrolled-course link only; normal state updates must not reopen it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[courses]);
+
+  async function choose(id:number, linkedAttempt?:number){
     setBusy(true);setError('');setSavedResult(null);setResult(null);setAnswers({});setQuestions([]);
     setAvailable(0);setAttempts([]);setCourseId(id);setActiveCount(0);
     try{
@@ -66,7 +79,10 @@ export default function Assessments(){
       setCount(String(Math.min(10,options.available_count)));
       setPreset(options.available_count>=10?'standard':'custom');
       setAttempts(history.attempts);
-      setOpenSequence(value=>value+1);
+      if(linkedAttempt){
+        setSavedResult(await request(`/api/v1/quizzes/courses/${id}/attempts/${linkedAttempt}`));
+        setSavedSequence(value=>value+1);
+      }else setOpenSequence(value=>value+1);
     }catch(e){setError(e instanceof Error?e.message:'Unable to load assessment options');}
     finally{setBusy(false);}
   }

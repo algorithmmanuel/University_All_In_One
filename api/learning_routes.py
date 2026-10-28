@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import func, select
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from learning_content import guide_for, public_guide
+from learning_overview import overview
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from auth import current_user
@@ -52,6 +53,11 @@ def enroll(course_id: int, user: User = Depends(student_only), db: Session = Dep
         db.rollback()
         return {"message": "Already enrolled", "course_id": course_id}
     return {"message": "Enrolled", "course_id": course_id}
+
+@router.get('/learning/overview')
+def learning_overview(user: User = Depends(student_only), db: Session = Depends(get_db)):
+    return overview(db, user.id)
+
 
 @router.get("/learning/enrollments")
 def my_enrollments(user: User = Depends(student_only), db: Session = Depends(get_db)):
