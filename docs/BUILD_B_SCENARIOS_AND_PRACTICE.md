@@ -130,4 +130,18 @@ All seven Cyber Lab browser cases passed locally against actual FastAPI and a di
 
 Prefer a forward fix while retaining all saved state. Build A code cannot continue new v2 scenario runs correctly; a source rollback after learners create those runs needs an explicit reviewed preservation plan. Do not delete new runs or downgrade the accepted schema as routine recovery. Practice snapshots and prior module editions remain stored.
 
-Next: verify Build B CI, then use this single complete update/check/restart guide and acceptance pass. Do not infer owner acceptance of Build B from the earlier Build A report. The next planned bank milestone after accepted feedback is 500, with further game/content improvements driven by learner evidence.
+Next: all Build B automated gates passed as recorded below. Use this single complete update/check/restart guide and acceptance pass. Do not infer owner acceptance of Build B from the earlier Build A report. The next planned bank milestone after accepted feedback is 500, with further game/content improvements driven by learner evidence.
+
+
+## Subsequent CI evidence — source `564a726`, 28 October 2026
+
+Implementation `564a726f096a59a5f9697d5abff2c3fa3b3e2506` passed [backend/PostgreSQL run 40747511189](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40747511189): **632 tests and 11 subtests**, including the original coverage and new scenario/review/legacy-preservation cases. Unit and dependency jobs also passed. [Actual API/PostgreSQL browser run 40747511247](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40747511247) passed **all 10 cases**: the three existing journeys plus seven Cyber Lab cases covering the original game, both new desktop/mobile scenarios, saved reopening and actual mistake review. This supersedes the initial pending PostgreSQL/actual-API checkpoint for this source. The separate 147-case regression is still pending here.
+
+These bounded automated results do not establish independent content/learner effectiveness, physical-device performance, complete operational recovery or final security clearance. Owner acceptance of Build B remains pending, even though the owner accepted Build A.
+
+
+## Final automated handover
+
+The same implementation also passed [browser gameplay run 40747511192](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40747511192): **147 existing browser journeys** (15 progression plus 132 gameplay), **15 frontend unit tests**, TypeScript and production build. All Build B automated gates are now green; this supersedes the earlier pending CI checkpoints above.
+
+Update/check/restart using the complete blocks in this guide. Open **Cyber Lab** in the top navigation, or [the local development Cyber Lab](http://127.0.0.1:3010/cyber-lab). Choose **Scenario** for Supplier Access Crisis or Recovery Under Pressure; choose **Practise** for the 250-question bank, challenging difficulty and saved-mistake review. Complete the six-step acceptance pass above. Owner Build B acceptance remains pending; the earlier Build A report does not cover this new implementation. No new migration, dependency installation or content publication is needed for an already accepted Build A setup.

@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reported successful local checks/acceptance of Build A after navigation correction and authorised continuing. Build B now implements two additional strategy scenarios, a preserved original mode, 250 Cyber Lab questions, challenging/mistake review and expanded versioned learning. Local checks passed as recorded below; Build B CI/owner acceptance remain pending. See [the one Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md). Beta and independent learner/device/operational/final-security gates remain separate.
+**Checkpoint:** Owner reported successful local checks/acceptance of Build A after navigation correction and authorised continuing. Build B now implements two additional strategy scenarios, a preserved original mode, 250 Cyber Lab questions, challenging/mistake review and expanded versioned learning. All Build B automated gates passed for source `564a726`: PostgreSQL 632 tests plus 11 subtests, 147 existing browser journeys, 10 actual-API browser cases, frontend unit/type/build and dependency checks. Owner Build B acceptance remains pending. See [the one Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md). Beta and independent learner/device/operational/final-security gates remain separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify Build B CI, including new scenario and mistake-review journeys on actual API/PostgreSQL, then use [the complete Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md) for development update/check/restart and local acceptance. No additional migration beyond accepted `0011_strategy_learning`, dependencies or publisher command. Preserve v1 saved runs, original question snapshots and earlier module completion records. English only; languages/AI remain deferred. Do not infer Build B acceptance or beta promotion from Build A acceptance.
+All Build B automated gates passed. Use [the complete Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md) for development update/check/restart and local acceptance. No additional migration beyond accepted `0011_strategy_learning`, dependencies or publisher command. Preserve v1 saved runs, original question snapshots and earlier module completion records. English only; languages/AI remain deferred. Do not infer Build B acceptance or beta promotion from Build A acceptance.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -451,3 +451,15 @@ Implemented Supplier Access Crisis (recurring service-credential entry and separ
 Local checkpoint: full backend 609 passed + 11 subtests, 21 PostgreSQL-dependent skips; subsequent focused Build B checks passed all 16 after the final review-window/pending-restoration fixes. Frontend 15 unit tests, typecheck, production build and pip check passed. Seven actual-API/SQLite browser cases passed locally, covering original and both new scenarios at desktop/mobile plus actual saved-mistake review. Existing v1 rule source and 100-question source are byte-for-byte preserved. CI is pending at this source checkpoint. No owner database/runtime, beta source/service or mail/model provider was accessed; independent content/educational/device/operational/final assurance remain open.
 
 Next: verify all Build B CI and hand over the one complete update/check/restart/acceptance guide. Keep the original mission/course histories and latest Build A owner acceptance intact; do not infer Build B owner acceptance.
+
+
+## Build B subsequent CI evidence — 28 October 2026
+
+Source `564a726f096a59a5f9697d5abff2c3fa3b3e2506` passed [backend/PostgreSQL run 40747511189](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40747511189): 632 tests and 11 subtests; unit/dependency jobs passed too. [Real API browser run 40747511247](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40747511247) passed all 10 cases, including both new desktop/mobile scenario win/reopening journeys and actual saved-mistake review. These supersede the earlier pending PostgreSQL/real-API entries for this source. The 147-case intercepted-API browser regression is still pending at this checkpoint. Owner Build B acceptance and all independent learner/content/device/operational/final-security gates remain open.
+
+
+## Build B final automated handover — 28 October 2026
+
+Source `564a726f096a59a5f9697d5abff2c3fa3b3e2506` also passed [browser gameplay run 40747511192](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40747511192): 15 progression plus 132 gameplay journeys (147 total), frontend 15 unit tests, TypeScript and production build. Together with the backend/PostgreSQL and 10 actual-API browser cases recorded above, every Build B automated gate passed. This supersedes the earlier pending CI checkpoints.
+
+Next: use [the complete Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md) to update/check/restart development, then perform its six-step owner acceptance pass. Open **Cyber Lab** in navigation or `http://127.0.0.1:3010/cyber-lab`; use **Scenario** for the new games and **Practise** for the 250-question bank and saved-mistake review. No additional migration beyond `0011_strategy_learning`. Owner Build B acceptance and independent learner/content/device/operational/final-security evidence remain open. No beta promotion or owner runtime operation was performed.
