@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Combined Phase 5 has owner-reported local acceptance following the passing automated gates (594 backend tests + 11 subtests, 147 intercepted-API and 3 real-API browser cases). All planned Phase 5 implementation was delivered in one release. Phase 6 source inspection is complete; see [the inventory and next-build contract](PHASE_6_SCOPE.md). Next: implement the six-game investigation-practice and grounded study-helper foundation. Independent learner/device, operational and final security assurance gates remain open.
+**Checkpoint:** Combined Phase 5 has owner-reported local acceptance following the passing automated gates (594 backend tests + 11 subtests, 147 intercepted-API and 3 real-API browser cases). All planned Phase 5 implementation was delivered in one release. Phase 6 source inspection is complete. Owner redirected the next work toward consequential browser gameplay, richer cybersecurity courses and extensive practice; see [the current proposed plan](PHASE_6_GAMEPLAY_PLAN.md). English only; AI later. Next: settle the complete first playable build scope. Independent learner/device, operational and final security assurance gates remain open.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Implement the [Phase 6 investigation-practice and grounded study-helper foundation](PHASE_6_SCOPE.md) as one development build. The inspected source has all 30 games and guides, 90 stages, 260 artifacts and 150 optional review questions; no additional games are required to meet the count. Deepen six Cyber Academy investigations in the active guided workspace and add a deterministic, curriculum-linked helper foundation. There is no implemented tutor or Yoruba/Igbo content in the current web/API source. Keep translations unpublished until fluent review and generative AI disabled pending provider/privacy/cost/safety prerequisites. Preserve existing scored stages/keys/history, Phase 5 acceptance and outstanding learner/device/operational/final-assurance gates.
+Plan the complete first playable strategy-game slice using [the current gameplay and learning plan](PHASE_6_GAMEPLAY_PLAN.md). Owner direction now prioritises a browser video-game experience inspired by ThreatGEN, richer cybersecurity lessons with public further reading, and extensive topic practice. Defer all Nigerian-language additions and the separate study helper; AI is a longer-term option. The recommended first build is one animated top-down/isometric Blue Team scenario with consequential actions, save/resume/debrief, supporting modules and 100 reviewed practice questions. Those build parameters remain proposals for discussion. The previous six-investigation/tutor recommendation is superseded; do not implement it as the next build.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -400,3 +400,14 @@ Inspected clean development source `9950eed`; [inventory, gaps, prerequisites an
 Executed static-source inventory checks confirm catalogue/mission/guide alignment and matching artifact/evidence counts across every stage. Seven dependency-free frontend assertions passed; the full Node unit invocation could not load two test files because TypeScript is absent, and pytest is unavailable in this fresh checkout. No new full regression/build/browser/PostgreSQL result is claimed. No application source, dependencies, schema, owner runtime/database or beta was changed, and no formal audit ran. Previous Phase 5 CI and owner-reported acceptance remain unchanged; Phase 4.5 separate local acceptance and wider assurance gates remain open.
 
 Next: implement one development build with six deeper Academy investigation practices plus the deterministic source-linked study-helper foundation specified in the contract. Yoruba/Igbo publication needs fluent review; a future generative provider needs separate data/cost/safety decisions and evaluation. This documentation checkpoint requires no local installation or restart.
+
+
+## Owner vision correction and planning — 28 October 2026
+
+The owner requested planning for an interactive cybersecurity browser game inspired by ThreatGEN, deeper cybersecurity courses with public reading links and a practice bank potentially around 500 questions across topics; AI can follow longer term. Explicitly defer Yoruba, Igbo and all other Nigerian-language additions. The previous six-investigation and tutor-foundation next-build recommendation is superseded.
+
+[The proposed gameplay and learning plan](PHASE_6_GAMEPLAY_PLAN.md) records public reference research, the current source gap, an original strategy-game pilot, course/source quality rules, proposed ten-topic/500-question allocation, practice-session changes and staged acceptance targets. The inspected curated source has three course banks of 20 questions each; this does not count installed database rows or the separate 150 mission reviews. Current explicit-length selection repeats the same sample, so varied practice requires server-pinned sessions rather than only increasing the bank.
+
+Documentation/planning only: no application code, dependencies, migrations, published content, beta or owner runtime changed; no new application test pass is claimed. Public ThreatGEN descriptions were reviewed, not a signed-in gameplay session. Owner requirements are distinguished from proposed gameplay/release details and numeric targets.
+
+Next: discuss the proposed Build A style/scope, then implement one complete consequential-game foundation with aligned teaching/practice. Preserve historic scores/progress and all outstanding learner/device/operational/final-audit evidence gates.

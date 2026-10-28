@@ -1,4 +1,6 @@
-# Phase 6 — source inventory and next build
+# Phase 6 — source inventory and superseded build proposal
+
+**Superseded next-build recommendation:** The owner redirected development on 28 October 2026 toward consequential browser strategy gameplay, richer cybersecurity teaching and extensive practice. English only; all Nigerian-language additions and the separate study-helper build are deferred. Read [the current gameplay and learning plan](PHASE_6_GAMEPLAY_PLAN.md). The inventory below remains historical source evidence; its six-investigation/tutor implementation directions no longer apply.
 
 Inspected 28 October 2026 (Africa/Lagos), branch `feature/beta-continuous-improvement`, source `9950eedb928dfe90f6d91e802ce2ebe6a2ab6b35`. This is a source inspection and implementation contract for the next build, not a delivered feature release or new owner acceptance. The [approved roadmap](DEVELOPMENT_ROADMAP.md) remains authoritative; [current status](DEVELOPMENT_STATUS.md) distinguishes implementation, CI and owner reports.
 
