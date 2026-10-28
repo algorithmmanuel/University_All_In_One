@@ -100,3 +100,13 @@ Assistant checks passed: 570 backend tests and 11 subtests, with 20 database-dep
 All 15 frontend unit tests, TypeScript, production build, pip check and diff whitespace checks passed. Existing TestClient deprecation and CSS compatibility warnings remain. Five new browser cases cover desktop/mobile previews, result deep links/focus, error retry and empty state, teacher isolation, and stalled logout. No local browser assertions are credited; the preceding local Chromium socket restriction remains an execution limitation. The early progression CI step now includes these five cases and the three accepted Phase 5.1 cases, followed by the 132 existing browser journeys. CI and owner acceptance remain pending.
 
 No owner computer/database, beta branch/services or mail provider were accessed. Formal security-audit-skill execution remains deferred until final development assurance. Separate Phase 4.5 acceptance and independent learner/device evidence remain outstanding.
+
+
+### Subsequent CI verification
+
+Implementation `003fed0` passed [backend run 40698410040](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40698410040): migrations applied successfully to isolated PostgreSQL, the full suite passed 590 tests and 11 subtests, and the unit/dependency jobs passed. The real-session overview assertions executed successfully; the many content fixtures intentionally continue to use synthetic SQLite/auth overrides. This is not a claim that every test uses PostgreSQL.
+
+The first browser run passed 7/8 progression cases, then stopped before the 132-case suite. Its retry/empty-state assertion counted every page alert, including Next.js's route announcer (whose source sets `role=alert`), although the recovery screen had loaded. The correction scopes the assertion to the saved-progress panel and changes no application source. Corrected source `9edc7e4`, [run 40698843615](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40698843615), passed all eight progression cases, all 15 frontend unit tests, TypeScript and production build. The corrected run subsequently completed successfully: all 132 existing browser journeys passed as well, giving 140/140 browser cases across both steps. Browser API replies remain intercepted synthetic responses, not complete real-backend journeys. Owner development acceptance remains pending.
+
+
+Next: use the complete update/test/restart blocks above and complete development acceptance. No new migration/publication is needed. Record owner-reported checks separately from independently supplied learner/device evidence; review the remaining Phase 5 gaps before catalogue expansion.

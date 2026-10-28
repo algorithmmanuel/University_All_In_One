@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 5.1 has owner-reported local acceptance. Phase 5.2 saved dashboard progress, recent-result links and bounded dashboard logout are implemented with passing local backend/frontend checks; CI and owner acceptance pending. Historical progress is preserved. Phase 4 independent learner/device and separate Phase 4.5 acceptance remain open; formal audit stays deferred.
+**Checkpoint:** Phase 5.1 has owner-reported local acceptance. Phase 5.2 saved dashboard progress, recent-result links and bounded dashboard logout are implemented with passing backend/PostgreSQL and 140-case browser CI; owner acceptance pending. Historical progress is preserved. Phase 4 independent learner/device and separate Phase 4.5 acceptance remain open; formal audit stays deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify Phase 5.2 CI, then use [the complete update/test/restart and acceptance guide](PHASE_5_DASHBOARD.md) on development only. No new migration/publication is required; keep the accepted Phase 5.1 schema. After owner acceptance, review remaining Phase 5 usability/mission-progression gaps and independent learner/device evidence before catalogue expansion. Separate Phase 4.5 acceptance remains unreported.
+Use [the complete update/test/restart and acceptance guide](PHASE_5_DASHBOARD.md) on development only. No new migration/publication is required; keep the accepted Phase 5.1 schema. After owner acceptance, review remaining Phase 5 usability/mission-progression gaps and independent learner/device evidence before catalogue expansion. Separate Phase 4.5 acceptance remains unreported.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -357,3 +357,10 @@ Implemented after the Phase 5.1 acceptance above. Source inspection confirmed mi
 Assistant checks: 570 backend tests and 11 subtests passed with 20 database-dependent skips; all 15 frontend unit tests, TypeScript, production build, pip check and whitespace checks passed. New HTTP fixtures use synthetic SQLite/overridden identity; real-session overview assertions are included in PostgreSQL CI. Five new browser cases join the early progression step; no local browser assertions are credited. CI and owner development acceptance remain pending at this source checkpoint. Formal audit remains deferred; no beta source/data/service or owner database was accessed.
 
 Next: verify Phase 5.2 CI, then update/restart development and run local acceptance using the linked guide. Keep independent learner/device, full real-backend browser and operational/final security gates open.
+
+Phase 5.2 subsequent CI: [backend run 40698410040](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40698410040) passed 590 tests and 11 subtests with isolated PostgreSQL available, including real-session overview access checks; unit/dependency jobs passed. A browser test assertion was scoped to the saved-progress panel so Next.js's separate route-announcement alert is not counted as a progress error; no application source changed for that fix. Source `9edc7e4`, [browser run 40698843615](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40698843615), passed all eight progression cases plus frontend unit/type/build checks. The corrected browser run completed successfully: 132/132 existing journeys passed in addition to the eight progression cases, for 140/140 browser cases. This supersedes the initial failed test-assertion checkpoint; browser API replies remain synthetic. Owner acceptance of Phase 5.2 remains pending.
+
+
+### Phase 5.2 final source handover
+
+Source implementation `003fed0` passed backend/PostgreSQL run 40698410040 (590 tests and 11 subtests). Test-assertion correction `9edc7e4` passed browser run 40698843615 (140 cases), frontend unit/type/build checks included. No application code changed for the test correction. The handover records the owner's Phase 5.1 acceptance but does not infer Phase 5.2 acceptance. Next: update/restart development and complete the Phase 5.2 checklist; no new migration/content publication. Beta remains unchanged, and the formal audit stays deferred.
