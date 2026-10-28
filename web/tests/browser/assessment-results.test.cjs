@@ -44,6 +44,8 @@ for(const mobile of [false,true])test('topic results, saved reopening and legacy
   await page.getByRole('heading',{name:'Saved result: 1/1 (100%)'}).waitFor();
   await page.getByRole('radio',{name:'Quick (5 questions)',exact:true}).check();
   await page.getByRole('button',{name:'Start 5-question assessment'}).click();
+  await page.locator('form fieldset').nth(4).waitFor();
+  assert.equal(await page.locator('form fieldset').count(),5);
   for(const field of await page.locator('form fieldset').all())await field.getByRole('radio').first().check();
   await page.getByRole('button',{name:'Submit assessment',exact:true}).click();
   await page.getByRole('heading',{name:'Topic results and next steps',exact:true}).waitFor();

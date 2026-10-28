@@ -112,3 +112,10 @@ Assistant checks: 560 backend tests and 11 subtests passed, with 20 database-dep
 All 15 frontend unit tests, TypeScript, production build and pip check passed. Existing TestClient deprecation and CSS compatibility warnings remain. Three new browser cases cover desktop/mobile result persistence, legacy limits, detail error/retry and focused lesson navigation; all failed to launch Chromium locally because its required UNIX socket was denied. No browser assertions executed locally. The existing browser CI gate now includes these cases; results are pending. Browser responses in that gate are synthetic, not a real-backend learner journey.
 
 No owner computer/database, beta source branch, beta service or mail provider was accessed. Formal security-audit-skill execution stays deferred. Owner development migration/acceptance, independent learner/device evidence, wider Phase 5 usability and operational/final security gates remain open.
+
+
+### Subsequent CI verification
+
+Implementation `32549cd` passed [backend run 40686917851](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40686917851): migrations applied successfully to isolated PostgreSQL; the full suite passed 583 tests and 11 subtests, including the real-session owned-result access assertions. Database-independent tests and the dependency audit also passed. Many content HTTP tests deliberately retain their synthetic SQLite/auth-override fixtures even in the PostgreSQL job; this is not a claim that every test uses PostgreSQL.
+
+The first [browser run 40686917881](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40686917881) passed 134 of 135 cases: all 132 existing journeys plus desktop results and lesson navigation passed. The new mobile test enumerated fieldsets before the asynchronous load completed, then waited on the correctly disabled submit button. The fixture now waits for and asserts all five fields before answering. No product-source change was made for this synchronization fix; the three new cases run in a separate early CI step for clearer feedback. Verification of the corrected test remains pending at this point.
