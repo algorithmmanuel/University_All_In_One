@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Use [the complete Build A guide](BUILD_A_BRANCH_DEFENDER.md) for one development update/migration/check/restart and local acceptance pass. All automated CI gates for application source `718dc9b` passed. This build adds schema revision `0011_strategy_learning`; stop only development services before using the guarded migrator, and do not restart an unmigrated development database. English only, rules-based opponent, three new cybersecurity modules and 100 new practice questions. AI/languages remain deferred. Preserve legacy records, leave beta open and do not infer owner installation/acceptance or promotion from automated checks.
+Verify the subsequent dashboard-navigation correction CI, then use [the complete Build A guide](BUILD_A_BRANCH_DEFENDER.md) for one development update/migration/check/restart and local acceptance pass. All original Build A automated CI gates for application source `718dc9b` passed; the navigation correction has separate targeted local evidence below. This build adds schema revision `0011_strategy_learning`; stop only development services before using the guarded migrator, and do not restart an unmigrated development database. English only, rules-based opponent, three new cybersecurity modules and 100 new practice questions. AI/languages remain deferred. Preserve legacy records, leave beta open and do not infer owner installation/acceptance or promotion from automated checks.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -429,3 +429,12 @@ Implementation `718dc9b5fc795dd50cb4a6e5ab4ba3227f550212` passed [backend/Postgr
 The 147 existing browser assertions also passed locally using headless shell; full Chromium's local process-singleton socket was denied. The supported local harness fallback did not change assertions, and ordinary CI Chromium supplied independent passing evidence. These results supersede earlier pending/interrupted checkpoints. The final evidence update changes documentation only and does not rerun application tests. No beta source/services/data, owner runtime or mail/model provider was accessed. Generated frontend declaration changes remain unstaged.
 
 Next: follow [the complete single release guide](BUILD_A_BRANCH_DEFENDER.md) to update/migrate/check/restart development, verify isolation and accept `/cyber-lab`. Owner installation/acceptance is pending. This first strategy foundation does not establish ThreatGEN parity, measured educational effectiveness/device performance, production readiness or final security assurance, and the proposed 250/500-question milestones remain future work.
+
+
+## Dashboard discovery correction — 28 October 2026
+
+Owner screenshots showed no Branch Defender entry on the normal student dashboard. Source inspection found the new game card had mistakenly been added to the dashboard error branch. Moved it into the successful student dashboard above saved course progress, removed it from the error view, and added a student-only **Cyber Lab** top-navigation link. The destination remains `/cyber-lab`. No backend, schema, content, dependency or beta change.
+
+Added desktop/mobile assertions that the normal dashboard contains the game card/navigation destination and that the teacher view excludes them. The real-API browser journeys now begin by following **Play Branch Defender →** from the dashboard rather than going straight to the lab. Production build/type validation passed; all seven focused browser cases passed locally against the supported headless shell, including both real-API/disposable-SQLite journeys. CI for this navigation correction is pending at this source checkpoint; original Build A CI evidence remains recorded without implying that it had checked dashboard discoverability.
+
+Next: verify correction CI and use the existing complete Build A release guide to update/restart development. There is no additional migration beyond Build A `0011_strategy_learning`. After updating, locate **Cyber Lab** in the top navigation or **Play Branch Defender →** above **Your saved progress**. Direct route: `/cyber-lab`. Owner acceptance remains pending.

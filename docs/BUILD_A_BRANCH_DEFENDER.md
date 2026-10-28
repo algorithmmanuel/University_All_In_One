@@ -132,3 +132,10 @@ The PostgreSQL gate includes real bearer-session ownership/revocation and concur
 The final evidence update changes documentation only. **Owner development installation and local acceptance are still pending.** No beta source/service/database, owner runtime or external mail/model provider was accessed. Independent content/learner/physical-device/accessibility/performance, operational recovery and final formal security gates remain open.
 
 **Immediate next action:** stop only development services, follow the complete update/migration/check/restart blocks above, verify isolation, then complete the single acceptance checklist at `/cyber-lab`. No separate content publication is required.
+
+
+## Dashboard navigation correction — 28 October 2026
+
+The original dashboard card was mistakenly rendered only in the dashboard error view. The correction puts **Play Branch Defender →** on the normal student dashboard, above **Your saved progress**, and adds **Cyber Lab** to its top navigation. The direct destination remains `/cyber-lab`. Update using the complete existing blocks above; no additional schema change is needed beyond `0011_strategy_learning`.
+
+Seven focused local browser cases passed after this correction (desktop/mobile dashboard discovery and both actual-API/SQLite game/practice journeys included); production build/type validation passed. Real-API CI now starts the new game journeys by clicking the dashboard link. Correction CI is pending at this checkpoint; this note does not replace the original Build A CI results or infer owner installation.

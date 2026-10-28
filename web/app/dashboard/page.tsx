@@ -38,12 +38,13 @@ export default function Dashboard() {
       <nav aria-label="Dashboard navigation">
         <Link href="/learn">Courses</Link>
         <Link href="/missions">Missions</Link>
+        {user?.role==='student'&&<Link href="/cyber-lab">Cyber Lab</Link>}
         <Link href="/assessments">Assessments</Link>
         <Link href="/feedback">Feedback</Link>
       </nav>
       <button className="cyber-signout" disabled={signingOut} onClick={signOut}>{signingOut?'Signing out…':'Sign out'}</button>
     </header>
-    {error?<section className="cyber-shell"><h1>Unable to load dashboard</h1><section className="panel" style={{marginTop:20,marginBottom:20}}><h2>Branch Defender strategy game</h2><p>Manage a fictional branch network, learn cybersecurity controls and practise across 100 new questions.</p><Link className="btn" href="/cyber-lab">Play Branch Defender →</Link></section><p role="alert">{error}</p><button className="btn" onClick={signOut}>Sign in again</button></section>:
+    {error?<section className="cyber-shell"><h1>Unable to load dashboard</h1><p role="alert">{error}</p><button className="btn" onClick={signOut}>Sign in again</button></section>:
       !user?<div className="cyber-shell" role="status">Loading your dashboard…</div>:<>
         <section className="cyber-hero">
           <div className="cyber-shell cyber-hero-inner">
@@ -65,6 +66,12 @@ export default function Dashboard() {
           {user.role==='teacher'&&!user.is_approved?<div className="cyber-feature"><h2>Teacher approval pending</h2><p>Your account is registered. Teaching tools will be available after administrator approval.</p></div>:
            user.role==='teacher'||user.role==='admin'?<div className="cyber-feature"><h2>Teacher workspace</h2><p>Course authoring and learner reporting are being developed.</p></div>:
            <>
+            <section className="cyber-feature" aria-label="Branch Defender strategy game" style={{marginBottom:24}}>
+              <span className="cyber-eyebrow">NEW / STRATEGY GAME</span>
+              <h2>Branch Defender strategy game</h2>
+              <p>Manage a fictional branch network, learn cybersecurity controls and practise across 100 new questions.</p>
+              <Link className="cyber-cta" href="/cyber-lab">Play Branch Defender →</Link>
+            </section>
             <LearningOverview />
             <MissionProgress />
             <div className="cyber-section-heading"><div><span className="cyber-eyebrow">YOUR CYBER JOURNEY</span><h2>Choose your next challenge</h2></div><p>Start learning, put your skills to work, or measure your progress.</p></div>

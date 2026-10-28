@@ -38,6 +38,10 @@ for(const mobile of [false,true])test('saved dashboard preview and assessment re
   const page=await setup(t,mobile);const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await mock(page);await page.goto('/dashboard');
   await page.getByText('4 enrolled course(s) · 1 completed',{exact:true}).waitFor();
+  const gameCard=page.getByRole('region',{name:'Branch Defender strategy game',exact:true});
+  await gameCard.waitFor();
+  assert.equal(await gameCard.getByRole('link',{name:'Play Branch Defender →',exact:true}).getAttribute('href'),'/cyber-lab');
+  assert.equal(await page.getByRole('navigation',{name:'Dashboard navigation'}).getByRole('link',{name:'Cyber Lab',exact:true}).getAttribute('href'),'/cyber-lab');
   await page.getByText('1 of 3 lessons complete',{exact:true}).waitFor();
   assert.equal(await page.getByRole('link',{name:'Continue Synthetic Python',exact:true}).getAttribute('href'),'/learn?course=1#lesson-2');
   assert.equal(await page.getByRole('link',{name:'Practise Completed course',exact:true}).getAttribute('href'),'/assessments?course=2');
@@ -75,6 +79,8 @@ test('teacher dashboard does not request student progress',async t=>{
   await page.goto('/dashboard');
   await page.getByRole('heading',{name:'Teacher approval pending',exact:true}).waitFor();
   assert.equal(overviewRequests,0);
+  assert.equal(await page.getByRole('region',{name:'Branch Defender strategy game',exact:true}).count(),0);
+  assert.equal(await page.getByRole('link',{name:'Cyber Lab',exact:true}).count(),0);
   assert.equal(await page.getByRole('heading',{name:'Your saved progress',exact:true}).count(),0);
 });
 

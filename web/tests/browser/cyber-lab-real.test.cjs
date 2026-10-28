@@ -36,7 +36,8 @@ for (const mobile of [false, true])
       await (
         await page.request.get(API + "/api/v1/cyber-lab" + path, { headers })
       ).json();
-    await page.goto("/cyber-lab");
+    await page.goto("/dashboard");
+      await page.getByRole("link", {name: "Play Branch Defender →", exact: true}).click();
     await page
       .getByRole("button", { name: "Start a new shift →", exact: true })
       .click();
