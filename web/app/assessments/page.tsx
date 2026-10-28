@@ -1,6 +1,7 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import AssessmentEvidence, {type Analysis} from '../../components/assessment-evidence';
 import { useRouter } from 'next/navigation';
 import { useActivityFocus } from '../../lib/use-activity-focus';
 
@@ -9,7 +10,7 @@ type Course={id:number;title:string;academy_id:string};
 type Question={id:number;prompt:string;options:string[]};
 type Attempt={id:number;score:number;total:number;percentage:number;submitted_at:string};
 type Feedback={question_id:number;correct_index:number;selected_index:number;correct:boolean;explanation:string};
-type Result={score:number;total:number;percentage:number;feedback:Feedback[]};
+type Result={score:number;total:number;percentage:number;feedback:Feedback[];analysis?:Analysis};
 type Preset='quick'|'standard'|'extended'|'custom';
 const PRESETS=[{id:'quick',label:'Quick',count:5},{id:'standard',label:'Standard',count:10},
   {id:'extended',label:'Extended',count:20}] as const;
@@ -26,8 +27,12 @@ export default function Assessments(){
   const [answers,setAnswers]=useState<Record<number,number>>({});
   const [attempts,setAttempts]=useState<Attempt[]>([]);
   const [result,setResult]=useState<Result|null>(null);
+  const [savedResult,setSavedResult]=useState<(Attempt & {analysis:Analysis|null})|null>(null);
   const [error,setError]=useState('');
   const [busy,setBusy]=useState(false);
+  const submitting=useRef(false);
+  const [savedSequence,setSavedSequence]=useState(0);
+  const savedHeading=useActivityFocus(savedSequence);
   const [openSequence,setOpenSequence]=useState(0);
   const activityHeading=useActivityFocus(openSequence);
   const desiredCount=Number(count);
@@ -51,7 +56,7 @@ export default function Assessments(){
   },[request]);
 
   async function choose(id:number){
-    setBusy(true);setError('');setResult(null);setAnswers({});setQuestions([]);
+    setBusy(true);setError('');setSavedResult(null);setResult(null);setAnswers({});setQuestions([]);
     setAvailable(0);setAttempts([]);setCourseId(id);setActiveCount(0);
     try{
       const [options,history]=await Promise.all([
@@ -68,7 +73,7 @@ export default function Assessments(){
 
   async function begin(){
     if(courseId===null||!validCount||busy)return;
-    setBusy(true);setError('');
+    setBusy(true);setError('');setSavedResult(null);
     try{
       const data=await request('/api/v1/quizzes/courses/'+courseId+'?question_count='+desiredCount);
       if(!Array.isArray(data.questions)||data.questions.length!==desiredCount)throw new Error('Assessment length changed. Please choose the course again.');
@@ -80,8 +85,8 @@ export default function Assessments(){
 
   async function submit(event:React.FormEvent){
     event.preventDefault();
-    if(busy||courseId===null||questions.length===0||questions.some(q=>answers[q.id]===undefined))return;
-    setBusy(true);setError('');
+    if(submitting.current||busy||courseId===null||questions.length===0||questions.some(q=>answers[q.id]===undefined))return;
+    submitting.current=true;setBusy(true);setError('');
     try{
       const data=await request('/api/v1/quizzes/courses/'+courseId+'/submit','POST',
         {answers,question_count:activeCount});
@@ -89,6 +94,14 @@ export default function Assessments(){
       const history=await request('/api/v1/quizzes/courses/'+courseId+'/attempts');
       setAttempts(history.attempts);
     }catch(e){setError(e instanceof Error?e.message:'Unable to submit assessment');}
+    finally{submitting.current=false;setBusy(false);}
+  }
+
+  async function reopen(id:number){
+    if(busy||courseId===null)return;
+    setBusy(true);setError('');setSavedResult(null);
+    try{setSavedResult(await request(`/api/v1/quizzes/courses/${courseId}/attempts/${id}`));setSavedSequence(value=>value+1);}
+    catch(e){setError(e instanceof Error?e.message:'Unable to load saved result');}
     finally{setBusy(false);}
   }
 
@@ -160,12 +173,19 @@ export default function Assessments(){
           </button>:<><div className="panel" role="status"><h2>Score: {result.score}/{result.total} ({result.percentage}%)</h2>
             <p>Saved as a {result.total}-question practice attempt.</p>
             <p className="muted">Shorter tests provide a smaller sample of your knowledge. Compare the question count as well as the percentage.</p></div>
+            {result.analysis&&<AssessmentEvidence analysis={result.analysis} courseId={courseId}/>}
             <button type="button" className="btn" onClick={()=>choose(courseId)} disabled={busy}>Choose another test length</button></>}
         </form>}
       <h2 style={{marginTop:32}}>Previous attempts</h2>
       {attempts.length===0?<p className="muted">No attempts yet.</p>:<ul>
-        {attempts.map(a=><li key={a.id}>{new Date(a.submitted_at).toLocaleString()} — {a.total} questions · {a.score}/{a.total} ({a.percentage}%)</li>)}
+        {attempts.map(a=><li key={a.id}>{new Date(a.submitted_at).toLocaleString()} — {a.total} questions · {a.score}/{a.total} ({a.percentage}%) <button type="button" disabled={busy} onClick={()=>reopen(a.id)}>View result {a.id}</button></li>)}
       </ul>}
+      {savedResult&&<section className="panel" aria-label="Saved attempt result">
+        <h2 ref={savedHeading} tabIndex={-1} className="activity-heading">Saved result: {savedResult.score}/{savedResult.total} ({savedResult.percentage}%)</h2>
+        <p>{new Date(savedResult.submitted_at).toLocaleString()}</p>
+        <AssessmentEvidence analysis={savedResult.analysis} courseId={courseId}/>
+        <button type="button" onClick={()=>setSavedResult(null)}>Close saved result</button>
+      </section>}
     </section>}
   </main>;
 }

@@ -9,6 +9,8 @@ from models import Course, Enrollment, QuizAttempt, QuizQuestion, User
 from learning_content import active_question_prompts
 from assessment_selection import MAX_QUESTIONS, grade_questions, select_questions, unique_questions
 
+from assessment_results import snapshot
+
 router = APIRouter(prefix="/api/v1/quizzes", tags=["quizzes"])
 
 def eligible(db: Session, user: User, course_id: int):
@@ -66,11 +68,12 @@ def submit(course_id: int, body: Submission, user: User = Depends(current_user),
         raise HTTPException(status_code=422, detail=str(error)) from None
     attempt = QuizAttempt(user_id=user.id, course_id=course_id,
                           answers={str(k): v for k,v in body.answers.items()},
-                          score=result["score"], total=result["total"])
+                          score=result["score"], total=result["total"],
+                          result_snapshot=snapshot(db, course_id, rows, result))
     db.add(attempt)
     db.commit()
     db.refresh(attempt)
-    return {"attempt_id": attempt.id, **result}
+    return {"attempt_id": attempt.id, **result, "analysis": attempt.result_snapshot}
 
 @router.get("/courses/{course_id}/attempts")
 def attempts(course_id: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
@@ -82,3 +85,18 @@ def attempts(course_id: int, user: User = Depends(current_user), db: Session = D
                            "percentage": round(100 * a.score / a.total) if a.total else 0,
                            "submitted_at": a.submitted_at.isoformat()} for a in rows]}
 
+
+
+@router.get("/courses/{course_id}/attempts/{attempt_id}")
+def attempt_detail(course_id: int, attempt_id: int, user: User = Depends(current_user),
+                   db: Session = Depends(get_db)):
+    eligible(db, user, course_id)
+    # Filter at the data boundary; never return another learner's snapshot.
+    attempt = db.scalar(select(QuizAttempt).where(
+        QuizAttempt.id == attempt_id, QuizAttempt.course_id == course_id,
+        QuizAttempt.user_id == user.id))
+    if attempt is None:
+        raise HTTPException(status_code=404, detail="Attempt not found")
+    return {"id": attempt.id, "score": attempt.score, "total": attempt.total,
+            "percentage": round(100 * attempt.score / attempt.total) if attempt.total else 0,
+            "submitted_at": attempt.submitted_at.isoformat(), "analysis": attempt.result_snapshot}

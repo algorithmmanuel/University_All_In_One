@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Phase 4.7 final three Command guides implemented with passing backend/PostgreSQL and 132-case browser CI; all 30 existing games now have guidance source. Phase 4.7 and Phase 4.6 have owner-reported local acceptance; separate Phase 4.5 and independent learner/device evidence remain pending. Formal audit stays deferred.
+**Checkpoint:** Phase 5.1 topic-level assessment evidence, preserved result snapshots and lesson recommendations implemented; assistant checks pass as detailed below. Development migration, CI verification and owner acceptance pending. Historical attempts are not regraded. Phase 4 independent learner/device and separate Phase 4.5 acceptance remain open; formal audit stays deferred.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Proceed to Phase 5 (FB-03): inspect existing results/progression/usability, define stable objective mapping and evidence limits, and implement useful topic-level results and next-step recommendations while preserving historical attempts. The owner reported all tests pass after Phase 4.7 handover `5da4e8b`; all 30 existing games have guidance source and the final batch has owner-reported local acceptance. Separate Phase 4.5 acceptance remains unreported; independent learner/device evidence is still required for the wider Phase 4 gate.
+Verify Phase 5.1 backend/PostgreSQL and browser CI, then use [the complete update/migration/test/restart and acceptance guide](PHASE_5_RESULTS.md) on development only. Migration `0010_attempt_results` is required. Obtain owner acceptance before expanding this build; then inspect dashboard progress previews and remaining onboarding/mobile/dark-theme/logout gaps against actual behavior. The owner has reported Phase 4.7 acceptance; separate Phase 4.5 and independent learner/device evidence remain pending.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -322,3 +322,14 @@ A preliminary source check for the next phase found that `quiz_routes.py` and `w
 After handover `5da4e8b`, the owner reported: “All tests pass.” Record successful owner-reported local acceptance of Boardroom Breach, AI Governance and Audit Trail. No detailed local logs, separate Phase 4.5 acceptance, independent learner/device observations or final security evidence were supplied. This documentation-only update does not change application source, beta services or databases.
 
 Next: begin Phase 5 progression/results/usability improvements using the source observations above. All 30 guidance implementations are delivered; the wider educational/device gate remains open.
+
+
+## Phase 5.1 — Assessment results and next steps (FB-03)
+
+Implemented 28 October 2026 from `5567e76`. New server-authored attempt snapshots preserve reviewed objective counts, sample limits, original answer explanations and lesson recommendations across catalogue changes. Each of the three published foundations courses has nine stable objectives; unmatched/customized/unpublished items receive no guessed topic credit. Duplicate prompts count once as topic evidence. Historical attempt answers/scores/timestamps are retained with no inferred or regraded topic history. Owned result reopening and lesson deep links are implemented; no aggregate mastery/learning-gain claim is made.
+
+Migration `0010_attempt_results` adds one nullable JSON column without backfill. An explicit development-only migrator reuses branch/interpreter/dedicated-database/environment guards and refuses occupied development ports. Beta was not accessed. See [scope, evidence contract, complete PowerShell blocks, recovery limits and acceptance](PHASE_5_RESULTS.md).
+
+Assistant verification: 560 backend tests and 11 subtests passed with 20 database-dependent skips; the subsequent focused results/migration/launcher run passed all 22 cases, including three new launcher guard tests. All 15 frontend unit tests, TypeScript, production build and pip check passed. Migration preservation was exercised on synthetic populated SQLite, and HTTP feature tests override authentication. PostgreSQL/real-session assertions and CI are pending at this checkpoint. Three new browser tests could not launch Chromium because the workspace denied its required UNIX socket; no local browser assertion is credited. Existing CSS/TestClient warnings remain.
+
+This is a bounded Phase 5 source milestone, not completion of the full phase. Dashboard previews, wider progression and outstanding usability/device/learner evidence remain open. Phase 4.5 acceptance, independent Phase 4 evidence, operational assurance and final formal security audit remain outstanding. Next: verify CI and development migration/acceptance using the linked guide.

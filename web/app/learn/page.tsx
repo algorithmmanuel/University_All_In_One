@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import LessonGuide, {type LearningGuide} from '../../components/lesson-guide';
@@ -21,6 +21,7 @@ export default function Learn() {
   const [error,setError]=useState('');
   const [loading,setLoading]=useState(true);
   const [openSequence,setOpenSequence]=useState(0);
+  const linkedLessonFocused=useRef(false);
   const activityHeading=useActivityFocus(openSequence);
 
   const request = useCallback(async (path:string, method='GET', data?:Record<string,unknown>) => {
@@ -48,6 +49,26 @@ export default function Learn() {
     refresh().catch(e=>{if(active)setError(e.message);}).finally(()=>{if(active)setLoading(false);});
     return ()=>{active=false;};
   },[refresh]);
+
+  useEffect(()=>{
+    if(loading)return;
+    const id=Number(new URLSearchParams(window.location.search).get('course'));
+    if(Number.isSafeInteger(id)&&enrollments.some(course=>course.id===id)){
+      openCourse(id,false);
+    }
+    // Resolve the initial URL after enrolments load; ordinary refreshes must not reopen a closed course.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[loading]);
+
+  useEffect(()=>{
+    if(!selected||linkedLessonFocused.current)return;
+    const target=selected.lessons.find(lesson=>window.location.hash===`#lesson-${lesson.id}`);
+    if(!target)return;
+    const heading=document.getElementById(`lesson-${target.id}`);
+    linkedLessonFocused.current=true;
+    heading?.scrollIntoView({behavior:'instant',block:'start'});
+    heading?.focus({preventScroll:true});
+  },[selected]);
 
   async function enroll(id:number){
     setBusy(true);setError('');
@@ -116,7 +137,7 @@ export default function Learn() {
           {selected.lessons.length===0?<p>No lessons have been published yet.</p>:selected.lessons.map(l=>
             <article className="card" key={l.id} style={{marginTop:16}}>
               <span className="small">Lesson {l.position} {l.completed?'· Completed ✓':''}</span>
-              <h3>{l.title}</h3>
+              <h3 id={`lesson-${l.id}`} tabIndex={-1}>{l.title}</h3>
               {l.learning_guide?<LessonGuide key={l.id+':'+l.learning_guide.revision} guide={l.learning_guide}
                 checkAnswer={(exercise,option)=>request('/api/v1/learning/lessons/'+l.id+'/practice','POST',
                   {exercise_id:exercise,option_index:option})}/>

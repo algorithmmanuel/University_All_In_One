@@ -86,6 +86,7 @@ class QuizAttempt(Base):
     score: Mapped[int] = mapped_column(Integer, nullable=False)
     total: Mapped[int] = mapped_column(Integer, nullable=False)
     submitted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    result_snapshot: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 class MissionRun(Base):
     __tablename__ = "mission_runs"
