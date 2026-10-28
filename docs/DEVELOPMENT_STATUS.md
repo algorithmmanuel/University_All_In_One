@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Combined Phase 5 has owner-reported local acceptance following the passing automated gates (594 backend tests + 11 subtests, 147 intercepted-API and 3 real-API browser cases). All planned Phase 5 implementation was delivered in one release. Phase 6 source inspection is complete. Owner redirected the next work toward consequential browser gameplay, richer cybersecurity courses and extensive practice; see [the current proposed plan](PHASE_6_GAMEPLAY_PLAN.md). English only; AI later. Next: settle the complete first playable build scope. Independent learner/device, operational and final security assurance gates remain open.
+**Checkpoint:** Build A strategy-game foundation is implemented: Branch Defender, three cybersecurity modules and 100 new practice questions. Local backend/unit/type/build and two real-API SQLite browser journeys passed; PostgreSQL/CI and owner acceptance remain pending. See [one release guide](BUILD_A_BRANCH_DEFENDER.md). Beta remains separate; independent learner/device, operational and final security gates remain open.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Plan the complete first playable strategy-game slice using [the current gameplay and learning plan](PHASE_6_GAMEPLAY_PLAN.md). Owner direction now prioritises a browser video-game experience inspired by ThreatGEN, richer cybersecurity lessons with public further reading, and extensive topic practice. Defer all Nigerian-language additions and the separate study helper; AI is a longer-term option. The recommended first build is one animated top-down/isometric Blue Team scenario with consequential actions, save/resume/debrief, supporting modules and 100 reviewed practice questions. Those build parameters remain proposals for discussion. The previous six-investigation/tutor recommendation is superseded; do not implement it as the next build.
+Verify Build A CI, including PostgreSQL command concurrency and real-API browser checks, then use [the complete Build A guide](BUILD_A_BRANCH_DEFENDER.md) for one development update/migration/check/restart and local acceptance pass. It adds schema revision `0011_strategy_learning`; do not restart an unmigrated development database. English only, with a rules-based opponent; languages and AI remain deferred. Preserve legacy records and do not promote beta automatically.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -411,3 +411,12 @@ The owner requested planning for an interactive cybersecurity browser game inspi
 Documentation/planning only: no application code, dependencies, migrations, published content, beta or owner runtime changed; no new application test pass is claimed. Public ThreatGEN descriptions were reviewed, not a signed-in gameplay session. Owner requirements are distinguished from proposed gameplay/release details and numeric targets.
 
 Next: discuss the proposed Build A style/scope, then implement one complete consequential-game foundation with aligned teaching/practice. Preserve historic scores/progress and all outstanding learner/device/operational/final-audit evidence gates.
+
+
+## Build A — Branch Defender implementation, 28 October 2026
+
+After reviewing the gameplay/learning plan, the owner instructed “Lets start”, authorising Build A. Implemented one original six-asset, turn-based strategy mode with consequential controls, private adversary state, delayed effects, save/resume/history and debrief. PostgreSQL row locks, expected versions and deduplicated UUID commands protect state transitions. Existing 30 mission definitions/scoring/history are unchanged. Three separate English Cyber Lab modules add ten cybersecurity topics, 100 worked decisions, public source references and saved read completion; existing accepted course rows remain unchanged. A new 100-question bank adds topic/difficulty/size selection, fresh balanced sampling, shuffled options, immutable session grading and saved results/history. Migration `0011_strategy_learning` adds four new tables without rewriting old data. See [the full release and complete PowerShell blocks](BUILD_A_BRANCH_DEFENDER.md).
+
+Assistant local verification: 595 backend tests and 11 subtests passed with 21 PostgreSQL-dependent skips; 21 focused rules/HTTP/migration checks passed. Frontend 15 unit tests, TypeScript, production build and pip check passed. Both desktop/mobile browser journeys passed against real FastAPI/disposable SQLite with real synthetic bearer sessions, including game save/reload/win, study completion and saved practice results; screenshots were inspected. No beta/owner runtime, mail provider or live target was accessed. Existing global CSS/TestClient warnings remain; generated frontend declaration changes stay unstaged. CI, the 147-case existing browser regression and owner acceptance are pending at this source checkpoint. No PostgreSQL locking, independent educator/learner effectiveness, physical-device performance, full recovery or final formal security claim follows from local SQLite evidence.
+
+Next: verify CI and hand over the single Build A update/migration/check/restart/acceptance guide. This is the first strategy foundation, not ThreatGEN parity or completion of the 500-question goal. Keep the running beta, historical evidence and final assurance gates intact.

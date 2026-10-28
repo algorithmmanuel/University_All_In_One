@@ -100,7 +100,7 @@ export default function Learn() {
 
   return <main className="container section" style={{maxWidth:1100}}>
     <Link href="/dashboard">← Dashboard</Link>
-    <h1>My learning</h1>
+    <h1>My learning</h1><p><Link href="/cyber-lab?tab=learn">Open the new cybersecurity modules and practice bank →</Link></p>
     <p className="muted">Explore published courses, enroll and track completed lessons. Your progress is saved to your account.</p>
     {error&&<div><p role="alert" className="status-error">{error}</p><button className="btn secondary" disabled={busy||loading} onClick={()=>{setError('');setLoading(true);refresh().catch(e=>setError(e.message)).finally(()=>setLoading(false));}}>Retry learning data</button></div>}
     {loading?<p role="status">Loading courses…</p>:!hasLoaded?null:<>

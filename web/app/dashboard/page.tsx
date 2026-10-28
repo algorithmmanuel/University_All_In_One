@@ -43,7 +43,7 @@ export default function Dashboard() {
       </nav>
       <button className="cyber-signout" disabled={signingOut} onClick={signOut}>{signingOut?'Signing out…':'Sign out'}</button>
     </header>
-    {error?<section className="cyber-shell"><h1>Unable to load dashboard</h1><p role="alert">{error}</p><button className="btn" onClick={signOut}>Sign in again</button></section>:
+    {error?<section className="cyber-shell"><h1>Unable to load dashboard</h1><section className="panel" style={{marginTop:20,marginBottom:20}}><h2>Branch Defender strategy game</h2><p>Manage a fictional branch network, learn cybersecurity controls and practise across 100 new questions.</p><Link className="btn" href="/cyber-lab">Play Branch Defender →</Link></section><p role="alert">{error}</p><button className="btn" onClick={signOut}>Sign in again</button></section>:
       !user?<div className="cyber-shell" role="status">Loading your dashboard…</div>:<>
         <section className="cyber-hero">
           <div className="cyber-shell cyber-hero-inner">
