@@ -59,6 +59,8 @@ async function mockApi(page,model) {
     if(path==='/api/v1/auth/login')return json({access_token:'fixture-token'});
     if(path==='/api/v1/dashboard')return json({user:{id:1,full_name:'Test Learner',
       email:'learner@example.invalid',role:'student',is_approved:true}});
+    if(path==='/api/v1/missions/progress')return json({completed_missions:0,active_missions:0,available_missions:30,recent_missions:[]});
+    if(path==='/api/v1/learning/overview')return json({enrolled_count:0,completed_courses:0,courses:[],recent_attempts:[]});
     if(path==='/api/v1/games')return json({version:5,games:model.games});
     if(path==='/api/v1/missions')return json({missions:model.missions});
     if(path==='/api/v1/missions/history')return json(model.history());

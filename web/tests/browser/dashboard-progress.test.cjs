@@ -25,6 +25,7 @@ async function mock(page,handler){
     if(await handler?.(path,json,route))return;
     if(path.endsWith('/dashboard'))return json({user:{full_name:'Synthetic learner',role:'student',is_approved:true}});
     if(path.endsWith('/games'))return json({games:[]});
+    if(path.endsWith('/missions/progress'))return json({completed_missions:0,active_missions:0,available_missions:30,recent_missions:[]});
     if(path.endsWith('/learning/overview'))return json(overview);
     if(path.endsWith('/learning/enrollments'))return json({enrollments:[{id:1,title:'Synthetic Python',academy_id:'university'}]});
     if(path.endsWith('/options'))return json({available_count:20,presets:[5,10,20]});
@@ -61,7 +62,7 @@ test('progress failure is retryable; empty data offers real next steps',async t=
   failed=false;await page.getByRole('button',{name:'Retry saved progress',exact:true}).click();
   await page.getByRole('link',{name:'Choose your first course',exact:true}).waitFor();
   await page.getByRole('link',{name:'Choose an assessment',exact:true}).waitFor();
-  assert.equal(await page.locator('.learning-overview').getByRole('alert').count(),0);
+  assert.equal(await page.getByRole('region',{name:'Your saved progress',exact:true}).getByRole('alert').count(),0);
 });
 
 test('teacher dashboard does not request student progress',async t=>{
