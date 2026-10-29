@@ -175,3 +175,6 @@ class CyberStudyProgress(Base):
     module_id: Mapped[str] = mapped_column(String(40), nullable=False)
     revision: Mapped[str] = mapped_column(String(40), nullable=False)
     completed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+# Register the independent simulator metadata for migrations/readiness and tests.
+from red_blue_models import RedBlueMatch, RedBlueSeat, RedBlueReceipt  # noqa: F401,E402

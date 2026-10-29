@@ -106,3 +106,8 @@ The next major development is the [Red/Blue simulator plan](RED_BLUE_SIMULATOR_P
 Delivery is explicitly staged: inspect/summarise the existing architecture before code; build the engine/loader/resolver and unit/determinism tests; **stop and show results before building any interface**. Next, prove additive persistence/authentication and separate-session concurrency, then build the interface, educational/balance checks and release evidence. Reuse current authentication; keep match roles separate from account roles. Do not overload existing single-user runs or grant instructors access without an explicit policy. See the plan for assumptions, public framework sources and security gates, and [authoring guidance](RED_BLUE_AUTHORING.md).
 
 Keep the existing beta running separately. New simulator work is development-only until a further authorised promotion. The prior successful beta rollout does not authorize automatic promotion of this new work or establish independent learner/device/production/final-audit acceptance.
+
+
+## Authorised simulator continuation — 29 October 2026
+
+After the verified engine checkpoint, the owner explicitly authorised additive match persistence/authenticated APIs, proof using two actual sessions on isolated PostgreSQL, and then the responsive interface. This satisfies the earlier stop-for-engine-review gate. Ownership, hidden-choice secrecy, idempotency, stale commands, atomic resolution and concurrent submissions are mandatory evidence before interface implementation. Existing beta remains separate; no simulator promotion is authorised. Instructor review remains disabled pending an explicit policy. See [the API contract](RED_BLUE_API.md) and status for implementation versus verified evidence.

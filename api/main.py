@@ -20,6 +20,7 @@ from quiz_routes import router as quiz_router
 from mission_routes import router as mission_router
 from pathway_routes import router as pathway_router
 from cyber_lab_routes import router as cyber_lab_router
+from red_blue_routes import router as red_blue_router
 from mission_manifest_routes import router as mission_manifest_router
 
 def configured_origins() -> list[str]:
@@ -53,6 +54,7 @@ app.include_router(quiz_router)
 app.include_router(mission_router)
 app.include_router(pathway_router)
 app.include_router(cyber_lab_router)
+app.include_router(red_blue_router)
 app.include_router(mission_manifest_router)
 
 @app.get("/health")

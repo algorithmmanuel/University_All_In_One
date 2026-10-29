@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reports beta is updated with the accepted developments and both environments restarted successfully. New approved work: a staged Red/Blue simulator. Architecture inspection completed and summarised before code; engine-only implementation and local/remote verification are complete (83 focused tests; PostgreSQL 768 tests plus 11 subtests; 147 existing browser journeys and 14 real-API cases; frontend checks and dependency audit green). No new API, migration, UI or beta promotion. See [plan and assumptions](RED_BLUE_SIMULATOR_PLAN.md); the explicit next gate is to stop and present engine test results before interface work.
+**Checkpoint:** Owner approved proceeding beyond the engine review into authenticated persistence/APIs and then the interface. Additive migration `0012_red_blue_matches` and authenticated adapter are implemented; local sequential/rollback checks passed. Isolated PostgreSQL concurrency and full regression results are being verified before interface work. See [API contract](RED_BLUE_API.md). Beta rollout remains owner-reported successful; beta is not being changed by this simulator work.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,9 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Source promotion is complete. The owner must now follow [the full beta/development rollout guide](BETA_PROMOTION_2026_10_29.md): stop the application/tunnel terminals, update beta, install reviewed dependencies, create/verify the fresh backup and apply beta migrations/content through the guarded preparation, update development separately, restart both environments, verify readiness/isolation and smoke-test beta before reopening tester access. No owner runtime action is inferred from the GitHub merge. Record supplied results before the next major development area; its scope is not specified. Keep AI/languages deferred unless explicitly changed.
-
-Keep beta available outside the planned rollout window and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
+Verify the new persistence/API milestone against isolated PostgreSQL using actual separate bearer sessions, including simultaneous/duplicate submissions, competing joins and injected transaction failures. Commit the evidence, then build the responsive interface from the approved plan. The owner explicitly authorised these steps on 29 October; the earlier engine stop gate is satisfied. No beta promotion or beta runtime/database operation is authorised. Independent learner/balance/device/operational and deferred final formal-security gates remain open.
 
 ## Implemented source changes and checks
 
@@ -570,3 +568,10 @@ Source `dbf48ba08cf92f3b96999019f901f6c47deef738` passed [backend CI 40866421053
 [Browser regression 40866421153](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40866421153) passed 147 existing journeys (15 progression and 132 gameplay), 15 frontend unit tests, TypeScript and production build. [Actual API/PostgreSQL browser run 40866421130](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40866421130) passed all 14 existing cases. These supersede pending remote-CI statements above and establish regression evidence for the existing application, not a new simulator interface or authenticated multiplayer endpoint.
 
 All automated gates are green. The beta ref was reread and remains `5824fb7b2ce309506e86b8fa0caeb9c5c339aedd`; only development was advanced. Stop here to present the engine review checkpoint before interface work. Next after review: additive match storage/authenticated APIs, actual two-session concurrency and access-policy checks, then the responsive interface. Human balance/learning/device and final security/operational gates remain open. No restart or migration is required for this engine-only source addition.
+
+
+## Red/Blue persistence/API implementation — 29 October 2026
+
+Owner authorised additive persistence/authentication/API followed by the interface. Implemented separate match/seat/receipt tables and migration `0012_red_blue_matches`, existing bearer/eligibility checks, actor-bound seats, expiring single-use invitation rotation/join, participant history/resume, bounded UUID commands, match row locking, atomic resolution/receipt storage, computer opponents and participant-only terminal debrief. Live responses use filtered projections; no instructor policy/access is enabled. See [the API and transaction contract](RED_BLUE_API.md).
+
+Local sequential tests passed before the isolated PostgreSQL gate. Full suite and PostgreSQL CI are pending at this implementation checkpoint; no claim of verified database concurrency is made yet. Existing generated `web/next-env.d.ts` remains excluded. Development-only source; beta ref/runtime/database remain unchanged.
