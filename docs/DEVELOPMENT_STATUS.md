@@ -1,7 +1,7 @@
 # Development handover
 
-**Last updated:** 28 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reported successful local checks/acceptance of Build A after navigation correction and authorised continuing. Build B now implements two additional strategy scenarios, a preserved original mode, 250 Cyber Lab questions, challenging/mistake review and expanded versioned learning. All Build B automated gates passed for source `564a726`: PostgreSQL 632 tests plus 11 subtests, 147 existing browser journeys, 10 actual-API browser cases, frontend unit/type/build and dependency checks. Owner Build B acceptance remains pending. See [the one Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md). Beta and independent learner/device/operational/final-security gates remain separate.
+**Last updated:** 29 October 2026 (Africa/Lagos).
+**Checkpoint:** Owner reported successful local checks/acceptance of Build A after navigation correction and authorised continuing. Build B now implements two additional strategy scenarios, a preserved original mode, 250 Cyber Lab questions, challenging/mistake review and expanded versioned learning. All Build B automated gates passed for source `564a726`: PostgreSQL 632 tests plus 11 subtests, 147 existing browser journeys, 10 actual-API browser cases, frontend unit/type/build and dependency checks. Owner reported all Build B tests passed on 29 October 2026. See [the one Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md). Beta and independent learner/device/operational/final-security gates remain separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-All Build B automated gates passed. Use [the complete Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md) for development update/check/restart and local acceptance. No additional migration beyond accepted `0011_strategy_learning`, dependencies or publisher command. Preserve v1 saved runs, original question snapshots and earlier module completion records. English only; languages/AI remain deferred. Do not infer Build B acceptance or beta promotion from Build A acceptance.
+Build B has owner-reported successful local tests as of 29 October 2026. The next planned milestone is Build C in [the gameplay and learning plan](PHASE_6_GAMEPLAY_PLAN.md): expand the Cyber Lab bank from 250 to 500 distinct questions across ten topic families, fill teaching gaps, and improve campaign progression/accessibility. Inspect the existing implementation and select concrete scope before the next source build. Preserve prior runs, pinned practice snapshots and module editions. English only; languages/AI remain deferred. No beta promotion follows from local test acceptance.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -463,3 +463,10 @@ Source `564a726f096a59a5f9697d5abff2c3fa3b3e2506` passed [backend/PostgreSQL run
 Source `564a726f096a59a5f9697d5abff2c3fa3b3e2506` also passed [browser gameplay run 40747511192](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40747511192): 15 progression plus 132 gameplay journeys (147 total), frontend 15 unit tests, TypeScript and production build. Together with the backend/PostgreSQL and 10 actual-API browser cases recorded above, every Build B automated gate passed. This supersedes the earlier pending CI checkpoints.
 
 Next: use [the complete Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md) to update/check/restart development, then perform its six-step owner acceptance pass. Open **Cyber Lab** in navigation or `http://127.0.0.1:3010/cyber-lab`; use **Scenario** for the new games and **Practise** for the 250-question bank and saved-mistake review. No additional migration beyond `0011_strategy_learning`. Owner Build B acceptance and independent learner/content/device/operational/final-security evidence remain open. No beta promotion or owner runtime operation was performed.
+
+
+## Build B owner-reported acceptance — 29 October 2026
+
+After receiving the completed Build B update/restart/acceptance guide and automated-gate results (implementation `564a726`, documentation handover `bda33cd`), the owner reported “all tests pass”. Record successful owner-reported local tests/acceptance of Build B. Detailed logs and separate independent learner/content/device/operational/final-security evidence were not supplied; this report does not close those gates or authorise beta promotion.
+
+Next planned development milestone: Build C — the 500-question bank, teaching-gap work and campaign/accessibility polish described in the gameplay plan. Existing Build B guidance remains the installation record. No source feature or runtime change was made by this acceptance checkpoint.

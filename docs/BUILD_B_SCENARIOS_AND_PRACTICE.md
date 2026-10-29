@@ -145,3 +145,8 @@ These bounded automated results do not establish independent content/learner eff
 The same implementation also passed [browser gameplay run 40747511192](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40747511192): **147 existing browser journeys** (15 progression plus 132 gameplay), **15 frontend unit tests**, TypeScript and production build. All Build B automated gates are now green; this supersedes the earlier pending CI checkpoints above.
 
 Update/check/restart using the complete blocks in this guide. Open **Cyber Lab** in the top navigation, or [the local development Cyber Lab](http://127.0.0.1:3010/cyber-lab). Choose **Scenario** for Supplier Access Crisis or Recovery Under Pressure; choose **Practise** for the 250-question bank, challenging difficulty and saved-mistake review. Complete the six-step acceptance pass above. Owner Build B acceptance remains pending; the earlier Build A report does not cover this new implementation. No new migration, dependency installation or content publication is needed for an already accepted Build A setup.
+
+
+## Subsequent owner acceptance — 29 October 2026
+
+Following this handover, the owner reported “all tests pass”. This records owner-reported successful Build B local checks/acceptance and supersedes the owner-pending statements at the earlier checkpoints above. No detailed logs or independent learner/content/device/operational/final-security evidence was supplied. The next planned milestone is Build C in the gameplay plan; this acceptance does not promote beta.
