@@ -6,7 +6,8 @@ import pytest
 
 
 @pytest.mark.integration
-def test_strategy_real_sessions_and_concurrent_commands():
+@pytest.mark.parametrize('scenario', ['branch', 'siege'])
+def test_strategy_real_sessions_and_concurrent_commands(scenario):
     url = os.getenv('TEST_DATABASE_URL')
     if not url: pytest.skip('TEST_DATABASE_URL required')
     from sqlalchemy.engine import make_url
@@ -37,18 +38,19 @@ def test_strategy_real_sessions_and_concurrent_commands():
         with TestClient(app) as client:
             assert client.get('/api/v1/cyber-lab/catalog').status_code == 401
             assert client.get('/api/v1/cyber-lab/catalog', headers=headers[2]).status_code == 403
-            run = client.post('/api/v1/cyber-lab/runs', headers=headers[0]).json()
+            run = client.post('/api/v1/cyber-lab/runs', json={'scenario': scenario}, headers=headers[0]).json()
             endpoint = f"/api/v1/cyber-lab/runs/{run['id']}"
             assert client.get(endpoint, headers=headers[1]).status_code == 404
             def submit(body):
                 with TestClient(app) as concurrent:
                     return concurrent.post(endpoint+'/commands', json=body, headers=headers[0])
-            body = {'command_id': str(uuid4()), 'action': 'mfa', 'target': 'identity', 'expected_version': 0}
+            body = {'command_id': str(uuid4()), 'action': 'call_support' if scenario == 'siege' else 'mfa', 'target': 'support' if scenario == 'siege' else 'identity', 'expected_version': 0}
             with ThreadPoolExecutor(max_workers=2) as pool:
                 responses = list(pool.map(submit, [body, body]))
             assert [r.status_code for r in responses] == [200, 200]
             saved = client.get(endpoint, headers=headers[0]).json()
-            assert saved['version'] == 1 and saved['budget'] == 26 and saved['staff'] == 2
+            assert saved['version'] == 1
+            assert (saved['budget'], saved['staff']) == ((32, 5) if scenario == 'siege' else (26, 2))
             bodies = [{'command_id': str(uuid4()), 'action': 'inspect', 'target': target, 'expected_version': 1} for target in ('app', 'staff')]
             with ThreadPoolExecutor(max_workers=2) as pool:
                 responses = list(pool.map(submit, bodies))

@@ -144,7 +144,7 @@ def test_older_session_submitted_later_controls_mistake_verdict(lab_client):
 def test_challenging_counts_and_unknown_modes_are_checked(lab_client):
     client, _, _ = lab_client
     catalog = client.get('/api/v1/cyber-lab/catalog').json()
-    assert catalog['question_count'] == 500 and len(catalog['scenarios']) == 3
+    assert catalog['question_count'] == 500 and len(catalog['scenarios']) == 4
     assert all(item['counts'] == {'foundational': 20, 'applied': 20, 'challenging': 10} for item in catalog['topics'])
     assert client.post('/api/v1/cyber-lab/practice', json={'mode': 'invented'}).status_code == 422
     assert client.post('/api/v1/cyber-lab/practice', json={'topic': 'cloud', 'difficulty': 'challenging', 'count': 5}).status_code == 201

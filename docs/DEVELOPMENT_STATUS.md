@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Build B has owner-reported successful local tests/acceptance. Build C implements the 500-question bank, expanded v3 teaching/reflections, derived three-chapter campaign and asset-list navigation. All Build C automated gates passed for source `00edf26`: PostgreSQL 642 tests plus 11 subtests, 147 existing browser journeys, 12 actual-API browser cases, frontend unit/type/build and dependency checks. Owner reported all Build C tests passed on 29 October 2026. Use [the single Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md). Beta remains separate.
+**Checkpoint:** Build C has owner-reported local acceptance. The next gameplay release implements Branch Siege: an eight-asset capstone with adaptive entry, investigations, delayed work, dependencies, emergency staff, validation and same-incident replay/comparison. Local checks passed as recorded below; CI and owner acceptance remain pending. Use [the single Branch Siege guide](BRANCH_SIEGE_RELEASE.md). Beta remains separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Build C has owner-reported successful local tests/acceptance as of 29 October 2026. The 500-question authoring milestone is delivered. Next, use independent beginner/content/device observations to select the next consequential gameplay improvement, preserving saved runs, practice snapshots and module editions. The current three scenarios remain on the shared six-asset map; do not infer ThreatGEN parity or phase completion from the question count. English only; languages/AI deferred. Beta promotion and production readiness remain separate decisions.
+Verify Branch Siege CI, including PostgreSQL and both desktop/mobile replay/comparison journeys, then use [the complete release guide](BRANCH_SIEGE_RELEASE.md) for one development update/check/restart/acceptance pass. Preserve v1/v2 rules, question snapshots and all earlier editions. No new migration beyond `0011_strategy_learning`. English only; AI/languages deferred. Do not infer this release’s acceptance or beta promotion from Build C acceptance.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -496,3 +496,10 @@ Next: use [the complete Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md) fo
 Following the completed Build C release guide and passing automated-gate handover (implementation `00edf26`, documentation `9fc43a1`), the owner reported “all tests pass”. Record successful owner-reported local checks/acceptance of Build C. No detailed logs or separate independent content/learner/device/operational/final-security evidence were supplied, so those gates remain open. This supersedes the owner-pending statements at earlier checkpoints without implying beta promotion or production deployment.
 
 The delivered learning bank contains 500 questions across ten topic families, with expanded v3 teaching/reflections, derived campaign activity guidance and asset-list navigation. Next development priority remains improving consequential gameplay using learner evidence; AI and language expansion remain deferred. This checkpoint changes documentation only.
+
+
+## Branch Siege gameplay iteration — 29 October 2026
+
+After Build C acceptance, the owner instructed “do that” in response to the proposed deeper gameplay focus. No new independent learner observations were supplied. Source review led to a distinct advanced capstone rather than silently changing saved scenario rules. Added `branch-siege-v1`, eight assets, uncertain signal investigation, remaining-path adversary entry, two-turn jobs, dependent service availability, once-only six-credit/two-action staffing, explicit recovery validation and an owned same-opening replay with saved metric baseline. Added command console, work queue, dated findings, prerequisite explanations, outcome chart/tables and decision ledger. Campaign now has four freely playable chapters. The original three rule sets and 500-question content are unchanged.
+
+Local full checkpoint: 643 backend tests and 11 subtests passed, 21 PostgreSQL skips; subsequent 71 focused checks passed after final input-bound/monitoring-isolation/legacy-replay changes. PostgreSQL CI also exercises concurrent capstone emergency support. Frontend 15 unit tests, TypeScript, production build, pip check and whitespace checks passed. Eleven actual-API/SQLite Cyber Lab browser journeys passed, including two new desktop/mobile two-strategy/replay/comparison journeys; screenshots inspected. CI and owner acceptance remain pending here. See [rules, authority, preservation and complete release blocks](BRANCH_SIEGE_RELEASE.md). No beta/owner runtime or data was operated. Independent learning/content/device/operational/final-security gates remain open.

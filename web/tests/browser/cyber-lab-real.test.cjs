@@ -391,7 +391,7 @@ for (const mobile of [false, true])
       });
     const catalog = await get("/catalog");
     assert.equal(catalog.question_count, 500);
-    assert.equal(catalog.campaign.chapters.length, 3);
+    assert.equal(catalog.campaign.chapters.length, 4);
     assert.ok(
       catalog.topics.every(
         (topic) =>
@@ -523,5 +523,244 @@ for (const mobile of [false, true])
     await application.focus();
     await page.keyboard.press("Enter");
     await controls.getByText(/isolated/).waitFor();
+    assert.deepEqual(errors, []);
+  });
+
+for (const mobile of [false, true])
+  test(`Branch Siege investigations, consequential recovery and same-incident replay; mobile=${mobile}`, async (t) => {
+    browser ||= await chromium.launch({
+      headless: true,
+      args: ["--disable-dev-shm-usage"],
+    });
+    const context = await browser.newContext({
+      baseURL: WEB,
+      viewport: mobile
+        ? { width: 390, height: 844 }
+        : { width: 1440, height: 1000 },
+      reducedMotion: "reduce",
+    });
+    t.after(() => context.close());
+    await context.addInitScript(
+      (token) => sessionStorage.setItem("educyber_token", token),
+      TOKEN,
+    );
+    const page = await context.newPage(),
+      errors = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.goto("/cyber-lab?scenario=siege");
+    await page.getByLabel("Scenario", { exact: true }).waitFor();
+    assert.equal(
+      await page.getByLabel("Scenario", { exact: true }).inputValue(),
+      "siege",
+    );
+    const startReply = page.waitForResponse(
+      (r) =>
+        r.url().endsWith("/api/v1/cyber-lab/runs") &&
+        r.request().method() === "POST",
+    );
+    await page
+      .getByRole("button", { name: "Start a new shift →", exact: true })
+      .click();
+    let run = await (await startReply).json();
+    const firstId = run.id,
+      opening = structuredClone(run.tactics.signals);
+    const game = page.getByRole("region", {
+      name: "Branch Defender game",
+      exact: true,
+    });
+    await game
+      .getByRole("heading", { name: "Branch Siege", exact: true })
+      .waitFor();
+    if (process.env.EDUCYBER_SCREENSHOT_DIR)
+      await game
+        .locator('[aria-label="Interactive branch network"]')
+        .screenshot({
+          path:
+            process.env.EDUCYBER_SCREENSHOT_DIR +
+            `/siege-map-${mobile ? "mobile" : "desktop"}.png`,
+        });
+
+    const ready = async () =>
+      page.waitForFunction(() =>
+        [...document.querySelectorAll("button")].some(
+          (b) => b.textContent === "Reload saved run" && !b.disabled,
+        ),
+      );
+    const commandButton = async (button) => {
+      const reply = page.waitForResponse(
+        (r) =>
+          r.url().includes(`/runs/${run.id}/commands`) &&
+          r.request().method() === "POST",
+      );
+      await button.click();
+      const response = await reply;
+      assert.equal(response.status(), 200);
+      run = await response.json();
+      await ready();
+    };
+    const support = async () =>
+      commandButton(
+        game.getByRole("button", {
+          name: "Mobilise emergency support · 6 credits",
+          exact: true,
+        }),
+      );
+    const act = async (assetId, action) => {
+      const asset = run.assets.find((a) => a.id === assetId);
+      await game
+        .getByRole("button", { name: new RegExp("^" + asset.label + ":") })
+        .click();
+      await commandButton(
+        game
+          .getByRole("complementary", {
+            name: "Selected asset controls",
+            exact: true,
+          })
+          .getByRole("button", { name: new RegExp("^" + action) }),
+      );
+    };
+    const next = async () =>
+      commandButton(
+        game.getByRole("button", { name: "Advance turn →", exact: true }),
+      );
+    await support();
+    for (const signal of opening)
+      await commandButton(
+        game.getByRole("button", {
+          name: `Investigate ${signal.id} · 1 staff`,
+          exact: true,
+        }),
+      );
+    const affected = run.assets.find(
+      (asset) => asset.condition === "Compromise detected",
+    ).id;
+    await game.getByText(/Latest finding:/).waitFor();
+    const latestLabel = run.assets.find(
+      (asset) => asset.id === opening[1].asset,
+    ).label;
+    await game
+      .getByRole("button", {
+        name: "Open " + latestLabel + " controls",
+        exact: true,
+      })
+      .click();
+    await page.waitForFunction(
+      () =>
+        document.activeElement?.getAttribute("aria-label") ===
+        "Selected asset controls",
+    );
+
+    await game.getByRole("button", { name: "Asset list", exact: true }).click();
+    await act(affected, "Isolate asset");
+    await act("app", "Patch system");
+    if (affected === "staff") await act("remote", "Revoke supplier access");
+    else await act("identity", "Strengthen sign-in");
+    if (process.env.EDUCYBER_SCREENSHOT_DIR)
+      await game
+        .getByRole("region", { name: "Incident command console", exact: true })
+        .screenshot({
+          path:
+            process.env.EDUCYBER_SCREENSHOT_DIR +
+            `/siege-console-${mobile ? "mobile" : "desktop"}.png`,
+        });
+    await next();
+    if (!run.mfa) await act("identity", "Strengthen sign-in");
+    if (!run.vendor_revoked) await act("remote", "Revoke supplier access");
+    await act("backup", "Verify recovery copy");
+    while (run.turn < 4) await next();
+    await act(affected, "Restore asset");
+    await act("app", "Validate recovery");
+    await act("database", "Validate recovery");
+    // Reopening must retain due turns, the investigation queue and resource spending.
+    const version = run.version;
+    await page.reload();
+    await page
+      .getByRole("button", { name: new RegExp(`^Shift #${firstId}\\b`) })
+      .click();
+    const saved = await (
+      await page.request.get(API + `/api/v1/cyber-lab/runs/${firstId}`, {
+        headers: { Authorization: "Bearer " + TOKEN },
+      })
+    ).json();
+    assert.equal(saved.version, version);
+    assert.equal(saved.assets.find((a) => a.id === affected).due_turn, 6);
+    await game.getByRole("button", { name: "Asset list", exact: true }).click();
+    while (run.turn < 6) await next();
+    await act(affected, "Validate recovery");
+    await act(affected, "Reconnect asset");
+    while (run.status === "active") await next();
+    assert.equal(run.status, "won");
+    assert.equal(run.budget, 13);
+    const outcome = game.getByRole("region", {
+      name: "Incident outcome comparison",
+      exact: true,
+    });
+    await outcome.waitFor();
+    if (process.env.EDUCYBER_SCREENSHOT_DIR)
+      await outcome.screenshot({
+        path:
+          process.env.EDUCYBER_SCREENSHOT_DIR +
+          `/siege-review-${mobile ? "mobile" : "desktop"}.png`,
+      });
+    const replayReply = page.waitForResponse(
+      (r) =>
+        r.url().endsWith("/api/v1/cyber-lab/runs") &&
+        r.request().method() === "POST",
+    );
+    await outcome
+      .getByRole("button", { name: "Replay the same incident →", exact: true })
+      .click();
+    run = await (await replayReply).json();
+    await ready();
+    assert.equal(run.replay_of, firstId);
+    assert.deepEqual(run.tactics.signals, opening);
+    assert.equal(run.budget, 38);
+    assert.equal("seed" in run, false);
+    await game.getByRole("button", { name: "Asset list", exact: true }).click();
+    await support();
+    for (const asset of ["staff", "remote"]) await act(asset, "Isolate asset");
+    await act("identity", "Strengthen sign-in");
+    await act("app", "Patch system");
+    await act("remote", "Revoke supplier access");
+    await next();
+    await act("backup", "Verify recovery copy");
+    while (run.turn < 4) await next();
+    for (const asset of ["staff", "remote"]) await act(asset, "Restore asset");
+    await act("app", "Validate recovery");
+    while (run.turn < 6) await next();
+    for (const asset of ["staff", "remote", "database"])
+      await act(asset, "Validate recovery");
+    await next();
+    for (const asset of ["staff", "remote"])
+      await act(asset, "Reconnect asset");
+    while (run.status === "active") await next();
+    assert.equal(run.status, "won");
+    assert.equal(run.budget, 9);
+    assert.equal(run.debrief.metrics.credits_spent, 29);
+    assert.equal(run.debrief.comparison.credits_spent, 25);
+    assert.equal(run.debrief.metrics.signals_reviewed, 0);
+    assert.equal(run.debrief.comparison.signals_reviewed, 2);
+    await outcome
+      .getByRole("table", {
+        name: "Same opening: previous attempt versus this attempt",
+        exact: true,
+      })
+      .waitFor();
+    await page.reload();
+    await page
+      .getByRole("button", { name: new RegExp(`^Shift #${run.id}\\b`) })
+      .click();
+    await outcome
+      .getByRole("table", {
+        name: "Same opening: previous attempt versus this attempt",
+        exact: true,
+      })
+      .waitFor();
+    assert.equal(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+      true,
+    );
     assert.deepEqual(errors, []);
   });

@@ -1,5 +1,7 @@
 "use client";
 import { useId, useState } from "react";
+import SiegeConsole from "./SiegeConsole";
+import SiegeDebrief from "./SiegeDebrief";
 import type { Run } from "./types";
 import styles from "./lab.module.css";
 
@@ -8,11 +10,13 @@ export default function GameBoard({
   busy,
   onAction,
   onReload,
+  onReplay,
 }: {
   run: Run;
   busy: boolean;
   onAction: (action: string, target?: string) => void;
   onReload: () => void;
+  onReplay: () => void;
 }) {
   const inspectorId = useId();
   const [view, setView] = useState<"map" | "list">("map");
@@ -21,7 +25,10 @@ export default function GameBoard({
   const asset = run.assets.find((a) => a.id === selected) ?? run.assets[0];
   const active = run.status === "active";
   return (
-    <section aria-label="Branch Defender game" className={styles.game}>
+    <section
+      aria-label="Branch Defender game"
+      className={[styles.game, run.tactics ? styles.siegeGame : ""].join(" ")}
+    >
       <div className={styles.gameTop}>
         <div>
           <span className={styles.eyebrow}>
@@ -84,7 +91,7 @@ export default function GameBoard({
         </div>
       </div>
       <div className={styles.controlStrip}>
-        {run.scenario === "supplier" && (
+        {(run.scenario === "supplier" || run.scenario === "siege") && (
           <span>
             {run.vendor_revoked
               ? "✓ Supplier access revoked"
@@ -99,6 +106,21 @@ export default function GameBoard({
           {run.copy_ready ? "✓ Recovery verified" : "○ Recovery unverified"}
         </span>
       </div>
+      {run.tactics && (
+        <SiegeConsole
+          run={run}
+          busy={busy}
+          onAction={onAction}
+          onLocate={(key) => {
+            setSelected(key);
+            requestAnimationFrame(() => {
+              const panel = document.getElementById(inspectorId);
+              panel?.focus();
+              panel?.scrollIntoView({ block: "start", behavior: "instant" });
+            });
+          }}
+        />
+      )}
       <button
         className={styles.helpButton}
         aria-expanded={help}
@@ -116,27 +138,37 @@ export default function GameBoard({
             below 25% service.
           </p>
           {run.scenario_info && <p>{run.scenario_info.summary}</p>}
-          <ol>
-            <li>
-              Select an asset on the map. Spend up to three staff actions, then
-              advance the turn.
-            </li>
-            <li>
-              Protect relevant entry paths, patch exposed services, deploy
-              monitoring and investigate. Hidden compromise may exist even when
-              no alert is visible.
-            </li>
-            <li>
-              Isolation stops links but removes service. With a verified
-              recovery copy, restore an isolated asset; reconnect after checking
-              its condition.
-            </li>
-          </ol>
-          <p>
-            Patch, backup verification and restoration finish on the next turn.
-            Patching and MFA do not clean existing compromise. An isolated but
-            still compromised asset prevents victory.
-          </p>
+          {run.tactics ? (
+            <ol>
+              {run.tactics.rules.map((rule) => (
+                <li key={rule}>{rule}</li>
+              ))}
+            </ol>
+          ) : (
+            <>
+              <ol>
+                <li>
+                  Select an asset on the map. Spend up to three staff actions,
+                  then advance the turn.
+                </li>
+                <li>
+                  Protect relevant entry paths, patch exposed services, deploy
+                  monitoring and investigate. Hidden compromise may exist even
+                  when no alert is visible.
+                </li>
+                <li>
+                  Isolation stops links but removes service. With a verified
+                  recovery copy, restore an isolated asset; reconnect after
+                  checking its condition.
+                </li>
+              </ol>
+              <p>
+                Patch, backup verification and restoration finish on the next
+                turn. Patching and MFA do not clean existing compromise. An
+                isolated but still compromised asset prevents victory.
+              </p>
+            </>
+          )}
           <p className={styles.muted}>
             Fictional rules simplify real cybersecurity. No live systems are
             connected. No time limit while deciding; leave and resume this run
@@ -262,6 +294,9 @@ export default function GameBoard({
             <div className={styles.mapLegend}>
               Teal: connected · Dashed amber: restricted · Amber: isolated ·
               Red: detected compromise
+              {run.tactics
+                ? " · Moving dashes show configured links, not hidden attacker traffic."
+                : ""}
             </div>
           </div>
         </div>
@@ -280,7 +315,17 @@ export default function GameBoard({
             <strong>{asset.condition}</strong>
             {asset.isolated ? " · isolated" : ""}
             {asset.pending ? " · " + asset.pending + " pending" : ""}
+            {asset.due_turn ? " · completes turn " + asset.due_turn : ""}
           </p>
+          {run.tactics && (
+            <p className={styles.muted}>
+              Last observation:{" "}
+              {asset.observed_at ? "turn " + asset.observed_at : "none"} · Last
+              clean/failed validation:{" "}
+              {asset.validated_at ? "turn " + asset.validated_at : "none"}.
+              These are recorded observations.
+            </p>
+          )}
           <p className={styles.muted}>
             {asset.patched ? "Patched" : "Patch not applied"} ·{" "}
             {asset.monitored ? "Monitoring deployed" : "No monitoring"}
@@ -289,14 +334,25 @@ export default function GameBoard({
             {asset.actions.map((action) => (
               <button
                 key={action.id}
-                disabled={busy || run.staff === 0 || run.budget < action.cost}
+                disabled={
+                  busy ||
+                  run.staff === 0 ||
+                  run.budget < action.cost ||
+                  action.available === false
+                }
                 onClick={() => onAction(action.id, asset.id)}
               >
                 <strong>
                   {action.label}
-                  <span>{action.cost} cr · 1 staff</span>
+                  <span>
+                    {action.cost} cr · {action.staff_cost ?? 1} staff
+                    {action.duration ? " · " + action.duration + " turns" : ""}
+                  </span>
                 </strong>
                 <small>{action.help}</small>
+                {action.reason && (
+                  <small className={styles.unavailable}>{action.reason}</small>
+                )}
               </button>
             ))}
           </div>
@@ -311,6 +367,9 @@ export default function GameBoard({
           )}
         </aside>
       </div>
+      {run.tactics && run.debrief && (
+        <SiegeDebrief run={run} busy={busy} onReplay={onReplay} />
+      )}
       <div className={styles.afterBoard}>
         <section className={styles.timeline} aria-label="Saved shift timeline">
           <h3>Shift timeline</h3>

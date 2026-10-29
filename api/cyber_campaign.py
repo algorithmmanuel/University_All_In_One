@@ -6,12 +6,13 @@ practice coverage is a bounded activity sample, and simulation wins are not mast
 from sqlalchemy import select, func
 from models import StrategyRun
 from cyber_content import BANK
-from strategy_scenarios import SCENARIOS
+from strategy_catalog import SCENARIOS
 
 CHAPTERS = (
     ('branch', 'protect', 'Establish the defences'),
     ('supplier', 'defend', 'Control connected access'),
     ('ransomware', 'recover', 'Restore a trusted service'),
+    ('siege', 'recover', 'Command the incident'),
 )
 
 

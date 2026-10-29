@@ -103,6 +103,12 @@ export default function CyberLab() {
     if (["play", "learn", "practice"].includes(params.get("tab") || ""))
       setTab(params.get("tab")!);
     if (params.get("module")) setModule(params.get("module")!);
+    if (
+      ["branch", "supplier", "ransomware", "siege"].includes(
+        params.get("scenario") || "",
+      )
+    )
+      setScenario(params.get("scenario")!);
     refresh()
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
@@ -336,7 +342,7 @@ export default function CyberLab() {
                     <strong>
                       BRANCH
                       <br />
-                      DEFENDER
+                      {scenario === "siege" ? "SIEGE" : "DEFENDER"}
                     </strong>
                     <small>PROTECT / DETECT / RESPOND / RECOVER</small>
                   </div>
@@ -361,6 +367,20 @@ export default function CyberLab() {
                     run={run}
                     busy={busy || retry}
                     onAction={(a, t) => void command(a, t)}
+                    onReplay={() =>
+                      void work(async () => {
+                        setRun(
+                          await request("/runs", "POST", {
+                            scenario: "siege",
+                            replay_run_id: run.id,
+                          }),
+                        );
+                        pending.current = null;
+                        setRetry(false);
+                        await refresh();
+                        focusActivity();
+                      })
+                    }
                     onReload={() =>
                       void work(async () => {
                         setRun(await request("/runs/" + run.id));

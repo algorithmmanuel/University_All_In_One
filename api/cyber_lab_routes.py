@@ -14,7 +14,8 @@ from models import User, StrategyRun, StrategyCommand, CyberPracticeSession, Cyb
 from learning_routes import student_only
 import strategy_engine as engine
 from cyber_content import BANK, MODULES, TOPICS, REVISION, lessons
-from strategy_scenarios import SCENARIOS
+from strategy_catalog import SCENARIOS
+import strategy_siege as siege
 from cyber_campaign import campaign_progress
 
 router = APIRouter(prefix='/api/v1/cyber-lab', tags=['cyber-lab'])
@@ -72,13 +73,26 @@ def study_complete(module_id: str, user=Depends(student_only), db: Session = Dep
 class StrategyStart(BaseModel):
     model_config = ConfigDict(extra='forbid')
     scenario: str = Field(default='branch', max_length=30)
+    replay_run_id: StrictInt | None = Field(default=None, ge=1, le=2_147_483_647)
 
 
 @router.post('/runs', status_code=201)
 def start(body: StrategyStart = StrategyStart(), user=Depends(student_only), db: Session = Depends(get_db)):
     if body.scenario not in SCENARIOS: raise HTTPException(422, 'Unknown scenario')
     creation_limit(db, StrategyRun, user.id)
-    run = StrategyRun(user_id=user.id, state=engine.new_state(token_hex(16), body.scenario))
+    seed = token_hex(16)
+    parent = None
+    if body.replay_run_id is not None:
+        parent = owned(db, StrategyRun, user.id, body.replay_run_id)
+        if (body.scenario != 'siege' or parent.state.get('revision') != siege.REVISION
+                or parent.state['status'] == 'active'):
+            raise HTTPException(422, 'Replay requires a completed Branch Siege run of the same edition')
+        seed = parent.state['seed']
+    state = engine.new_state(seed, body.scenario)
+    if parent is not None:
+        state['replay_of'] = parent.id
+        state['comparison_baseline'] = siege.summary(parent.state)
+    run = StrategyRun(user_id=user.id, state=state)
     db.add(run); db.commit(); db.refresh(run)
     return {'id': run.id, **engine.public(run.state)}
 
