@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Build B has owner-reported successful local tests/acceptance. Build C implements the 500-question bank, expanded v3 teaching/reflections, derived three-chapter campaign and asset-list navigation. Local checks passed as recorded below; Build C CI and owner acceptance remain pending. Use [the single Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md). Beta remains separate.
+**Checkpoint:** Build B has owner-reported successful local tests/acceptance. Build C implements the 500-question bank, expanded v3 teaching/reflections, derived three-chapter campaign and asset-list navigation. All Build C automated gates passed for source `00edf26`: PostgreSQL 642 tests plus 11 subtests, 147 existing browser journeys, 12 actual-API browser cases, frontend unit/type/build and dependency checks. Owner Build C acceptance remains pending. Use [the single Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md). Beta remains separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify all Build C CI gates, including actual API/PostgreSQL campaign/browser journeys, then use [the complete Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md) for one development update/check/restart/acceptance pass. Preserve all previous question objects, saved snapshots, rule revisions and module editions. No additional migration beyond `0011_strategy_learning`. English only; languages/AI deferred. Do not infer Build C acceptance or beta promotion from the Build B report.
+All Build C automated gates passed. Use [the complete Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md) for one development update/check/restart/acceptance pass. Preserve all previous question objects, saved snapshots, rule revisions and module editions. No additional migration beyond `0011_strategy_learning`. English only; languages/AI deferred. Do not infer Build C acceptance or beta promotion from the Build B report.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -477,3 +477,15 @@ Next planned development milestone: Build C — the 500-question bank, teaching-
 After Build B acceptance, the owner instructed “go on”. Implemented 250 additional original questions for 500 total across ten topics, each with 20 foundational/20 applied/10 challenging. Added v3 module teaching (30 steps), ten local ungraded reflections, paged worked decisions and specific public implementation readings. Prior 250 question objects have an exact frozen regression hash; old question files/rule files and saved snapshots/editions remain unchanged. Added server-derived campaign activity navigation based on current read markers, bounded distinct submitted practice and all owned scenario wins, with no unlocks or client achievement writes. Asset-list navigation exposes the same game actions without panning, with keyboard controls, inspector shortcut and clear encrypted-state text. No schema/dependency/publisher/AI/language change.
 
 Local full suite: 621 passed, 11 subtests passed, 21 PostgreSQL-dependent skips. Subsequent 46 focused checks passed after loader refactor. Frontend 15 unit tests, typecheck, production build, pip check and whitespace checks passed. Nine actual-API/SQLite browser cases passed, including both new desktop/mobile campaign/reflection/list journeys; asset-list screenshots inspected. CI is pending at this source checkpoint. See [scope, preservation, bounded evidence and complete release blocks](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md). No beta/owner runtime or data was accessed. Next: verify CI and hand over one release; owner Build C and independent content/learner/device/operational/final-security gates remain open.
+
+
+## Build C subsequent CI evidence — 29 October 2026
+
+Source `00edf26ea55901d0eaa3eba703613cdfa223e8b8` passed [backend/PostgreSQL run 40844830839](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40844830839): 642 tests and 11 subtests; unit/dependency-audit jobs passed. [Actual API/PostgreSQL browser run 40844830862](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40844830862) passed all 12 cases, covering the existing three plus all nine Cyber Lab journeys. This supersedes the earlier pending PostgreSQL/actual-API checkpoint. The 147-case regression remains pending here; owner Build C acceptance and independent assurance gates remain open.
+
+
+## Build C final automated handover — 29 October 2026
+
+Source `00edf26ea55901d0eaa3eba703613cdfa223e8b8` passed [browser gameplay run 40844830644](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40844830644): 15 progression plus 132 gameplay journeys (147 total), frontend 15 unit tests, TypeScript and production build. Combined with the 642 PostgreSQL tests plus 11 subtests, dependency checks and 12 actual-API/PostgreSQL browser cases above, all Build C automated gates passed. This supersedes earlier pending CI checkpoints.
+
+Next: use [the complete Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md) for one development update/check/restart and its six-step owner acceptance pass. The same `/cyber-lab` route exposes campaign/asset-list navigation, expanded learning/reflections and 500-question practice. No new migration beyond `0011_strategy_learning`. Owner Build C acceptance and independent content/learner/device/operational/final-security gates remain open. After acceptance, use learner evidence to choose the next gameplay improvement; AI, languages, beta promotion and production deployment remain separate.

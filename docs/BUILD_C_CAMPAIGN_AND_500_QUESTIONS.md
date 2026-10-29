@@ -11,6 +11,22 @@
 - **Asset list alternative** uses the same game controls without map panning. Keyboard selection, an inspector shortcut, visible focus and 44-pixel minimum buttons support navigation. Text distinguishes encrypted service from detected compromise, and buttons for unaffordable actions are disabled while their costs remain visible. Map, legend, briefing and reduced-motion behaviour remain available.
 - Dashboard and landing page show the 500-question bank. Direct development route remains `/cyber-lab`.
 
+### Published bank allocation
+
+| Topic family | Foundational | Applied | Challenging | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Fundamentals and risk | 20 | 20 | 10 | 50 |
+| Phishing and social engineering | 20 | 20 | 10 | 50 |
+| Identity and access | 20 | 20 | 10 | 50 |
+| Networks and segmentation | 20 | 20 | 10 | 50 |
+| Endpoints, malware and patching | 20 | 20 | 10 | 50 |
+| Applications and secure development | 20 | 20 | 10 | 50 |
+| Cloud security | 20 | 20 | 10 | 50 |
+| Monitoring and incident response | 20 | 20 | 10 | 50 |
+| Data protection, backup and recovery | 20 | 20 | 10 | 50 |
+| Governance, audit and third parties | 20 | 20 | 10 | 50 |
+| **Total** | **200** | **200** | **100** | **500** |
+
 The game still has three scenarios on the same six-asset map, not a new world or a claim of ThreatGEN parity. This is a learning/progression/accessibility release. No AI, language additions, external runtime model calls, new app dependencies, content publisher or schema migration. Existing migration head remains `0011_strategy_learning`.
 
 ## Preservation and authority
@@ -133,4 +149,16 @@ No owner runtime/database, beta service, mail/model provider or live target was 
 
 Prefer a forward fix and preserve data. No migration rollback is needed. Older code can still read stored snapshots but does not provide the new edition/bank/campaign; do not delete current completion rows, new question sessions or newer scenario runs as a rollback technique. Build A cannot correctly continue v2 supplier/recovery runs. Retain the accepted recovery procedures and review any source rollback against the revisions already created by users.
 
-Next: verify Build C CI, then use this complete guide for owner development update/check/restart and acceptance. Use learner observations to choose the next gameplay iteration before AI, multiplayer or further catalogue expansion. Independent content review and beginner/device walkthroughs remain important after the 500-question authoring milestone; a count alone does not establish learning quality. Beta promotion and production readiness are separate decisions.
+Next: all Build C automated gates passed as recorded below. Use this complete guide for owner development update/check/restart and acceptance. Use learner observations to choose the next gameplay iteration before AI, multiplayer or further catalogue expansion. Independent content review and beginner/device walkthroughs remain important after the 500-question authoring milestone; a count alone does not establish learning quality. Beta promotion and production readiness are separate decisions.
+
+
+## Subsequent CI evidence — source `00edf26`, 29 October 2026
+
+Implementation `00edf26ea55901d0eaa3eba703613cdfa223e8b8` passed [backend/PostgreSQL run 40844830839](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40844830839): **642 tests and 11 subtests**. Unit and dependency-audit jobs passed too. [Real API/PostgreSQL browser run 40844830862](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40844830862) passed **all 12 cases**, including the existing three journeys and all nine Cyber Lab journeys. These supersede the pending PostgreSQL/actual-API checkpoint above. The separate 147-case browser regression remains pending at this checkpoint. Owner Build C acceptance and independent learner/content/device/operational/final-security evidence remain open.
+
+
+## Final automated handover — 29 October 2026
+
+The same source also passed [browser gameplay run 40844830644](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40844830644): **147 existing browser journeys** (15 progression plus 132 gameplay), **15 frontend unit tests**, TypeScript and production build. Together with the **642 PostgreSQL backend tests plus 11 subtests**, dependency checks and **12 actual-API/PostgreSQL browser cases** above, every Build C automated gate passed. This supersedes the earlier pending CI checkpoints; no additional source change followed these results.
+
+Use this guide's complete blocks for one development update/check/restart, then perform the six-step acceptance pass. Open [the development Cyber Lab](http://127.0.0.1:3010/cyber-lab): **Play** shows the campaign and game presentation choices; **Learn** contains the expanded teaching/reflections; **Practise** contains the 500-question bank and mistake review. Owner Build C acceptance remains pending. Independent content/learner/device/operational/final-security gates remain separate. No beta promotion or owner-runtime operation was performed.
