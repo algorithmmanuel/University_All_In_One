@@ -10,6 +10,8 @@ This is the continuation entry point for maintainers and future assistant sessio
 2. Read [the approved roadmap and acceptance gates](docs/DEVELOPMENT_ROADMAP.md).
 For the combined Phase 5 development release, use [the single release guide](docs/PHASE_5_RELEASE.md); separate Phase 5.2 installation is superseded by owner direction.
 
+Beta rollout: use [the complete promotion and separate-terminal restart guide](docs/BETA_PROMOTION_2026_10_29.md). Source merge and owner runtime rollout are distinct; consult status for completion.
+
 Gameplay continuation: read [the current Branch Siege implementation/release guide](docs/BRANCH_SIEGE_RELEASE.md) and status first. Builds A, B and C have owner-reported local acceptance; their guides/evidence remain historical.
 
 Phase 6 direction: read [the current gameplay and learning plan](docs/PHASE_6_GAMEPLAY_PLAN.md), which supersedes the earlier next-build recommendation. Owner direction is English-only consequential browser gameplay, richer cybersecurity teaching and extensive topic practice; AI is for later. The [source inventory](docs/PHASE_6_SCOPE.md) remains historical evidence.

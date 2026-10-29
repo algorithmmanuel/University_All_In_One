@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Build C has owner-reported local acceptance. The next gameplay release implements Branch Siege: an eight-asset capstone with adaptive entry, investigations, delayed work, dependencies, emergency staff, validation and same-incident replay/comparison. All required automated gates passed: PostgreSQL 668 tests plus 11 subtests, 147 existing browser journeys, 14 actual-API browser cases, frontend unit/type/build and dependency audit. Owner acceptance of Branch Siege remains pending. Use [the single Branch Siege guide](BRANCH_SIEGE_RELEASE.md). Beta remains separate.
+**Checkpoint:** Owner reported Branch Siege tests passed and authorised merging completed development into beta before another major development area. Beta is a direct ancestor (52 commits behind accepted development). Guarded rollout helpers and [the complete beta/development restart guide](BETA_PROMOTION_2026_10_29.md) are prepared; promotion checks and the leased branch fast-forward remain pending at this checkpoint. No owner runtime/database operation has been performed.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,9 +76,9 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-All required Branch Siege automated gates passed. Use [the complete release guide](BRANCH_SIEGE_RELEASE.md) for one development update/check/restart/acceptance pass. Preserve v1/v2 rules, question snapshots and all earlier editions. No new migration beyond `0011_strategy_learning`. English only; AI/languages deferred. Do not infer this release’s acceptance or beta promotion from Build C acceptance.
+Verify the promotion helpers/record-preservation checks in CI, then fast-forward `feature/secure-password-recovery` to the verified development candidate using an expected-head lease. Record both branch heads and the promotion evidence. Hand over [the complete rollout/restart guide](BETA_PROMOTION_2026_10_29.md). The owner must then perform fresh backup, beta migrations/content publication and local smoke/isolation checks using that guide. Keep development separate for the next major area; its scope is not yet specified.
 
-Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
+Keep beta available outside the planned rollout window and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
 ## Implemented source changes and checks
 
@@ -520,3 +520,10 @@ Source `bc9c871ebb8753cb855bac9bb02141c46f5e4681` corrects only the scenario lau
 Final frontend source `bc9c871ebb8753cb855bac9bb02141c46f5e4681` passed [browser regression run 40853151159](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40853151159): 147 existing browser journeys, frontend 15 unit tests, TypeScript and production build. [Actual API/PostgreSQL browser run 40853151148](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40853151148) passed all 14 cases. Backend/rule source remains identical to the 668-test plus 11-subtest PostgreSQL and dependency-audit checkpoint for `1de2713`; its original regression also passed [run 40852352602](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40852352602). All required gates are green; this supersedes earlier pending CI checkpoints.
 
 Next: use [the complete Branch Siege release guide](BRANCH_SIEGE_RELEASE.md) for one development update/check/restart and six-step owner acceptance pass. Direct entry: `http://127.0.0.1:3010/cyber-lab?scenario=siege`. Existing games, saved rule editions and the 500-question content remain intact. No new migration beyond `0011_strategy_learning`. Owner Branch Siege acceptance and independent learner/content/device/operational/final-security gates remain open. Continue using playthrough evidence for gameplay tuning; no AI/language work, beta promotion or production deployment follows automatically.
+
+
+## Branch Siege acceptance and beta-promotion authorisation — 29 October 2026
+
+The owner reported “All tests pass” after the Branch Siege handover and requested merging completed work into beta so testers can see it before the next major development area. Record owner-reported local acceptance and explicit authorisation for source promotion. No independent learner/device/final-security evidence is inferred. Remote inspection: beta `531017d8b978d43f6c781a73d13a86d0aec9b2d2` is the ancestor of accepted development `dbf6eeee35c6a9bf1f307a30ead1f865593e6c0a` (52 ahead, zero behind); no beta-only source changes require conflict resolution.
+
+Prepared a beta-only branch/interpreter/database/port-guarded launcher, explicit backup/migration/publication command and complete Windows restart guide. The beta environment fixes database 5433 and API/web 8000/3000, forces private invitations, excludes development overrides and keeps frontend children free of database/mail secrets. Private recovery-mail settings persist only in ignored `api/.env.beta`. Preparation verifies a local container/archive copy/hash, fingerprints existing records, applies additive schema 0010/0011 and preflights/publishes the three maintained foundation releases in one content transaction. No seeds, deletion or startup migration/publication. Added synthetic preservation/idempotence/rollback/environment/backup/startup tests and an isolated PostgreSQL publication case. Merge/CI remain pending at this preparation checkpoint; owner backup/migration/restart are not performed by source changes. See [the full rollout guide](BETA_PROMOTION_2026_10_29.md).
