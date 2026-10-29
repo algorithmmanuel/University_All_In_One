@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner approved proceeding beyond the engine review into authenticated persistence/APIs and then the interface. Additive migration `0012_red_blue_matches` and authenticated adapter are implemented; local sequential/rollback checks and isolated PostgreSQL concurrency passed (803 tests plus 11 subtests; dependency checks green). The responsive interface is implemented; final combined CI is pending. See [API contract](RED_BLUE_API.md). Beta rollout remains owner-reported successful; beta is not being changed by this simulator work.
+**Checkpoint:** Development-only Red/Blue persistence, authenticated APIs and responsive interface are complete at source `fe5de7570b44e1a5a1ddf9883ce273ee74672d72`. Final CI passed: 805 PostgreSQL backend tests plus 11 subtests; 22 real-API/PostgreSQL browser cases; 147 existing browser journeys; frontend unit/type/build and dependency checks. The API two-session gate passed before interface work. Next is the [single development update/migration/restart/acceptance pass](RED_BLUE_RELEASE.md). Owner simulator acceptance and independent learning/balance/device/operational/final-security gates remain open. Beta rollout remains owner-reported successful; this simulator was not promoted.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify final combined CI for the authenticated simulator/interface milestone, record exact source/results and hand over [one complete development-only update/migration/restart/acceptance guide](RED_BLUE_RELEASE.md). Then collect owner and independent learner/balance/device evidence before choosing further scope. The earlier engine-review and PostgreSQL-before-interface gates were satisfied. Do not promote to beta or operate its runtime/database without a new instruction. Final formal security and operational retention/recovery gates remain open.
+Use [the complete development-only release guide](RED_BLUE_RELEASE.md): stop only development services, fast-forward this branch, apply additive migration `0012_red_blue_matches` through the guarded development migration command, run local checks, restart/verify development and complete its acceptance pass with two separate synthetic learner sessions. All final automated gates passed as recorded below. No owner migration/restart or simulator acceptance is inferred from committed source. Record supplied results, then choose further scope using learner/balance/device evidence. Do not promote to beta or operate its runtime/database without a new instruction. Operational retention/recovery and final formal security assurance remain open.
 
 ## Implemented source changes and checks
 
@@ -593,3 +593,18 @@ API follow-up bounds raw POST bodies to 4 KiB before parsing, aligns identifier 
 Local checks: full synthetic backend checkpoint **763 passed plus 11 subtests**, with 44 environment/PostgreSQL skips; focused adapter/migration **18 passed**, 21 skips. Frontend **15 unit tests**, TypeScript and production build passed. Combined local actual-API/SQLite browser run passed **18 cases** (11 existing Cyber Lab plus seven new simulator journeys); the additional HTTP-503 acknowledgement case passed separately, bringing the new simulator inventory to **eight**. Browser checks cover both seats/computer completion/debrief/resume, two actual independent learners on desktop/mobile, hidden-choice noninterference, shared-round persistence, separate logout, keyboard selection, reduced motion, viewport overflow and safe retry after an actual committed response is dropped or replaced by 503. Desktop/mobile/network/sealed screenshots were inspected. CI is pending for final combined source; local SQLite does not replace the previously verified PostgreSQL concurrency gate or final PostgreSQL/browser regression.
 
 See [the complete development release guide](RED_BLUE_RELEASE.md). A new development migration to `0012_red_blue_matches` is required before local use; no dependency or content-publication change. No owner restart/migration or simulator acceptance is inferred. The generated `web/next-env.d.ts` remains excluded. No beta branch/runtime/database or production deployment was changed. Independent learner/content/balance/physical-device/operational/final-security evidence remains open.
+
+
+## Red/Blue final automated handover — source `fe5de75`, 29 October 2026
+
+Final combined implementation `fe5de7570b44e1a5a1ddf9883ce273ee74672d72` passed all required automated gates:
+
+- [Backend/PostgreSQL CI 40875345895](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40875345895): **805 passed plus 11 subtests**, with two intentional SQLite-only race skips; migration, database-independent unit job, dependency consistency and audit passed. The final adapter includes streamed body bounds, generic SQL-failure handling and receipt/state rollback/retry, alongside the already verified separate-session concurrency/ownership/secrecy/staleness/idempotency tests.
+- [Actual API/PostgreSQL browser CI 40875346015](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40875346015): **22 passed, zero failures** — all 14 existing cases plus eight simulator cases. Includes both seats/computer completion/debrief/resume, two independent desktop/mobile learner sessions, join/polling, hidden-choice filtering, shared-round persistence, logout independence, keyboard selection/reduced motion and exact-UUID retry after a real committed acknowledgement is dropped or replaced by 503. These two explicit fault-injection cases do not fabricate simulation state; other journeys do not intercept API responses.
+- [Browser regression CI 40875346079](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40875346079): **147 existing journeys passed** (15 progression and 132 gameplay), **15 frontend unit tests**, TypeScript and production build passed.
+
+These results supersede pending-CI statements for this milestone. Existing engine/rule editions, authentication logic, course/assessment/mission logic and the 500-question bank were compared unchanged. Only additive routes/models/migration, navigation, the new interface/tests and supporting documentation were introduced. The generated `web/next-env.d.ts` working-tree change remains preserved and excluded from all commits.
+
+The beta ref was reread and remains `5824fb7b2ce309506e86b8fa0caeb9c5c339aedd`. No beta runtime/database, owner laptop services, content publication or production deployment was operated. Instructor access remains disabled. Owner simulator acceptance, independent teaching/balance/physical-device checks, operational retention/restoration and the deferred final formal audit remain open.
+
+Next: follow [the complete PowerShell development release guide](RED_BLUE_RELEASE.md), open `http://127.0.0.1:3010/red-blue` and record the acceptance results. No beta promotion follows automatically.

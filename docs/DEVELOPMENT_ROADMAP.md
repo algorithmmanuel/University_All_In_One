@@ -116,3 +116,8 @@ After the verified engine checkpoint, the owner explicitly authorised additive m
 ## Simulator interface delivery checkpoint — 29 October 2026
 
 The separate-session PostgreSQL API gate passed before interface work. The additive responsive simulator interface, wiki/debrief and development release guide are implemented; current automated evidence and pending final CI are recorded in status. This is a source/technical milestone, not owner or independent educational/balance/device acceptance. Keep the operational/final-security gates, beta isolation and explicit future promotion requirement. New raw-body and safe-storage-error boundaries support the standing security-by-design requirement without changing existing game/authentication rules.
+
+
+## Verified simulator technical milestone — 29 October 2026
+
+Combined source `fe5de75` passed 805 PostgreSQL backend tests plus 11 subtests, 22 actual-API/PostgreSQL browser cases, 147 existing browser journeys, frontend unit/type/build and dependency gates. The persistence/concurrency gate passed before interface work. These close the automated implementation gates for the bounded simulator release, with the [development installation/acceptance guide](RED_BLUE_RELEASE.md) and status as handover. Owner acceptance, independent educational/balance/device evidence and operational/final-security gates remain open; beta promotion still requires a separate instruction.
