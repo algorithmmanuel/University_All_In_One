@@ -143,7 +143,7 @@ An automated targeted strategy investigates both initial signals, contains the a
 
 Local full backend checkpoint: **643 passed, 11 subtests passed, 21 PostgreSQL-dependent skips**, before the final input-bound/monitoring-isolation/legacy-replay checks. Subsequent focused checks passed all 71 cases after those fixes. An additional PostgreSQL case now exercises concurrent emergency-support deduplication. Frontend **15 unit tests**, TypeScript, production build, dependency consistency and whitespace checks passed. Previous v1/v2 rule files and all 500-question teaching/bank files were compared unchanged.
 
-All **11 Cyber Lab actual-API/SQLite browser journeys** passed, without response interception. The two new desktop/mobile journeys each investigate, contain, recover, reopen queued work, win, replay with the same opening, win using another strategy, compare costs and reopen the comparison. The original nine journeys remain. Command-console and review screenshots were inspected. Final CI supplies PostgreSQL, normal Chromium and the existing regression matrix; those checks are pending at this checkpoint. Owner acceptance of this gameplay release remains pending.
+All **11 Cyber Lab actual-API/SQLite browser journeys** passed, without response interception. The two new desktop/mobile journeys each investigate, contain, recover, reopen queued work, win, replay with the same opening, win using another strategy, compare costs and reopen the comparison. The original nine journeys remain. Command-console and review screenshots were inspected. Final CI supplies PostgreSQL and Chromium browser regression coverage; those checks are pending at this checkpoint. Owner acceptance of this gameplay release remains pending.
 
 Local and automated functional results do not establish independent learning effectiveness, complete assistive-technology coverage, physical-device performance, operational restoration or final security clearance. No beta or owner runtime/data was accessed. The formal Cloudflare audit remains deferred by owner instruction; normal secure implementation/review/tests continue.
 
@@ -151,4 +151,21 @@ Local and automated functional results do not establish independent learning eff
 
 Prefer a forward fix. No database downgrade is required. Older source cannot continue `branch-siege-v1` runs; preserve the new module/run data and review rollback compatibility rather than deleting new records or changing a saved revision. Replay parents and safe baselines remain as saved evidence.
 
-Next: verify all CI gates and hand over this single complete development update/check/restart/acceptance guide. Collect independent beginner/device observations of investigation clarity, dependency tradeoffs and replay understanding. Use those observations for the next gameplay refinement; AI, multiplayer, languages, beta promotion and production readiness remain separate.
+Next: all required automated gates passed as recorded below. Use this single complete development update/check/restart/acceptance guide. Collect independent beginner/device observations of investigation clarity, dependency tradeoffs and replay understanding. Use those observations for the next gameplay refinement; AI, multiplayer, languages, beta promotion and production readiness remain separate.
+
+
+## Subsequent CI evidence — source `1de2713`, 29 October 2026
+
+Implementation `1de2713981b477c5a26e3c7ef8f8d2ae8984d095` passed [backend/PostgreSQL run 40852352681](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40852352681): **668 tests and 11 subtests**, including actual-session concurrent emergency-support deduplication and conflicting-command checks. Unit and dependency-audit jobs passed. [Real API/PostgreSQL browser run 40852352571](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40852352571) completed successfully, including both capstone desktop/mobile same-opening replay/comparison journeys. These supersede the earlier pending PostgreSQL/actual-API checkpoint for this source. The 147-case older-gameplay regression remains pending here. Owner acceptance and independent learner/content/device/operational/final-security gates remain open.
+
+
+## Launch-label follow-up — source `bc9c871`
+
+Final review corrected the launch text to show eight assets for Branch Siege and six for the earlier scenarios. Commit `bc9c871ebb8753cb855bac9bb02141c46f5e4681` changes only that frontend display; API/rule files remain identical to the 668-test PostgreSQL checkpoint. Local TypeScript passed. [Updated real API/PostgreSQL browser run 40853151148](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40853151148) passed all 14 cases on this revision. The updated 147-case browser regression remains pending at this checkpoint.
+
+
+## Final automated handover — 29 October 2026
+
+The final frontend revision `bc9c871ebb8753cb855bac9bb02141c46f5e4681` passed [browser regression run 40853151159](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40853151159): **147 existing browser journeys** (15 progression plus 132 gameplay), **15 frontend unit tests**, TypeScript and production build. Its [actual-API/PostgreSQL browser run 40853151148](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40853151148) passed **all 14 cases**. Backend/rule source is unchanged from the **668-test plus 11-subtest PostgreSQL**, concurrent-command and dependency-audit checkpoint above. The original implementation regression also passed [run 40852352602](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40852352602). These verified results supersede all earlier pending CI checkpoints.
+
+Use the complete blocks in this guide for one development update/check/restart, then perform its six-step acceptance pass. Open [Branch Siege](http://127.0.0.1:3010/cyber-lab?scenario=siege), or choose it in **Cyber Lab → Scenario**. Owner acceptance of this gameplay release remains pending; earlier Build C acceptance does not cover it. Independent learner/content/device/operational/final-security gates remain separate. No beta promotion or owner runtime operation was performed.

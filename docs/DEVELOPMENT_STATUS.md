@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Build C has owner-reported local acceptance. The next gameplay release implements Branch Siege: an eight-asset capstone with adaptive entry, investigations, delayed work, dependencies, emergency staff, validation and same-incident replay/comparison. Local checks passed as recorded below; CI and owner acceptance remain pending. Use [the single Branch Siege guide](BRANCH_SIEGE_RELEASE.md). Beta remains separate.
+**Checkpoint:** Build C has owner-reported local acceptance. The next gameplay release implements Branch Siege: an eight-asset capstone with adaptive entry, investigations, delayed work, dependencies, emergency staff, validation and same-incident replay/comparison. All required automated gates passed: PostgreSQL 668 tests plus 11 subtests, 147 existing browser journeys, 14 actual-API browser cases, frontend unit/type/build and dependency audit. Owner acceptance of Branch Siege remains pending. Use [the single Branch Siege guide](BRANCH_SIEGE_RELEASE.md). Beta remains separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify Branch Siege CI, including PostgreSQL and both desktop/mobile replay/comparison journeys, then use [the complete release guide](BRANCH_SIEGE_RELEASE.md) for one development update/check/restart/acceptance pass. Preserve v1/v2 rules, question snapshots and all earlier editions. No new migration beyond `0011_strategy_learning`. English only; AI/languages deferred. Do not infer this release’s acceptance or beta promotion from Build C acceptance.
+All required Branch Siege automated gates passed. Use [the complete release guide](BRANCH_SIEGE_RELEASE.md) for one development update/check/restart/acceptance pass. Preserve v1/v2 rules, question snapshots and all earlier editions. No new migration beyond `0011_strategy_learning`. English only; AI/languages deferred. Do not infer this release’s acceptance or beta promotion from Build C acceptance.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -503,3 +503,20 @@ The delivered learning bank contains 500 questions across ten topic families, wi
 After Build C acceptance, the owner instructed “do that” in response to the proposed deeper gameplay focus. No new independent learner observations were supplied. Source review led to a distinct advanced capstone rather than silently changing saved scenario rules. Added `branch-siege-v1`, eight assets, uncertain signal investigation, remaining-path adversary entry, two-turn jobs, dependent service availability, once-only six-credit/two-action staffing, explicit recovery validation and an owned same-opening replay with saved metric baseline. Added command console, work queue, dated findings, prerequisite explanations, outcome chart/tables and decision ledger. Campaign now has four freely playable chapters. The original three rule sets and 500-question content are unchanged.
 
 Local full checkpoint: 643 backend tests and 11 subtests passed, 21 PostgreSQL skips; subsequent 71 focused checks passed after final input-bound/monitoring-isolation/legacy-replay changes. PostgreSQL CI also exercises concurrent capstone emergency support. Frontend 15 unit tests, TypeScript, production build, pip check and whitespace checks passed. Eleven actual-API/SQLite Cyber Lab browser journeys passed, including two new desktop/mobile two-strategy/replay/comparison journeys; screenshots inspected. CI and owner acceptance remain pending here. See [rules, authority, preservation and complete release blocks](BRANCH_SIEGE_RELEASE.md). No beta/owner runtime or data was operated. Independent learning/content/device/operational/final-security gates remain open.
+
+
+## Branch Siege subsequent CI evidence — 29 October 2026
+
+Source `1de2713981b477c5a26e3c7ef8f8d2ae8984d095` passed [backend/PostgreSQL run 40852352681](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40852352681): 668 tests and 11 subtests, including real-session concurrent capstone emergency support and stale-command handling; unit/dependency audit passed too. [Actual API/PostgreSQL browser run 40852352571](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40852352571) also completed successfully, including the two new capstone/replay journeys. These supersede pending PostgreSQL/actual-API evidence at the earlier checkpoint. The existing 147-case gameplay regression remains pending here. Owner acceptance and independent assurance remain open.
+
+
+## Branch Siege launch-label follow-up
+
+Source `bc9c871ebb8753cb855bac9bb02141c46f5e4681` corrects only the scenario launch asset count (eight for Siege, six for older scenarios). Backend/rule source remains identical to the 668-test PostgreSQL gate. TypeScript passed and [updated actual-API/PostgreSQL browser run 40853151148](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40853151148) passed all 14 cases. The updated 147-case regression remains pending here.
+
+
+## Branch Siege final automated handover — 29 October 2026
+
+Final frontend source `bc9c871ebb8753cb855bac9bb02141c46f5e4681` passed [browser regression run 40853151159](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40853151159): 147 existing browser journeys, frontend 15 unit tests, TypeScript and production build. [Actual API/PostgreSQL browser run 40853151148](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40853151148) passed all 14 cases. Backend/rule source remains identical to the 668-test plus 11-subtest PostgreSQL and dependency-audit checkpoint for `1de2713`; its original regression also passed [run 40852352602](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40852352602). All required gates are green; this supersedes earlier pending CI checkpoints.
+
+Next: use [the complete Branch Siege release guide](BRANCH_SIEGE_RELEASE.md) for one development update/check/restart and six-step owner acceptance pass. Direct entry: `http://127.0.0.1:3010/cyber-lab?scenario=siege`. Existing games, saved rule editions and the 500-question content remain intact. No new migration beyond `0011_strategy_learning`. Owner Branch Siege acceptance and independent learner/content/device/operational/final-security gates remain open. Continue using playthrough evidence for gameplay tuning; no AI/language work, beta promotion or production deployment follows automatically.
