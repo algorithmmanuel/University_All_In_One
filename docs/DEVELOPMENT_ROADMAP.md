@@ -150,3 +150,6 @@ Implementation `3f4d4ab` passed 838 isolated-PostgreSQL backend tests plus 11 su
 ## Owner visual-feedback correction — 29 October 2026
 
 The owner prefers navy/teal as the primary brand for long learning sessions, with crimson deliberately scoped to Red and blue/teal to Blue in the simulator. This supersedes the global crimson palette in the previous bundled release. Keep the EduCyber name, journey, workshops, content and progress. Apply this bounded visual correction to the beta bundle after frontend/browser checks, then maintain the development pause pending owner playthrough. It does not authorise a new feature phase.
+
+
+Verified visual correction: `467b896` passed 150 browser regressions, 27 actual-API/PostgreSQL browser cases, 21 frontend tests, TypeScript and production build; expected-head/ancestry checks preceded beta source promotion. Runtime update is frontend-only for an already installed bundle. The playthrough pause continues; see status for precise evidence.

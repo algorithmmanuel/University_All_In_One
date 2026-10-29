@@ -159,6 +159,8 @@ Prefer a forward fix if rollback is needed. Preserve new match/workshop records 
 
 ## Applying only the palette correction
 
+Verified correction `467b896683b84367153ff827e2a0f228f320dee5` has been source-promoted to beta. [150 browser regressions, 21 frontend tests, TypeScript/build](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40916449729) and [27 real-API/PostgreSQL cases](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40916449085) passed. The original backend evidence above remains tied to the unchanged bundle backend.
+
 If the combined bundle has already been prepared and is running, this correction requires only a source update, frontend build and frontend restart. It adds no migration and needs no repeat content publication. Stop the beta **frontend** terminal with Ctrl+C; leave the API and database running. Use this complete block in the beta checkout, then start the frontend with its separate-terminal block in section 4:
 
 ```powershell
