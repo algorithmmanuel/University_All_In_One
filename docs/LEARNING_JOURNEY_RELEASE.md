@@ -19,7 +19,7 @@ The homepage and student dashboard lead to `/journey`. New learners can start fr
 
 Every stage remains available. Python is optional. No score, skill level, completion, prerequisite or certificate is inferred from opening or navigating the journey. Existing progress panels and direct collection links remain available. Saved records stay in their existing authenticated activities.
 
-Shared navigation data is in `web/lib/learning-journey.ts`; the hub and compact home/dashboard entry reuse it. Pathway/stage choices use allowlisted URL values and browser Back/reload. Resource links carry advisory `journey_stage`/`journey_pathway` context, so the activity's Learning journey link returns to the right stage. Unknown values fall back safely. Direct stage entry and deliberate stage changes use the existing reduced-motion-aware focus helper.
+Shared navigation data is in `web/lib/learning-journey.ts`; the hub and compact home/dashboard entry reuse it. Pathway/stage choices use allowlisted URL values and browser Back/reload. Resource links carry advisory `journey_stage`/`journey_pathway` context, so account-based activity return links open the right stage. Global navigation also provides a general hub entry. Unknown values fall back safely. Direct stage entry and deliberate stage changes use the existing reduced-motion-aware focus helper.
 
 Existing pages accept only bounded, known suggestion values: a foundation course is highlighted/sorted first if actually present; practice topic/difficulty/mistake mode and Red/Blue scenario/seat/opponent/difficulty are preselected. Nothing automatically enrols, submits practice, starts a mission or creates/joins a match. Authentication, eligibility, match ownership, hidden-state filtering, scoring and all saved content/rules remain unchanged. Saved-match anchor focus waits for asynchronous content to render.
 
@@ -90,3 +90,10 @@ Start-Process 'http://127.0.0.1:3010/journey'
 Unit tests cover all 32 stage/audience combinations, safe fallbacks, internal resource destinations and return context. New browser journeys cover public/offline discovery, beginner/experienced entry, audience changes, focus, Back/reload, foundation suggestions and no automatic writes. Actual-API journeys check mission/practice/match selections, return context and async saved-history focus. Full source/CI results are recorded in DEVELOPMENT_STATUS.md.
 
 Prefer a forward fix. This is frontend navigation only: no database rollback, learner-data deletion or rule-edition change is needed. Independent learner comprehension, physical-device usability, educational/balance evidence and deferred final security/operational gates remain open. Owner instructions remain necessary before any beta promotion.
+
+
+## Verified release evidence — 29 October 2026
+
+Source `1f23cfacffebba8b4baa2d109af433a9b36f3111` passed [browser quality CI 40889524297](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40889524297): **150 browser cases** (all 147 previous cases plus three journey cases), **18 frontend unit tests**, TypeScript and production build. [Real API/PostgreSQL CI 40889524360](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40889524360) passed **24 cases** (all 22 previous plus two journey cases). Local combined browser verification passed 31 selected cases, with desktop/mobile screenshots inspected; exact scope is in status.
+
+All automated gates for this frontend navigation release are green. No backend/schema/dependency/content changes were introduced. Owner update/restart/acceptance and independent learner/physical-device/operational/final-security evidence remain pending. Beta is unpromoted and unchanged.

@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reports the simulator works after the Windows test portability correction (`a7708c6`); this is owner-reported local acceptance, not independent logs or educational/security validation. The owner now authorised organising the site around one eight-stage learning journey, with audience recommendations and direct entry for experienced learners. Journey navigation is implemented and locally verified; combined CI is pending. See [the journey development release guide](LEARNING_JOURNEY_RELEASE.md). Beta remains separate and unpromoted.
+**Checkpoint:** Owner reports the simulator works after the Windows test portability correction (`a7708c6`); this is owner-reported local acceptance, not independent logs or educational/security validation. The owner now authorised organising the site around one eight-stage learning journey, with audience recommendations and direct entry for experienced learners. Journey navigation is implemented at `1f23cfacffebba8b4baa2d109af433a9b36f3111`; final CI passed 150 browser regressions, 24 actual-API/PostgreSQL browser cases, 18 frontend unit tests, TypeScript and production build. Owner journey acceptance is next. See [the journey development release guide](LEARNING_JOURNEY_RELEASE.md). Beta remains separate and unpromoted.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify combined CI for the learning-journey navigation milestone, record exact source/results, then hand over [the complete development-only update/check/restart/acceptance guide](LEARNING_JOURNEY_RELEASE.md). No new migration, dependency or content publication is required. Preserve the owner's generated next-env file, local Compose configuration and all saved learner activity. Collect owner and independent beginner/experienced/device evidence after release. No beta promotion or beta runtime/database operation is authorised; operational and final formal-security gates remain open.
+Follow [the complete development-only journey update/check/restart/acceptance guide](LEARNING_JOURNEY_RELEASE.md), then open `http://127.0.0.1:3010/journey`. Final automated gates passed as recorded below. No migration, dependency or content publication change is required. Preserve the owner's generated next-env file, local Compose configuration and all saved learner activity. Record owner acceptance and collect independent beginner/experienced/device observations before further scope. No beta promotion or beta runtime/database operation is authorised; operational and final formal-security gates remain open.
 
 ## Implemented source changes and checks
 
@@ -632,3 +632,17 @@ No API/backend, database, migration, content-bank, engine/rule, authentication o
 Local verification: **18 frontend unit tests**, TypeScript and production build passed. The shared mapping tests exercise all 32 stage/audience combinations and safe fallbacks. **31 combined browser cases passed**: three new public/offline/foundation journey cases; two actual-API/isolated-SQLite journey cases; 11 existing Cyber Lab, eight existing Red/Blue and seven existing progression/recovery cases. Tests cover beginner/experienced entry, every-stage availability, audience recommendations, Back/reload, keyboard/reduced-motion focus, narrow-screen overflow, correct mission/practice/match selections, return context and absence of automatic POSTs. Desktop/mobile screenshots were inspected. An earlier local attempt to run five existing dashboard cases was blocked before application execution by that harness's full-Chromium socket restriction; those remain for CI, not counted as application failures or passes. CI PostgreSQL/complete browser evidence is pending at this source checkpoint.
 
 Use [the complete journey release guide](LEARNING_JOURNEY_RELEASE.md) after final CI. Owner journey acceptance, independent comprehension/physical-device evidence and final operational/security gates remain open.
+
+
+## Learning journey final automated handover — source `1f23cfa`, 29 October 2026
+
+Implementation `1f23cfacffebba8b4baa2d109af433a9b36f3111` passed all required automated gates:
+
+- [Browser quality CI 40889524297](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40889524297): **150 browser cases passed** (18 progression/journey plus 132 existing gameplay); **18 frontend unit tests**, TypeScript and production build passed. Includes all previously existing 147 cases and three new journey cases. This supplies the dashboard coverage blocked by the local full-Chromium launcher; those local launch restrictions were not application failures.
+- [Real API/PostgreSQL CI 40889524360](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40889524360): **24 cases passed**, including all 22 previous cases plus desktop/mobile journey handoffs. Checks actual mission pathway selection, practice topic/difficulty, computer/human match setup, stage/pathway return context, async saved-match focus and absence of automatic activity creation/submission during navigation.
+
+These supersede pending-CI statements for this navigation milestone. Backend/API, authentication, eligibility, scoring, databases/schema, all engine/rule editions and learner-material banks are unchanged; no new backend unit suite or security audit is claimed for frontend-only edits. Existing full backend evidence remains tied to its recorded revisions. New tests verify navigation/technical behavior, not learning gains or validated mastery.
+
+The beta ref was reread and remains `5824fb7b2ce309506e86b8fa0caeb9c5c339aedd`. No beta runtime/database, owner laptop processes or production hosting was operated. Generated `web/next-env.d.ts` remains excluded; the owner's local Compose configuration is not overwritten. Owner journey acceptance and independent comprehension/physical-device/educational/balance/operational/final-security evidence remain open.
+
+Use [the complete PowerShell development release guide](LEARNING_JOURNEY_RELEASE.md). Beginners start at Discover; experienced learners can enter any stage; audience pathways recommend materials within the same open journey. All saved-progress panels and direct activity access remain available.
