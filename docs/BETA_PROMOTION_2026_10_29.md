@@ -1,6 +1,6 @@
 # Beta promotion and separate development restart — 29 October 2026
 
-The owner reported Branch Siege tests passed and explicitly authorised merging all completed development into the tester-facing beta before the next major development area. This guide covers the source merge and the separate local rollout. A GitHub merge does not restart the owner's laptop or modify its database.
+The owner reported Branch Siege tests passed and explicitly authorised merging all completed development into the tester-facing beta before the next major development area. The source merge is complete. This guide covers the separate local rollout. A GitHub merge does not restart the owner's laptop or modify its database.
 
 ## Source and data contract
 
@@ -199,3 +199,17 @@ if ($LASTEXITCODE -ne 0) { throw 'Development isolation check failed.' }
 Prefer a forward fix. After new schemas/content/run editions exist, source rollback alone is not a complete recovery plan. Do not downgrade migrations, delete new records, automatically restore the pre-promotion dump or copy databases between environments. Restoring an old dump can discard later tester activity. If preparation fails, keep beta offline and retain its backup; resolve the bounded failure before restart.
 
 Functional CI and owner-reported checks are not independent educational, physical-device, operational-recovery or final formal-security clearance. Formal Cloudflare audit remains deferred. The merge is an authorised temporary-beta rollout, not a production-hosting launch. The assistant has not restarted the owner's laptop, made its backup or migrated its live database; those occur only when the owner runs the blocks above.
+
+
+## Promotion-candidate verification — 29 October 2026
+
+Candidate `8c939eef0480a28f72751040feefa76de58b0840` passed [backend/PostgreSQL run 40858554393](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40858554393): **685 tests plus 11 subtests**, including populated PostgreSQL course publication with retained learner/session/invite/feedback/mission/assessment state. Unit and dependency-audit jobs passed. [Real API/PostgreSQL browser run 40858554381](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40858554381) passed **all 14 cases**. The 147-case existing-gameplay regression and source promotion remain pending at this checkpoint. Local focused rollout checks passed 16 cases with the PostgreSQL case skipped locally; local full earlier checkpoint passed 661 tests plus 11 subtests with 22 skips. CI supersedes that earlier partial local checkpoint. No actual owner beta data, backup, migration, provider or restart was operated here.
+
+
+## Completed source promotion — 29 October 2026
+
+Verified candidate `8c939eef0480a28f72751040feefa76de58b0840` also passed [browser regression run 40858554387](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40858554387): **147 browser journeys** (15 progression plus 132 gameplay), frontend **15 unit tests**, TypeScript and production build. Together with the **685 PostgreSQL backend tests plus 11 subtests**, dependency audit and **14 actual-API/PostgreSQL browser cases** above, all promotion gates passed. This supersedes the earlier pending checkpoints.
+
+Remote beta was then rechecked at `531017d8b978d43f6c781a73d13a86d0aec9b2d2`, development at the verified candidate, and ancestry confirmed (53 commits ahead, zero behind). The beta ref was advanced with an expected-head lease to that candidate; a subsequent read verified the promoted SHA. No force push, conflict resolution, history rewrite or merge into the legacy default branch was used. Both source branches retain their separate roles; the final documentation checkpoint is shared between them.
+
+**Owner runtime rollout is still pending.** No laptop service, beta database, backup, migration, mail provider or tunnel was operated by the assistant. Run sections 1–6 above to make the merged source visible to testers. Then provide local readiness/isolation and beta smoke results before beginning the next major development area, whose scope remains to be chosen.

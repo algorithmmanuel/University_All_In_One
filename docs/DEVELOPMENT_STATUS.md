@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reported Branch Siege tests passed and authorised merging completed development into beta before another major development area. Beta is a direct ancestor (52 commits behind accepted development). Guarded rollout helpers and [the complete beta/development restart guide](BETA_PROMOTION_2026_10_29.md) are prepared; promotion checks and the leased branch fast-forward remain pending at this checkpoint. No owner runtime/database operation has been performed.
+**Checkpoint:** Branch Siege has owner-reported local acceptance. Completed development and verified promotion helpers were fast-forwarded into `feature/secure-password-recovery` with no conflict/force push. All gates passed: PostgreSQL 685 tests plus 11 subtests, 147 browser journeys, 14 actual-API browser cases, frontend unit/type/build and dependency audit. Owner laptop rollout remains pending; use [the complete beta/development restart guide](BETA_PROMOTION_2026_10_29.md). Development retains its separate worktree/database and branch.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify the promotion helpers/record-preservation checks in CI, then fast-forward `feature/secure-password-recovery` to the verified development candidate using an expected-head lease. Record both branch heads and the promotion evidence. Hand over [the complete rollout/restart guide](BETA_PROMOTION_2026_10_29.md). The owner must then perform fresh backup, beta migrations/content publication and local smoke/isolation checks using that guide. Keep development separate for the next major area; its scope is not yet specified.
+Source promotion is complete. The owner must now follow [the full beta/development rollout guide](BETA_PROMOTION_2026_10_29.md): stop the application/tunnel terminals, update beta, install reviewed dependencies, create/verify the fresh backup and apply beta migrations/content through the guarded preparation, update development separately, restart both environments, verify readiness/isolation and smoke-test beta before reopening tester access. No owner runtime action is inferred from the GitHub merge. Record supplied results before the next major development area; its scope is not specified. Keep AI/languages deferred unless explicitly changed.
 
 Keep beta available outside the planned rollout window and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -527,3 +527,17 @@ Next: use [the complete Branch Siege release guide](BRANCH_SIEGE_RELEASE.md) for
 The owner reported “All tests pass” after the Branch Siege handover and requested merging completed work into beta so testers can see it before the next major development area. Record owner-reported local acceptance and explicit authorisation for source promotion. No independent learner/device/final-security evidence is inferred. Remote inspection: beta `531017d8b978d43f6c781a73d13a86d0aec9b2d2` is the ancestor of accepted development `dbf6eeee35c6a9bf1f307a30ead1f865593e6c0a` (52 ahead, zero behind); no beta-only source changes require conflict resolution.
 
 Prepared a beta-only branch/interpreter/database/port-guarded launcher, explicit backup/migration/publication command and complete Windows restart guide. The beta environment fixes database 5433 and API/web 8000/3000, forces private invitations, excludes development overrides and keeps frontend children free of database/mail secrets. Private recovery-mail settings persist only in ignored `api/.env.beta`. Preparation verifies a local container/archive copy/hash, fingerprints existing records, applies additive schema 0010/0011 and preflights/publishes the three maintained foundation releases in one content transaction. No seeds, deletion or startup migration/publication. Added synthetic preservation/idempotence/rollback/environment/backup/startup tests and an isolated PostgreSQL publication case. Merge/CI remain pending at this preparation checkpoint; owner backup/migration/restart are not performed by source changes. See [the full rollout guide](BETA_PROMOTION_2026_10_29.md).
+
+
+## Beta promotion candidate CI — 29 October 2026
+
+Candidate `8c939eef0480a28f72751040feefa76de58b0840` passed [backend/PostgreSQL run 40858554393](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40858554393): 685 tests plus 11 subtests, including actual PostgreSQL preserved multi-course publication; unit/dependency-audit jobs passed. [Actual API/PostgreSQL browser run 40858554381](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40858554381) passed all 14 cases. The 147-case existing regression and leased beta fast-forward are pending at this checkpoint. Owner laptop backup/migrations/content publication/restarts remain unperformed here; [the guide](BETA_PROMOTION_2026_10_29.md) supplies those explicit steps.
+
+
+## Completed beta source promotion — 29 October 2026
+
+Candidate `8c939eef0480a28f72751040feefa76de58b0840` passed [browser regression run 40858554387](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40858554387): 147 journeys, frontend 15 unit tests, TypeScript and production build. Combined with the recorded 685 PostgreSQL tests plus 11 subtests, dependency audit and 14 actual-API/PostgreSQL cases, all gates passed. Earlier pending CI statements are superseded.
+
+Beta was reread at `531017d8b978d43f6c781a73d13a86d0aec9b2d2`, development at the verified candidate. The comparison confirmed 53 ahead/zero behind and the old beta as merge base. Beta was fast-forwarded using an expected-head lease; a read verified the candidate as its new head. No conflicts, force push, default-branch change or data/runtime operation. The final documentation checkpoint is shared by beta/development, preserving their separate operational roles.
+
+Next: owner executes [the complete update/preparation/restart guide](BETA_PROMOTION_2026_10_29.md) and reports beta readiness, development isolation and smoke results. Source merge is complete; actual laptop backup, beta migrations 0010/0011, foundation publication, process restarts, tunnel reopening and tester visibility remain pending owner execution. Independent learner/device/operational/final-security gates remain separate. Do not choose an unspecified new major development scope automatically.
