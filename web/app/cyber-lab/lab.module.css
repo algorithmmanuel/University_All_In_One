@@ -681,3 +681,146 @@
   color: #e6f1fa;
   max-width: 100%;
 }
+
+.campaign {
+  margin: 24px 0;
+  padding: 24px;
+  border: 1px solid #31516c;
+  border-radius: 18px;
+  background: #102237;
+}
+.campaignGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
+.campaignGrid > li {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #34566c;
+  border-radius: 12px;
+  background: #0b192a;
+}
+.campaignGrid h4 {
+  font-size: 1.15rem;
+  margin: 12px 0;
+}
+.campaignGrid ul {
+  padding-left: 20px;
+  line-height: 1.8;
+}
+.campaignGrid button {
+  margin-top: 14px;
+}
+.topicSection {
+  padding: 20px 0;
+  border-bottom: 1px solid #34516b;
+}
+.reflection {
+  padding: 18px;
+  margin: 20px 0;
+  background: #0b2634;
+  border: 1px solid #327a82;
+  border-radius: 12px;
+}
+.reflection fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 16px;
+  min-width: 0;
+}
+.reflection legend {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.reflection label {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 12px 0;
+  cursor: pointer;
+}
+.reflection input {
+  flex-shrink: 0;
+}
+.pager,
+.viewControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+.viewControls button[aria-pressed="true"] {
+  border-color: #4ae8cd;
+  background: #194844;
+}
+.listWrap {
+  min-width: 0;
+  padding: 20px;
+  background: #0b1d2e;
+  border: 1px solid #31566c;
+  border-radius: 14px;
+}
+.assetGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.assetGrid > .mapLabel,
+.assetGrid > .mapLegend {
+  position: static;
+  grid-column: 1 / -1;
+}
+.assetListItem {
+  display: grid;
+  gap: 10px;
+  text-align: left;
+  padding: 20px;
+  min-width: 0;
+  border: 1px solid #3c7285;
+  border-radius: 12px;
+  color: #e4f6fc;
+  background: #123047;
+  overflow-wrap: anywhere;
+}
+.assetListItem.selected {
+  border: 2px solid #69f8d7;
+}
+.assetListItem.isolated {
+  border-style: dashed;
+  border-color: #f6c477;
+}
+.assetListItem.alert {
+  background: #42212c;
+  border-color: #ff9ca9;
+}
+.assetListItem small {
+  color: #c8e1ed;
+}
+.page button:focus-visible,
+.page a:focus-visible,
+.page summary:focus-visible,
+.page input:focus-visible,
+.page select:focus-visible {
+  outline: 3px solid #ffe39a;
+  outline-offset: 4px;
+}
+.page button {
+  min-height: 44px;
+}
+@media (max-width: 850px) {
+  .campaignGrid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 450px) {
+  .assetGrid {
+    grid-template-columns: 1fr;
+  }
+  .campaign {
+    padding: 16px;
+  }
+}

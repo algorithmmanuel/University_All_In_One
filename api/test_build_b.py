@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 import strategy_engine as engine
 import strategy_v1 as v1
-from cyber_content import BANK, LEGACY_REVISION, REVISION, _load_file
+from cyber_content import BANK, LEGACY_REVISION, BUILD_B_REVISION, REVISION, _load_file
 from test_cyber_lab import lab_client
 
 
@@ -20,8 +20,8 @@ def test_original_question_bank_and_v1_rules_remain_unchanged():
         state = expected
     public = engine.public(state)
     for key, value in v1.public(state).items(): assert public[key] == value
-    assert len(BANK) == 250 and len({q['id'] for q in BANK}) == 250
-    assert len([q for q in BANK if q['revision'] == REVISION]) == 150
+    assert len(BANK) == 500 and len({q['id'] for q in BANK}) == 500
+    assert len([q for q in BANK if q['revision'] == BUILD_B_REVISION]) == 150
 
 
 def step(state, action, target=None):
@@ -144,11 +144,11 @@ def test_older_session_submitted_later_controls_mistake_verdict(lab_client):
 def test_challenging_counts_and_unknown_modes_are_checked(lab_client):
     client, _, _ = lab_client
     catalog = client.get('/api/v1/cyber-lab/catalog').json()
-    assert catalog['question_count'] == 250 and len(catalog['scenarios']) == 3
-    assert all(item['counts'] == {'foundational': 4, 'applied': 16, 'challenging': 5} for item in catalog['topics'])
+    assert catalog['question_count'] == 500 and len(catalog['scenarios']) == 3
+    assert all(item['counts'] == {'foundational': 20, 'applied': 20, 'challenging': 10} for item in catalog['topics'])
     assert client.post('/api/v1/cyber-lab/practice', json={'mode': 'invented'}).status_code == 422
     assert client.post('/api/v1/cyber-lab/practice', json={'topic': 'cloud', 'difficulty': 'challenging', 'count': 5}).status_code == 201
-    assert client.post('/api/v1/cyber-lab/practice', json={'topic': 'cloud', 'difficulty': 'challenging', 'count': 6}).status_code == 422
+    assert client.post('/api/v1/cyber-lab/practice', json={'topic': 'cloud', 'difficulty': 'challenging', 'count': 11}).status_code == 422
 
 
 def test_unsubmitted_sessions_do_not_displace_graded_review_window(lab_client):

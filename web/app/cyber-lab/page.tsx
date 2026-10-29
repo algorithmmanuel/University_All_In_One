@@ -3,8 +3,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import GameBoard from "./GameBoard";
+import LessonTopic from "./LessonTopic";
+import CampaignPanel from "./CampaignPanel";
 import type {
   Catalog,
+  CampaignStep,
   Run,
   RunPreview,
   Practice,
@@ -139,6 +142,7 @@ export default function CyberLab() {
         setRun(next);
         pending.current = null;
         setRetry(false);
+        if (next.status !== "active") await refresh();
       } catch (e) {
         if (e instanceof RequestError) {
           pending.current = null;
@@ -147,6 +151,39 @@ export default function CyberLab() {
         throw e;
       }
     });
+  }
+  function campaignNext(step: CampaignStep) {
+    if (step.kind === "learn") {
+      setModule(step.module ?? "protect");
+      setTab("learn");
+      focusActivity();
+    } else if (step.kind === "practice") {
+      const supporting = catalog?.modules.find(
+        (item) => item.id === step.module,
+      );
+      setTopic(supporting?.topics[0] ?? "all");
+      setDifficulty("all");
+      setPracticeMode("fresh");
+      setCount(5);
+      setPractice(null);
+      setTab("practice");
+      focusActivity();
+    } else {
+      setScenario(step.scenario ?? "branch");
+      if (step.run_id)
+        void work(async () => {
+          setRun(await request("/runs/" + step.run_id));
+          pending.current = null;
+          setRetry(false);
+          focusActivity();
+        });
+      else {
+        setRun(null);
+        pending.current = null;
+        setRetry(false);
+        focusActivity();
+      }
+    }
   }
   const selectedScenario = catalog?.scenarios?.find(
     (item) => item.id === scenario,
@@ -180,7 +217,7 @@ export default function CyberLab() {
         <h1>Cybersecurity in motion.</h1>
         <p>
           Defend a fictional branch, build your knowledge and practise across{" "}
-          {catalog?.question_count ?? 250} cybersecurity questions.
+          {catalog?.question_count ?? 500} cybersecurity questions.
         </p>
         <div
           className={styles.tabs}
@@ -188,7 +225,14 @@ export default function CyberLab() {
           aria-label="Cyber lab sections"
         >
           {["play", "learn", "practice"].map((t) => (
-            <button key={t} aria-pressed={tab === t} onClick={() => setTab(t)}>
+            <button
+              key={t}
+              aria-pressed={tab === t}
+              onClick={() => {
+                setTab(t);
+                focusActivity();
+              }}
+            >
               {t === "play"
                 ? "01 / Play"
                 : t === "learn"
@@ -229,6 +273,13 @@ export default function CyberLab() {
           </h2>
           {tab === "play" && (
             <>
+              {!run && catalog.campaign && (
+                <CampaignPanel
+                  campaign={catalog.campaign}
+                  busy={busy}
+                  onNext={campaignNext}
+                />
+              )}
               {!run && (
                 <div className={styles.launch}>
                   <div>
@@ -306,6 +357,7 @@ export default function CyberLab() {
                     ← Saved shifts
                   </button>
                   <GameBoard
+                    key={run.id}
                     run={run}
                     busy={busy || retry}
                     onAction={(a, t) => void command(a, t)}
@@ -394,7 +446,10 @@ export default function CyberLab() {
                   <button
                     key={m.id}
                     aria-pressed={selectedModule?.id === m.id}
-                    onClick={() => setModule(m.id)}
+                    onClick={() => {
+                      setModule(m.id);
+                      focusActivity();
+                    }}
                   >
                     {m.completed ? "✓ " : ""}
                     {m.title}
@@ -420,49 +475,19 @@ export default function CyberLab() {
                     {selectedModule.example}
                   </p>
                   {selectedModule.sections.map((section) => (
-                    <section key={section.id} id={"topic-" + section.id}>
-                      <h3>{section.title}</h3>
-                      <p className={styles.muted}>
-                        Objective: {section.objective}
-                      </p>
-                      <p>{section.body}</p>
-                      <details>
-                        <summary>
-                          Explore {section.worked_cases.length} worked decisions
-                        </summary>
-                        {section.worked_cases.map((c) => (
-                          <div key={c.situation} className={styles.worked}>
-                            <h4>{c.situation}</h4>
-                            <p>{c.reasoning}</p>
-                          </div>
-                        ))}
-                      </details>
-                      <p>
-                        <a
-                          href={section.source.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Optional public reading: {section.source.title} ↗
-                        </a>
-                      </p>
-                      <p className={styles.muted}>
-                        Reference reviewed {section.source.reviewed}. External
-                        reading is optional; the core explanation is above.
-                      </p>
-                      <button
-                        onClick={() => {
-                          setTopic(section.id);
-                          setCount(5);
-                          setDifficulty("all");
-                          setPracticeMode("fresh");
-                          setTab("practice");
-                          setPractice(null);
-                        }}
-                      >
-                        Practise this topic →
-                      </button>
-                    </section>
+                    <LessonTopic
+                      key={selectedModule.revision + section.id}
+                      section={section}
+                      onPractice={() => {
+                        setTopic(section.id);
+                        setCount(5);
+                        setDifficulty("all");
+                        setPracticeMode("fresh");
+                        setTab("practice");
+                        setPractice(null);
+                        focusActivity();
+                      }}
+                    />
                   ))}
                   <div className={styles.callout}>
                     <h3>Apply it in the game</h3>
@@ -699,6 +724,15 @@ export default function CyberLab() {
                         });
                       }}
                     >
+                      <p role="status">
+                        {Object.keys(answers).length} of{" "}
+                        {practice.questions.length} answered
+                      </p>
+                      <progress
+                        aria-label="Practice answers selected"
+                        max={practice.questions.length}
+                        value={Object.keys(answers).length}
+                      />
                       <p>
                         Selected questions are saved. Unsubmitted answer choices
                         stay in this page only; reopening starts those choices

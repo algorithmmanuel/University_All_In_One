@@ -350,3 +350,178 @@ test("Build B saved mistake review uses actual graded evidence", async (t) => {
     ).result.feedback[0].correct,
   );
 });
+
+for (const mobile of [false, true])
+  test(`Build C campaign, reflection, 500-question bank and keyboard asset list; mobile=${mobile}`, async (t) => {
+    browser ||= await chromium.launch({
+      headless: true,
+      args: ["--disable-dev-shm-usage"],
+    });
+    const context = await browser.newContext({
+      baseURL: WEB,
+      viewport: mobile
+        ? { width: 390, height: 844 }
+        : { width: 1440, height: 1000 },
+      reducedMotion: "reduce",
+    });
+    t.after(() => context.close());
+    await context.addInitScript(
+      (token) => sessionStorage.setItem("educyber_token", token),
+      TOKEN,
+    );
+    const page = await context.newPage(),
+      errors = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    const headers = { Authorization: "Bearer " + TOKEN };
+    const get = async (path) =>
+      (
+        await page.request.get(API + "/api/v1/cyber-lab" + path, { headers })
+      ).json();
+    await page.goto("/cyber-lab");
+    const campaign = page.getByRole("region", {
+      name: "Your campaign",
+      exact: true,
+    });
+    await campaign.waitFor();
+    if (process.env.EDUCYBER_SCREENSHOT_DIR)
+      await campaign.screenshot({
+        path:
+          process.env.EDUCYBER_SCREENSHOT_DIR +
+          `/build-c-campaign-${mobile ? "mobile" : "desktop"}.png`,
+      });
+    const catalog = await get("/catalog");
+    assert.equal(catalog.question_count, 500);
+    assert.equal(catalog.campaign.chapters.length, 3);
+    assert.ok(
+      catalog.topics.every(
+        (topic) =>
+          topic.count === 50 &&
+          topic.counts.foundational === 20 &&
+          topic.counts.challenging === 10,
+      ),
+    );
+    const first = campaign.locator("ol > li").first();
+    const step = catalog.campaign.chapters[0].next;
+    await first
+      .getByRole("button", { name: step.label + " →", exact: true })
+      .click();
+    if (step.kind === "learn")
+      await page
+        .getByRole("heading", {
+          name: "Cybersecurity learning modules",
+          exact: true,
+        })
+        .waitFor();
+    else if (step.kind === "practice")
+      await page
+        .getByRole("heading", { name: "Cybersecurity practice", exact: true })
+        .waitFor();
+    else
+      assert.equal(
+        await page.getByLabel("Scenario", { exact: true }).inputValue(),
+        "branch",
+      );
+    await page.getByRole("button", { name: "02 / Learn", exact: true }).click();
+    await page
+      .getByRole("button", { name: /Defend connected services/ })
+      .click();
+    const section = page.locator("#topic-application");
+    const before = await get("/practice");
+    await section
+      .getByRole("radio", {
+        name: "Observation of covered violations, not policy enforcement",
+        exact: true,
+      })
+      .check();
+    await section
+      .getByRole("button", { name: "Check my reasoning", exact: true })
+      .click();
+    await section.getByText(/That fits the evidence/).waitFor();
+    assert.deepEqual(await get("/practice"), before);
+    if (process.env.EDUCYBER_SCREENSHOT_DIR)
+      await section.screenshot({
+        path:
+          process.env.EDUCYBER_SCREENSHOT_DIR +
+          `/build-c-lesson-${mobile ? "mobile" : "desktop"}.png`,
+      });
+    await section
+      .getByText("Explore 50 worked decisions", { exact: true })
+      .click();
+    await section
+      .getByRole("button", { name: "Next decisions", exact: true })
+      .click();
+    await section.getByText("Decisions 6–10 of 50", { exact: true }).waitFor();
+    await section
+      .getByRole("button", { name: "Practise this topic →", exact: true })
+      .click();
+    assert.equal(
+      await page.getByLabel("Topic", { exact: true }).inputValue(),
+      "application",
+    );
+    await page
+      .getByLabel("Difficulty", { exact: true })
+      .selectOption("foundational");
+    await page.getByText("20 eligible questions.", { exact: true }).waitFor();
+    await page.getByRole("button", { name: "01 / Play", exact: true }).click();
+    await page
+      .getByLabel("Scenario", { exact: true })
+      .selectOption("ransomware");
+    await page
+      .getByRole("button", { name: "Start a new shift →", exact: true })
+      .click();
+    const game = page.getByRole("region", {
+      name: "Branch Defender game",
+      exact: true,
+    });
+    await game.getByRole("button", { name: "Asset list", exact: true }).click();
+    const application = game.getByRole("button", {
+      name: /^Banking application:/,
+    });
+    await application.focus();
+    await page.keyboard.press("Enter");
+    const controls = game.getByRole("complementary", {
+      name: "Selected asset controls",
+      exact: true,
+    });
+    await controls
+      .getByRole("heading", { name: "Banking application", exact: true })
+      .waitFor();
+    const reply = page.waitForResponse(
+      (response) =>
+        response.url().includes("/commands") &&
+        response.request().method() === "POST",
+    );
+    const isolate = controls.getByRole("button", { name: /^Isolate asset/ });
+    await isolate.focus();
+    await page.keyboard.press("Enter");
+    assert.equal((await reply).status(), 200);
+    await controls.getByText(/Service encrypted/).waitFor();
+    const latest = (await get("/runs")).runs[0];
+    assert.equal(
+      (await get("/runs/" + latest.id)).assets.find(
+        (asset) => asset.id === "app",
+      ).isolated,
+      true,
+    );
+    assert.equal(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+      true,
+    );
+    if (process.env.EDUCYBER_SCREENSHOT_DIR)
+      await game.screenshot({
+        path:
+          process.env.EDUCYBER_SCREENSHOT_DIR +
+          `/build-c-list-${mobile ? "mobile" : "desktop"}.png`,
+      });
+    await page.reload();
+    await page
+      .getByRole("button", { name: new RegExp(`^Shift #${latest.id}\\b`) })
+      .click();
+    await game.getByRole("button", { name: "Asset list", exact: true }).click();
+    await application.focus();
+    await page.keyboard.press("Enter");
+    await controls.getByText(/isolated/).waitFor();
+    assert.deepEqual(errors, []);
+  });

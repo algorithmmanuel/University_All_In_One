@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reported successful local checks/acceptance of Build A after navigation correction and authorised continuing. Build B now implements two additional strategy scenarios, a preserved original mode, 250 Cyber Lab questions, challenging/mistake review and expanded versioned learning. All Build B automated gates passed for source `564a726`: PostgreSQL 632 tests plus 11 subtests, 147 existing browser journeys, 10 actual-API browser cases, frontend unit/type/build and dependency checks. Owner reported all Build B tests passed on 29 October 2026. See [the one Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md). Beta and independent learner/device/operational/final-security gates remain separate.
+**Checkpoint:** Build B has owner-reported successful local tests/acceptance. Build C implements the 500-question bank, expanded v3 teaching/reflections, derived three-chapter campaign and asset-list navigation. Local checks passed as recorded below; Build C CI and owner acceptance remain pending. Use [the single Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md). Beta remains separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Build B has owner-reported successful local tests as of 29 October 2026. The next planned milestone is Build C in [the gameplay and learning plan](PHASE_6_GAMEPLAY_PLAN.md): expand the Cyber Lab bank from 250 to 500 distinct questions across ten topic families, fill teaching gaps, and improve campaign progression/accessibility. Inspect the existing implementation and select concrete scope before the next source build. Preserve prior runs, pinned practice snapshots and module editions. English only; languages/AI remain deferred. No beta promotion follows from local test acceptance.
+Verify all Build C CI gates, including actual API/PostgreSQL campaign/browser journeys, then use [the complete Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md) for one development update/check/restart/acceptance pass. Preserve all previous question objects, saved snapshots, rule revisions and module editions. No additional migration beyond `0011_strategy_learning`. English only; languages/AI deferred. Do not infer Build C acceptance or beta promotion from the Build B report.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -470,3 +470,10 @@ Next: use [the complete Build B guide](BUILD_B_SCENARIOS_AND_PRACTICE.md) to upd
 After receiving the completed Build B update/restart/acceptance guide and automated-gate results (implementation `564a726`, documentation handover `bda33cd`), the owner reported “all tests pass”. Record successful owner-reported local tests/acceptance of Build B. Detailed logs and separate independent learner/content/device/operational/final-security evidence were not supplied; this report does not close those gates or authorise beta promotion.
 
 Next planned development milestone: Build C — the 500-question bank, teaching-gap work and campaign/accessibility polish described in the gameplay plan. Existing Build B guidance remains the installation record. No source feature or runtime change was made by this acceptance checkpoint.
+
+
+## Build C — 500 questions, teaching and campaign, 29 October 2026
+
+After Build B acceptance, the owner instructed “go on”. Implemented 250 additional original questions for 500 total across ten topics, each with 20 foundational/20 applied/10 challenging. Added v3 module teaching (30 steps), ten local ungraded reflections, paged worked decisions and specific public implementation readings. Prior 250 question objects have an exact frozen regression hash; old question files/rule files and saved snapshots/editions remain unchanged. Added server-derived campaign activity navigation based on current read markers, bounded distinct submitted practice and all owned scenario wins, with no unlocks or client achievement writes. Asset-list navigation exposes the same game actions without panning, with keyboard controls, inspector shortcut and clear encrypted-state text. No schema/dependency/publisher/AI/language change.
+
+Local full suite: 621 passed, 11 subtests passed, 21 PostgreSQL-dependent skips. Subsequent 46 focused checks passed after loader refactor. Frontend 15 unit tests, typecheck, production build, pip check and whitespace checks passed. Nine actual-API/SQLite browser cases passed, including both new desktop/mobile campaign/reflection/list journeys; asset-list screenshots inspected. CI is pending at this source checkpoint. See [scope, preservation, bounded evidence and complete release blocks](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md). No beta/owner runtime or data was accessed. Next: verify CI and hand over one release; owner Build C and independent content/learner/device/operational/final-security gates remain open.

@@ -4,8 +4,10 @@ Sources are references, not scraped text. Keep this revision available for saved
 practice snapshots and study completion. No provider calls or model-generated runtime text.
 """
 from pathlib import Path
+from cyber_curriculum_v3 import supplements, app_source
 LEGACY_REVISION = 'cyber-lab-v1'
-REVISION = 'cyber-lab-v2'
+BUILD_B_REVISION = 'cyber-lab-v2'
+REVISION = 'cyber-lab-v3'
 SOURCES = {
     'nist': {'title': 'NIST Cybersecurity Framework', 'url': 'https://www.nist.gov/cyberframework', 'reviewed': '2026-10-28'},
     'owasp': {'title': 'OWASP Top 10', 'url': 'https://owasp.org/projects/top-ten', 'reviewed': '2026-10-28'},
@@ -66,25 +68,58 @@ MODULES = [
 ]
 
 
+def _difficulty(index, revision):
+    """Keep old labels fixed; v3 adds 16/4/5 items to each 4/16/5 topic pool."""
+    if revision == REVISION:
+        if index <= 41: return 'foundational'
+        return 'applied' if index <= 45 else 'challenging'
+    if index <= 4: return 'foundational'
+    return 'challenging' if index >= 21 else 'applied'
+
+
+def _source(topic, index, revision):
+    """Source metadata is part of a question edition, not the current module edition."""
+    if revision == REVISION:
+        if topic == 'application': return app_source(index)
+        return {**further_reading(topic), 'reviewed': '2026-10-29'}
+    if revision == BUILD_B_REVISION: return further_reading(topic)
+    return SOURCES[TOPICS[topic][1]]
+
+
 def _load_file(filename, revision, offset=0):
-    bank = []; topic = None
-    for line in Path(__file__).with_name('content').joinpath(filename).read_text(encoding='utf-8').splitlines():
+    bank = []
+    counts = {}
+    topic = None
+    path = Path(__file__).with_name('content').joinpath(filename)
+    for line_number, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
         if not line: continue
-        if line.startswith('['): topic = line[1:-1]; continue
-        prompt, correct, wrong1, wrong2, explanation = line.split('|')
-        index = sum(q['topic'] == topic for q in bank) + 1 + offset
+        if line.startswith('['):
+            topic = line[1:-1]
+            if topic not in TOPICS: raise ValueError(f'{filename}:{line_number}: unknown topic')
+            continue
+        fields = line.split('|')
+        if topic is None or len(fields) != 5 or not all(field.strip() for field in fields):
+            raise ValueError(f'{filename}:{line_number}: invalid question record')
+        prompt, correct, wrong1, wrong2, explanation = fields
+        if len({correct, wrong1, wrong2}) != 3:
+            raise ValueError(f'{filename}:{line_number}: repeated option')
+        counts[topic] = counts.get(topic, 0) + 1
+        index = counts[topic] + offset
         position = (index - 1) % 3
-        options = [wrong1, wrong2]; options.insert(position, correct)
+        options = [wrong1, wrong2]
+        options.insert(position, correct)
+        objective = f'{topic}-decision-{index:02}' if revision == REVISION else topic + '-apply'
         bank.append({'id': f'{topic}-{index:02}', 'revision': revision, 'topic': topic,
-            'objective': topic + '-apply', 'difficulty': 'foundational' if index <= 4 else ('challenging' if index >= 21 else 'applied'),
+            'objective': objective, 'difficulty': _difficulty(index, revision),
             'module': next(m['id'] for m in MODULES if topic in m['topics']),
             'prompt': prompt, 'options': options, 'answer': position,
-            'explanation': explanation, 'source': further_reading(topic) if revision == REVISION else SOURCES[TOPICS[topic][1]]})
+            'explanation': explanation, 'source': _source(topic, index, revision)})
     return bank
 
 def load_bank():
     return (_load_file('cyber_practice_v1.txt', LEGACY_REVISION)
-            + _load_file('cyber_practice_v2.txt', REVISION, offset=10))
+            + _load_file('cyber_practice_v2.txt', BUILD_B_REVISION, offset=10)
+            + _load_file('cyber_practice_v3.txt', REVISION, offset=25))
 
 BANK = load_bank()
 for question in BANK:
@@ -96,6 +131,6 @@ for question in BANK:
 def lessons():
     return [{**module, 'revision': REVISION, 'sections': [{
         'id': topic, 'title': TOPICS[topic][0], 'objective': 'Apply ' + TOPICS[topic][0].lower() + ' to an evidence-based decision.',
-        'body': TOPICS[topic][2] + ' ' + EXTENSIONS[topic], 'source': further_reading(topic),
-        'worked_cases': [{'situation': q['prompt'], 'reasoning': q['explanation']} for q in BANK if q['topic'] == topic]
+        **supplements(topic), 'body': TOPICS[topic][2] + ' ' + EXTENSIONS[topic], 'source': further_reading(topic),
+        'worked_cases': [{'objective': q['objective'], 'situation': q['prompt'], 'reasoning': q['explanation']} for q in BANK if q['topic'] == topic]
     } for topic in module['topics']]} for module in MODULES]

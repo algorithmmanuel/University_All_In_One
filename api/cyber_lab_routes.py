@@ -15,6 +15,7 @@ from learning_routes import student_only
 import strategy_engine as engine
 from cyber_content import BANK, MODULES, TOPICS, REVISION, lessons
 from strategy_scenarios import SCENARIOS
+from cyber_campaign import campaign_progress
 
 router = APIRouter(prefix='/api/v1/cyber-lab', tags=['cyber-lab'])
 
@@ -41,8 +42,10 @@ def catalog(user=Depends(student_only), db: Session = Depends(get_db)):
         CyberStudyProgress.user_id == user.id, CyberStudyProgress.revision == REVISION)))
     previous = set(db.scalars(select(CyberStudyProgress.module_id).where(
         CyberStudyProgress.user_id == user.id, CyberStudyProgress.revision != REVISION)))
-    mistakes = recent_mistakes(db, user.id)
-    return {'revision': REVISION, 'question_count': len(BANK), 'scenarios': list(SCENARIOS.values()),
+    graded_rows = recent_graded_sessions(db, user.id)
+    mistakes = recent_mistakes(db, user.id, graded_rows)
+    return {'revision': REVISION, 'question_count': len(BANK),
+        'campaign': campaign_progress(db, user.id, completed, graded_rows), 'scenarios': list(SCENARIOS.values()),
         'modules': [{**item, 'completed': item['id'] in completed,
                      'previously_completed': item['id'] in previous} for item in lessons()],
         'topics': [{'id': key, 'title': value[0], 'count': sum(q['topic'] == key for q in BANK),
@@ -141,10 +144,16 @@ def practice_public(row):
         for q in row.snapshot], 'result': row.result}
 
 
-def recent_mistakes(db, user_id):
+def recent_graded_sessions(db, user_id):
+    """Bounded graded window; unfinished sessions must not displace real results."""
+    return db.scalars(select(CyberPracticeSession).where(CyberPracticeSession.user_id == user_id,
+        CyberPracticeSession.result.is_not(None), cast(CyberPracticeSession.result, Text) != 'null')
+        .order_by(CyberPracticeSession.id.desc()).limit(50)).all()
+
+
+def recent_mistakes(db, user_id, rows=None):
     """Latest graded verdict per ID within a bounded 50-session review window."""
-    rows = db.scalars(select(CyberPracticeSession).where(CyberPracticeSession.user_id == user_id,
-        CyberPracticeSession.result.is_not(None), cast(CyberPracticeSession.result, Text) != 'null').order_by(CyberPracticeSession.id.desc()).limit(50)).all()
+    if rows is None: rows = recent_graded_sessions(db, user_id)
     # New submissions carry server time. Older results keep their existing data
     # and use creation order only as an explicit legacy fallback.
     rows = sorted(rows, key=lambda row: (row.result or {}).get('submitted_at') or (row.created_at.astimezone(timezone.utc) if row.created_at.tzinfo else row.created_at.replace(tzinfo=timezone.utc)).isoformat(), reverse=True)

@@ -3,6 +3,7 @@ export type Module = {
   id: string;
   title: string;
   revision: string;
+  topics: string[];
   completed: boolean;
   previously_completed?: boolean;
   example: string;
@@ -13,10 +14,41 @@ export type Module = {
     objective: string;
     body: string;
     source: Source;
+    steps?: { title: string; body: string }[];
+    check?: {
+      id: string;
+      prompt: string;
+      options: string[];
+      answer: number;
+      explanation: string;
+    };
+    extra_readings?: Source[];
     worked_cases: { situation: string; reasoning: string }[];
   }[];
 };
+export type CampaignStep = {
+  kind: "learn" | "practice" | "play";
+  module?: string;
+  scenario?: string;
+  run_id?: number | null;
+  label: string;
+};
 export type Catalog = {
+  campaign?: {
+    completed: number;
+    total: number;
+    notice: string;
+    chapters: {
+      scenario: string;
+      title: string;
+      scenario_title: string;
+      module_read: boolean;
+      practice_distinct: number;
+      practice_target: number;
+      wins: number;
+      next: CampaignStep;
+    }[];
+  };
   question_count: number;
   modules: Module[];
   scenarios: {

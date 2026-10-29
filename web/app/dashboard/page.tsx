@@ -69,7 +69,7 @@ export default function Dashboard() {
             <section className="cyber-feature" aria-label="Branch Defender strategy game" style={{marginBottom:24}}>
               <span className="cyber-eyebrow">NEW / STRATEGY GAME</span>
               <h2>Branch Defender strategy game</h2>
-              <p>Manage a fictional branch network, learn cybersecurity controls and practise across 250 cybersecurity questions.</p>
+              <p>Manage a fictional branch network, learn cybersecurity controls and practise across 500 cybersecurity questions.</p>
               <Link className="cyber-cta" href="/cyber-lab">Play Branch Defender →</Link>
             </section>
             <LearningOverview />

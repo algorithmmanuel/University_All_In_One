@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useId, useState } from "react";
 import type { Run } from "./types";
 import styles from "./lab.module.css";
 
@@ -14,6 +14,8 @@ export default function GameBoard({
   onAction: (action: string, target?: string) => void;
   onReload: () => void;
 }) {
+  const inspectorId = useId();
+  const [view, setView] = useState<"map" | "list">("map");
   const [selected, setSelected] = useState("identity");
   const [help, setHelp] = useState(true);
   const asset = run.assets.find((a) => a.id === selected) ?? run.assets[0];
@@ -142,39 +144,66 @@ export default function GameBoard({
           </p>
         </div>
       )}
+      <div
+        className={styles.viewControls}
+        role="group"
+        aria-label="Network presentation"
+      >
+        <button aria-pressed={view === "map"} onClick={() => setView("map")}>
+          Network map
+        </button>
+        <button aria-pressed={view === "list"} onClick={() => setView("list")}>
+          Asset list
+        </button>
+        <a href={"#" + inspectorId}>Go to selected asset controls ↓</a>
+      </div>
+      <p className={styles.muted}>
+        Use Tab to reach assets and Enter or Space to select one. The asset list
+        provides the same actions without panning the map. Shape, text and
+        status labels supplement colour.
+      </p>
       <div className={styles.playLayout}>
-        <div className={styles.mapWrap}>
-          <div className={styles.map} aria-label="Interactive branch network">
+        <div className={view === "map" ? styles.mapWrap : styles.listWrap}>
+          <div
+            className={view === "map" ? styles.map : styles.assetGrid}
+            aria-label={
+              view === "map"
+                ? "Interactive branch network"
+                : "Branch asset list"
+            }
+          >
             <div className={styles.mapLabel}>
               BRANCH NETWORK <span>SECURE CHANNEL / SIMULATION</span>
             </div>
-            <svg
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              className={styles.connections}
-              aria-hidden="true"
-            >
-              {run.links.map(([a, b]) => {
-                const left = run.assets.find((x) => x.id === a)!,
-                  right = run.assets.find((x) => x.id === b)!;
-                return (
-                  <line
-                    key={a + b}
-                    x1={left.x}
-                    y1={left.y}
-                    x2={right.x}
-                    y2={right.y}
-                    className={
-                      left.isolated ||
-                      right.isolated ||
-                      (run.segmented && a === "app" && b === "database")
-                        ? styles.blocked
-                        : styles.link
-                    }
-                  />
-                );
-              })}
-            </svg>
+            {view === "map" && (
+              <svg
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                className={styles.connections}
+                aria-hidden="true"
+              >
+                {run.links.map(([a, b]) => {
+                  const left = run.assets.find((x) => x.id === a)!,
+                    right = run.assets.find((x) => x.id === b)!;
+                  return (
+                    <line
+                      key={a + b}
+                      x1={left.x}
+                      y1={left.y}
+                      x2={right.x}
+                      y2={right.y}
+                      className={
+                        left.isolated ||
+                        right.isolated ||
+                        (run.segmented && a === "app" && b === "database")
+                          ? styles.blocked
+                          : styles.link
+                      }
+                    />
+                  );
+                })}
+              </svg>
+            )}
             {run.assets.map((a) => (
               <button
                 key={a.id}
@@ -187,7 +216,7 @@ export default function GameBoard({
                   (a.isolated ? ", isolated" : "")
                 }
                 className={[
-                  styles.asset,
+                  view === "map" ? styles.asset : styles.assetListItem,
                   asset.id === a.id ? styles.selected : "",
                   a.isolated
                     ? styles.isolated
@@ -195,7 +224,12 @@ export default function GameBoard({
                       ? styles.alert
                       : "",
                 ].join(" ")}
-                style={{ left: `${a.x}%`, top: `${a.y}%` }}
+                aria-controls={inspectorId}
+                style={
+                  view === "map"
+                    ? { left: `${a.x}%`, top: `${a.y}%` }
+                    : undefined
+                }
                 onClick={() => setSelected(a.id)}
               >
                 <span className={styles.assetIcon} aria-hidden="true">
@@ -215,12 +249,12 @@ export default function GameBoard({
                     ? "Maintenance: " + a.pending
                     : a.isolated
                       ? "ISOLATED"
-                      : a.condition === "Compromise detected" || a.encrypted
-                        ? "COMPROMISE DETECTED"
-                        : a.monitored
-                          ? "MONITORED"
-                          : a.encrypted
-                            ? "SERVICE ENCRYPTED"
+                      : a.encrypted
+                        ? "SERVICE ENCRYPTED"
+                        : a.condition === "Compromise detected"
+                          ? "COMPROMISE DETECTED"
+                          : a.monitored
+                            ? "MONITORED"
                             : "SELECT TO INVESTIGATE"}
                 </small>
               </button>
@@ -232,6 +266,8 @@ export default function GameBoard({
           </div>
         </div>
         <aside
+          id={inspectorId}
+          tabIndex={-1}
           className={styles.inspector}
           aria-label="Selected asset controls"
         >
@@ -253,7 +289,7 @@ export default function GameBoard({
             {asset.actions.map((action) => (
               <button
                 key={action.id}
-                disabled={busy || run.staff === 0}
+                disabled={busy || run.staff === 0 || run.budget < action.cost}
                 onClick={() => onAction(action.id, asset.id)}
               >
                 <strong>

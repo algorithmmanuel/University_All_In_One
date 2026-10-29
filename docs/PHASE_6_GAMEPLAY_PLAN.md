@@ -121,6 +121,8 @@ These are delivery milestones, not calendar estimates or instructions to rush co
 - Game outcomes and practice history are saved; debrief recommendations trace to observed actions/answers and taught objectives. Test actual API/PostgreSQL browser journeys, not only intercepted responses.
 - All published new questions have objective and source mappings with explanations, and required teaching is available. Retain independent educational/content review, operational readiness and final formal security assurance gates.
 
-## Immediate next action
+## Current continuation — 29 October 2026
 
-Discuss and settle the first game's visual/interaction style and the scope of Build A. Recommended default: an animated top-down/isometric Blue Team strategy game with discrete turns, one defend-the-branch scenario and 100 reviewed questions across its supporting topics. Do not start the old six-investigation/tutor slice. The next implementation should be this complete playable foundation once its scope is settled, while maintaining the running beta separately.
+Builds A and B were implemented, passed their recorded automated gates and received owner-reported local acceptance. Following the owner's “go on”, Build C source now implements the cumulative 500-question milestone, additional teaching/reflections, derived campaign activity guidance and an asset-list alternative. This supersedes the original pre-Build-A immediate-action discussion. See [the current Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md) and status for actual verification, CI and owner acceptance versus outstanding evidence. No claim of phase completion, ThreatGEN parity, independent learning effectiveness or production readiness follows from source counts.
+
+Next: verify Build C CI and development acceptance, collect independent beginner/content/device observations, and use that evidence to select further gameplay improvements. The current three scenarios remain freely playable on the same six-asset map. AI and Nigerian-language work remain deferred.
