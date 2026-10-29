@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reports beta is updated with the accepted developments and both environments restarted successfully. New approved work: a staged Red/Blue simulator. Architecture inspection completed and summarised before code; engine-only implementation and local verification are complete (83 focused tests; full backend 745 passed plus 11 subtests, 23 environment-dependent skips). No new API, migration, UI or beta promotion. See [plan and assumptions](RED_BLUE_SIMULATOR_PLAN.md); the explicit next gate is to stop and present engine test results before interface work.
+**Checkpoint:** Owner reports beta is updated with the accepted developments and both environments restarted successfully. New approved work: a staged Red/Blue simulator. Architecture inspection completed and summarised before code; engine-only implementation and local/remote verification are complete (83 focused tests; PostgreSQL 768 tests plus 11 subtests; 147 existing browser journeys and 14 real-API cases; frontend checks and dependency audit green). No new API, migration, UI or beta promotion. See [plan and assumptions](RED_BLUE_SIMULATOR_PLAN.md); the explicit next gate is to stop and present engine test results before interface work.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -561,3 +561,12 @@ Verified locally: **83 focused tests passed**; full synthetic backend **745 pass
 The 23 skips do not establish PostgreSQL concurrency or live multiplayer authorization. These new domain commands bind distinct identities but do not yet authenticate sessions or persist matches. Instructor review is not enabled. The beta branch/runtime/data remain unchanged; no migration, content publication or restart is required for this engine-only checkpoint. An existing generated `web/next-env.d.ts` change is excluded from the simulator work.
 
 **Next action: present this engine/test checkpoint and stop before interface work, as requested.** After review, implement additive authenticated match persistence/API and prove separate-session concurrency before the responsive interface. Review assumptions in the [plan](RED_BLUE_SIMULATOR_PLAN.md), especially one action/round, Blue-first order, equal finite budgets, isolation availability cost and post-game full participant debrief. Human balance/learning/device and final security/operational acceptance remain open. The short [authoring guide](RED_BLUE_AUTHORING.md) explains configuration/action extension and the future adapter boundary.
+
+
+## Red/Blue engine complete CI evidence — 29 October 2026
+
+Source `dbf48ba08cf92f3b96999019f901f6c47deef738` passed [backend CI 40866421053](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40866421053): 768 PostgreSQL tests plus 11 subtests; the separate database-independent job passed 745 tests plus 11 subtests with 23 environment-dependent skips; dependency audit/consistency passed. This includes all 83 new simulator tests.
+
+[Browser regression 40866421153](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40866421153) passed 147 existing journeys (15 progression and 132 gameplay), 15 frontend unit tests, TypeScript and production build. [Actual API/PostgreSQL browser run 40866421130](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40866421130) passed all 14 existing cases. These supersede pending remote-CI statements above and establish regression evidence for the existing application, not a new simulator interface or authenticated multiplayer endpoint.
+
+All automated gates are green. The beta ref was reread and remains `5824fb7b2ce309506e86b8fa0caeb9c5c339aedd`; only development was advanced. Stop here to present the engine review checkpoint before interface work. Next after review: additive match storage/authenticated APIs, actual two-session concurrency and access-policy checks, then the responsive interface. Human balance/learning/device and final security/operational gates remain open. No restart or migration is required for this engine-only source addition.
