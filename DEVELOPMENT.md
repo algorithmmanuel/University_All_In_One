@@ -4,13 +4,15 @@ This is the continuation entry point for maintainers and future assistant sessio
 
 **Active development branch:** `feature/beta-continuous-improvement`  
 **Tester-facing beta branch:** `feature/secure-password-recovery`  
-**Approved roadmap date:** 26 October 2026 (Africa/Lagos)
+**Latest approved roadmap update:** 29 October 2026 (Africa/Lagos)
 
 1. Read [the current handover and exact next action](docs/DEVELOPMENT_STATUS.md).
 2. Read [the approved roadmap and acceptance gates](docs/DEVELOPMENT_ROADMAP.md).
 For the combined Phase 5 development release, use [the single release guide](docs/PHASE_5_RELEASE.md); separate Phase 5.2 installation is superseded by owner direction.
 
 Beta rollout: use [the complete promotion and separate-terminal restart guide](docs/BETA_PROMOTION_2026_10_29.md). Source merge and owner runtime rollout are distinct; consult status for completion.
+
+Current next phase: read [the staged Red/Blue simulator plan](docs/RED_BLUE_SIMULATOR_PLAN.md). The owner requires an engine/test results checkpoint **before interface work**. Existing beta rollout is owner-reported successful; new simulator development is not automatically promoted.
 
 Gameplay continuation: read [the current Branch Siege implementation/release guide](docs/BRANCH_SIEGE_RELEASE.md) and status first. Builds A, B and C have owner-reported local acceptance; their guides/evidence remain historical.
 

@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "id": "ai_service",
+  "revision": 1,
+  "title": "Instructions in the Evidence",
+  "industry": "AI customer service",
+  "difficulty": "advanced",
+  "turn_limit": 12,
+  "action_points": 3,
+  "starting_budget": 27,
+  "assets": [
+    {
+      "id": "assistant",
+      "name": "AI support assistant",
+      "kind": "cloud",
+      "value": 40,
+      "exposed": true,
+      "vulnerabilities": [
+        "instruction",
+        "privilege"
+      ],
+      "controls": [
+        "monitoring",
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "retrieval",
+      "name": "Document retrieval service",
+      "kind": "server",
+      "value": 50,
+      "exposed": false,
+      "vulnerabilities": [
+        "access",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "knowledge",
+      "name": "Restricted customer knowledge store",
+      "kind": "database",
+      "value": 90,
+      "exposed": false,
+      "vulnerabilities": [
+        "access",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "connector",
+      "name": "Third-party document connector",
+      "kind": "third_party",
+      "value": 25,
+      "exposed": false,
+      "vulnerabilities": [
+        "access"
+      ],
+      "controls": [],
+      "initial_access": 0
+    },
+    {
+      "id": "review",
+      "name": "Human review workstation",
+      "kind": "workstation",
+      "value": 20,
+      "exposed": true,
+      "vulnerabilities": [
+        "phishing"
+      ],
+      "controls": [
+        "access_control",
+        "backup"
+      ],
+      "initial_access": 0
+    }
+  ],
+  "connections": [
+    {
+      "source": "assistant",
+      "target": "retrieval"
+    },
+    {
+      "source": "retrieval",
+      "target": "knowledge"
+    },
+    {
+      "source": "connector",
+      "target": "retrieval"
+    },
+    {
+      "source": "review",
+      "target": "assistant"
+    }
+  ],
+  "red": {
+    "known_assets": [
+      "assistant",
+      "review"
+    ],
+    "briefing": "The assistant retrieves untrusted content. Only conceptual instruction-boundary tests are available."
+  },
+  "blue": {
+    "known_assets": [
+      "assistant",
+      "retrieval",
+      "knowledge",
+      "connector",
+      "review"
+    ],
+    "briefing": "Untrusted retrieved text must not gain authority. Protect retrieval permissions and restricted records."
+  },
+  "objective": {
+    "kind": "leak",
+    "targets": [
+      "knowledge"
+    ],
+    "threshold": 90,
+    "hold_turns": 1,
+    "explanation": "Red must cross the assistant trust boundary and copy the restricted fictional knowledge store."
+  }
+}

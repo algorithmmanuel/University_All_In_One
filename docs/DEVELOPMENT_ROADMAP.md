@@ -95,3 +95,14 @@ The owner explicitly deferred Yoruba, Igbo and all other Nigerian-language addit
 ## Authorised temporary-beta promotion — 29 October 2026
 
 After owner-reported acceptance through Branch Siege, the owner explicitly requested merging completed development into the existing tester-facing beta before a new major development area. This authorises the bounded source promotion and the documented beta backup/additive-migration/content-publication/restart procedure while retaining development isolation, existing accounts/progress/feedback and ongoing assurance gates. It supersedes earlier “no beta promotion” scope statements for this rollout only. It does not imply a production hosting launch or completion of independent learner/device/operational/final-security gates. See [the promotion guide](BETA_PROMOTION_2026_10_29.md) and status for source versus actual runtime evidence.
+
+
+## Approved Red/Blue simulator phase — 29 October 2026
+
+The owner reports the latest beta developments are uploaded and both beta and development environments restarted successfully. This is owner-reported runtime evidence, not independently observed deployment logs.
+
+The next major development is the [Red/Blue simulator plan](RED_BLUE_SIMULATOR_PLAN.md): scenario-driven two-seat hidden planning, deterministic resolution and filtered evidence, six industry scenarios, mapped educational actions, three readable opponent levels, later authenticated two-human sessions and a responsive interface/debrief. This brings multiplayer forward from the earlier demand-led expansion phase for this bounded module; external generative AI and all Nigerian-language additions remain deferred. Simulating an AI-service security incident does not change the external-AI decision.
+
+Delivery is explicitly staged: inspect/summarise the existing architecture before code; build the engine/loader/resolver and unit/determinism tests; **stop and show results before building any interface**. Next, prove additive persistence/authentication and separate-session concurrency, then build the interface, educational/balance checks and release evidence. Reuse current authentication; keep match roles separate from account roles. Do not overload existing single-user runs or grant instructors access without an explicit policy. See the plan for assumptions, public framework sources and security gates, and [authoring guidance](RED_BLUE_AUTHORING.md).
+
+Keep the existing beta running separately. New simulator work is development-only until a further authorised promotion. The prior successful beta rollout does not authorize automatic promotion of this new work or establish independent learner/device/production/final-audit acceptance.

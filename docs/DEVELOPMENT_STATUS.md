@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Branch Siege has owner-reported local acceptance. Completed development and verified promotion helpers were fast-forwarded into `feature/secure-password-recovery` with no conflict/force push. All gates passed: PostgreSQL 685 tests plus 11 subtests, 147 browser journeys, 14 actual-API browser cases, frontend unit/type/build and dependency audit. Owner laptop rollout remains pending; use [the complete beta/development restart guide](BETA_PROMOTION_2026_10_29.md). Development retains its separate worktree/database and branch.
+**Checkpoint:** Owner reports beta is updated with the accepted developments and both environments restarted successfully. New approved work: a staged Red/Blue simulator. Architecture inspection completed and summarised before code; engine-only implementation and local verification are complete (83 focused tests; full backend 745 passed plus 11 subtests, 23 environment-dependent skips). No new API, migration, UI or beta promotion. See [plan and assumptions](RED_BLUE_SIMULATOR_PLAN.md); the explicit next gate is to stop and present engine test results before interface work.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -541,3 +541,23 @@ Candidate `8c939eef0480a28f72751040feefa76de58b0840` passed [browser regression 
 Beta was reread at `531017d8b978d43f6c781a73d13a86d0aec9b2d2`, development at the verified candidate. The comparison confirmed 53 ahead/zero behind and the old beta as merge base. Beta was fast-forwarded using an expected-head lease; a read verified the candidate as its new head. No conflicts, force push, default-branch change or data/runtime operation. The final documentation checkpoint is shared by beta/development, preserving their separate operational roles.
 
 Next: owner executes [the complete update/preparation/restart guide](BETA_PROMOTION_2026_10_29.md) and reports beta readiness, development isolation and smoke results. Source merge is complete; actual laptop backup, beta migrations 0010/0011, foundation publication, process restarts, tunnel reopening and tester visibility remain pending owner execution. Independent learner/device/operational/final-security gates remain separate. Do not choose an unspecified new major development scope automatically.
+
+
+## Owner-reported beta rollout and new simulator direction — 29 October 2026
+
+The owner reports that everything checks out, beta contains the latest developments, and both environments restarted successfully. This supersedes earlier owner-rollout-pending statements. No independent laptop logs or new learner/device/security evidence were supplied; the earlier source promotion and assurance boundaries remain accurately recorded.
+
+The owner approved [the Red/Blue simulator direction](RED_BLUE_SIMULATOR_PLAN.md), with an explicit engine-first review gate before any interface. Source inspection found the existing strategy runs are single-owner sequential games; the simulator therefore uses a separate domain package and will need additive two-seat storage/routes later. Existing authentication/account roles remain unchanged. No conflict requires replacing the stack.
+
+Work in this checkpoint: strict six-configuration loader, conceptual action catalogue and public mappings, sealed two-seat command contract, observation filtering, fixed resolver, finite resources, seeded replay, rule-based opponents and post-game counterfactual debrief. [Authoring documentation](RED_BLUE_AUTHORING.md) describes extension and the future authentication/persistence boundary. Verification is pending until the results section below is populated. Do not claim live multiplayer, UI availability, production readiness or beta promotion from pure engine tests.
+
+
+## Red/Blue engine review checkpoint — 29 October 2026
+
+Implemented development-only `api/cyber_warfare/`: strict bounded local JSON scenarios, immutable configuration snapshots, twenty mapped conceptual/planning actions, directed asset networks, foothold/privilege/persistence state, per-round AP caps and finite budgets, sealed choices, fixed Blue → Red resolution, side-filtered evidence, private seeded replay and readable easy/standard/hard opponents. Six distinct industry configurations cover every requested scenario. Post-game debrief replays affordable alternatives and explains unalerted activity, unaddressed signals and business recovery opportunities. No current routes, authentication, SQL models, migrations, frontend or existing game engines were edited.
+
+Verified locally: **83 focused tests passed**; full synthetic backend **745 passed, 11 subtests passed, 23 skipped** (PostgreSQL/environment-dependent integration checks require their isolated services). Dependency consistency, Python compilation and whitespace checks passed. Tests cover each scenario's seeded Red victory and Blue survival, all eighteen scenario/opponent combinations, cross-process and reordered-JSON replay, pending/resolved command retries, hidden-state noninterference, blocked/stale prerequisites, action costs, graph boundaries, monitoring/investigation, persistence/recovery, objective deadlines and counterfactual debriefs. Existing frontend/browser tests were not rerun locally because no frontend or HTTP route changed; their previous release evidence remains historical, not new simulator UI evidence. Remote CI is pending at this source checkpoint.
+
+The 23 skips do not establish PostgreSQL concurrency or live multiplayer authorization. These new domain commands bind distinct identities but do not yet authenticate sessions or persist matches. Instructor review is not enabled. The beta branch/runtime/data remain unchanged; no migration, content publication or restart is required for this engine-only checkpoint. An existing generated `web/next-env.d.ts` change is excluded from the simulator work.
+
+**Next action: present this engine/test checkpoint and stop before interface work, as requested.** After review, implement additive authenticated match persistence/API and prove separate-session concurrency before the responsive interface. Review assumptions in the [plan](RED_BLUE_SIMULATOR_PLAN.md), especially one action/round, Blue-first order, equal finite budgets, isolation availability cost and post-game full participant debrief. Human balance/learning/device and final security/operational acceptance remain open. The short [authoring guide](RED_BLUE_AUTHORING.md) explains configuration/action extension and the future adapter boundary.

@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "id": "microfinance",
+  "revision": 1,
+  "title": "Ledger Under Pressure",
+  "industry": "Microfinance banking",
+  "difficulty": "beginner",
+  "turn_limit": 12,
+  "action_points": 3,
+  "starting_budget": 24,
+  "assets": [
+    {
+      "id": "teller",
+      "name": "Teller workstation",
+      "kind": "workstation",
+      "value": 15,
+      "exposed": true,
+      "vulnerabilities": [
+        "phishing",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "identity",
+      "name": "Branch identity service",
+      "kind": "server",
+      "value": 25,
+      "exposed": false,
+      "vulnerabilities": [
+        "privilege",
+        "access"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "ledger",
+      "name": "Loan and transaction ledger",
+      "kind": "database",
+      "value": 80,
+      "exposed": false,
+      "vulnerabilities": [
+        "access",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "gateway",
+      "name": "Mobile banking gateway",
+      "kind": "cloud",
+      "value": 45,
+      "exposed": true,
+      "vulnerabilities": [
+        "configuration"
+      ],
+      "controls": [
+        "monitoring",
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "bureau",
+      "name": "Credit bureau connection",
+      "kind": "third_party",
+      "value": 20,
+      "exposed": false,
+      "vulnerabilities": [
+        "access"
+      ],
+      "controls": [],
+      "initial_access": 0
+    }
+  ],
+  "connections": [
+    {
+      "source": "teller",
+      "target": "identity"
+    },
+    {
+      "source": "identity",
+      "target": "ledger"
+    },
+    {
+      "source": "gateway",
+      "target": "ledger"
+    },
+    {
+      "source": "ledger",
+      "target": "bureau"
+    }
+  ],
+  "red": {
+    "known_assets": [
+      "teller",
+      "gateway"
+    ],
+    "briefing": "The branch accepts customer messages at the teller desk. Discover the ledger trust path."
+  },
+  "blue": {
+    "known_assets": [
+      "teller",
+      "identity",
+      "ledger",
+      "gateway",
+      "bureau"
+    ],
+    "briefing": "Protect transaction integrity. Teller messages are a likely entry route; the ledger supports daily lending."
+  },
+  "objective": {
+    "kind": "fraud",
+    "targets": [
+      "ledger"
+    ],
+    "threshold": 80,
+    "hold_turns": 1,
+    "explanation": "Red must alter the fictional ledger once. Blue must preserve integrity until the deadline."
+  }
+}
