@@ -64,6 +64,11 @@ def configure_mail(environment, public_url=None):
 
 
 def check():
+    from alembic.config import Config
+    from alembic.script import ScriptDirectory
+    config = Config(str(ROOT / 'api' / 'alembic.ini'))
+    config.set_main_option('script_location', str(ROOT / 'api' / 'migrations'))
+    revision = ScriptDirectory.from_config(config).get_current_head()
     class NoRedirect(HTTPRedirectHandler):
         def redirect_request(self, *args, **kwargs): return None
     opener = build_opener(ProxyHandler({}), NoRedirect())
@@ -73,7 +78,7 @@ def check():
         for path, field, expected in checks:
             with opener.open(origin + path, timeout=15) as response: data = json.load(response)
             if data.get(field) != expected: raise ValueError('Beta readiness failed')
-            if path == '/health/schema' and data.get('revision') != '0011_strategy_learning': raise ValueError('Beta schema is not current')
+            if path == '/health/schema' and data.get('revision') != revision: raise ValueError('Beta schema is not current')
         try: opener.open(origin + '/health/development', timeout=15)
         except HTTPError as error:
             if error.code != 404: raise

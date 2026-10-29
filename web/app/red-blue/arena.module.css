@@ -40,7 +40,7 @@
   font-size: 14px !important;
 }
 .panel {
-  background: linear-gradient(145deg, #12233a, #101b2c);
+  background: linear-gradient(145deg, #36161c, #2b1116);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 24px;
@@ -77,9 +77,9 @@
   min-height: 46px;
   margin: 8px 0 14px;
   padding: 10px;
-  background: #081525;
+  background: #200d10;
   color: var(--text);
-  border: 1px solid #45617d;
+  border: 1px solid #7d454f;
   border-radius: 8px;
   min-width: 0;
 }
@@ -88,9 +88,9 @@
   border-radius: 8px;
 }
 .main button:not(:global(.btn)) {
-  background: #162d43;
+  background: #3f1a21;
   color: var(--text);
-  border: 1px solid #45617d;
+  border: 1px solid #7d454f;
   padding: 10px 14px;
 }
 .main summary {
@@ -126,15 +126,15 @@
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border: 1px solid #347174;
-  background: #0d2d35;
+  border: 1px solid #743440;
+  background: #2f1318;
   border-radius: 12px;
   margin: 8px 0 20px;
   overflow: hidden;
 }
 .stats div {
   padding: 16px;
-  border-right: 1px solid #347174;
+  border-right: 1px solid #743440;
 }
 .stats span,
 .stats strong {
@@ -143,7 +143,7 @@
 .stats span {
   font-size: 10px;
   letter-spacing: 1.5px;
-  color: #b6dcd7;
+  color: #dab8be;
 }
 .stats strong {
   font-size: 19px;
@@ -180,7 +180,7 @@
 .network {
   position: relative;
   width: 740px;
-  background: radial-gradient(#41607855 1px, transparent 1px);
+  background: radial-gradient(#78414b55 1px, transparent 1px);
   background-size: 18px 18px;
 }
 .network svg {
@@ -193,17 +193,17 @@
   width: 200px;
   min-height: 118px;
   text-align: left;
-  background: #102b3b;
+  background: #35161b;
   box-shadow: 0 5px 18px #0006;
   padding: 12px;
-  border-color: #497081;
+  border-color: #814953;
 }
 .node span,
 .asset span {
   display: block;
   font-size: 11px;
   text-transform: uppercase;
-  color: #a2c9d7;
+  color: #d2a7af;
 }
 .node strong,
 .asset strong {
@@ -215,12 +215,12 @@
 .asset small {
   display: block;
   font-size: 11px;
-  color: #c9deeb;
+  color: #e6ced2;
 }
 .main .selected {
-  border: 2px solid #65efd1;
-  background: #143e45;
-  box-shadow: 0 0 0 2px #65efd133;
+  border: 2px solid #e76d83;
+  background: #3f1a21;
+  box-shadow: 0 0 0 2px #e76d8333;
 }
 .assetGrid {
   display: grid;
@@ -235,8 +235,8 @@
 .inspector,
 .actionDetails {
   padding: 15px;
-  background: #0a192b;
-  border: 1px solid #34516b;
+  background: #260f13;
+  border: 1px solid #6b343e;
   border-radius: 10px;
   margin: 16px 0;
   font-size: 14px;
@@ -262,7 +262,7 @@
 }
 .ledger p {
   margin: 6px 0;
-  color: #bacee1;
+  color: #ddbec3;
 }
 .history {
   display: grid;
@@ -278,7 +278,7 @@
 }
 .history span {
   font-size: 13px;
-  color: #add4db;
+  color: #d7b1b8;
 }
 .error {
   border: 1px solid #df9675;
@@ -364,3 +364,5 @@
     animation: none !important;
   }
 }
+
+.workspace[data-side="blue"] .matchHeading .eyebrow{color:#a8ceff}.workspace[data-side="red"] .matchHeading .eyebrow{color:#ff9bb3}

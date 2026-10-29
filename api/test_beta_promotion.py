@@ -191,6 +191,21 @@ def test_postgres_publication_preserves_populated_learner_history():
             db.add(BetaInvite(code_hash='b'*64,expires_at=expiry,redeemed_by=user.id))
             db.add(BetaFeedback(user_id=user.id,category='content',message='Synthetic retained feedback'))
             db.add(MissionRun(user_id=user.id,mission_id='risk-command',step_index=1,score=5,choices=[]))
+            from models import RedBlueMatch, RedBlueSeat, RedBlueReceipt, JourneyWorkshopRun
+            from cyber_warfare import engine as warfare
+            from cyber_warfare.scenario import load_scenario
+            from journey_workshops import engine as workshops
+            actor=f'user:{user.id}'
+            match=warfare.new_match(load_scenario('microfinance'),'synthetic-private-seed',actor,'computer')
+            command_id=str(uuid4())
+            match=warfare.commit(match,actor,warfare.Order('wait_red'),1,command_id)
+            saved=RedBlueMatch(creator_id=user.id,transcript=warfare.export_replay(match),difficulty='easy',status='active')
+            db.add(saved);db.flush()
+            db.add(RedBlueSeat(match_id=saved.id,side='red',user_id=user.id))
+            db.add(RedBlueSeat(match_id=saved.id,side='blue',user_id=None))
+            db.add(RedBlueReceipt(match_id=saved.id,user_id=user.id,command_id=command_id,request={'action':'wait_red'}))
+            state=workshops.advance(workshops.new_state(workshops.CASES['scholarship-pressure']),'a',0,str(uuid4()))
+            db.add(JourneyWorkshopRun(user_id=user.id,state=state))
             for release in RELEASES.values():
                 course = Course(academy_id=release.ACADEMY_ID,title=release.COURSE_TITLE,status='published')
                 db.add(course); db.flush()
@@ -216,3 +231,38 @@ def test_postgres_publication_preserves_populated_learner_history():
         engine.dispose()
         with administrative.begin() as conn: conn.execute(text('DROP SCHEMA '+schema+' CASCADE'))
         administrative.dispose()
+
+
+def test_beta_preservation_includes_private_matches_and_workshops(content_state):
+    from models import RedBlueMatch, RedBlueSeat, RedBlueReceipt, JourneyWorkshopRun
+    _, Session, _ = content_state
+    with Session.begin() as db:
+        row=RedBlueMatch(creator_id=1,transcript={'seed':'synthetic-private','commands':{'red:x':{'action':'wait_red'}}},difficulty='easy',status='active')
+        db.add(row);db.flush()
+        db.add(RedBlueSeat(match_id=row.id,side='red',user_id=1))
+        db.add(RedBlueReceipt(match_id=row.id,user_id=1,command_id='synthetic',request={'action':'wait_red'}))
+        db.add(JourneyWorkshopRun(user_id=1,state={'decisions':['a'],'snapshot':{'id':'synthetic'}}))
+    with Session() as db:
+        baseline=capture(db.connection())
+        assert all(name in baseline for name in ('red_blue_matches','red_blue_seats','red_blue_receipts','journey_workshop_runs'))
+        assert 'synthetic-private' not in repr(baseline)
+    with Session.begin() as db:
+        assert_preserved(db.connection(),baseline)
+        assert publish_verified(db,baseline)['courses']==3
+
+
+def test_beta_check_uses_current_schema_head(monkeypatch):
+    module=beta_script()
+    from schema_readiness import expected_revision
+    from urllib.error import HTTPError
+    import io,json
+    class Reply(io.BytesIO):
+        def __enter__(self):return self
+        def __exit__(self,*args):self.close()
+    class Opener:
+        def open(self,url,**kwargs):
+            if url.endswith('/health/development'):raise HTTPError(url,404,'not found',{},None)
+            body={'schema':'ready','revision':expected_revision()} if url.endswith('/health/schema') else {'database':'connected'} if url.endswith('/health/db') else {'status':'ok'}
+            return Reply(json.dumps(body).encode())
+    monkeypatch.setattr(module,'build_opener',lambda *args:Opener())
+    module.check()

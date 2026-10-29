@@ -1,4 +1,4 @@
-# EduCyber Nigeria — start here
+# EduCyber — start here
 
 This is the continuation entry point for maintainers and future assistant sessions.
 
@@ -12,7 +12,9 @@ For the combined Phase 5 development release, use [the single release guide](doc
 
 Beta rollout: use [the complete promotion and separate-terminal restart guide](docs/BETA_PROMOTION_2026_10_29.md). Source merge and owner runtime rollout are distinct; consult status for completion.
 
-Current phase: [one learning journey](docs/LEARNING_JOURNEY_RELEASE.md), organised from first concepts to adversarial play, with audience recommendations and direct experienced entry. The owner reports the previous simulator build works. Read status for current automated evidence and the next action. The [Red/Blue simulator plan](docs/RED_BLUE_SIMULATOR_PLAN.md) and [API contract](docs/RED_BLUE_API.md) remain authoritative for its security/game rules. Existing beta rollout is owner-reported successful; new development is not automatically promoted.
+Current release: [the combined EduCyber beta bundle](docs/EDUCYBER_BETA_BUNDLE.md), with global display branding, a crimson/charcoal theme and 24 saved workshops across all eight stages. The owner explicitly authorised beta source promotion after verification, followed by a feature-development pause until their personal playthrough is complete. Use the new bundle guide rather than older development-only rollout instructions. Source promotion and owner runtime rollout are separate; see status for evidence.
+
+Previous phase: [one learning journey](docs/LEARNING_JOURNEY_RELEASE.md), organised from first concepts to adversarial play, with audience recommendations and direct experienced entry. The owner reports the previous simulator build works. Read status for current automated evidence and the next action. The [Red/Blue simulator plan](docs/RED_BLUE_SIMULATOR_PLAN.md) and [API contract](docs/RED_BLUE_API.md) remain authoritative for its security/game rules. Existing beta rollout is owner-reported successful; new development is not automatically promoted.
 
 Gameplay continuation: read [the current Branch Siege implementation/release guide](docs/BRANCH_SIEGE_RELEASE.md) and status first. Builds A, B and C have owner-reported local acceptance; their guides/evidence remain historical.
 

@@ -253,7 +253,7 @@ for (const mobile of [false, true])
       .waitFor();
     await blue.page
       .getByRole("button", {
-        name: "Sign out of EduCyber Nigeria",
+        name: "Sign out of EduCyber",
         exact: true,
       })
       .click();

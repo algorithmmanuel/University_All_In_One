@@ -95,7 +95,7 @@ jobs:
           TOKEN=$(printf '%s' "$SESSION_JSON" | python -c "import json,sys; print(json.load(sys.stdin)['token'])")
           echo "::add-mask::$TOKEN"
           export EDUCYBER_E2E_TOKEN="$TOKEN"
-          node --test tests/browser/real-api.test.cjs tests/browser/cyber-lab-real.test.cjs tests/browser/red-blue-real.test.cjs tests/browser/journey-real.test.cjs
+          node --test tests/browser/real-api.test.cjs tests/browser/cyber-lab-real.test.cjs tests/browser/red-blue-real.test.cjs tests/browser/journey-real.test.cjs tests/browser/workshops-real.test.cjs
       - name: Diagnostic logs
         if: failure()
         run: |

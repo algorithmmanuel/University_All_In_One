@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner reports the simulator works after the Windows test portability correction (`a7708c6`); this is owner-reported local acceptance, not independent logs or educational/security validation. The owner now authorised organising the site around one eight-stage learning journey, with audience recommendations and direct entry for experienced learners. Journey navigation is implemented at `1f23cfacffebba8b4baa2d109af433a9b36f3111`; final CI passed 150 browser regressions, 24 actual-API/PostgreSQL browser cases, 18 frontend unit tests, TypeScript and production build. Owner journey acceptance is next. See [the journey development release guide](LEARNING_JOURNEY_RELEASE.md). Beta remains separate and unpromoted.
+**Checkpoint:** The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The bundle is implemented locally; required remote CI and source promotion are pending. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Follow [the complete development-only journey update/check/restart/acceptance guide](LEARNING_JOURNEY_RELEASE.md), then open `http://127.0.0.1:3010/journey`. Final automated gates passed as recorded below. No migration, dependency or content publication change is required. Preserve the owner's generated next-env file, local Compose configuration and all saved learner activity. Record owner acceptance and collect independent beginner/experienced/device observations before further scope. No beta promotion or beta runtime/database operation is authorised; operational and final formal-security gates remain open.
+Finish the combined bundle's automated gates, promote the verified source by guarded fast-forward to `feature/secure-password-recovery`, record exact evidence and hand over [the full beta update/backup/migration/restart guide](EDUCYBER_BETA_BUNDLE.md). This explicit owner instruction supersedes historical no-promotion statements for this bundle. Preserve generated next-env/local Compose files and all records; maintain distinct beta/development databases. Actual laptop backup/migration/restarts and owner playthrough remain owner-operated. After handover, no new feature phase: await the owner's bug reports and explicit resumption. Independent educational/device/operational and deferred final formal-security gates remain open.
 
 ## Implemented source changes and checks
 
@@ -646,3 +646,14 @@ These supersede pending-CI statements for this navigation milestone. Backend/API
 The beta ref was reread and remains `5824fb7b2ce309506e86b8fa0caeb9c5c339aedd`. No beta runtime/database, owner laptop processes or production hosting was operated. Generated `web/next-env.d.ts` remains excluded; the owner's local Compose configuration is not overwritten. Owner journey acceptance and independent comprehension/physical-device/educational/balance/operational/final-security evidence remain open.
 
 Use [the complete PowerShell development release guide](LEARNING_JOURNEY_RELEASE.md). Beginners start at Discover; experienced learners can enter any stage; audience pathways recommend materials within the same open journey. All saved-progress panels and direct activity access remain available.
+
+
+## Combined EduCyber beta bundle — implementation checkpoint, 29 October 2026
+
+The owner authorised one build and beta promotion before suspending further development for a personal playthrough. Implemented: global display name without changing account/session identifiers; charcoal/burgundy/crimson theme with contrast checks and distinct Red/Blue labels; 24 saved decision workshops (three per stage, 72 decisions), six introductory preview questions, final-stage solo role reversal and bounded workshop feedback context. Workshops record authored findings, unresolved decisions and effort, with resumable owned state and same-opening replay comparison; these are guided cases, not 24 additional full network games or validated mastery scores.
+
+Additive migration `0013_journey_workshops` follows `0012_red_blue_matches`; existing materials, tables, engine editions and account-role/seat separation are retained. Existing student/eligibility checks, private response headers, bounded schemas/bodies, command UUID receipts, step preconditions and row locking protect workshops. No instructor review access is enabled. Beta preparation now accepts prior simulator/workshop revisions, captures their existing records in preservation manifests and discovers the actual Alembic head using absolute paths. No external AI or new dependency was introduced.
+
+Local evidence: 793 synthetic backend tests plus 11 subtests passed; 48 PostgreSQL/environment-specific tests skipped. Frontend 20 unit tests, TypeScript and production build passed. New cases cover all 192 authored choice paths, ownership/forged input, retries and snapshots. PostgreSQL concurrency/rollback and real-session preservation tests are added but require isolated-PostgreSQL CI; synthetic tests do not supply that evidence. Desktop/mobile screenshots inspected. Required remote full-regression and real-API/PostgreSQL gates are pending for the bundle, distinct from the prior journey's historical results above.
+
+No owner runtime/database was operated. Generated `web/next-env.d.ts` remains excluded and owner local Compose configuration is preserved. See [workshop authoring](WORKSHOP_AUTHORING.md), [combined rollout guide](EDUCYBER_BETA_BUNDLE.md) and [owner checklist](OWNER_BETA_PLAYTHROUGH.md). Final verified commit, gate counts and source-promotion evidence will be recorded after completion.

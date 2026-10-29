@@ -53,9 +53,9 @@ export default function Account() {
   }
 
   return <main style={{maxWidth:500,margin:'4rem auto',padding:'1.5rem',fontFamily:'system-ui'}}>
-    <Link href="/">← EduCyber Nigeria</Link>
+    <Link href="/">← EduCyber</Link>
     <h1>{mode==='register'?'Create your account':'Welcome back'}</h1>
-    <p>Learn and teach on EduCyber Nigeria.</p>
+    <p>Learn and teach on EduCyber.</p>
     <div style={{display:'flex',gap:12,marginBottom:24}}>
       <button onClick={()=>{setMode('register');setError('');}} aria-pressed={mode==='register'}>Register</button>
       <button onClick={()=>{setMode('login');setError('');}} aria-pressed={mode==='login'}>Sign in</button>

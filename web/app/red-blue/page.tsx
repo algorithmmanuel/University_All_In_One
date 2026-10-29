@@ -57,14 +57,14 @@ export default function RedBlueArena() {
     <>
       <header className={`container ${styles.header}`}>
         <Link className="brand" href="/">
-          EduCyber Nigeria
+          EduCyber
         </Link>
         <nav aria-label="Learning navigation">
           <JourneyLink />
           <Link href="/cyber-lab">Cyber Lab</Link>
           <Link href="/learn">Courses</Link>
         </nav>
-        <AccountNavigation />
+        <AccountNavigation showJourney={false} />
       </header>
       <main className={`container ${styles.main}`}>
         <div className={styles.hero}>
@@ -222,7 +222,7 @@ export default function RedBlueArena() {
               </div>
               {m && (
                 <section
-                  className={styles.workspace}
+                  className={styles.workspace} data-side={m.side}
                   aria-label="Match workspace"
                   aria-busy={arena.busy}
                 >

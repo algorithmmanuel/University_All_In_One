@@ -1,5 +1,5 @@
 'use client';
-import {useState} from 'react';
+import {useEffect,useState} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 
@@ -12,6 +12,10 @@ export default function FeedbackPage(){
   const [page,setPage]=useState('');
   const [status,setStatus]=useState('');
   const [busy,setBusy]=useState(false);
+  useEffect(()=>{
+    const context=new URLSearchParams(window.location.search).get('page');
+    if(context?.startsWith('/')&&context.length<=160)setPage(context);
+  },[]);
   async function submit(event:React.FormEvent<HTMLFormElement>){
     event.preventDefault();setBusy(true);setStatus('');
     const token=sessionStorage.getItem('educyber_token');
@@ -29,7 +33,7 @@ export default function FeedbackPage(){
   return <main className="container section" style={{maxWidth:650}}>
     <Link href="/missions">← Back to missions</Link>
     <h1>Beta tester feedback</h1>
-    <p>Tell us what worked, what was confusing, and what should improve. Please do not include passwords, private information, or real incident data.</p>
+    <p>Tell us what worked, what was confusing, and what should improve. For a bug, include the journey stage, case or run identifier, steps taken, expected result and what happened. Please do not include passwords, private information, or real incident data.</p>
     <form onSubmit={submit} style={{display:'grid',gap:16}}>
       <label>Feedback type<select value={category} onChange={e=>setCategory(e.target.value)} style={{display:'block',width:'100%',padding:12}}>
         <option value="usability">Ease of use</option><option value="bug">Bug or error</option><option value="content">Learning content</option><option value="suggestion">Suggestion</option><option value="other">Other</option>

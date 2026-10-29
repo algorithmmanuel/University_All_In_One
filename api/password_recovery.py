@@ -60,9 +60,9 @@ def _send_reset_email(email: str, reset_url: str, api_key: str, sender: str):
     payload = {
         "sender": {"email": sender},
         "to": [{"email": email}],
-        "subject": "Reset your EduCyber Nigeria password",
+        "subject": "Reset your EduCyber password",
         "textContent": (
-            "A password reset was requested for your EduCyber Nigeria account.\n\n"
+            "A password reset was requested for your EduCyber account.\n\n"
             f"Use this link within 20 minutes: {reset_url}\n\n"
             "If you did not request this, ignore this email."
         ),

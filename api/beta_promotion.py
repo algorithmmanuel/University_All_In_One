@@ -18,7 +18,8 @@ from publish_foundations import publish_releases, PublicationError
 TABLES = ('users', 'auth_sessions', 'beta_invites', 'beta_feedback', 'password_reset_tokens',
           'enrollments', 'learner_progress', 'quiz_attempts', 'mission_runs', 'login_attempt_buckets',
           'courses', 'lessons', 'quiz_questions', 'strategy_runs', 'strategy_commands',
-          'cyber_practice_sessions', 'cyber_study_progress')
+          'cyber_practice_sessions', 'cyber_study_progress', 'red_blue_matches', 'red_blue_seats',
+          'red_blue_receipts', 'journey_workshop_runs')
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -113,7 +114,8 @@ def prepare(environment):
         identity = conn.execute(text('SELECT current_database(), current_user')).one()
         revision = conn.scalar(text('SELECT version_num FROM alembic_version'))
         if tuple(identity) != ('educyber', 'educyber') or revision not in (
-            '0009_password_reset', '0010_attempt_results', '0011_strategy_learning'):
+            '0009_password_reset', '0010_attempt_results', '0011_strategy_learning',
+            '0012_red_blue_matches', '0013_journey_workshops'):
             raise ValueError('Unexpected beta database identity or schema')
     target = backup(checked_container())
     with engine.connect() as conn: baseline = capture(conn)
@@ -127,7 +129,8 @@ def prepare(environment):
         except Exception:
             db.rollback()
             raise
-    print('PROMOTION PREPARED: schema 0011_strategy_learning; all three course releases published; existing records preserved.')
+    from schema_readiness import expected_revision
+    print('PROMOTION PREPARED: schema ' + expected_revision() + '; all three course releases published; existing records preserved.')
     print('New aligned question rows: ' + str(result['new_questions']))
 
 

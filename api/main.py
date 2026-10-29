@@ -21,6 +21,7 @@ from mission_routes import router as mission_router
 from pathway_routes import router as pathway_router
 from cyber_lab_routes import router as cyber_lab_router
 from red_blue_routes import router as red_blue_router
+from workshop_routes import router as workshop_router
 from mission_manifest_routes import router as mission_manifest_router
 
 def configured_origins() -> list[str]:
@@ -41,7 +42,7 @@ _target = make_url(DATABASE_URL)
 logging.getLogger('uvicorn.error').info(
     'database_target host=%s port=%s database=%s', _target.host, _target.port, _target.database
 )
-app = FastAPI(title="EduCyber Nigeria API", version="0.6.0")
+app = FastAPI(title="EduCyber API", version="0.6.0")
 from development_runtime import add_development_health
 add_development_health(app, os.environ)
 app.add_middleware(RequestTelemetryMiddleware)
@@ -55,6 +56,7 @@ app.include_router(mission_router)
 app.include_router(pathway_router)
 app.include_router(cyber_lab_router)
 app.include_router(red_blue_router)
+app.include_router(workshop_router)
 app.include_router(mission_manifest_router)
 
 @app.get("/health")

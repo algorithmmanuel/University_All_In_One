@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import {signOutLocally} from '../../lib/sign-out';
 
 const API=(process.env.NEXT_PUBLIC_API_BASE_URL||'').replace(/\/$/,'');
-export function AccountNavigation(){
+export function AccountNavigation({showJourney=true}:{showJourney?:boolean}={}){
   const router=useRouter();
   const [signedIn,setSignedIn]=useState(false);
   const [busy,setBusy]=useState(false);
@@ -22,8 +22,8 @@ export function AccountNavigation(){
     setSignedIn(false);setBusy(false);router.replace('/account');
   }
   return <nav className="account-nav" aria-label="Account navigation">
-    <Link href="/journey">Learning journey</Link>
-    {signedIn?<><Link href="/dashboard">Dashboard</Link><Link href="/missions">Games</Link><button type="button" className="btn secondary" disabled={busy} onClick={logout} aria-label="Sign out of EduCyber Nigeria">{busy?'Signing out…':'Sign out ↗'}</button></>:
+    {showJourney&&<Link href="/journey">Learning journey</Link>}
+    {signedIn?<><Link href="/dashboard">Dashboard</Link><Link href="/missions">Games</Link><button type="button" className="btn secondary" disabled={busy} onClick={logout} aria-label="Sign out of EduCyber">{busy?'Signing out…':'Sign out ↗'}</button></>:
       <Link className="btn secondary" href="/account">Sign in / Register</Link>}
   </nav>;
 }

@@ -1,0 +1,164 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+.main {
+  padding-top: 35px;
+  padding-bottom: 64px;
+}
+.main h1 {
+  font-size: clamp(30px, 5vw, 48px);
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 24px 0;
+  min-width: 0;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  justify-content: space-between;
+}
+.main select {
+  display: block;
+  min-height: 46px;
+  width: 100%;
+  max-width: 480px;
+  padding: 10px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin: 10px 0 20px;
+}
+.caseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+.caseGrid button,
+.choices button {
+  min-height: 60px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-align: left;
+  background: var(--bg);
+  color: var(--text);
+}
+.caseGrid button[aria-pressed="true"] {
+  border: 2px solid var(--accent);
+  background: var(--surface-alt);
+}
+.caseGrid span,
+.caseGrid strong,
+.choices small {
+  display: block;
+}
+.caseGrid span,
+.choices small {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 5px 0;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.metrics div {
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.metrics dt {
+  color: var(--muted);
+  font-size: 13px;
+}
+.metrics dd {
+  font-size: 25px;
+  margin: 5px 0;
+}
+.decision {
+  padding: 20px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface-alt);
+  margin: 24px 0;
+}
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.choices button:hover {
+  border-color: var(--accent);
+}
+.lastEvidence {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.ledger {
+  padding-left: 22px;
+}
+.ledger li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.comparison {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+.comparison table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+}
+.comparison td,
+.comparison th {
+  border: 1px solid var(--line);
+  padding: 10px;
+}
+.error {
+  border: 1px solid #ff9b9b;
+  background: #3c1825;
+  padding: 18px;
+  border-radius: 12px;
+}
+.main button {
+  min-height: 44px;
+  white-space: normal;
+}
+.main p,
+.main li {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .caseGrid,
+  .choices {
+    grid-template-columns: 1fr;
+  }
+  .panel {
+    padding: 18px;
+  }
+  .metrics {
+    gap: 6px;
+  }
+  .metrics div {
+    padding: 10px;
+  }
+  .metrics dt {
+    font-size: 11px;
+  }
+}

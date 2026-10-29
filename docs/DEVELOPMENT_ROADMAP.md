@@ -4,7 +4,7 @@ Approved by Emmanuel on 26 October 2026 (Africa/Lagos).
 
 ## Product direction and standing decisions
 
-EduCyber Nigeria serves secondary, university and professional cybersecurity learners. Keep beta testing open while development proceeds in a separate checkout and database. This decision supersedes the earlier pause on major redevelopment during beta.
+EduCyber serves secondary, university and professional cybersecurity learners. Keep beta testing open while development proceeds in a separate checkout and database. This decision supersedes the earlier pause on major redevelopment during beta.
 
 Prioritise learning quality, beginner accessibility, mission clarity and reliable operation before enlarging the catalogue. Keep the long-term target of **10 games per category**, useful 2D/3D modes and low-bandwidth alternatives. Audit the implemented catalogue before assigning remaining counts; earlier snapshots are not current inventories.
 
@@ -131,3 +131,12 @@ Following owner-reported simulator acceptance and the source-based learner-mater
 ## Verified journey navigation milestone — 29 October 2026
 
 Source `1f23cfa` passed 150 browser regressions (147 existing plus three journey cases), 24 actual-API/PostgreSQL browser cases (22 existing plus two journey cases), 18 frontend unit tests, TypeScript and production build. The approved eight-stage, audience-assisted navigation is technically verified; no backend, schema, content-bank, rule or eligibility change was required. Follow [the development release guide](LEARNING_JOURNEY_RELEASE.md) for owner acceptance, then gather beginner/experienced/device evidence before further changes. Independent educational/operational/final-security gates and separate beta-promotion authorisation remain required.
+
+
+## Authorised combined beta bundle and development pause — 29 October 2026
+
+Following owner-reported journey acceptance, the owner requested global EduCyber display branding, a darker reddish theme and deeper options across all eight journey stages in one build, then explicitly authorised promotion to the existing beta for a personal playthrough. This supersedes prior development-only/no-promotion instructions for this bounded bundle. Preserve the three audience recommendations, open later-stage entry, existing materials/accounts/progress and separate environments.
+
+The bounded implementation adds three saved decision workshops per stage (24 cases/72 decisions), a six-question public introduction and solo final-stage role reversal alongside the existing full games. These are authored guided exercises with decisions/consequences/replay, not new network engines or measured mastery. Additive workshop storage and authenticated owned APIs require isolated-PostgreSQL concurrency/preservation evidence and complete browser/backend/frontend gates before guarded source promotion. Use [the combined release guide](EDUCYBER_BETA_BUNDLE.md); source promotion is distinct from the owner's laptop backup/migration/restarts. Independent learning/device/operational/final-security acceptance remains open.
+
+After the verified release and handover, **pause feature/content/theme redevelopment until Emmanuel completes the playthrough and explicitly resumes development**. Collect bugs using [the owner checklist](OWNER_BETA_PLAYTHROUGH.md), address requested blockers within scope, and do not automatically begin the next roadmap phase or another promotion.

@@ -35,7 +35,7 @@ export default function Dashboard() {
 
   return <main className="cyber-dashboard">
     <header className="cyber-topbar">
-      <Link className="cyber-logo" href="/">⬡ EduCyber <span>Nigeria</span></Link>
+      <Link className="cyber-logo" href="/">⬡ EduCyber</Link>
       <nav aria-label="Dashboard navigation">
         <Link href="/journey">Learning journey</Link>
         <Link href="/learn">Courses</Link>
@@ -86,7 +86,7 @@ export default function Dashboard() {
             </div>
            </>}
           <div className="cyber-library"><DashboardGamePaths /></div>
-          <div className="cyber-feedback-banner"><div><h2>Help shape EduCyber Nigeria</h2><p>Found a bug or have an idea? Send feedback directly from your beta account.</p></div><Link className="cyber-cta cyber-cta-outline" href="/feedback">Share feedback →</Link></div>
+          <div className="cyber-feedback-banner"><div><h2>Help shape EduCyber</h2><p>Found a bug or have an idea? Send feedback directly from your beta account.</p></div><Link className="cyber-cta cyber-cta-outline" href="/feedback">Share feedback →</Link></div>
         </section>
       </>}
   </main>;

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import StageWorkshops from "../../components/journey/StageWorkshops";
 import { AccountNavigation } from "../../components/home/account-navigation";
 import { useActivityFocus } from "../../lib/use-activity-focus";
 import {
@@ -47,7 +48,7 @@ export default function Journey() {
     <>
       <header className={`container ${styles.header}`}>
         <Link className="brand" href="/">
-          EduCyber Nigeria
+          EduCyber
         </Link>
         <AccountNavigation />
       </header>
@@ -136,6 +137,7 @@ export default function Journey() {
                 </article>
               ))}
             </div>
+            <StageWorkshops stage={stage} audience={audience} />
             <aside className={styles.reflect}>
               <strong>Before you move on</strong>
               <p>

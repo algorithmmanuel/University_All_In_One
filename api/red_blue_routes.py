@@ -83,7 +83,7 @@ class Command(StrictBody):
     source: str | None = Field(default=None, max_length=48, pattern=r'^[a-z][a-z0-9_-]*$')
 
 
-def persist(db, flush=False):
+def persist(db, flush=False, label='Match'):
     """Keep private transcript parameters out of unexpected SQL exception logs.
 
     A retry may follow a lost commit acknowledgement: command receipts still
@@ -93,7 +93,7 @@ def persist(db, flush=False):
         db.flush() if flush else db.commit()
     except SQLAlchemyError:
         db.rollback()
-        raise HTTPException(503, 'Match storage unavailable; retry the same request or resume the saved match') from None
+        raise HTTPException(503, label + ' storage unavailable; retry the same request or resume the saved activity') from None
 
 
 def identity(user_id):

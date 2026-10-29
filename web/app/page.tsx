@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <header className="container nav">
         <div className="brand">
-          EduCyber <span style={{ color: "#159a91" }}>Nigeria</span>
+          EduCyber
         </div>
         <div className="header-controls">
           <AccountNavigation />
@@ -74,7 +74,7 @@ export default function Home() {
       </main>
       <footer className="footer">
         <div className="container">
-          EduCyber Nigeria · Learn, investigate, defend and reflect.
+          EduCyber · Learn, investigate, defend and reflect.
         </div>
       </footer>
     </>

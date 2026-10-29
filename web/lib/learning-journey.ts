@@ -137,7 +137,7 @@ function choicesFor(stage: Stage, audience: Audience): Resource[] {
     case "discover":
       return [
         {
-          title: "Try the two-question preview",
+          title: "Try the six-question preview",
           description:
             "No sign-in or saved score. Read the reasoning after each decision.",
           href: "/#mission",
@@ -299,6 +299,15 @@ function choicesFor(stage: Stage, audience: Audience): Resource[] {
     case "compete":
       return [
         {
+          title: "Solo role-reversal challenge",
+          description:
+            "Playing alone? Take Red against the computer, inspect the debrief, then create a new match as Blue. Compare what each seat could know before its decisions.",
+          href:
+            "/red-blue?mode=computer&side=red&difficulty=standard&scenario=" +
+            scenario,
+          kind: "Solo reflection and replay",
+        },
+        {
           title: "Create a two-learner Red / Blue match",
           description:
             "Use two different eligible student accounts in separate browser sessions. Invite privately, seal choices and read the participant debrief after the match.",
@@ -328,23 +337,25 @@ export function resourcesFor(stage: Stage, audience: Audience): Resource[] {
 export function activityJourney(pathname: string, query: string): string {
   const p = new URLSearchParams(query);
   const implied: Stage =
-    pathname === "/missions"
-      ? "investigate"
-      : pathname === "/assessments"
-        ? "check"
-        : pathname === "/red-blue"
-          ? p.get("mode") === "human"
-            ? "compete"
-            : "opponent"
-          : pathname === "/cyber-lab"
-            ? p.get("tab") === "learn"
-              ? "understand"
-              : p.get("tab") === "practice"
-                ? "check"
-                : p.get("scenario") === "siege"
-                  ? "command"
-                  : "defend"
-            : "understand";
+    pathname === "/workshops"
+      ? "understand"
+      : pathname === "/missions"
+        ? "investigate"
+        : pathname === "/assessments"
+          ? "check"
+          : pathname === "/red-blue"
+            ? p.get("mode") === "human"
+              ? "compete"
+              : "opponent"
+            : pathname === "/cyber-lab"
+              ? p.get("tab") === "learn"
+                ? "understand"
+                : p.get("tab") === "practice"
+                  ? "check"
+                  : p.get("scenario") === "siege"
+                    ? "command"
+                    : "defend"
+              : "understand";
   const stage =
     STAGES.find((s) => s.id === p.get("journey_stage"))?.id || implied;
   const audience =
