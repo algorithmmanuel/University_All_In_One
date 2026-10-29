@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The bundle is implemented locally; required remote CI and source promotion are pending. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
+**Checkpoint:** The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Finish the combined bundle's automated gates, promote the verified source by guarded fast-forward to `feature/secure-password-recovery`, record exact evidence and hand over [the full beta update/backup/migration/restart guide](EDUCYBER_BETA_BUNDLE.md). This explicit owner instruction supersedes historical no-promotion statements for this bundle. Preserve generated next-env/local Compose files and all records; maintain distinct beta/development databases. Actual laptop backup/migration/restarts and owner playthrough remain owner-operated. After handover, no new feature phase: await the owner's bug reports and explicit resumption. Independent educational/device/operational and deferred final formal-security gates remain open.
+The combined bundle passed all required automated gates and was source-promoted to `feature/secure-password-recovery`. Emmanuel should follow [the complete beta update/backup/migration/restart guide](EDUCYBER_BETA_BUNDLE.md), then use [the personal playthrough checklist](OWNER_BETA_PLAYTHROUGH.md) on beta port 3000. Preserve generated next-env/local Compose files and all records; maintain distinct beta/development databases. Actual laptop backup/migration/restarts and owner acceptance remain owner-operated and unverified here. **Pause feature development now** until the owner completes the playthrough and explicitly resumes it; respond to requested rollout blockers and bugs within scope. No new phase or automatic further promotion. Independent educational/device/operational and deferred final formal-security gates remain open.
 
 ## Implemented source changes and checks
 
@@ -657,3 +657,19 @@ Additive migration `0013_journey_workshops` follows `0012_red_blue_matches`; exi
 Local evidence: 793 synthetic backend tests plus 11 subtests passed; 48 PostgreSQL/environment-specific tests skipped. Frontend 20 unit tests, TypeScript and production build passed. New cases cover all 192 authored choice paths, ownership/forged input, retries and snapshots. PostgreSQL concurrency/rollback and real-session preservation tests are added but require isolated-PostgreSQL CI; synthetic tests do not supply that evidence. Desktop/mobile screenshots inspected. Required remote full-regression and real-API/PostgreSQL gates are pending for the bundle, distinct from the prior journey's historical results above.
 
 No owner runtime/database was operated. Generated `web/next-env.d.ts` remains excluded and owner local Compose configuration is preserved. See [workshop authoring](WORKSHOP_AUTHORING.md), [combined rollout guide](EDUCYBER_BETA_BUNDLE.md) and [owner checklist](OWNER_BETA_PLAYTHROUGH.md). Final verified commit, gate counts and source-promotion evidence will be recorded after completion.
+
+
+## Verified bundle and beta source promotion — 29 October 2026
+
+Verified implementation: `3f4d4ab26ca41f91f79e66c7664146c75721d705`.
+
+- [Backend CI 40911328454](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40911328454): **838 passed, three intentional SQLite-lock skips, 11 subtests passed against isolated PostgreSQL**; synthetic run **793 passed, 48 skipped, 11 subtests passed**; dependency consistency/audit passed. Includes existing two-session hidden-order ownership/secrecy/race tests, workshop duplicate/conflicting commands and rollback, and populated private match/workshop preservation around atomic content publication.
+- [Browser CI 40911328726](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40911328726): **150 browser regressions passed** (18 progression/journey and 132 existing gameplay), **20 frontend unit tests**, TypeScript and production build passed.
+- [Actual-API CI 40911328515](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40911328515): **27 real-API/PostgreSQL browser cases passed**, including desktop/mobile workshop completion, saved resume/comparison and a dropped response after real commit followed by safe same-UUID retry.
+- Additional local browser run: **34 passed** (workshops, journey, progression, Red/Blue and Cyber Lab on disposable SQLite). Desktop/mobile presentation inspected. SQLite results are separate from the PostgreSQL gate.
+
+These supersede pending-gate statements for this bundle. Both remote refs were reread; beta's prior `5824fb7b2ce309506e86b8fa0caeb9c5c339aedd` was confirmed an ancestor, then `feature/secure-password-recovery` was advanced to the verified implementation using an expected-head lease. This is **completed beta source promotion**, not evidence of the owner's laptop rollout. Final handover edits only documentation; no runtime code differs from the verified implementation.
+
+The full guide now includes backup verification, additive `0012`/`0013` migrations, preservation checks, separate development synchronization and beta restart/readiness blocks. Owner laptop data, processes and private configuration were not operated here. Generated `web/next-env.d.ts` remains excluded; unrelated local Compose changes are preserved. New workshop counts are guided cases, not full simulator engines; automated behavior does not establish learning gains, balance or physical-device acceptance.
+
+**Development is paused at handover, awaiting Emmanuel's playthrough and explicit resumption.** No further feature/content/theme changes or promotions are selected automatically. Use the release guide and feedback checklist; record later runtime/owner evidence separately.

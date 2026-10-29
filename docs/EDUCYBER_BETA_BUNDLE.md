@@ -4,6 +4,10 @@
 
 GitHub source promotion and the owner's laptop rollout are separate. Follow the complete blocks below to make the new source visible on the existing beta. No new hosting service, domain, account reset or external AI provider is required.
 
+## Verified release evidence
+
+Implementation `3f4d4ab26ca41f91f79e66c7664146c75721d705` passed [838 PostgreSQL backend tests plus 11 subtests and dependency gates](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40911328454), [150 browser regressions, 20 frontend unit tests, TypeScript and production build](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40911328726), and [27 real-API/PostgreSQL browser cases](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40911328515). Three backend SQLite lock cases intentionally skip; the PostgreSQL races execute. The beta source branch was advanced from `5824fb7` to this verified implementation with ancestry and expected-head checks. Final handover edits only documentation. The owner's laptop backup/migration/restarts and playthrough remain pending; follow the blocks below. Development is paused after this handover until explicit owner resumption.
+
 ## What is bundled
 
 - **EduCyber** display branding, navigation, page metadata and recovery-mail wording. Session keys, account IDs, URLs, database identities and existing records retain their established identifiers. Geographic examples in existing teaching remain examples, not audience restrictions.
@@ -135,7 +139,8 @@ If ngrok provides a changed HTTPS origin, stop only the beta API, update private
 ```powershell
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath (Join-Path $env:USERPROFILE 'University_All_In_One')
-& .\api\.venv\Scripts\python.exe .\scripts\beta.py configure-mail
+$bundlePublicOrigin = Read-Host 'Current ngrok HTTPS origin (no trailing path)'
+& .\api\.venv\Scripts\python.exe .\scripts\beta.py configure-mail --public-url $bundlePublicOrigin
 if ($LASTEXITCODE -ne 0) { throw 'Private recovery URL update failed.' }
 ```
 
