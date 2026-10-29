@@ -213,6 +213,7 @@ export default function CyberLab() {
     <main className={styles.page}>
       <header className={styles.header}>
         <Link href="/dashboard">← Dashboard</Link>
+        <Link href="/red-blue">Red / Blue simulator</Link>
         <Link href="/missions">Case-study missions</Link>
         <span>EDUCYBER / CYBER LAB</span>
       </header>

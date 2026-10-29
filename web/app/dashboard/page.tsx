@@ -38,7 +38,7 @@ export default function Dashboard() {
       <nav aria-label="Dashboard navigation">
         <Link href="/learn">Courses</Link>
         <Link href="/missions">Missions</Link>
-        {user?.role==='student'&&<Link href="/cyber-lab">Cyber Lab</Link>}
+        {user?.role==='student'&&<><Link href="/cyber-lab">Cyber Lab</Link><Link href="/red-blue">Red / Blue</Link></>}
         <Link href="/assessments">Assessments</Link>
         <Link href="/feedback">Feedback</Link>
       </nav>

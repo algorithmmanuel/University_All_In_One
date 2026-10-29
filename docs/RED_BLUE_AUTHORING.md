@@ -1,6 +1,6 @@
 # Adding a Red/Blue scenario or action
 
-This is the engine checkpoint; there are no new web routes or database migrations. See [the staged plan and assumptions](RED_BLUE_SIMULATOR_PLAN.md).
+The pure engine is integrated through additive authenticated storage/APIs and the development interface. See [the staged plan and assumptions](RED_BLUE_SIMULATOR_PLAN.md), [API contract](RED_BLUE_API.md) and [development release guide](RED_BLUE_RELEASE.md). Evidence and pending acceptance are recorded in DEVELOPMENT_STATUS.md.
 
 ## Add a scenario
 
@@ -22,10 +22,13 @@ Unknown keys/types, invalid identifiers, file paths, malformed references and un
 
 The catalogue currently has 18 targeted actions plus two zero-cost planning/wait actions. Probabilities are deliberately simplified teaching values, not empirical estimates.
 
-## Adapter contract for the next checkpoint
+## Adapter contract
 
 Only `view(match, authenticated_participant)` is a live response projection. Never serialize the `Match` dataclass, call private `probabilities` for a player, expose `export_replay` during a match, or log the seed/orders in ordinary request logs. `debrief` checks participant membership and terminal state. Any instructor review needs its own approved policy.
 
 Store a match and pinned rules/configuration server-side. Bind seats using existing authenticated user IDs; clients must not nominate their own identity or submit state, rolls, success, cost or scores. Apply match ownership, private-beta eligibility and invitation rules. Validate bounded HTTP schemas and UUID command IDs; lock/CAS and commit both plans/resolution/receipts atomically; test actual separate sessions and races with disposable PostgreSQL. Round preconditions allow both players to seal the same round even if the other player's commitment changes the storage version.
 
 `export_replay`/`replay` are trusted internal debugging functions, not authenticated storage or a public import protocol. Replays recompute from the pinned snapshot and command receipts; arbitrary JSON object key order is supported. Seed/phase/round SHA256 fractions are deterministic across processes. Keep old rules code available for old matches, validate all restored data and place strict body/retention limits at future persistence boundaries. Exact replay does not authenticate a transcript that an attacker has rewritten.
+
+
+The implemented adapter is `api/red_blue_routes.py`, with independent metadata in `api/red_blue_models.py` registered by `models.py` and migration `0012_red_blue_matches`. Private replay restoration remains bounded to the scenario turn limit; HTTP clients never submit a transcript. `web/app/red-blue/` uses only catalog summaries, participant projections and the terminal debrief. New engine mechanics still require retaining old versions; do not modify the current resolver merely to change the interface. Extend API/secrecy/transaction and actual-API browser tests when adding a public field or operation.

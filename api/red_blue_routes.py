@@ -9,10 +9,12 @@ from hashlib import sha256
 from secrets import token_hex, token_urlsafe
 from typing import Literal
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, Request
+from fastapi.routing import APIRoute
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from sqlalchemy import select, func
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
 from db_dependencies import get_db
 from learning_routes import student_only
 from models import User, RedBlueMatch, RedBlueSeat, RedBlueReceipt
@@ -26,7 +28,36 @@ def private_response(response: Response):
     response.headers['Cache-Control'] = 'no-store'
 
 
-router = APIRouter(prefix='/api/v1/red-blue', tags=['red-blue'], dependencies=[Depends(private_response)])
+class BoundedRoute(APIRoute):
+    """Bound raw JSON before parsing, including chunked bodies without a length.
+
+    Replay through a fresh public Request instead of modifying Starlette internals.
+    All simulator commands fit comfortably inside 4 KiB; other routes are untouched.
+    """
+    def get_route_handler(self):
+        handler = super().get_route_handler()
+
+        async def bounded(request: Request):
+            if request.method != 'POST':
+                return await handler(request)
+            chunks, size = [], 0
+            async for chunk in request.stream():
+                size += len(chunk)
+                if size > 4096:
+                    raise HTTPException(413, 'Simulator request is too large')
+                chunks.append(chunk)
+            body = b''.join(chunks)
+
+            async def receive():
+                return {'type': 'http.request', 'body': body, 'more_body': False}
+
+            return await handler(Request(request.scope, receive=receive))
+
+        return bounded
+
+
+router = APIRouter(prefix='/api/v1/red-blue', tags=['red-blue'],
+                   route_class=BoundedRoute, dependencies=[Depends(private_response)])
 
 
 class StrictBody(BaseModel):
@@ -34,7 +65,7 @@ class StrictBody(BaseModel):
 
 
 class Start(StrictBody):
-    scenario: str = Field(min_length=1, max_length=40, pattern=r'^[a-z_]+$')
+    scenario: str = Field(min_length=1, max_length=48, pattern=r'^[a-z][a-z0-9_-]*$')
     side: Literal['red', 'blue']
     mode: Literal['computer', 'human'] = 'computer'
     difficulty: Literal['easy', 'standard', 'hard'] = 'standard'
@@ -48,8 +79,21 @@ class Command(StrictBody):
     command_id: UUID
     expected_turn: StrictInt = Field(ge=1, le=30)
     action: str = Field(min_length=1, max_length=30, pattern=r'^[a-z_]+$')
-    target: str | None = Field(default=None, max_length=40, pattern=r'^[a-z0-9_]+$')
-    source: str | None = Field(default=None, max_length=40, pattern=r'^[a-z0-9_]+$')
+    target: str | None = Field(default=None, max_length=48, pattern=r'^[a-z][a-z0-9_-]*$')
+    source: str | None = Field(default=None, max_length=48, pattern=r'^[a-z][a-z0-9_-]*$')
+
+
+def persist(db, flush=False):
+    """Keep private transcript parameters out of unexpected SQL exception logs.
+
+    A retry may follow a lost commit acknowledgement: command receipts still
+    determine whether it applies once or returns the already saved projection.
+    """
+    try:
+        db.flush() if flush else db.commit()
+    except SQLAlchemyError:
+        db.rollback()
+        raise HTTPException(503, 'Match storage unavailable; retry the same request or resume the saved match') from None
 
 
 def identity(user_id):
@@ -79,6 +123,7 @@ def public(row, user_id):
     match = restore(row)
     observation = engine.view(match, identity(user_id))
     return {'id': row.id, 'status': row.status, 'difficulty': row.difficulty,
+            'mode': 'computer' if 'computer' in match.seats.values() else 'human',
             **observation, 'orders': [o.dump() for o in engine.available_orders(observation)] if row.status == 'active' else []}
 
 
@@ -109,10 +154,10 @@ def start(body: Start, user=Depends(student_only), db: Session = Depends(get_db)
     match = engine.new_match(scenario, token_hex(32), seats['red'], seats['blue'])
     row = RedBlueMatch(creator_id=user.id, transcript=engine.export_replay(match),
                        difficulty=body.difficulty, status='active' if body.mode == 'computer' else 'waiting')
-    db.add(row); db.flush()
+    db.add(row); persist(db, flush=True)
     db.add_all([RedBlueSeat(match_id=row.id, side=side, user_id=user.id if side == body.side else None)
                 for side in engine.SIDES])
-    db.commit()
+    persist(db)
     return public(row, user.id)
 
 
@@ -141,7 +186,7 @@ def invite(match_id: int, user=Depends(student_only), db: Session = Depends(get_
     token = token_urlsafe(32)
     row.invite_hash = sha256(token.encode()).hexdigest()
     row.invite_expires_at = datetime.now(timezone.utc) + timedelta(hours=24)
-    db.commit()
+    persist(db)
     return {'token': token, 'expires_at': row.invite_expires_at.isoformat()}
 
 
@@ -158,7 +203,7 @@ def join(body: Join, user=Depends(student_only), db: Session = Depends(get_db)):
     seat.user_id = user.id
     row.transcript = engine.export_replay(match)
     row.status, row.invite_hash, row.invite_expires_at = 'active', None, None
-    db.commit()
+    persist(db)
     return public(row, user.id)
 
 
@@ -191,7 +236,7 @@ def command(match_id: int, body: Command, user=Depends(student_only), db: Sessio
     row.transcript = engine.export_replay(match)
     row.status = 'finished' if match.winner else 'active'
     db.add(RedBlueReceipt(match_id=row.id, user_id=user.id, command_id=str(body.command_id), request=payload))
-    db.commit()
+    persist(db)
     return public(row, user.id)
 
 

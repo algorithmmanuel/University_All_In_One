@@ -111,3 +111,8 @@ Keep the existing beta running separately. New simulator work is development-onl
 ## Authorised simulator continuation — 29 October 2026
 
 After the verified engine checkpoint, the owner explicitly authorised additive match persistence/authenticated APIs, proof using two actual sessions on isolated PostgreSQL, and then the responsive interface. This satisfies the earlier stop-for-engine-review gate. Ownership, hidden-choice secrecy, idempotency, stale commands, atomic resolution and concurrent submissions are mandatory evidence before interface implementation. Existing beta remains separate; no simulator promotion is authorised. Instructor review remains disabled pending an explicit policy. See [the API contract](RED_BLUE_API.md) and status for implementation versus verified evidence.
+
+
+## Simulator interface delivery checkpoint — 29 October 2026
+
+The separate-session PostgreSQL API gate passed before interface work. The additive responsive simulator interface, wiki/debrief and development release guide are implemented; current automated evidence and pending final CI are recorded in status. This is a source/technical milestone, not owner or independent educational/balance/device acceptance. Keep the operational/final-security gates, beta isolation and explicit future promotion requirement. New raw-body and safe-storage-error boundaries support the standing security-by-design requirement without changing existing game/authentication rules.

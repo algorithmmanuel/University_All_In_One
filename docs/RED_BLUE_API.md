@@ -8,7 +8,7 @@ Migration `0012_red_blue_matches` adds three independent tables: matches (privat
 
 A match transcript contains the configuration snapshot, engine/rule digest, private seed and at most 60 sealed commands over 30 rounds. Restore recomputes state using the pinned engine; unsupported rules fail closed. Retain old engine code for old editions. The transcript is private trusted storage, not a user import protocol or cryptographic authenticity proof.
 
-PostgreSQL READ COMMITTED transactions acquire `SELECT ... FOR UPDATE` on the match before reading receipts, applying commands, resolving, updating the transcript and inserting a receipt. Commit happens once for the whole operation. No process-local locks, sticky sessions or in-memory authority are required. The second seat submits against the **round**, not a global version changed by the first seat. Actor/UUID/payload retries return the latest filtered projection with no second effect; a changed payload or fresh stale command returns 409. Failed resolution or receipt insertion rolls back the whole operation. SQLite sequential tests do not establish these locking guarantees.
+PostgreSQL READ COMMITTED transactions acquire `SELECT ... FOR UPDATE` on the match before reading receipts, applying commands, resolving, updating the transcript and inserting a receipt. Commit happens once for the whole operation. No process-local locks, sticky sessions or in-memory authority are required. The second seat submits against the **round**, not a global version changed by the first seat. Actor/UUID/payload retries return the latest filtered projection with no second effect; a changed payload or fresh stale command returns 409. Failed resolution or receipt insertion rolls back the whole operation. Storage exceptions are translated to a generic 503 without logging SQL transcript parameters; the client retains the same command UUID for safe retry. SQLite sequential tests do not establish these locking guarantees.
 
 ## Authentication and access
 
@@ -29,7 +29,7 @@ A human match waits for a second, distinct eligible learner. Only its creator ca
 | POST `/matches/{id}/commands` | `{command_id: UUID, expected_turn: integer, action, target?, source?}`; bounded, extra keys forbidden. |
 | GET `/matches/{id}/debrief` | Participants after completion only; action timeline, missed evidence and bounded single-round counterfactuals. |
 
-Responses use `Cache-Control: no-store`. Live payloads never include seed, sealed opponent order, full state, private trace or replay. Unknown/non-owned IDs return the same 404. Errors never use hidden truth for legality. Human and computer actions have the same projection/resource rules. The computer chooses from its opening projection **before** the human commitment is applied, then both resolve atomically.
+POST bodies are capped at 4 KiB before JSON parsing, including streamed bodies without a trusted Content-Length; individual fields and extra-key rejection remain stricter. Responses use `Cache-Control: no-store`. Live payloads never include seed, sealed opponent order, full state, private trace or replay. Unknown/non-owned IDs return the same 404. Errors never use hidden truth for legality. Human and computer actions have the same projection/resource rules. The computer chooses from its opening projection **before** the human commitment is applied, then both resolve atomically.
 
 ## Evidence
 

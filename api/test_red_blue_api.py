@@ -273,12 +273,14 @@ def test_database_failure_rolls_back_resolved_state_and_receipt(arena):
     path = paired(arena)
     c.post(path+'/commands', headers=h[0], json=order())
     def fail(*_):
-        raise RuntimeError('synthetic flush failure after receipt insertion')
+        from sqlalchemy.exc import OperationalError
+        raise OperationalError('synthetic insert', {'seed': 'private-sentinel'}, Exception('synthetic database failure'))
     event.listen(RedBlueReceipt, 'after_insert', fail)
     body = order('blue')
     try:
-        with pytest.raises(RuntimeError):
-            c.post(path+'/commands', headers=h[1], json=body)
+        response = c.post(path+'/commands', headers=h[1], json=body)
+        assert response.status_code == 503
+        assert 'private-sentinel' not in response.text and 'synthetic insert' not in response.text
     finally:
         event.remove(RedBlueReceipt, 'after_insert', fail)
     m = c.get(path, headers=h[1]).json()
@@ -286,3 +288,13 @@ def test_database_failure_rolls_back_resolved_state_and_receipt(arena):
     with Session() as db:
         assert len(db.scalars(select(RedBlueReceipt).where(RedBlueReceipt.match_id == m['id'])).all()) == 1
     assert c.post(path+'/commands', headers=h[1], json=body).json()['turn'] == 2
+
+
+def test_raw_body_limit_applies_before_json_parsing(arena):
+    c, h, *_ = arena
+    # A streamed body need not provide a trustworthy Content-Length.
+    response = c.post('/api/v1/red-blue/join', headers={**h[0], 'Content-Type': 'application/json'},
+                      content=iter([b'{"token":"', b'x' * 4096, b'"}']))
+    assert response.status_code == 413
+    assert response.json()['detail'] == 'Simulator request is too large'
+    assert c.get('/api/v1/red-blue/catalog', headers=h[0]).status_code == 200
