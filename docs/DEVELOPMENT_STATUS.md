@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner approved proceeding beyond the engine review into authenticated persistence/APIs and then the interface. Additive migration `0012_red_blue_matches` and authenticated adapter are implemented; local sequential/rollback checks passed. Isolated PostgreSQL concurrency and full regression results are being verified before interface work. See [API contract](RED_BLUE_API.md). Beta rollout remains owner-reported successful; beta is not being changed by this simulator work.
+**Checkpoint:** Owner approved proceeding beyond the engine review into authenticated persistence/APIs and then the interface. Additive migration `0012_red_blue_matches` and authenticated adapter are implemented; local sequential/rollback checks and isolated PostgreSQL concurrency passed (803 tests plus 11 subtests; dependency checks green). The responsive interface is next. See [API contract](RED_BLUE_API.md). Beta rollout remains owner-reported successful; beta is not being changed by this simulator work.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify the new persistence/API milestone against isolated PostgreSQL using actual separate bearer sessions, including simultaneous/duplicate submissions, competing joins and injected transaction failures. Commit the evidence, then build the responsive interface from the approved plan. The owner explicitly authorised these steps on 29 October; the earlier engine stop gate is satisfied. No beta promotion or beta runtime/database operation is authorised. Independent learner/balance/device/operational and deferred final formal-security gates remain open.
+The persistence/API milestone is verified on isolated PostgreSQL with actual separate bearer sessions. Build the responsive interface from the approved plan, then verify desktop/mobile/reduced-motion and actual-API journeys. The owner explicitly authorised these steps on 29 October; the earlier engine stop gate is satisfied. No beta promotion or beta runtime/database operation is authorised. Independent learner/balance/device/operational and deferred final formal-security gates remain open.
 
 ## Implemented source changes and checks
 
@@ -575,3 +575,10 @@ All automated gates are green. The beta ref was reread and remains `5824fb7b2ce3
 Owner authorised additive persistence/authentication/API followed by the interface. Implemented separate match/seat/receipt tables and migration `0012_red_blue_matches`, existing bearer/eligibility checks, actor-bound seats, expiring single-use invitation rotation/join, participant history/resume, bounded UUID commands, match row locking, atomic resolution/receipt storage, computer opponents and participant-only terminal debrief. Live responses use filtered projections; no instructor policy/access is enabled. See [the API and transaction contract](RED_BLUE_API.md).
 
 Local sequential tests passed before the isolated PostgreSQL gate. Full suite and PostgreSQL CI are pending at this implementation checkpoint; no claim of verified database concurrency is made yet. Existing generated `web/next-env.d.ts` remains excluded. Development-only source; beta ref/runtime/database remain unchanged.
+
+
+## Verified persistence/API gate — source `45f2aa8`, 29 October 2026
+
+[Backend CI 40871997066](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40871997066) passed **803 tests plus 11 subtests** against migrated isolated PostgreSQL (two SQLite-only race checks deliberately skip). The added suite uses actual separate bearer sessions, not identity overrides, and proves ownership/private-beta checks, hidden-choice noninterference, actor-scoped idempotency, stale/conflicting commands, simultaneous same-round submissions with duplicate retries and exactly-once nonzero costs, competing invitation claims, Blue-first single resolution, and rollback after an injected receipt-insert failure. All six configurations and both human seat choices in computer play pass. Local synthetic suite passed **762 tests plus 11 subtests**, with 43 PostgreSQL/environment skips; those skips are superseded by the PostgreSQL evidence where applicable. CI unit/dependency consistency and dependency audit passed.
+
+This satisfies the mandatory API/concurrency gate before interface implementation. UI/browser evidence for the new simulator remains pending; existing application browser CI is separate. No instructor access, beta promotion, owner migration/restart or independent learner/balance/device/final-security acceptance is inferred. Next: responsive interface, accessible wiki/debrief and actual-API desktop/mobile journeys.
