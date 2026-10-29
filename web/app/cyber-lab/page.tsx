@@ -298,8 +298,8 @@ export default function CyberLab() {
                       {selectedScenario?.title ?? "Defend the branch"}
                     </h2>
                     <p>
-                      Six assets. A limited budget. An incident that changes
-                      with your decisions.
+                      {scenario === "siege" ? "Eight" : "Six"} assets. A limited
+                      budget. An incident that changes with your decisions.
                     </p>
                     <p>
                       Deploy controls, investigate alerts, contain spread and
