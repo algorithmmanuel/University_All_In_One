@@ -162,3 +162,8 @@ Implementation `00edf26ea55901d0eaa3eba703613cdfa223e8b8` passed [backend/Postgr
 The same source also passed [browser gameplay run 40844830644](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40844830644): **147 existing browser journeys** (15 progression plus 132 gameplay), **15 frontend unit tests**, TypeScript and production build. Together with the **642 PostgreSQL backend tests plus 11 subtests**, dependency checks and **12 actual-API/PostgreSQL browser cases** above, every Build C automated gate passed. This supersedes the earlier pending CI checkpoints; no additional source change followed these results.
 
 Use this guide's complete blocks for one development update/check/restart, then perform the six-step acceptance pass. Open [the development Cyber Lab](http://127.0.0.1:3010/cyber-lab): **Play** shows the campaign and game presentation choices; **Learn** contains the expanded teaching/reflections; **Practise** contains the 500-question bank and mistake review. Owner Build C acceptance remains pending. Independent content/learner/device/operational/final-security gates remain separate. No beta promotion or owner-runtime operation was performed.
+
+
+## Subsequent owner acceptance — 29 October 2026
+
+After this handover, the owner reported “all tests pass”. Record owner-reported successful local checks/acceptance of Build C. This supersedes the owner-pending statements above. Detailed logs or separate independent learner/content/device/operational/final-security evidence were not supplied; those gates and beta/production decisions remain separate. No new feature, migration or runtime operation was performed by this acceptance checkpoint.

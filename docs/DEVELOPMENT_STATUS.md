@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Build B has owner-reported successful local tests/acceptance. Build C implements the 500-question bank, expanded v3 teaching/reflections, derived three-chapter campaign and asset-list navigation. All Build C automated gates passed for source `00edf26`: PostgreSQL 642 tests plus 11 subtests, 147 existing browser journeys, 12 actual-API browser cases, frontend unit/type/build and dependency checks. Owner Build C acceptance remains pending. Use [the single Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md). Beta remains separate.
+**Checkpoint:** Build B has owner-reported successful local tests/acceptance. Build C implements the 500-question bank, expanded v3 teaching/reflections, derived three-chapter campaign and asset-list navigation. All Build C automated gates passed for source `00edf26`: PostgreSQL 642 tests plus 11 subtests, 147 existing browser journeys, 12 actual-API browser cases, frontend unit/type/build and dependency checks. Owner reported all Build C tests passed on 29 October 2026. Use [the single Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md). Beta remains separate.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-All Build C automated gates passed. Use [the complete Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md) for one development update/check/restart/acceptance pass. Preserve all previous question objects, saved snapshots, rule revisions and module editions. No additional migration beyond `0011_strategy_learning`. English only; languages/AI deferred. Do not infer Build C acceptance or beta promotion from the Build B report.
+Build C has owner-reported successful local tests/acceptance as of 29 October 2026. The 500-question authoring milestone is delivered. Next, use independent beginner/content/device observations to select the next consequential gameplay improvement, preserving saved runs, practice snapshots and module editions. The current three scenarios remain on the shared six-asset map; do not infer ThreatGEN parity or phase completion from the question count. English only; languages/AI deferred. Beta promotion and production readiness remain separate decisions.
 
 Keep beta open and preserve operational and final security assurance gates. Formal security-audit-skill execution remains deferred until the end of development; ordinary secure coding/review/tests continue.
 
@@ -489,3 +489,10 @@ Source `00edf26ea55901d0eaa3eba703613cdfa223e8b8` passed [backend/PostgreSQL run
 Source `00edf26ea55901d0eaa3eba703613cdfa223e8b8` passed [browser gameplay run 40844830644](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/40844830644): 15 progression plus 132 gameplay journeys (147 total), frontend 15 unit tests, TypeScript and production build. Combined with the 642 PostgreSQL tests plus 11 subtests, dependency checks and 12 actual-API/PostgreSQL browser cases above, all Build C automated gates passed. This supersedes earlier pending CI checkpoints.
 
 Next: use [the complete Build C guide](BUILD_C_CAMPAIGN_AND_500_QUESTIONS.md) for one development update/check/restart and its six-step owner acceptance pass. The same `/cyber-lab` route exposes campaign/asset-list navigation, expanded learning/reflections and 500-question practice. No new migration beyond `0011_strategy_learning`. Owner Build C acceptance and independent content/learner/device/operational/final-security gates remain open. After acceptance, use learner evidence to choose the next gameplay improvement; AI, languages, beta promotion and production deployment remain separate.
+
+
+## Build C owner-reported acceptance — 29 October 2026
+
+Following the completed Build C release guide and passing automated-gate handover (implementation `00edf26`, documentation `9fc43a1`), the owner reported “all tests pass”. Record successful owner-reported local checks/acceptance of Build C. No detailed logs or separate independent content/learner/device/operational/final-security evidence were supplied, so those gates remain open. This supersedes the owner-pending statements at earlier checkpoints without implying beta promotion or production deployment.
+
+The delivered learning bank contains 500 questions across ten topic families, with expanded v3 teaching/reflections, derived campaign activity guidance and asset-list navigation. Next development priority remains improving consequential gameplay using learner evidence; AI and language expansion remain deferred. This checkpoint changes documentation only.
