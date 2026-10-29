@@ -427,16 +427,34 @@ def test_missed_alert_has_later_response_opportunity(arena):
         pytest.fail('No detected fixture')
 
 
-def test_config_size_symlink_filename_and_duplicate_intel(tmp_path, monkeypatch):
+def test_config_size_and_filename(tmp_path, monkeypatch, arena):
     import cyber_warfare.scenario as loader
     monkeypatch.setattr(loader, 'DIRECTORY', tmp_path)
     (tmp_path / 'oversized.json').write_text('x' * 64001)
     with pytest.raises(ValueError): load_scenario('oversized')
-    (tmp_path / 'linked.json').symlink_to(tmp_path / 'oversized.json')
-    with pytest.raises(ValueError): load_scenario('linked')
-    d = {'id': 'different'}
-    (tmp_path / 'mismatch.json').write_text(json.dumps(d))
+    # A valid configuration with a different ID isolates the filename check.
+    snapshot = arena.snapshot()
+    snapshot['id'] = 'different'
+    (tmp_path / 'mismatch.json').write_text(json.dumps(snapshot), encoding='utf-8')
     with pytest.raises(ValueError): load_scenario('mismatch')
+
+
+def test_config_symlink_rejected(tmp_path, monkeypatch, arena):
+    import cyber_warfare.scenario as loader
+    monkeypatch.setattr(loader, 'DIRECTORY', tmp_path)
+    snapshot = arena.snapshot()
+    snapshot['id'] = 'linked'
+    target = tmp_path / 'target.json'
+    target.write_text(json.dumps(snapshot), encoding='utf-8')
+    # Valid, correctly identified content ensures rejection depends on the link
+    # boundary, rather than oversized or otherwise invalid target content.
+    try:
+        (tmp_path / 'linked.json').symlink_to(target)
+    except OSError as error:
+        if getattr(error, 'winerror', None) == 1314:
+            pytest.skip('Windows account cannot create symlinks (WinError 1314); link rejection is exercised in Linux CI')
+        raise  # Unexpected filesystem failures must still fail the test.
+    with pytest.raises(ValueError): load_scenario('linked')
 
 
 def test_duplicate_intelligence_rejected(arena):

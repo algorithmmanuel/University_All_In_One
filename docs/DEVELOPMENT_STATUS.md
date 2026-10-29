@@ -608,3 +608,12 @@ These results supersede pending-CI statements for this milestone. Existing engin
 The beta ref was reread and remains `5824fb7b2ce309506e86b8fa0caeb9c5c339aedd`. No beta runtime/database, owner laptop services, content publication or production deployment was operated. Instructor access remains disabled. Owner simulator acceptance, independent teaching/balance/physical-device checks, operational retention/restoration and the deferred final formal audit remain open.
 
 Next: follow [the complete PowerShell development release guide](RED_BLUE_RELEASE.md), open `http://127.0.0.1:3010/red-blue` and record the acceptance results. No beta promotion follows automatically.
+
+
+## Windows test portability correction — 29 October 2026
+
+Owner supplied a successful development fast-forward to `9480796`, followed by **762 backend tests and 11 subtests passing, 44 skips and one failure**. The failure was `WinError 1314` while the synthetic test attempted to create a filesystem symlink; it was not an application loader or simulator failure. Frontend checks/owner acceptance are not established by that failed command block. The owner's generated `web/next-env.d.ts` and untracked `compose.development.yaml` are unrelated local changes to preserve.
+
+Split configuration-size/filename checks from actual symlink rejection. Only the symlink case skips when symlink creation reports Windows privilege error 1314; other filesystem failures still fail. Size, valid-snapshot filename mismatch and duplicate-intelligence checks continue even without symlink privileges. The real symlink case now points to valid, correctly identified content, so oversized/invalid content cannot mask a missing symlink guard. Production loader/engine/API/interface/migrations remain unchanged.
+
+Local focused engine suite: **84 passed** on Linux. Simulated Windows privilege restriction: **two relevant cases passed and only the symlink case skipped**. This simulation is not an actual Windows rerun; owner rerun remains pending. Existing full application CI evidence above remains attached to its recorded source; CI for this test-only correction is pending. Run the complete update/check blocks in the release guide in an ordinary development PowerShell session; no privilege elevation is required for the suite. Beta remains untouched.
