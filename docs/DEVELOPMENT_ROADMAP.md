@@ -145,3 +145,8 @@ After the verified release and handover, **pause feature/content/theme redevelop
 ## Verified combined beta handover — 29 October 2026
 
 Implementation `3f4d4ab` passed 838 isolated-PostgreSQL backend tests plus 11 subtests, 150 browser regressions, 27 actual-API/PostgreSQL browser cases, 20 frontend unit tests, TypeScript, production build and dependency gates. Beta source was advanced from `5824fb7` to the verified implementation with ancestry and expected-head checks. Only documentation follows the verified source in the final handover. Actual owner laptop rollout and acceptance remain pending, distinct from source promotion. Follow [the combined guide](EDUCYBER_BETA_BUNDLE.md) and [checklist](OWNER_BETA_PLAYTHROUGH.md). **Feature development is paused until Emmanuel completes the playthrough and explicitly resumes it.** See status for exact evidence and remaining independent assurance gates.
+
+
+## Owner visual-feedback correction — 29 October 2026
+
+The owner prefers navy/teal as the primary brand for long learning sessions, with crimson deliberately scoped to Red and blue/teal to Blue in the simulator. This supersedes the global crimson palette in the previous bundled release. Keep the EduCyber name, journey, workshops, content and progress. Apply this bounded visual correction to the beta bundle after frontend/browser checks, then maintain the development pause pending owner playthrough. It does not authorise a new feature phase.

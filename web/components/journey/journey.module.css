@@ -25,11 +25,11 @@
   color: var(--muted);
 }
 .entry {
-  border: 1px solid #783944;
+  border: 1px solid #397478;
   border-radius: 18px;
   padding: 28px;
   background:
-    radial-gradient(ellipse at 100% 0, #431b22, transparent 65%), #2e1318;
+    radial-gradient(ellipse at 100% 0, #174447, transparent 65%), #101e31;
   margin-bottom: 28px;
 }
 .entry h2 {
@@ -61,8 +61,8 @@
   gap: 10px;
   align-items: flex-start;
   padding: 14px;
-  background: #250f13;
-  border: 1px solid #6e3b44;
+  background: #0a192a;
+  border: 1px solid #3b566e;
   border-radius: 10px;
   height: 100%;
   text-decoration: none;
@@ -91,9 +91,9 @@
   gap: 12px;
 }
 .pathGrid button {
-  background: #260f13;
+  background: #0a192b;
   color: var(--text);
-  border: 1px solid #78414b;
+  border: 1px solid #415e78;
   border-radius: 10px;
   padding: 16px;
   text-align: left;
@@ -107,7 +107,7 @@
 }
 .pathGrid button[aria-pressed="true"] {
   border: 2px solid var(--accent);
-  background: #3c181f;
+  background: #123c42;
 }
 .layout {
   display: grid;
@@ -132,8 +132,8 @@
   text-align: left;
   width: 100%;
   min-height: 54px;
-  background: #2f1318;
-  border: 1px solid #6c3b44;
+  background: #101f32;
+  border: 1px solid #3b536c;
   border-radius: 10px;
   color: var(--text);
   padding: 12px;
@@ -144,16 +144,16 @@
   flex: 0 0 27px;
   height: 27px;
   border-radius: 50%;
-  border: 1px solid #935b65;
-  color: #debfc5;
+  border: 1px solid #5b7b93;
+  color: #b8d7e5;
 }
 .stages button[aria-current="step"] {
-  background: #3e1a20;
+  background: #153c43;
   border: 2px solid var(--accent);
 }
 .stages button[aria-current="step"] span {
   background: var(--accent);
-  color: #210e11;
+  color: #092626;
 }
 .detail {
   border: 1px solid var(--line);
@@ -167,7 +167,7 @@
   margin: 12px 0;
 }
 .question {
-  color: #d8b3ba;
+  color: #9cefdc;
   font-size: 20px;
 }
 .resources {
@@ -176,9 +176,9 @@
   margin: 24px 0;
 }
 .resources article {
-  border: 1px solid #68353e;
+  border: 1px solid #354f68;
   border-radius: 12px;
-  background: #260f13;
+  background: #0a192b;
   padding: 20px;
 }
 .resources h3 {

@@ -60,6 +60,14 @@ async function start(page, side, mode = "computer") {
     (title) => document.activeElement?.textContent === title,
     match.title,
   );
+  const theme = await page.locator(`[data-side="${side}"]`).evaluate((el) => ({
+    accent: getComputedStyle(el).getPropertyValue("--seat-accent").trim(),
+    brand: getComputedStyle(document.documentElement).getPropertyValue("--accent").trim(),
+    surface: getComputedStyle(el.querySelector('[aria-label="Known assets"]')).backgroundColor,
+  }));
+  assert.equal(theme.accent, side === "red" ? "#ff9bb3" : "#79d9ef");
+  assert.equal(theme.brand, "#54e0c1");
+  assert.equal(theme.surface, side === "red" ? "rgb(36, 19, 31)" : "rgb(16, 43, 64)");
   return match;
 }
 async function submit(page, action) {

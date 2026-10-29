@@ -131,8 +131,8 @@
   padding: 10px;
 }
 .error {
-  border: 1px solid #ff9b9b;
-  background: #3c1825;
+  border: 1px solid var(--danger);
+  background: var(--danger-surface);
   padding: 18px;
   border-radius: 12px;
 }

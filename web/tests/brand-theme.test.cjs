@@ -25,7 +25,7 @@ test("display branding is global while existing session keys stay stable", () =>
       .includes("educyber_token"),
   );
 });
-test("primary crimson theme retains accessible foreground contrast", () => {
+test("primary navy and teal theme retains accessible foreground contrast", () => {
   const css = fs.readFileSync(
     path.join(__dirname, "../app/globals.css"),
     "utf8",
@@ -42,4 +42,16 @@ test("primary crimson theme retains accessible foreground contrast", () => {
   assert.ok(ratio(token("text"), token("bg")) >= 7);
   assert.ok(ratio(token("muted"), token("surface")) >= 4.5);
   assert.ok(ratio(token("accent"), token("bg")) >= 4.5);
+});
+
+test("seat palettes are distinct and scoped to active simulator workspace", () => {
+ const css=fs.readFileSync(path.join(__dirname,"../app/red-blue/arena.module.css"),"utf8");
+ const globals=fs.readFileSync(path.join(__dirname,"../app/globals.css"),"utf8");
+ for(const side of ["red","blue"]) {
+  assert.ok(css.includes(`.workspace[data-side="${side}"]`));
+  assert.ok(css.includes(`--seat-accent:var(--role-${side}-accent)`));
+ }
+ assert.ok(globals.includes("--bg:#080f1e"));
+ assert.ok(globals.includes("--accent:#54e0c1"));
+ assert.ok(css.includes("border-color:var(--seat-accent)"));
 });

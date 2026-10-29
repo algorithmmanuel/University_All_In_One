@@ -40,7 +40,7 @@
   font-size: 14px !important;
 }
 .panel {
-  background: linear-gradient(145deg, #36161c, #2b1116);
+  background: linear-gradient(145deg, #12233a, #101b2c);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 24px;
@@ -77,9 +77,9 @@
   min-height: 46px;
   margin: 8px 0 14px;
   padding: 10px;
-  background: #200d10;
+  background: #081525;
   color: var(--text);
-  border: 1px solid #7d454f;
+  border: 1px solid #45617d;
   border-radius: 8px;
   min-width: 0;
 }
@@ -88,9 +88,9 @@
   border-radius: 8px;
 }
 .main button:not(:global(.btn)) {
-  background: #3f1a21;
+  background: #162d43;
   color: var(--text);
-  border: 1px solid #7d454f;
+  border: 1px solid #45617d;
   padding: 10px 14px;
 }
 .main summary {
@@ -126,15 +126,15 @@
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border: 1px solid #743440;
-  background: #2f1318;
+  border: 1px solid #347174;
+  background: #0d2d35;
   border-radius: 12px;
   margin: 8px 0 20px;
   overflow: hidden;
 }
 .stats div {
   padding: 16px;
-  border-right: 1px solid #743440;
+  border-right: 1px solid #347174;
 }
 .stats span,
 .stats strong {
@@ -143,7 +143,7 @@
 .stats span {
   font-size: 10px;
   letter-spacing: 1.5px;
-  color: #dab8be;
+  color: #b6dcd7;
 }
 .stats strong {
   font-size: 19px;
@@ -180,7 +180,7 @@
 .network {
   position: relative;
   width: 740px;
-  background: radial-gradient(#78414b55 1px, transparent 1px);
+  background: radial-gradient(#41607855 1px, transparent 1px);
   background-size: 18px 18px;
 }
 .network svg {
@@ -193,17 +193,17 @@
   width: 200px;
   min-height: 118px;
   text-align: left;
-  background: #35161b;
+  background: #102b3b;
   box-shadow: 0 5px 18px #0006;
   padding: 12px;
-  border-color: #814953;
+  border-color: #497081;
 }
 .node span,
 .asset span {
   display: block;
   font-size: 11px;
   text-transform: uppercase;
-  color: #d2a7af;
+  color: #a2c9d7;
 }
 .node strong,
 .asset strong {
@@ -215,12 +215,12 @@
 .asset small {
   display: block;
   font-size: 11px;
-  color: #e6ced2;
+  color: #c9deeb;
 }
 .main .selected {
-  border: 2px solid #e76d83;
-  background: #3f1a21;
-  box-shadow: 0 0 0 2px #e76d8333;
+  border: 2px solid #65efd1;
+  background: #143e45;
+  box-shadow: 0 0 0 2px #65efd133;
 }
 .assetGrid {
   display: grid;
@@ -235,8 +235,8 @@
 .inspector,
 .actionDetails {
   padding: 15px;
-  background: #260f13;
-  border: 1px solid #6b343e;
+  background: #0a192b;
+  border: 1px solid #34516b;
   border-radius: 10px;
   margin: 16px 0;
   font-size: 14px;
@@ -262,7 +262,7 @@
 }
 .ledger p {
   margin: 6px 0;
-  color: #ddbec3;
+  color: #bacee1;
 }
 .history {
   display: grid;
@@ -278,7 +278,7 @@
 }
 .history span {
   font-size: 13px;
-  color: #d7b1b8;
+  color: #add4db;
 }
 .error {
   border: 1px solid #df9675;
@@ -365,4 +365,29 @@
   }
 }
 
-.workspace[data-side="blue"] .matchHeading .eyebrow{color:#a8ceff}.workspace[data-side="red"] .matchHeading .eyebrow{color:#ff9bb3}
+/* Seat accents are local to the active match. Shared navigation stays neutral. */
+.workspace[data-side="red"] {
+  --seat-accent:var(--role-red-accent);
+  --seat-surface:var(--role-red-surface);
+  --seat-line:var(--role-red-line);
+}
+.workspace[data-side="blue"] {
+  --seat-accent:var(--role-blue-accent);
+  --seat-surface:var(--role-blue-surface);
+  --seat-line:var(--role-blue-line);
+}
+.workspace[data-side] .panel,
+.workspace[data-side] .matchHeading {
+  background:var(--seat-surface);
+  border-color:var(--seat-line);
+}
+.workspace[data-side] .eyebrow {color:var(--seat-accent)}
+.main .workspace[data-side] .selected {
+  border-color:var(--seat-accent);
+  box-shadow:0 0 0 2px var(--seat-line);
+}
+.workspace[data-side] .network {background:radial-gradient(var(--seat-line) 1px,transparent 1px);background-size:20px 20px}
+
+.workspace[data-side] .stats {background:var(--seat-surface);border-color:var(--seat-line)}
+.workspace[data-side] .stats div {border-color:var(--seat-line)}
+.workspace[data-side] .stats span {color:var(--muted)}

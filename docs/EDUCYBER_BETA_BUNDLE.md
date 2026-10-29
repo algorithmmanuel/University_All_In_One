@@ -1,6 +1,6 @@
 # EduCyber — bundled beta release and owner playthrough
 
-29 October 2026 (Africa/Lagos). This single release combines the global EduCyber display name, charcoal/burgundy/crimson theme, deeper activities across the eight stages, the previously development-only journey/Red-Blue work, and guarded beta promotion. The owner explicitly authorised promotion and a development pause while completing a personal playthrough.
+29 October 2026 (Africa/Lagos). This single release combines the global EduCyber display name, navy/teal theme with scoped Red/Blue seat accents, deeper activities across the eight stages, the previously development-only journey/Red-Blue work, and guarded beta promotion. The owner explicitly authorised promotion and a development pause while completing a personal playthrough.
 
 GitHub source promotion and the owner's laptop rollout are separate. Follow the complete blocks below to make the new source visible on the existing beta. No new hosting service, domain, account reset or external AI provider is required.
 
@@ -11,7 +11,7 @@ Implementation `3f4d4ab26ca41f91f79e66c7664146c75721d705` passed [838 PostgreSQL
 ## What is bundled
 
 - **EduCyber** display branding, navigation, page metadata and recovery-mail wording. Session keys, account IDs, URLs, database identities and existing records retain their established identifiers. Geographic examples in existing teaching remain examples, not audience restrictions.
-- Warm near-black/charcoal surfaces, dark burgundy panels and crimson accents across the site. Readable text/focus contrast and explicit Red/Blue seat labels are retained; Blue keeps a blue identifying accent.
+- Deep navy surfaces, teal accents and clear primary actions across the site. Active simulator workspaces use restrained crimson for Red and blue/teal for Blue; shared navigation remains navy/teal. Separate semantic warning/success colours and explicit seat labels are retained. This owner-requested correction supersedes the initial global crimson palette.
 - **24 saved decision workshops, three per stage**, containing **72 decisions** with evidence, case consequences, unresolved decisions, simplified effort costs, saved resume and same-opening replay comparison. These are original guided cases, not 24 additional full network simulations. Existing 30 guided missions, four defender strategy scenarios, six Red/Blue scenarios, three foundation courses and the 500-question bank remain available.
 - Six public introductory questions, topic practice, the existing lesson/reflection material and a solo role-reversal challenge at the final stage. Full two-human matches still need two distinct eligible student accounts; solo workshops and computer matches can be played independently.
 - A workshop-to-feedback link carries only case/run/step context. Feedback remains learner-submitted. No passwords, session tokens, private seeds or invitation secrets belong in a report.
@@ -155,3 +155,21 @@ Record page/case/run/step, the action, expected result, observed result, device 
 **Development freeze:** after verified source promotion and this release handover, pause feature/content/theme redevelopment until Emmanuel completes the playthrough and explicitly resumes it. Respond to reported bugs and rollout blockers within their authorised scope; do not select a new phase, run a new redesign or promote further changes automatically.
 
 Prefer a forward fix if rollback is needed. Preserve new match/workshop records and original engine versions. Do not drop the new tables or overwrite later feedback with an old backup without an explicit recovery decision. Functional checks do not close independent learning, physical-device, operational or deferred final formal security assurance gates.
+
+
+## Applying only the palette correction
+
+If the combined bundle has already been prepared and is running, this correction requires only a source update, frontend build and frontend restart. It adds no migration and needs no repeat content publication. Stop the beta **frontend** terminal with Ctrl+C; leave the API and database running. Use this complete block in the beta checkout, then start the frontend with its separate-terminal block in section 4:
+
+```powershell
+$ErrorActionPreference = 'Stop'
+Set-Location -LiteralPath (Join-Path $env:USERPROFILE 'University_All_In_One')
+if ((git branch --show-current).Trim() -ne 'feature/secure-password-recovery') { throw 'Use the existing beta worktree.' }
+git status --short
+git pull --ff-only origin feature/secure-password-recovery
+if ($LASTEXITCODE -ne 0) { throw 'Beta update failed; preserve local changes and do not force.' }
+& .\api\.venv\Scripts\python.exe .\scripts\beta.py build
+if ($LASTEXITCODE -ne 0) { throw 'Beta frontend build failed.' }
+```
+
+After restarting the frontend, run the beta readiness block from section 4 and reload the browser. If the combined bundle has not yet been installed, use sections 1–4 in full instead. The development pause continues after this visual correction.

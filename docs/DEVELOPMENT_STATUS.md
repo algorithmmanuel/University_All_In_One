@@ -1,7 +1,9 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
+**Checkpoint:** Latest owner feedback supersedes the global crimson direction: restore navy/teal branding, keep EduCyber and all journey content, and scope crimson/blue accents to Red/Blue seats. This is a bounded visual correction to the beta bundle; verification and correction promotion are pending. The feature-development pause resumes after this correction.
+
+Previous bundle checkpoint: The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -673,3 +675,8 @@ These supersede pending-gate statements for this bundle. Both remote refs were r
 The full guide now includes backup verification, additive `0012`/`0013` migrations, preservation checks, separate development synchronization and beta restart/readiness blocks. Owner laptop data, processes and private configuration were not operated here. Generated `web/next-env.d.ts` remains excluded; unrelated local Compose changes are preserved. New workshop counts are guided cases, not full simulator engines; automated behavior does not establish learning gains, balance or physical-device acceptance.
 
 **Development is paused at handover, awaiting Emmanuel's playthrough and explicit resumption.** No further feature/content/theme changes or promotions are selected automatically. Use the release guide and feedback checklist; record later runtime/owner evidence separately.
+
+
+## Owner-requested palette correction — 29 October 2026
+
+Restore the original navy/teal site palette while retaining EduCyber, the eight stages and all 24 saved workshops. Shared semantic success/danger tokens separate feedback from decoration. Shared Red/Blue seat tokens are applied only inside the active simulator workspace: crimson for Red, blue/teal for Blue, with explicit text labels retained. Global navigation and the learning catalogue stay navy/teal. No backend, schema, rules, content, authentication or saved-state change. Generated next-env remains excluded. Frontend unit/type/build, actual-browser rendered-role assertions and CI gates are being verified before this correction reaches beta. This is the owner's explicit visual-feedback exception to the pause, not resumption of the feature roadmap.
