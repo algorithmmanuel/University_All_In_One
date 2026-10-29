@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import JourneyLink from '../../components/journey/JourneyLink';
 import AssessmentEvidence, {type Analysis} from '../../components/assessment-evidence';
 import { useRouter } from 'next/navigation';
 import { useActivityFocus } from '../../lib/use-activity-focus';
@@ -134,7 +135,7 @@ export default function Assessments(){
   }
 
   return <main className="container section" style={{maxWidth:900}}>
-    <Link href="/dashboard">← Dashboard</Link>
+    <Link href="/dashboard">← Dashboard</Link> <span aria-hidden="true"> · </span> <JourneyLink />
     <h1>Assessments & cyber missions</h1>
     <p className="muted">Choose a practice length that suits your time. The server grades your answers and saves the number of questions with your score.</p>
     {error&&<p role="alert" className="status-error">{error}</p>}

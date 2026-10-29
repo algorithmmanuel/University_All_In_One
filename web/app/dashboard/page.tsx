@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import DashboardGamePaths from './DashboardGamePaths';
 import LearningOverview from './LearningOverview';
 import MissionProgress from './MissionProgress';
+import JourneyEntry from '../../components/journey/JourneyEntry';
 import {signOutLocally} from '../../lib/sign-out';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
@@ -36,6 +37,7 @@ export default function Dashboard() {
     <header className="cyber-topbar">
       <Link className="cyber-logo" href="/">⬡ EduCyber <span>Nigeria</span></Link>
       <nav aria-label="Dashboard navigation">
+        <Link href="/journey">Learning journey</Link>
         <Link href="/learn">Courses</Link>
         <Link href="/missions">Missions</Link>
         {user?.role==='student'&&<><Link href="/cyber-lab">Cyber Lab</Link><Link href="/red-blue">Red / Blue</Link></>}
@@ -52,9 +54,9 @@ export default function Dashboard() {
               <span className="cyber-eyebrow">LEARN · INVESTIGATE · DEFEND · GROW</span>
               <p className="cyber-greeting">Welcome back, {user.full_name}</p>
               <h1>Build your skills.<br/><span>Defend the digital world.</span></h1>
-              <p className="cyber-description">Explore practical cybersecurity courses, test your knowledge, and take on immersive security missions. Your next challenge starts here.</p>
+              <p className="cyber-description">Choose a starting stage, build your understanding and progress towards consequential simulations. Your saved courses, assessments and missions remain available below.</p>
               <div className="cyber-actions">
-                <Link className="cyber-cta" href="/missions">Explore cyber missions →</Link>
+                <Link className="cyber-cta" href="/journey">Open your learning journey →</Link>
                 <Link className="cyber-cta cyber-cta-outline" href="/learn">Browse courses →</Link>
               </div>
               <div className="cyber-meta"><span>◈ Hands-on learning</span><span>◎ Real scenarios</span><span>✦ Track your progress</span></div>
@@ -66,15 +68,17 @@ export default function Dashboard() {
           {user.role==='teacher'&&!user.is_approved?<div className="cyber-feature"><h2>Teacher approval pending</h2><p>Your account is registered. Teaching tools will be available after administrator approval.</p></div>:
            user.role==='teacher'||user.role==='admin'?<div className="cyber-feature"><h2>Teacher workspace</h2><p>Course authoring and learner reporting are being developed.</p></div>:
            <>
+            <JourneyEntry />
+            <LearningOverview />
+            <MissionProgress />
             <section className="cyber-feature" aria-label="Branch Defender strategy game" style={{marginBottom:24}}>
-              <span className="cyber-eyebrow">NEW / STRATEGY GAME</span>
+              <span className="cyber-eyebrow">STAGE 5 / MANAGE CONSEQUENCES</span>
               <h2>Branch Defender strategy game</h2>
               <p>Manage a fictional branch network, learn cybersecurity controls and practise across 500 cybersecurity questions.</p>
               <Link className="cyber-cta" href="/cyber-lab">Play Branch Defender →</Link>
             </section>
-            <LearningOverview />
-            <MissionProgress />
-            <div className="cyber-section-heading"><div><span className="cyber-eyebrow">YOUR CYBER JOURNEY</span><h2>Choose your next challenge</h2></div><p>Start learning, put your skills to work, or measure your progress.</p></div>
+
+            <div className="cyber-section-heading"><div><span className="cyber-eyebrow">BROWSE BY ACTIVITY</span><h2>Open a learning collection</h2></div><p>Start learning, put your skills to work, or measure your progress.</p></div>
             <div className="cyber-feature-grid">
               <Link className="cyber-feature cyber-feature-courses" href="/learn"><span className="cyber-feature-icon">▤</span><h3>Interactive courses</h3><p>Build your foundations through structured lessons and practical exercises.</p><span className="cyber-feature-link">Start learning ↗</span></Link>
               <Link className="cyber-feature cyber-feature-missions" href="/missions"><span className="cyber-feature-icon">⌘</span><h3>Cybersecurity missions</h3><p>Investigate simulated threats, analyse evidence and make security decisions.</p><span className="cyber-feature-link">Enter mission control ↗</span></Link>

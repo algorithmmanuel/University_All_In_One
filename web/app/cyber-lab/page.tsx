@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import JourneyLink from '../../components/journey/JourneyLink';
 import { useRouter } from "next/navigation";
 import GameBoard from "./GameBoard";
 import LessonTopic from "./LessonTopic";
@@ -109,6 +110,9 @@ export default function CyberLab() {
       )
     )
       setScenario(params.get("scenario")!);
+    if (['fundamentals','phishing','identity','network','endpoint','application','cloud','response','recovery','governance'].includes(params.get('topic') || '')) setTopic(params.get('topic')!);
+    if (['foundational','applied','challenging'].includes(params.get('difficulty') || '')) setDifficulty(params.get('difficulty')!);
+    if (params.get('practice_mode') === 'mistakes') setPracticeMode('mistakes');
     refresh()
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
@@ -213,6 +217,7 @@ export default function CyberLab() {
     <main className={styles.page}>
       <header className={styles.header}>
         <Link href="/dashboard">← Dashboard</Link>
+        <JourneyLink />
         <Link href="/red-blue">Red / Blue simulator</Link>
         <Link href="/missions">Case-study missions</Link>
         <span>EDUCYBER / CYBER LAB</span>

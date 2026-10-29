@@ -1,8 +1,10 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import JourneyLink from '../../components/journey/JourneyLink';
 import { useRouter } from 'next/navigation';
 import LessonGuide, {type LearningGuide} from '../../components/lesson-guide';
+import { FOUNDATIONS } from '../../lib/learning-journey';
 import { useActivityFocus } from '../../lib/use-activity-focus';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
@@ -14,6 +16,7 @@ const academies: Record<string,string> = {cyber:'Cybersecurity Academy',universi
 
 export default function Learn() {
   const router = useRouter();
+  const [foundation,setFoundation]=useState<keyof typeof FOUNDATIONS|null>(null);
   const [catalog,setCatalog]=useState<Course[]>([]);
   const [enrollments,setEnrollments]=useState<Enrollment[]>([]);
   const [selected,setSelected]=useState<CourseDetail|null>(null);
@@ -71,6 +74,12 @@ export default function Learn() {
     heading?.focus({preventScroll:true});
   },[selected]);
 
+  useEffect(()=>{
+    const requested=new URLSearchParams(window.location.search).get('foundation');
+    if(requested && Object.prototype.hasOwnProperty.call(FOUNDATIONS,requested)) setFoundation(requested as keyof typeof FOUNDATIONS);
+  },[]);
+  const suggested=foundation ? catalog.find(c=>c.title===FOUNDATIONS[foundation]) : null;
+
   async function enroll(id:number){
     setBusy(true);setError('');
     try{await request('/api/v1/learning/enrollments/'+id,'POST');await refresh();await openCourse(id);}
@@ -99,7 +108,7 @@ export default function Learn() {
   }
 
   return <main className="container section" style={{maxWidth:1100}}>
-    <Link href="/dashboard">← Dashboard</Link>
+    <Link href="/dashboard">← Dashboard</Link> <span aria-hidden="true"> · </span> <JourneyLink />
     <h1>My learning</h1><p><Link href="/cyber-lab?tab=learn">Open the new cybersecurity modules and practice bank →</Link></p>
     <p className="muted">Explore published courses, enroll and track completed lessons. Your progress is saved to your account.</p>
     {error&&<div><p role="alert" className="status-error">{error}</p><button className="btn secondary" disabled={busy||loading} onClick={()=>{setError('');setLoading(true);refresh().catch(e=>setError(e.message)).finally(()=>setLoading(false));}}>Retry learning data</button></div>}
@@ -119,8 +128,9 @@ export default function Learn() {
       </section>
       <section className="section">
         <h2>Course catalogue</h2>
+        {foundation&&<p className="notice">Suggested from your journey: <strong>{FOUNDATIONS[foundation]}</strong>. {suggested?'Choose its enrol/open button below.':'This course is not currently in the loaded catalogue; you can choose another available course.'} Python remains optional.</p>}
         {catalog.length===0?<p className="muted">No published courses yet. Run the demonstration course seed command.</p>:<div className="grid">
-          {catalog.map(c=><article className="card" key={c.id}>
+          {[...catalog].sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
             <span className="small">{academies[c.academy_id]||c.academy_id}</span>
             <h3>{c.title}</h3>
             <p className="muted">{c.description}</p>

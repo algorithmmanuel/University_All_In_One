@@ -12,7 +12,7 @@ For the combined Phase 5 development release, use [the single release guide](doc
 
 Beta rollout: use [the complete promotion and separate-terminal restart guide](docs/BETA_PROMOTION_2026_10_29.md). Source merge and owner runtime rollout are distinct; consult status for completion.
 
-Current phase: read [the staged Red/Blue simulator plan](docs/RED_BLUE_SIMULATOR_PLAN.md), [API contract](docs/RED_BLUE_API.md) and [development release guide](docs/RED_BLUE_RELEASE.md). The engine review gate was satisfied and the owner authorised persistence/APIs then the interface. PostgreSQL two-session evidence is recorded in status. Existing beta rollout is owner-reported successful; new simulator work is not automatically promoted.
+Current phase: [one learning journey](docs/LEARNING_JOURNEY_RELEASE.md), organised from first concepts to adversarial play, with audience recommendations and direct experienced entry. The owner reports the previous simulator build works. Read status for current automated evidence and the next action. The [Red/Blue simulator plan](docs/RED_BLUE_SIMULATOR_PLAN.md) and [API contract](docs/RED_BLUE_API.md) remain authoritative for its security/game rules. Existing beta rollout is owner-reported successful; new development is not automatically promoted.
 
 Gameplay continuation: read [the current Branch Siege implementation/release guide](docs/BRANCH_SIEGE_RELEASE.md) and status first. Builds A, B and C have owner-reported local acceptance; their guides/evidence remain historical.
 

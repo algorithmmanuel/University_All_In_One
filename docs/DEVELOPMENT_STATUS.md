@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Development-only Red/Blue persistence, authenticated APIs and responsive interface are complete at source `fe5de7570b44e1a5a1ddf9883ce273ee74672d72`. Final CI passed: 805 PostgreSQL backend tests plus 11 subtests; 22 real-API/PostgreSQL browser cases; 147 existing browser journeys; frontend unit/type/build and dependency checks. The API two-session gate passed before interface work. Next is the [single development update/migration/restart/acceptance pass](RED_BLUE_RELEASE.md). Owner simulator acceptance and independent learning/balance/device/operational/final-security gates remain open. Beta rollout remains owner-reported successful; this simulator was not promoted.
+**Checkpoint:** Owner reports the simulator works after the Windows test portability correction (`a7708c6`); this is owner-reported local acceptance, not independent logs or educational/security validation. The owner now authorised organising the site around one eight-stage learning journey, with audience recommendations and direct entry for experienced learners. Journey navigation is implemented and locally verified; combined CI is pending. See [the journey development release guide](LEARNING_JOURNEY_RELEASE.md). Beta remains separate and unpromoted.
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
 
 ## How to resume
@@ -76,7 +76,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Use [the complete development-only release guide](RED_BLUE_RELEASE.md): stop only development services, fast-forward this branch, apply additive migration `0012_red_blue_matches` through the guarded development migration command, run local checks, restart/verify development and complete its acceptance pass with two separate synthetic learner sessions. All final automated gates passed as recorded below. No owner migration/restart or simulator acceptance is inferred from committed source. Record supplied results, then choose further scope using learner/balance/device evidence. Do not promote to beta or operate its runtime/database without a new instruction. Operational retention/recovery and final formal security assurance remain open.
+Verify combined CI for the learning-journey navigation milestone, record exact source/results, then hand over [the complete development-only update/check/restart/acceptance guide](LEARNING_JOURNEY_RELEASE.md). No new migration, dependency or content publication is required. Preserve the owner's generated next-env file, local Compose configuration and all saved learner activity. Collect owner and independent beginner/experienced/device evidence after release. No beta promotion or beta runtime/database operation is authorised; operational and final formal-security gates remain open.
 
 ## Implemented source changes and checks
 
@@ -617,3 +617,18 @@ Owner supplied a successful development fast-forward to `9480796`, followed by *
 Split configuration-size/filename checks from actual symlink rejection. Only the symlink case skips when symlink creation reports Windows privilege error 1314; other filesystem failures still fail. Size, valid-snapshot filename mismatch and duplicate-intelligence checks continue even without symlink privileges. The real symlink case now points to valid, correctly identified content, so oversized/invalid content cannot mask a missing symlink guard. Production loader/engine/API/interface/migrations remain unchanged.
 
 Local focused engine suite: **84 passed** on Linux. Simulated Windows privilege restriction: **two relevant cases passed and only the symlink case skipped**. This simulation is not an actual Windows rerun; owner rerun remains pending. Existing full application CI evidence above remains attached to its recorded source; CI for this test-only correction is pending. Run the complete update/check blocks in the release guide in an ordinary development PowerShell session; no privilege elevation is required for the suite. Beta remains untouched.
+
+
+## Owner-reported simulator acceptance and journey authorisation — 29 October 2026
+
+After the Windows portability fix, the owner reported “All works out.” Record owner-reported successful local checks/acceptance of the simulator build. Detailed new logs, independent learning/balance/physical-device/security evidence were not supplied. The owner requested a learner-material inventory, then explicitly adopted organising the site around the eight-stage journey, with Cyber Explorers/Academy/Command recommending suitable materials within it and experienced learners allowed to enter later. This authorises additive navigation/usability changes in development, not new prerequisites, mastery awards or beta promotion.
+
+## Learning-journey implementation checkpoint — 29 October 2026
+
+Implemented public `/journey`, shared reviewed navigation metadata, prominent homepage/student-dashboard entries, pathway-tailored resource suggestions and all eight directly selectable stages. Existing saved-progress panels and direct collection links remain. URL selections are allowlisted and survive reload/Back; return links preserve advisory stage/audience context. Explicit stage entry uses the existing reduced-motion-aware focus helper. Courses show a matching available foundation suggestion without enrolling; Cyber Lab practice and Red/Blue setup accept known preselection values without creating/submitting activity. Async saved-match focus waits for the content to render. Python is optional, all stages remain open, and navigation never claims skill/completion or changes account roles/eligibility.
+
+No API/backend, database, migration, content-bank, engine/rule, authentication or dependency source changed. No existing learner records, scores, attempts or progress were rewritten. No external AI, language addition or instructor access. Beta source/runtime/database remain untouched; the generated next-env working-tree change remains excluded.
+
+Local verification: **18 frontend unit tests**, TypeScript and production build passed. The shared mapping tests exercise all 32 stage/audience combinations and safe fallbacks. **31 combined browser cases passed**: three new public/offline/foundation journey cases; two actual-API/isolated-SQLite journey cases; 11 existing Cyber Lab, eight existing Red/Blue and seven existing progression/recovery cases. Tests cover beginner/experienced entry, every-stage availability, audience recommendations, Back/reload, keyboard/reduced-motion focus, narrow-screen overflow, correct mission/practice/match selections, return context and absence of automatic POSTs. Desktop/mobile screenshots were inspected. An earlier local attempt to run five existing dashboard cases was blocked before application execution by that harness's full-Chromium socket restriction; those remain for CI, not counted as application failures or passes. CI PostgreSQL/complete browser evidence is pending at this source checkpoint.
+
+Use [the complete journey release guide](LEARNING_JOURNEY_RELEASE.md) after final CI. Owner journey acceptance, independent comprehension/physical-device evidence and final operational/security gates remain open.

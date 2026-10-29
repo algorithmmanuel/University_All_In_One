@@ -22,6 +22,7 @@ export function AccountNavigation(){
     setSignedIn(false);setBusy(false);router.replace('/account');
   }
   return <nav className="account-nav" aria-label="Account navigation">
+    <Link href="/journey">Learning journey</Link>
     {signedIn?<><Link href="/dashboard">Dashboard</Link><Link href="/missions">Games</Link><button type="button" className="btn secondary" disabled={busy} onClick={logout} aria-label="Sign out of EduCyber Nigeria">{busy?'Signing out…':'Sign out ↗'}</button></>:
       <Link className="btn secondary" href="/account">Sign in / Register</Link>}
   </nav>;

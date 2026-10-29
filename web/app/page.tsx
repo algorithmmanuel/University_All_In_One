@@ -1,11 +1,82 @@
-'use client';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { fetchPathways } from '../lib/api';
-import { fallbackAcademies, type AcademyId, type AcademyCard } from '../lib/pathways';
-import { AcademySections } from '../components/home/academy-sections';
-import { PreviewQuiz } from '../components/home/preview-quiz';
-import { GameLibrary } from '../components/home/game-library';
-import { AccountNavigation } from '../components/home/account-navigation';
+import Link from "next/link";
+import { PreviewQuiz } from "../components/home/preview-quiz";
+import { GameLibrary } from "../components/home/game-library";
+import { AccountNavigation } from "../components/home/account-navigation";
+import JourneyEntry from "../components/journey/JourneyEntry";
 
-export default function Home(){const [academies,setAcademies]=useState<AcademyCard[]>(fallbackAcademies);const [apiStatus,setApiStatus]=useState<'loading'|'connected'|'offline'>('loading');const [academy,setAcademy]=useState<AcademyId>('secondary');useEffect(()=>{const controller=new AbortController();fetchPathways(controller.signal).then(cards=>{setAcademies(cards);setApiStatus('connected')}).catch(error=>{if(!controller.signal.aborted){console.warn('Academy API unavailable:',error);setApiStatus('offline')}});return ()=>controller.abort()},[]);return <><header className="container nav"><div className="brand">EduCyber <span style={{color:'#159a91'}}>Nigeria</span></div><div className="header-controls"><AccountNavigation/><span className="small" role="status">{apiStatus==='connected'?'● API connected':apiStatus==='offline'?'○ Offline preview · start FastAPI':'◌ Connecting to API…'}</span></div></header><main><section className="hero"><div className="container"><span className="pill">Built for Nigerian learners</span><h1>Learn. Practise.<br/>Build. Secure.</h1><p>An immersive cybersecurity learning and simulation platform for secondary students, university learners, and professionals. Learn through investigation, decisions, and missions.</p><div className="actions"><button className="btn" onClick={()=>document.getElementById('academies')?.scrollIntoView({behavior:'smooth'})}>Explore cyber pathways ↓</button><button className="btn secondary" onClick={()=>document.getElementById('mission')?.scrollIntoView({behavior:'smooth'})}>Try a cyber mission →</button></div></div></section><AcademySections academies={academies} selectedId={academy} onSelect={setAcademy}/><GameLibrary/><section className="container section"><div className="panel"><span className="tag">NEW STRATEGY MODE</span><h2>Defend the branch. Change the outcome.</h2><p>Manage six connected assets, a limited budget and evolving incidents in Operation Firewall: Branch Defender. Supporting cybersecurity modules and 500 practice questions are included.</p><Link className="btn" href="/cyber-lab">Explore Cyber Lab →</Link></div></section><section className="container section"><div className="panel"><div className="tag">FEATURED CYBER SIMULATION</div><h2>Operation Firewall</h2><p className="muted">Step into a fictional bank security operations centre. Investigate privileged login alerts, inspect evidence, recommend containment, and receive server-scored feedback across three stages.</p><p className="small">Intermediate · Cyber Academy · 3 stages · 45 possible points · Sign-in required</p><Link className="btn" style={{display:"inline-block",textDecoration:"none"}} href="/missions">Enter the SOC mission →</Link></div></section><PreviewQuiz/><section className="container section"><div className="notice"><strong>Development preview:</strong> This public landing page is a preview. Registered learning and mission features are developed separately; Operation Firewall includes an interactive analyst workstation and an optional 3D SOC view during active mission attempts.</div></section></main><footer className="footer"><div className="container">EduCyber Nigeria · Cybersecurity simulation platform preview · No personal information collected in this preview.</div></footer></>}
+export default function Home() {
+  return (
+    <>
+      <header className="container nav">
+        <div className="brand">
+          EduCyber <span style={{ color: "#159a91" }}>Nigeria</span>
+        </div>
+        <div className="header-controls">
+          <AccountNavigation />
+        </div>
+      </header>
+      <main>
+        <section className="hero">
+          <div className="container">
+            <span className="pill">Learn at your own starting point</span>
+            <h1>
+              Understand the risk.
+              <br />
+              Shape the outcome.
+            </h1>
+            <p>
+              Build cybersecurity knowledge, investigate evidence and make
+              consequential decisions. Follow one learning journey, from your
+              first concept to a match against another learner.
+            </p>
+            <div className="actions">
+              <Link className="btn" href="/journey?stage=discover&pathway=all">
+                Begin my journey →
+              </Link>
+              <Link className="btn secondary" href="/journey#choose-stage">
+                Find my starting point →
+              </Link>
+            </div>
+          </div>
+        </section>
+        <div className="container section">
+          <JourneyEntry />
+        </div>
+        <PreviewQuiz />
+        <GameLibrary />
+        <section className="container section">
+          <div className="panel">
+            <span className="tag">EXPLORE BY ACTIVITY</span>
+            <h2>Return to the materials you need</h2>
+            <p>
+              Use the journey to choose a next step, or open a familiar
+              collection directly. Guided missions, defender strategy and Red /
+              Blue matches offer different kinds of decisions.
+            </p>
+            <nav className="actions" aria-label="Learning collections">
+              <Link href="/learn">Foundation courses</Link>
+              <Link href="/assessments">Course assessments</Link>
+              <Link href="/cyber-lab?tab=learn">
+                Applied cybersecurity modules
+              </Link>
+              <Link href="/cyber-lab?tab=practice">
+                500-question practice bank
+              </Link>
+              <Link href="/cyber-lab">Defender strategy scenarios</Link>
+              <Link href="/red-blue">Red / Blue simulator</Link>
+            </nav>
+            <p className="small">
+              Saved learning and play require an eligible learner account. All
+              scenarios are fictional and conceptual.
+            </p>
+          </div>
+        </section>
+      </main>
+      <footer className="footer">
+        <div className="container">
+          EduCyber Nigeria · Learn, investigate, defend and reflect.
+        </div>
+      </footer>
+    </>
+  );
+}

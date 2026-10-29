@@ -59,7 +59,7 @@ jobs:
       - name: Browser progression journeys (mock API, real browser)
         env:
           NODE_PATH: ${{ github.workspace }}/.ci-browser/node_modules
-        run: node --test tests/browser/assessment-results.test.cjs tests/browser/dashboard-progress.test.cjs tests/browser/phase5-release.test.cjs
+        run: node --test tests/browser/assessment-results.test.cjs tests/browser/dashboard-progress.test.cjs tests/browser/phase5-release.test.cjs tests/browser/learning-journey.test.cjs
       - name: Browser gameplay journeys (mock API, real browser)
         env:
           NODE_PATH: ${{ github.workspace }}/.ci-browser/node_modules

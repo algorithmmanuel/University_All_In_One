@@ -1,6 +1,7 @@
 'use client';
 import {useCallback,useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
+import JourneyLink from '../../components/journey/JourneyLink';
 import {useRouter} from 'next/navigation';
 import MissionWorkspace from './MissionWorkspace';
 import type {MissionLearning,ReviewResult} from './MissionLearning';
@@ -90,7 +91,7 @@ export default function Missions(){
   }
 
   return <main className="container section" style={{maxWidth:1050}}>
-    <Link href="/dashboard">← Dashboard</Link>
+    <Link href="/dashboard">← Dashboard</Link> <span aria-hidden="true"> · </span> <JourneyLink />
     <p className="tag">EDUCYBER SIMULATION LAB</p>
     <h1>Cybersecurity missions</h1>
     <p><Link href="/feedback">Share feedback about your beta experience →</Link></p>

@@ -1,0 +1,266 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+.main {
+  padding-bottom: 64px;
+}
+.intro {
+  max-width: 850px;
+  padding: 42px 0 24px;
+}
+.intro h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.13;
+  margin: 16px 0;
+}
+.intro p,
+.entry p {
+  max-width: 830px;
+  color: var(--muted);
+}
+.entry {
+  border: 1px solid #397478;
+  border-radius: 18px;
+  padding: 28px;
+  background:
+    radial-gradient(ellipse at 100% 0, #174447, transparent 65%), #101e31;
+  margin-bottom: 28px;
+}
+.entry h2 {
+  font-size: clamp(25px, 3vw, 35px);
+  margin: 10px 0;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+}
+.actions a,
+.resources a {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+.overview {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 24px 0;
+}
+.overview a {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 14px;
+  background: #0a192a;
+  border: 1px solid #3b566e;
+  border-radius: 10px;
+  height: 100%;
+  text-decoration: none;
+  color: var(--text);
+}
+.overview span {
+  color: var(--accent);
+  font-weight: 800;
+}
+.pathways {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  margin-bottom: 30px;
+}
+.pathways h2 {
+  margin: 0;
+}
+.pathways p {
+  color: var(--muted);
+}
+.pathGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.pathGrid button {
+  background: #0a192b;
+  color: var(--text);
+  border: 1px solid #415e78;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: left;
+  min-height: 44px;
+}
+.pathGrid span {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.pathGrid button[aria-pressed="true"] {
+  border: 2px solid var(--accent);
+  background: #123c42;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.8fr) minmax(0, 2fr);
+  gap: 28px;
+  align-items: start;
+}
+.layout nav h2 {
+  font-size: 21px;
+  margin: 0;
+}
+.stages {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+.stages button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  width: 100%;
+  min-height: 54px;
+  background: #101f32;
+  border: 1px solid #3b536c;
+  border-radius: 10px;
+  color: var(--text);
+  padding: 12px;
+}
+.stages span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 1px solid #5b7b93;
+  color: #b8d7e5;
+}
+.stages button[aria-current="step"] {
+  background: #153c43;
+  border: 2px solid var(--accent);
+}
+.stages button[aria-current="step"] span {
+  background: var(--accent);
+  color: #092626;
+}
+.detail {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 26px;
+  min-width: 0;
+}
+.detail h2 {
+  font-size: 30px;
+  margin: 12px 0;
+}
+.question {
+  color: #9cefdc;
+  font-size: 20px;
+}
+.resources {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0;
+}
+.resources article {
+  border: 1px solid #354f68;
+  border-radius: 12px;
+  background: #0a192b;
+  padding: 20px;
+}
+.resources h3 {
+  margin: 10px 0;
+}
+.resources p,
+.reflect p {
+  color: var(--muted);
+}
+.reflect {
+  border-left: 3px solid var(--accent);
+  padding: 4px 18px;
+  margin: 24px 0;
+}
+.reflect p:last-child {
+  font-size: 13px;
+}
+.browse {
+  padding: 28px 0;
+}
+.browse a {
+  min-height: 44px;
+  padding: 8px 0;
+}
+.stages button:hover,
+.overview a:hover {
+  border-color: var(--accent);
+}
+@media (max-width: 850px) {
+  .overview,
+  .pathGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .stages {
+    grid-template-columns: 1fr 1fr;
+  }
+  .detail {
+    padding: 22px;
+  }
+}
+@media (max-width: 480px) {
+  .main,
+  .header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .entry,
+  .pathways {
+    padding: 18px;
+  }
+  .overview,
+  .pathGrid,
+  .stages {
+    grid-template-columns: 1fr;
+  }
+  .detail {
+    padding: 18px;
+  }
+  .detail h2 {
+    font-size: 27px;
+  }
+  .resources article {
+    padding: 16px;
+  }
+  .resources a {
+    display: block;
+  }
+  .entry .actions a {
+    width: 100%;
+  }
+  .intro {
+    padding-top: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main *,
+  .entry * {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

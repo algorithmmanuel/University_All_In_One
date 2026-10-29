@@ -1,7 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import JourneyLink from "../../components/journey/JourneyLink";
 import { AccountNavigation } from "../../components/home/account-navigation";
+import { focusActivity } from "../../lib/activity-focus";
 import { useActivityFocus } from "../../lib/use-activity-focus";
 import { useArena } from "./useArena";
 import AssetBoard from "./AssetBoard";
@@ -18,6 +20,34 @@ export default function RedBlueArena() {
     [difficulty, setDifficulty] = useState("standard");
   const [token, setToken] = useState(""),
     [selected, setSelected] = useState("");
+  useEffect(() => {
+    if (!arena.catalog) return;
+    const p = new URLSearchParams(window.location.search);
+    const scenarioId = p.get("scenario");
+    if (arena.catalog.scenarios.some((s) => s.id === scenarioId))
+      setScenario(scenarioId!);
+    if (p.get("mode") === "human" || p.get("mode") === "computer")
+      setMode(p.get("mode")!);
+    if (p.get("side") === "red" || p.get("side") === "blue")
+      setSide(p.get("side") as Side);
+    if (["easy", "standard", "hard"].includes(p.get("difficulty") || ""))
+      setDifficulty(p.get("difficulty")!);
+  }, [arena.catalog]);
+  useEffect(() => {
+    if (
+      arena.loading ||
+      !arena.catalog ||
+      window.location.hash !== "#saved-matches"
+    )
+      return;
+    const frame = window.requestAnimationFrame(() =>
+      focusActivity(
+        document.getElementById("saved-matches"),
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      ),
+    );
+    return () => window.cancelAnimationFrame(frame);
+  }, [arena.loading, arena.catalog]);
   const heading = useActivityFocus(arena.opened);
   const m = arena.match;
   const selectedId = m?.assets.some((a) => a.id === selected)
@@ -30,6 +60,7 @@ export default function RedBlueArena() {
           EduCyber Nigeria
         </Link>
         <nav aria-label="Learning navigation">
+          <JourneyLink />
           <Link href="/cyber-lab">Cyber Lab</Link>
           <Link href="/learn">Courses</Link>
         </nav>
@@ -357,7 +388,9 @@ export default function RedBlueArena() {
                 </section>
               )}
               <section className={styles.panel} aria-labelledby="saved-matches">
-                <h2 id="saved-matches">Your saved matches</h2>
+                <h2 id="saved-matches" tabIndex={-1}>
+                  Your saved matches
+                </h2>
                 <p>
                   Each seat is bound to your account. Reconnect or sign in again
                   to resume.
