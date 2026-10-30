@@ -47,6 +47,17 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
             self.assertIn("Worked example:", lesson["content"])
         self.assertIn("Further reading", course["lessons"][-1]["content"])
 
+    def test_professional_risk_and_incident_manuscripts(self):
+        for course, stage in ((COMMAND_CHECK, "check"), (COMMAND_INVESTIGATE, "investigate")):
+            with self.subTest(stage=stage):
+                self.assertEqual((course["pathway"], course["stage"]), ("professional", stage))
+                self.assertEqual(len(course["lessons"]), 8)
+                self.assertEqual([item["position"] for item in course["lessons"]], list(range(1, 9)))
+                for lesson in course["lessons"]:
+                    self.assertGreaterEqual(len(lesson["content"].split()), 600)
+                    self.assertIn("Worked example:", lesson["content"])
+                self.assertIn("Further reading", course["lessons"][-1]["content"])
+
     def test_academy_capstone_and_command_governance_manuscripts(self):
         for course, pathway, stage in ((ACADEMY_COMPETE,"university","compete"),(COMMAND_UNDERSTAND,"professional","understand")):
             with self.subTest(stage=stage):
