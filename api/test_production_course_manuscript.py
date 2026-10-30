@@ -4,6 +4,7 @@ from production_learning.explorers_discover import COURSE
 from production_learning.academy_discover import COURSE as ACADEMY
 from production_learning.command_discover import COURSE as COMMAND
 from production_learning.explorers_understand import COURSE as EXPLORERS_UNDERSTAND
+from production_learning.explorers_check import COURSE as EXPLORERS_CHECK
 
 class ProductionCourseManuscriptTests(unittest.TestCase):
     def test_approved_structure(self):
@@ -29,6 +30,14 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
         for lesson in course["lessons"]:
             self.assertGreaterEqual(len(lesson["content"].split()), 600)
             self.assertIn("Worked example:", lesson["content"])
+        self.assertIn("Further reading", course["lessons"][-1]["content"])
+
+    def test_explorers_check_draft_structure(self):
+        course = EXPLORERS_CHECK
+        self.assertEqual((course["pathway"], course["stage"]), ("secondary", "check"))
+        self.assertEqual(len(course["lessons"]), 8)
+        self.assertEqual([x["position"] for x in course["lessons"]], list(range(1,9)))
+        self.assertEqual(len({x["title"] for x in course["lessons"]}),8)
         self.assertIn("Further reading", course["lessons"][-1]["content"])
 
     def test_all_discover_courses_are_distinct(self):
