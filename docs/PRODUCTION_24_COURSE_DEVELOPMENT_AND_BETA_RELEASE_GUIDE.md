@@ -78,3 +78,8 @@ Keep the development web port 3010 and existing FastAPI/DB deployments independe
 ## Current outcome and next release blocker
 
 The requested full release **has not been completed or merged**. The development branch has a guarded work-in-progress manuscript publisher; attempting beta promotion now would misrepresent short or missing course content as production quality. The next release must include complete original content, reader interface and passing tests before this guide can be marked completed.
+
+
+## Updated manuscript inventory — after the initial guide
+
+The first paragraphs of this historical guide describe an earlier three-course checkpoint. The **current** source manifest contains six full-length manuscripts, 48 lesson drafts of 600 or more words each (Cyber Explorers stages 1–4, Cyber Academy stage 1, Cyber Command stage 1). The other 18 courses remain to be authored and verified. The production catalogue now filters approved titles and safely links to HTTPS further-reading resources, but a complete 24-course publication is not ready. [Draft PR #5](https://github.com/algorithmmanuel/University_All_In_One/pull/5) is not to be merged until all 24 manuscripts, 192 or more lessons, reviewed links, preservation tests and green CI are demonstrated. GitHub checks for the current development head were queued when last inspected. Keep beta untouched.
