@@ -18,6 +18,7 @@ export default function Learn() {
   const router = useRouter();
   const [foundation,setFoundation]=useState<keyof typeof FOUNDATIONS|null>(null);
   const [catalog,setCatalog]=useState<Course[]>([]);
+  const [catalogPathway,setCatalogPathway]=useState('all');
   const [enrollments,setEnrollments]=useState<Enrollment[]>([]);
   const [selected,setSelected]=useState<CourseDetail|null>(null);
   const [busy,setBusy]=useState(false);
@@ -127,10 +128,18 @@ export default function Learn() {
         </div>}
       </section>
       <section className="section">
-        <h2>Course catalogue</h2>
+        <h2>Browse Courses</h2>
+        <p className="muted">Read at your own pace. Courses can be completed without playing games. Only published courses are shown; the planned 24-course library is not yet live.</p>
+        <label htmlFor="course-pathway">Learning pathway</label>
+        <select id="course-pathway" value={catalogPathway} onChange={event=>setCatalogPathway(event.target.value)} style={{display:"block",marginBottom:16}}>
+          <option value="all">All published courses</option>
+          <option value="secondary">Cyber Explorers</option>
+          <option value="university">Cyber Academy</option>
+          <option value="cyber">Cyber Command</option>
+        </select>
         {foundation&&<p className="notice">Suggested from your journey: <strong>{FOUNDATIONS[foundation]}</strong>. {suggested?'Choose its enrol/open button below.':'This course is not currently in the loaded catalogue; you can choose another available course.'} Python remains optional.</p>}
-        {catalog.length===0?<p className="muted">No published courses yet. Run the demonstration course seed command.</p>:<div className="grid">
-          {[...catalog].sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
+        {catalog.length===0?<p className="muted">No published courses are available yet.</p>:catalog.filter(c=>catalogPathway==="all"||c.academy_id===catalogPathway).length===0?<p className="muted">No published courses match this pathway yet.</p>:<div className="grid">
+          {catalog.filter(c=>catalogPathway==="all"||c.academy_id===catalogPathway).sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
             <span className="small">{academies[c.academy_id]||c.academy_id}</span>
             <h3>{c.title}</h3>
             <p className="muted">{c.description}</p>
