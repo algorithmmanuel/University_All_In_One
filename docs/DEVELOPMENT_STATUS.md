@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner authorised distinct actual materials across all eight stages of each pathway. The development source now allocates teaching, practice topics, missions, workshops and scenarios separately, with 18 original pathway introduction questions. All current-head automated gates passed: 156 browser regressions, 30 real-API/PostgreSQL browser cases, 24 frontend unit tests, TypeScript and production build. Owner development acceptance remains pending. No beta promotion or new automatic completion is claimed.
+**Checkpoint:** Owner has not yet tested the distinct pathways and now explicitly authorises bringing beta and development to that level together, with a detailed Help player guide. Help source is implemented; final current-head CI and authorised beta promotion are pending. Existing beta-only navigation release records are being reconciled into development. Owner laptop rollout/testing remains pending.
 
 Previous bundle checkpoint: The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
@@ -78,7 +78,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Follow [the content matrix and complete acceptance guide](PATHWAY_CONTENT_RELEASE.md). Compare actual materials across all eight stages, pathway preview questions, workshop filtering and scenario handoffs. This owner-authorised scope supersedes the earlier shared-material model. Preserve existing activity history and do not award completion from navigation. No beta promotion is included in this new development checkpoint; PR #4 must be reviewed against the expanded scope and current-head gates before any separately authorised promotion. Independent educational/device/operational and deferred formal-security gates remain open.
+Verify the combined three-pathway and detailed player-guide release, reconcile beta's documentation-only branch history and promote the exact checked source to both branches as authorised by the owner. Use [the current two-environment rollout](PATHWAYS_HELP_BETA_RELEASE.md) for laptop updates: development on 3010/8010, beta on 3000/8000 and ngrok forwarding only to 3000. No backend/schema/dependency change or new migration/publication is needed. The owner explicitly states the distinct pathways are not yet tested locally; do not infer acceptance. Future content enrichment should deepen these three eight-stage routes. Preserve saved records and the independent educational/device/operational/final-security gates.
 
 ## Implemented source changes and checks
 
@@ -737,3 +737,15 @@ These supersede the pending and initially failed CI checkpoints for this bounded
 Final handover changes documentation only. Source is committed on development; no beta promotion, owner laptop/runtime/database operation or new migration/publication was performed. [Complete allocation, commands and acceptance](PATHWAY_CONTENT_RELEASE.md). PR #4's earlier narrower scope remains a separate review/promotion concern, not approval to merge this expanded release automatically.
 
 Next: owner development acceptance comparing all eight stages across three pathways, including the explicit workshop format of Explorer/Command stage six and the final onward invitation. Record results without fabricating pathway completion. Preserve independent learning/device/operational and deferred final security gates.
+
+
+## VERIFIED navigation UX source release and beta merge — 30 October 2026
+
+The owner-authorised navigation release is **source-promoted** to beta by merged [PR #4](https://github.com/algorithmmanuel/University_All_In_One/pull/4), merge commit `bf6a850af9b128d6e347563a71402b1830142c92`. Exact verified head `a6cbe8ecfcbad9f9f85fb667f39e4ffc07642b41`. Final checks: frontend CI [41041880908](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41041880908) success (22 unit tests); real API browser CI [41041880756](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41041880756) success (27 cases); browser gameplay CI [41041880904](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41041880904) success (22 frontend-unit, 18 focused browser, 132 broad browser cases). Failures in earlier PR runs were fixed by preserving prior valid route action labels. The changed diff contains no game engine/backend/database files. **Owner runtime update, ngrok/beta link test, accounts/progress acceptance remain outstanding; no laptop operations were performed.** Use [final release instructions](NAVIGATION_UX_BETA_RELEASE.md#final-verified-source-release--30-october-2026). Ongoing beta continues on its existing branch.
+
+
+## Combined pathway/help promotion authorised — 30 October 2026
+
+The owner states they have not tested the distinct-pathway release yet and explicitly requests development and beta at the same level, plus a detailed in-app Help guide and laptop testing locally/publicly through ngrok. This supplies the previously outstanding beta-promotion authorisation for the expanded scope. Implemented a public ten-chapter guide covering first visit, all 24 stage/pathway handoffs, lessons/practice, guided missions/2D/3D, workshops, defender/Branch Siege gameplay, Red/Blue computer and two-human play, saved state and troubleshooting. Actual labels and rules were checked against source. Future enrichment follows the existing three-by-eight framework rather than duplicating activities or adding more stages by default.
+
+Beta advanced independently after PR #4 to `0d13fc5` with documentation-only promotion records. Those records are preserved and reconciled with development through a two-parent merge; no gameplay/backend source conflict exists. Local 24 frontend unit tests, TypeScript and production build passed. Two desktop/mobile Help browser cases were added; current complete browser/API CI is pending. No owner laptop, database, mail or ngrok service was operated; local acceptance is explicitly pending. [Complete two-environment instructions](PATHWAYS_HELP_BETA_RELEASE.md).

@@ -238,3 +238,29 @@ for (const mobile of [false,true]) for (const [pathway, name, firstQuestion, exp
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   assert.deepEqual(writes,[]);assert.deepEqual(errors,[]);
 });
+
+for(const mobile of [false,true]) test(`detailed Help guide has working chapters and pathway-stage handoffs, mobile=${mobile}`,async t=>{
+  browser ||= await chromium.launch({headless:true,args:['--disable-dev-shm-usage']});
+  const ctx=await browser.newContext({baseURL:WEB,reducedMotion:'reduce',viewport:mobile?{width:320,height:780}:{width:1440,height:1000}});t.after(()=>ctx.close());
+  const page=await ctx.newPage(),writes=[],errors=[];page.on('request',r=>{if(r.method()==='POST')writes.push(r.url());});page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/help');await page.getByRole('heading',{name:'How EduCyber works',exact:true}).waitFor();
+  const contents=page.getByRole('navigation',{name:'How to play contents'});
+  assert.equal(await contents.getByRole('link').count(),10);
+  for(const link of await contents.getByRole('link').all()){
+    const href=await link.getAttribute('href');assert.ok(href.startsWith('#'));
+    await link.click();await page.locator(href).waitFor();
+  }
+  await page.getByRole('heading',{name:'8. Play Red / Blue',exact:true}).waitFor();
+  await page.getByText('Retry same choice',{exact:false}).waitFor();
+  assert.equal(await page.locator('#stages > ol > li').count(),8);
+  assert.equal(await page.locator('#stages > ol > li a').count(),24);
+  for(const link of await page.locator('#stages > ol > li a').all()){
+    const target=new URL(await link.getAttribute('href'),WEB);
+    assert.equal(target.pathname,'/journey');assert.ok(['secondary','university','professional'].includes(target.searchParams.get('pathway')));
+  }
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  await page.getByRole('link',{name:'Begin Cyber Academy →',exact:true}).click();
+  await page.getByRole('heading',{name:'Discover',exact:true}).waitFor();
+  assert.equal(await page.getByRole('button',{name:/Cyber Academy/}).getAttribute('aria-pressed'),'true');
+  assert.deepEqual(writes,[]);assert.deepEqual(errors,[]);
+});

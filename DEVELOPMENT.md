@@ -6,7 +6,7 @@ This is the continuation entry point for maintainers and future assistant sessio
 **Tester-facing beta branch:** `feature/secure-password-recovery`  
 **Latest approved roadmap update:** 30 October 2026 (Africa/Lagos)
 
-**Current work:** [distinct actual materials for three eight-stage pathways](docs/PATHWAY_CONTENT_RELEASE.md), authorised after the playthrough pause. This supersedes the earlier shared-content navigation model. See the latest status for verification and keep beta unchanged for this development checkpoint.
+**Current work:** [combined distinct pathways and detailed Help guide for development and beta](docs/PATHWAYS_HELP_BETA_RELEASE.md). The owner explicitly authorises synchronising both branches and has not yet tested the new pathway allocation. Follow the current rollout guide; source promotion and laptop restart/testing are separate. Future enrichment builds within the three eight-stage routes.
 
 1. Read [the current handover and exact next action](docs/DEVELOPMENT_STATUS.md).
 2. Read [the approved roadmap and acceptance gates](docs/DEVELOPMENT_ROADMAP.md).
@@ -53,3 +53,9 @@ Current single-release UX review: [draft PR #4](https://github.com/algorithmmanu
 The owner has resumed bounded development to give Cyber Explorers, Cyber Academy and Cyber Command distinct actual materials across all eight stages. Read [the exact allocation and release guide](docs/PATHWAY_CONTENT_RELEASE.md) and the latest status entry. This supersedes shared-content recommendations; preserve engine rules and saved records. No automatic completion or beta promotion is implied.
 
 **Verified distinct-pathway source:** `002b680` passed 156 browser regressions, 30 actual-API/PostgreSQL browser cases, 24 frontend unit tests, TypeScript and production build. Follow the pathway guide for owner development acceptance. This supersedes earlier pending-CI statements for the current development scope; beta promotion remains separate.
+
+
+**Navigation release merged to beta source (30 October 2026):** [PR #4](https://github.com/algorithmmanuel/University_All_In_One/pull/4), merge `bf6a850af9b128d6e347563a71402b1830142c92`, all three final CI workflows green. The owner must still update/restart the beta web runtime separately. Read [final release steps](docs/NAVIGATION_UX_BETA_RELEASE.md#final-verified-source-release--30-october-2026). No games or backend/database changes in this release.
+
+
+**Current promotion authorisation:** the owner requests the checked three-pathway build plus detailed `/help` on both branches. This supersedes earlier no-promotion instructions for this bounded release. Read [the current guide](docs/PATHWAYS_HELP_BETA_RELEASE.md) and latest status before operator actions.

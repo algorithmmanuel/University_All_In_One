@@ -57,3 +57,50 @@ The PR #4 initial head `a2c5105` ran three CI workflows after marking the PR rea
 - [Browser gameplay quality gate 41039843708](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41039843708): **failed** (15 passed, 3 failed in the named journey suite); journey tests expected prior `Open Practise governance` and `Open Cyber Safety Foundations` labels.
 
 The new labels unexpectedly broke existing selectors, not game rules. The scoped fix at `252fc3b` restores familiar `Open <activity>` labels while continuing to avoid the owner's redundant `Open Try…` and `Open Browse…` combinations. **Re-run/verify all workflows on the updated head before merging.** Prior CI results cannot be reused as proof of a later commit. No laptop deployment or beta merge is implied.
+
+## Final verified source release — 30 October 2026
+
+**Release source promotion COMPLETE:** [PR #4](https://github.com/algorithmmanuel/University_All_In_One/pull/4) merged into `feature/secure-password-recovery` at commit `bf6a850af9b128d6e347563a71402b1830142c92`. The verified PR head was `a6cbe8ecfcbad9f9f85fb667f39e4ffc07642b41`; expected-head SHA protection was used on merge. The source branch comparison before merge showed 24 ahead, 0 behind, with changes limited to help/journey/preview/navigation/test/documentation files. No game engine or database content was changed.
+
+**Final acceptance CI for exact verified head:**
+
+- [Frontend quality gate 41041880908](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41041880908): **SUCCESS**; 22 frontend unit tests passed, 0 failed (plus frontend gate).
+- [Real API browser integration 41041880756](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41041880756): **SUCCESS**; 27 browser/API cases passed, 0 failed.
+- [Browser gameplay quality gate 41041880904](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41041880904): **SUCCESS**; 22 unit tests, 18 focused browser cases and 132 broader browser cases passed, 0 failed in each reported suite.
+
+### Required owner beta laptop deployment — frontend only
+
+**Source is merged; the beta currently running on the owner's Windows laptop has NOT been updated by GitHub.** Apply in the **beta checkout**, not the development checkout, after verifying that the running beta and development terminals/directories are distinguishable. Preserve all unrelated local changes, secrets, databases and tester records. Stop only the beta web terminal (Ctrl+C), not the beta API or development frontend/API. From the beta checkout root:
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$branch = (git branch --show-current).Trim()
+if ($LASTEXITCODE -ne 0 -or $branch -ne 'feature/secure-password-recovery') {
+    throw 'Wrong checkout: expected the beta branch.'
+}
+git status --short
+# If there are locally modified tracked files, STOP and inspect them before pulling.
+if ((git status --porcelain) -match '^ [MADRUC]|^[MADRUC?]') {
+    throw 'Local changes require review before pull; do not reset, clean or stash blindly.'
+}
+git fetch origin feature/secure-password-recovery
+if ($LASTEXITCODE -ne 0) { throw 'Fetch failed.' }
+git merge --ff-only origin/feature/secure-password-recovery
+if ($LASTEXITCODE -ne 0) { throw 'Fast-forward failed; investigate without force.' }
+$head = (git rev-parse HEAD).Trim()
+Write-Host "Beta source checkout commit: $head"
+Push-Location .\web
+try {
+    npm.cmd ci
+    if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed.' }
+    npm.cmd run build
+    if ($LASTEXITCODE -ne 0) { throw 'Frontend build failed.' }
+} finally { Pop-Location }
+```
+
+Restart the beta frontend **in its existing terminal and using the same beta environment variables** (default command from the beta checkout `web` directory: `npm.cmd run dev -- -p 3000`). Do **not** run migrations, wipe volumes, change API settings or change the development web port 3010. Confirm `http://127.0.0.1:3000/help`, `http://127.0.0.1:3000/preview`, `http://127.0.0.1:3000/journey`, and `http://127.0.0.1:8000/health` return expected pages/healthy response. Confirm the existing ngrok tester link still resolves to the beta frontend. Test all three pathway choices and a six-question completion, and verify an existing tester can sign in and resume prior progress. Do not treat this checklist as completed operator evidence until the laptop has actually been updated and checked.
+
+
+## Superseding combined pathway/help release
+
+The owner now authorises synchronising development and beta with distinct materials across all three eight-stage pathways plus the detailed player guide. Use [the current two-environment rollout](PATHWAYS_HELP_BETA_RELEASE.md), not the historical update block above. Current verification and source-promotion evidence belong in status; laptop rollout remains owner-operated.
