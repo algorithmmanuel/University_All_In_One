@@ -46,3 +46,8 @@ Added [21-course syllabus with 168 distinct chapter requirements](PRODUCTION_REM
 ## Repository access verification — 30 October 2026
 
 The existing GitHub connection successfully read this file; publication remains prohibited until the complete curriculum and test gates are met. This checkpoint verifies the development branch only and does not indicate beta deployment.
+
+
+## Development continuation — 30 October 2026
+
+GitHub read/write verified on the development branch (checkpoint `3685c42`). The guarded publisher now commits an entire approved 24-course batch in one transaction, or rolls back all writes on failure (commit `e89092e`), avoiding partial library publication. A fourth course draft, **Cyber Explorers / Understand — Accounts, Privacy & Secure Online Habits**, has eight original lesson drafts in `api/production_learning/explorers_understand.py` (commit `408d93d`). Their roughly 130–150-word bodies are **below the agreed 600–1,000-word editorial lesson standard** and are deliberately *not* registered for publication. Three earlier Discover manuscripts also need editorial-depth review. This is ongoing writing, not production content or a release. There is no beta merge, publication execution or learner-data change.
