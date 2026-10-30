@@ -51,3 +51,8 @@ The existing GitHub connection successfully read this file; publication remains 
 ## Development continuation — 30 October 2026
 
 GitHub read/write verified on the development branch (checkpoint `3685c42`). The guarded publisher now commits an entire approved 24-course batch in one transaction, or rolls back all writes on failure (commit `e89092e`), avoiding partial library publication. A fourth course draft, **Cyber Explorers / Understand — Accounts, Privacy & Secure Online Habits**, has eight original lesson drafts in `api/production_learning/explorers_understand.py` (commit `408d93d`). Their roughly 130–150-word bodies are **below the agreed 600–1,000-word editorial lesson standard** and are deliberately *not* registered for publication. Three earlier Discover manuscripts also need editorial-depth review. This is ongoing writing, not production content or a release. There is no beta merge, publication execution or learner-data change.
+
+
+## Catalogue placement correction — 30 October 2026
+
+The owner confirmed that **all 24 distinct production courses belong under the existing `My learning` → `Course catalogue` heading**, not on a separate website or in the games area. Development commit `387cba96` defines the approved 24-title allowlist; commit `ad8c3a59` renders only actually published matching courses there, with all three pathway filters. Three historical demo courses are preserved in a separately labelled `Existing courses` section with enrolment and progress untouched. This is **placement engineering only**, not a claim that 24 published courses exist. The remaining manuscripts, database publishing, testing and beta source promotion are pending; do not announce completion.
