@@ -62,3 +62,5 @@ The owner has resumed bounded development to give Cyber Explorers, Cyber Academy
 
 
 **Current handover:** combined source promotion is complete after verified CI. Both branches are synchronised, including final documentation. Laptop frontend updates/restarts and local-development/public-beta testing remain owner-operated and pending; use `docs/PATHWAYS_HELP_BETA_RELEASE.md`. No new migration or publication step.
+
+**New learning-library direction (30 October 2026):** build 24 unique substantial reading-first courses, mapped to 3 pathways × 8 stages, with curated public further-reading links and optional game participation. Read [the 24-course plan](docs/PRODUCTION_LEARNING_LIBRARY_PLAN.md). This is currently an editorial/technical specification, not completed content; protect existing enrollments and ongoing beta.
