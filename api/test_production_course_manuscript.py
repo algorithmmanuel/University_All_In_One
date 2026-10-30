@@ -22,6 +22,8 @@ from production_learning.command_check import COURSE as COMMAND_CHECK
 from production_learning.command_investigate import COURSE as COMMAND_INVESTIGATE
 from production_learning.command_defend import COURSE as COMMAND_DEFEND
 from production_learning.command_command import COURSE as COMMAND_COMMAND
+from production_learning.command_opponent import COURSE as COMMAND_OPPONENT
+from production_learning.command_compete import COURSE as COMMAND_COMPETE
 
 class ProductionCourseManuscriptTests(unittest.TestCase):
     def test_approved_structure(self):
@@ -48,6 +50,18 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
             self.assertGreaterEqual(len(lesson["content"].split()), 600)
             self.assertIn("Worked example:", lesson["content"])
         self.assertIn("Further reading", course["lessons"][-1]["content"])
+
+    def test_professional_threat_and_strategy_manuscripts(self):
+        for course, stage in ((COMMAND_OPPONENT,"opponent"),(COMMAND_COMPETE,"compete")):
+            with self.subTest(stage=stage):
+                self.assertEqual((course["pathway"],course["stage"]),("professional",stage))
+                self.assertEqual(len(course["lessons"]),8)
+                self.assertEqual([lesson["position"] for lesson in course["lessons"]],list(range(1,9)))
+                self.assertEqual(len({lesson["title"] for lesson in course["lessons"]}),8)
+                for lesson in course["lessons"]:
+                    self.assertGreaterEqual(len(lesson["content"].split()),600)
+                    self.assertIn("Worked example:",lesson["content"])
+                self.assertIn("Further reading",course["lessons"][-1]["content"])
 
     def test_professional_resilience_and_crisis_manuscripts(self):
         for course, stage in ((COMMAND_DEFEND,"defend"),(COMMAND_COMMAND,"command")):
