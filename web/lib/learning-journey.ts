@@ -134,23 +134,20 @@ function choicesFor(stage: Stage, audience: Audience): Resource[] {
     professional: "payment_insider",
   }[path];
   switch (stage) {
-    case "discover":
-      return [
-        {
-          title: "Try the six-question preview",
-          description:
-            "No sign-in or saved score. Read the reasoning after each decision.",
-          href: "/#mission",
-          kind: "Public introduction",
-        },
-        {
-          title: "Browse your first foundation course",
-          description:
-            "See the lessons before choosing where to begin. A learner account is needed to enrol.",
-          href: "/learn?foundation=cyber",
-          kind: "Starting point",
-        },
-      ];
+    case "discover": {
+      const introductions: Record<Audience, Resource> = {
+        all: {title:"Browse every pathway",description:"Compare what each audience learns, then choose an area to explore.",href:"/help",kind:"Pathway overview"},
+        secondary: {title:"Start with digital safety foundations",description:"Explore accounts, scams and safe everyday decisions before guided investigations.",href:"/learn?foundation=citizenship",kind:"Cyber Explorers starting point"},
+        university: {title:"Begin technical foundations",description:"Build an understanding of security concepts, then investigate systems and network evidence.",href:"/cyber-lab?tab=learn&module=defend",kind:"Cyber Academy starting point"},
+        professional: {title:"Explore organisational risk decisions",description:"Study governance, response and recovery decisions before more complex simulation.",href:"/cyber-lab?tab=learn&module=recover",kind:"Cyber Command starting point"},
+      };
+      return [introductions[audience],{
+        title:"Six-question shared preview",
+        description:"An optional diagnostic for every pathway. See explanations and receive a non-binding suggested next stage.",
+        href:"/preview?pathway="+audience,
+        kind:"Optional public introduction",
+      }];
+    }
     case "understand":
       return [
         {

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { PreviewQuiz } from "../components/home/preview-quiz";
 import { GameLibrary } from "../components/home/game-library";
 import { AccountNavigation } from "../components/home/account-navigation";
 import JourneyEntry from "../components/journey/JourneyEntry";
@@ -42,7 +41,7 @@ export default function Home() {
         <div className="container section">
           <JourneyEntry />
         </div>
-        <PreviewQuiz />
+        <section className="container section"><h2>Start with a short preview</h2><p>Try six introductory risk decisions in a dedicated, distraction-free activity. Your result suggests a next stage; it does not lock your options.</p><Link className="btn" href="/preview">Start the six-question preview →</Link></section>
         <GameLibrary />
         <section className="container section">
           <div className="panel">
