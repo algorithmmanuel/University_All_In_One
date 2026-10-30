@@ -51,6 +51,35 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
             self.assertIn("Worked example:", lesson["content"])
         self.assertIn("Further reading", course["lessons"][-1]["content"])
 
+    def test_no_repeated_substantive_paragraphs_before_release(self):
+        """Release must not reuse whole instructional paragraphs in different lessons."""
+        import re
+        from collections import defaultdict
+        courses = [
+            COURSE, ACADEMY, COMMAND,
+            EXPLORERS_UNDERSTAND, EXPLORERS_CHECK, EXPLORERS_INVESTIGATE,
+            EXPLORERS_DEFEND, EXPLORERS_COMMAND, EXPLORERS_OPPONENT, EXPLORERS_COMPETE,
+            ACADEMY_UNDERSTAND, ACADEMY_CHECK, ACADEMY_INVESTIGATE,
+            ACADEMY_DEFEND, ACADEMY_COMMAND, ACADEMY_OPPONENT, ACADEMY_COMPETE,
+            COMMAND_UNDERSTAND, COMMAND_CHECK, COMMAND_INVESTIGATE,
+            COMMAND_DEFEND, COMMAND_COMMAND, COMMAND_OPPONENT, COMMAND_COMPETE,
+        ]
+        occurrences = defaultdict(list)
+        for course in courses:
+            for lesson in course["lessons"]:
+                for paragraph in re.split(r"\n\s*\n", lesson["content"]):
+                    normalised = " ".join(paragraph.casefold().split())
+                    if len(normalised.split()) >= 35:
+                        occurrences[normalised].append(
+                            (course["key"], lesson["position"])
+                        )
+        repeated = [locations for locations in occurrences.values() if len(locations) > 1]
+        self.assertFalse(
+            repeated,
+            f"{len(repeated)} duplicate substantive paragraphs across learning lessons; "
+            f"first occurrences: {repeated[:5]}",
+        )
+
     def test_professional_threat_and_strategy_manuscripts(self):
         for course, stage in ((COMMAND_OPPONENT,"opponent"),(COMMAND_COMPETE,"compete")):
             with self.subTest(stage=stage):
