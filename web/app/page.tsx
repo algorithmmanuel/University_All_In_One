@@ -11,7 +11,6 @@ export default function Home() {
           EduCyber
         </div>
         <div className="header-controls">
-          <Link href="/help">Start here / Help</Link>
           <AccountNavigation />
         </div>
       </header>
