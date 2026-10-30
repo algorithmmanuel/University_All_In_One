@@ -147,7 +147,7 @@ export default function Learn() {
         </select>
         {foundation&&<p className="notice">Suggested from your journey: <strong>{FOUNDATIONS[foundation]}</strong>. {suggested?'Choose its enrol/open button below.':'This course is not currently in the loaded catalogue; you can choose another available course.'} Python remains optional.</p>}
         {catalog.filter(c=>{const meta=productionCourseMetadata(c.academy_id,c.title);return meta!==null&&(catalogPathway==="all"||c.academy_id===catalogPathway)&&(catalogStage==="all"||String(meta.stageIndex)===catalogStage);}).length===0?<p className="muted">No production courses have been published for this selection yet. Existing enrolled courses remain available above.</p>:<div className="grid">
-          {catalog.filter(c=>isProductionCourse(c.title)&&(catalogPathway==="all"||c.academy_id===catalogPathway)).sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
+          {catalog.filter(c=>{const meta=productionCourseMetadata(c.academy_id,c.title);return meta!==null&&(catalogPathway==="all"||c.academy_id===catalogPathway)&&(catalogStage==="all"||String(meta.stageIndex)===catalogStage);}).sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
             <span className="small">{academies[c.academy_id]||c.academy_id}</span>
             <h3>{c.title}</h3>
             <p className="small">Stage {Number(productionCourseMetadata(c.academy_id,c.title)?.stageIndex)+1}: {productionCourseMetadata(c.academy_id,c.title)?.stage}</p>
@@ -163,7 +163,7 @@ export default function Learn() {
         <h2>Existing courses</h2>
         <p className="muted">These earlier courses remain available so current learners can continue without losing progress. They are not included in the 24-course production catalogue.</p>
         <div className="grid">
-          {catalog.filter(c=>!isProductionCourse(c.title)).map(c=><article className="card" key={c.id}>
+          {catalog.filter(c=>productionCourseMetadata(c.academy_id,c.title)===null).map(c=><article className="card" key={c.id}>
             <span className="small">{academies[c.academy_id]||c.academy_id}</span>
             <h3>{c.title}</h3><p className="muted">{c.description}</p><p className="small">{c.lesson_count} lessons</p>
             {enrollments.some(e=>e.id===c.id)
