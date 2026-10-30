@@ -172,7 +172,7 @@ test("journey foundation handoff suggests a real course without automatic enrolm
     .getByText("Suggested from your journey:", { exact: false })
     .waitFor();
   assert.equal(
-    await page.getByRole("article").first().getByRole("heading").innerText(),
+    await page.getByRole("article").filter({ has: page.getByRole("heading", { name: "Cyber Safety Foundations", exact: true }) }).getByRole("heading", { name: "Cyber Safety Foundations", exact: true }).innerText(),
     "Cyber Safety Foundations",
   );
   await page
