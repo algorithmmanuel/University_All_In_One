@@ -18,7 +18,9 @@ from production_learning.command_discover import COURSE as COMMAND
 from production_learning.explorers_understand import COURSE as EXPLORERS_UNDERSTAND
 from production_learning.explorers_check import COURSE as EXPLORERS_CHECK
 from production_learning.explorers_investigate import COURSE as EXPLORERS_INVESTIGATE
-COURSES = [EXPLORERS, ACADEMY, COMMAND, EXPLORERS_UNDERSTAND, EXPLORERS_CHECK, EXPLORERS_INVESTIGATE]
+from production_learning.explorers_defend import COURSE as EXPLORERS_DEFEND
+from production_learning.explorers_command import COURSE as EXPLORERS_COMMAND
+COURSES = [EXPLORERS, ACADEMY, COMMAND, EXPLORERS_UNDERSTAND, EXPLORERS_CHECK, EXPLORERS_INVESTIGATE, EXPLORERS_DEFEND, EXPLORERS_COMMAND]
 REQUIRED_RELEASE_COURSES = 24
 PATHWAYS = {"secondary": "secondary", "university": "university", "professional": "cyber"}
 STAGES = {"discover", "understand", "check", "investigate", "defend", "command", "opponent", "compete"}
