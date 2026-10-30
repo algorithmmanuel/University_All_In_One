@@ -161,3 +161,8 @@ Revised three Cyber Academy manuscripts (`academy_check.py`, `academy_investigat
 ## Editorial remediation — Academy incident response and adversary strategy
 
 Replaced eight generic long introductory instructional paragraphs in each of `academy_command.py` (incident response, evidence, restoration and coordinated tabletop) and `academy_opponent.py` (threat objectives, traffic interpretations, credentials, segmentation, privilege changes, adaptive defence and counterfactual analysis). Verified all 16 revised lessons still have at least 600 words, in commits `d3ae197` and `80f20ce`. Both manuscripts contain other generic framework paragraphs; editorial approval is therefore **not complete**. The cross-library repeated-paragraph test, reference review and SHA-256-bound approval gate remain required. No beta publication or full CI success is claimed.
+
+
+## Editorial revision — Academy Capstone and Command stages 2–4
+
+Replaced eight substantive repeated opening-framework paragraphs in each of five course manuscripts: `academy_compete.py` (`155679d`), `command_understand.py` (`844c72a`), `command_check.py` (`38be1a6`), and `command_investigate.py` (`145d593`). These are **four** courses, 32 edited lessons. Their replacement content now addresses specific scenarios and control conclusions rather than the generic opening paragraph. Word counts remain at or above 600, including the 606-word minimum for the revised Command incident course. Other generic paragraphs remain in these courses and elsewhere. This entry does not assert editorial acceptance, completed link checks, or successful CI. The independent no-duplicate test and SHA-256 content-approval gate remain release blockers; beta remains unchanged.
