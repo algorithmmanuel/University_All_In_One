@@ -201,3 +201,8 @@ Added `test_no_reused_long_word_sequences_across_library` (`a8fe9a3`) to `api/te
 ## Publication protection aligned with cross-course tests
 
 The publisher now independently enforces the same 70-normalised-word contiguous-sequence rule as the manuscript regression test, in addition to the existing exact-paragraph uniqueness check (`9ab184b`). This is checked before approval verification and database writes whenever `--publish` is explicitly requested. It prevents bypassing the copy-detection check by merely skipping the test runner; it does not demonstrate educational distinction or reference accuracy. Associated GitHub workflow runs and individual backend/frontend jobs remained queued when inspected, so there is no verified green result for the complete manuscript suite. Beta is unchanged.
+
+
+## Negative tests for fail-closed publishing (30 October 2026)
+
+Added `api/test_production_editorial_release_gate.py` (commit `b25b2c8`) with isolated tests ensuring missing, incomplete or stale SHA-256-bound editorial approvals block publication, identical long paragraphs are rejected, and repeated 70-word sequences spanning paragraph boundaries are rejected. These tests use mocked approval-file reads and do not connect to a database or create publication approvals. GitHub backend/frontend/browser workflows remained queued when checked; no green execution result is asserted. Release remains blocked pending test execution, genuine editorial sign-off and external-reference verification. Beta unchanged.
