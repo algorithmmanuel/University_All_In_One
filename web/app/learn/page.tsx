@@ -4,6 +4,7 @@ import Link from 'next/link';
 import JourneyLink from '../../components/journey/JourneyLink';
 import { useRouter } from 'next/navigation';
 import LessonGuide, {type LearningGuide} from '../../components/lesson-guide';
+import LessonReading from '../../components/lesson-reading';
 import { FOUNDATIONS } from '../../lib/learning-journey';
 import { isProductionCourse } from '../../lib/approved-course-catalog';
 import { useActivityFocus } from '../../lib/use-activity-focus';
@@ -175,7 +176,7 @@ export default function Learn() {
               {l.learning_guide?<LessonGuide key={l.id+':'+l.learning_guide.revision} guide={l.learning_guide}
                 checkAnswer={(exercise,option)=>request('/api/v1/learning/lessons/'+l.id+'/practice','POST',
                   {exercise_id:exercise,option_index:option})}/>
-                :<p style={{whiteSpace:'pre-wrap',lineHeight:1.7}}>{l.content}</p>}
+                :<LessonReading content={l.content}/>}
               <button className="btn" disabled={busy||l.completed} onClick={()=>complete(l.id)}>
                 {l.completed?'Completed ✓':'Mark lesson complete'}
               </button>
