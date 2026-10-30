@@ -5,6 +5,8 @@ database backup, and integration testing in the isolated development database.
 Never deletes or rewrites an enrolled course or existing lesson content.
 """
 import argparse
+import hashlib
+import json
 import sys
 from pathlib import Path
 from sqlalchemy import select
@@ -88,6 +90,22 @@ def publish(db, course):
         db.add(Lesson(course_id=new.id, title=item["title"], content=item["content"], position=item["position"]))
     return "staged"
 
+def require_editorial_approvals():
+    """Fail closed unless all 24 exact lesson texts have signed-off digests."""
+    approval_path = Path(__file__).resolve().parent / "production_learning" / "editorial_approvals.json"
+    if not approval_path.is_file():
+        raise RuntimeError("Editorial approvals file missing; publication blocked")
+    approvals = json.loads(approval_path.read_text(encoding="utf-8"))
+    expected_keys = {course["key"] for course in COURSES}
+    if set(approvals) != expected_keys:
+        raise RuntimeError("Every course needs an exact editorial approval entry")
+    for course in COURSES:
+        payload = json.dumps(course, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+        approval = approvals[course["key"]]
+        if not isinstance(approval, dict) or approval.get("sha256") != digest or not approval.get("reviewer") or not approval.get("approved_at"):
+            raise RuntimeError(f"Missing or stale editorial approval: {course['key']}")
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--publish", action="store_true", help="Explicitly publish the reviewed manuscript")
@@ -117,6 +135,7 @@ def main():
     if not args.publish:
         print("DRY RUN: complete manuscript set validated; nothing written.")
         return
+    require_editorial_approvals()
     with SessionLocal() as db:
         try:
             results = [(course["key"], publish(db, course)) for course in COURSES]
