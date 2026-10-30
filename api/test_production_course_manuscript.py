@@ -12,6 +12,8 @@ from production_learning.explorers_opponent import COURSE as EXPLORERS_OPPONENT
 from production_learning.explorers_compete import COURSE as EXPLORERS_COMPETE
 from production_learning.academy_understand import COURSE as ACADEMY_UNDERSTAND
 from production_learning.academy_check import COURSE as ACADEMY_CHECK
+from production_learning.academy_investigate import COURSE as ACADEMY_INVESTIGATE
+from production_learning.academy_defend import COURSE as ACADEMY_DEFEND
 
 class ProductionCourseManuscriptTests(unittest.TestCase):
     def test_approved_structure(self):
@@ -38,6 +40,18 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
             self.assertGreaterEqual(len(lesson["content"].split()), 600)
             self.assertIn("Worked example:", lesson["content"])
         self.assertIn("Further reading", course["lessons"][-1]["content"])
+
+    def test_academy_investigate_and_defend_are_full_length(self):
+        for course,stage in ((ACADEMY_INVESTIGATE,"investigate"),(ACADEMY_DEFEND,"defend")):
+            with self.subTest(stage=stage):
+                self.assertEqual((course["pathway"],course["stage"]),("university",stage))
+                self.assertEqual(len(course["lessons"]),8)
+                self.assertEqual([x["position"] for x in course["lessons"]],list(range(1,9)))
+                self.assertEqual(len({x["title"] for x in course["lessons"]}),8)
+                for lesson in course["lessons"]:
+                    self.assertGreaterEqual(len(lesson["content"].split()),600)
+                    self.assertIn("Worked example:",lesson["content"])
+                self.assertIn("Further reading",course["lessons"][-1]["content"])
 
     def test_academy_understand_and_check_are_full_length(self):
         for course,stage in ((ACADEMY_UNDERSTAND,"understand"),(ACADEMY_CHECK,"check")):
