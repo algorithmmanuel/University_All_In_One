@@ -221,3 +221,8 @@ Inspected completed Actions logs for earlier content quality run: **backend unit
 ## Focused semantic remediation — device protection and recovery
 
 Rewrote three templated paragraphs in Cyber Explorers Stage 5, Lesson 1 (commit `8963e93`) using distinct tests for lock-screen notification exposure, recovery of a synthetic assignment and evidence minimisation. This lesson now contains 635 words. The previous Actions report of **835 repeated 70-word windows** remains the last measured whole-library outcome; this small edit is not sufficient to assert a pass. No CI rerun has yet confirmed the new state. Do not publish or merge on the basis of this isolated editorial improvement. Other lesson passages must be reviewed substantively without replacing repetitions with reworded boilerplate.
+
+
+## 30 October — Complete focused rewrite of Explorers Stage 5
+
+Rewrote all three generic instructional prompt paragraphs in each of the eight lessons in `explorers_defend.py`, replacing them with lesson-specific explanations, safe tests, evidence requirements and failure comparisons (commits `8963e93`, `fe783ea`, `84bf318`, `33cf5e2`). Final inspected word counts by lesson: **635, 606, 632, 627, 606, 614, 612, 606**. Zero duplicate case/whitespace-normalised paragraphs of 35+ words within this course were detected after the edits. This is one substantively revised course, **not** a cleared 24-course library. The last known CI run still reports 835 copied 70-word windows across the library; a fresh full-library run, independent pedagogical review and source accuracy checks are required. No beta changes.
