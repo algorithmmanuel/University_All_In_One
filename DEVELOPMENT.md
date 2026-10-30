@@ -45,9 +45,11 @@ The owner identified five populated navigation/onboarding findings during person
 
 Current single-release UX review: [draft PR #4](https://github.com/algorithmmanuel/University_All_In_One/pull/4) into ongoing beta; [complete test and beta-rollout gates](docs/NAVIGATION_UX_BETA_RELEASE.md). Do not equate an open PR or source commits with green CI, a beta merge or running-laptop rollout.
 
-**Navigation UX CI:** initial PR checks found browser-test locator failures; source corrected in `252fc3b`. Read [the release gate](docs/NAVIGATION_UX_BETA_RELEASE.md). Later-head CI remains pending; do not promote until green.
+**Historical navigation UX CI:** initial PR checks failed before subsequent corrections. The newer distinct-pathway release now has verified browser and real-API gates; read [the current release guide](docs/PATHWAY_CONTENT_RELEASE.md) and latest status. No beta promotion of the expanded scope is claimed.
 
 
 ## Current pathway-content continuation — 30 October 2026
 
 The owner has resumed bounded development to give Cyber Explorers, Cyber Academy and Cyber Command distinct actual materials across all eight stages. Read [the exact allocation and release guide](docs/PATHWAY_CONTENT_RELEASE.md) and the latest status entry. This supersedes shared-content recommendations; preserve engine rules and saved records. No automatic completion or beta promotion is implied.
+
+**Verified distinct-pathway source:** `002b680` passed 156 browser regressions, 30 actual-API/PostgreSQL browser cases, 24 frontend unit tests, TypeScript and production build. Follow the pathway guide for owner development acceptance. This supersedes earlier pending-CI statements for the current development scope; beta promotion remains separate.

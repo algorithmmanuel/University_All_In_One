@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Owner authorised distinct actual materials across all eight stages of each pathway. The development source now allocates teaching, practice topics, missions, workshops and scenarios separately, with 18 original pathway introduction questions. Local 24-unit/type/build checks passed; current-head browser/real-API CI and owner acceptance are pending. No beta promotion or new automatic completion is claimed.
+**Checkpoint:** Owner authorised distinct actual materials across all eight stages of each pathway. The development source now allocates teaching, practice topics, missions, workshops and scenarios separately, with 18 original pathway introduction questions. All current-head automated gates passed: 156 browser regressions, 30 real-API/PostgreSQL browser cases, 24 frontend unit tests, TypeScript and production build. Owner development acceptance remains pending. No beta promotion or new automatic completion is claimed.
 
 Previous bundle checkpoint: The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
@@ -78,7 +78,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Verify the current distinct-pathway development release, then follow [the content matrix and complete acceptance guide](PATHWAY_CONTENT_RELEASE.md). Compare actual materials across all eight stages, pathway preview questions, workshop filtering and scenario handoffs. This owner-authorised scope supersedes the earlier shared-material model. Preserve existing activity history and do not award completion from navigation. No beta promotion is included in this new development checkpoint; PR #4 must be reviewed against the expanded scope and current-head gates before any separately authorised promotion. Independent educational/device/operational and deferred formal-security gates remain open.
+Follow [the content matrix and complete acceptance guide](PATHWAY_CONTENT_RELEASE.md). Compare actual materials across all eight stages, pathway preview questions, workshop filtering and scenario handoffs. This owner-authorised scope supersedes the earlier shared-material model. Preserve existing activity history and do not award completion from navigation. No beta promotion is included in this new development checkpoint; PR #4 must be reviewed against the expanded scope and current-head gates before any separately authorised promotion. Independent educational/device/operational and deferred formal-security gates remain open.
 
 ## Implemented source changes and checks
 
@@ -723,3 +723,17 @@ Next: verify current-head complete browser and real-API/PostgreSQL regression, t
 ## Pathway first CI correction — 30 October 2026
 
 Initial source `8a8df33` exposed a real same-page onward-navigation defect: Next's query-only Link updated the URL without updating the journey component's selected stage/pathway. Corrected the onward control to use the same explicit state/history/focus transition as the stage buttons. Browser Back remains handled by popstate. Also corrected an obsolete workshop test entry and made the new real-API tests wait for the destination library before counting allocated cases (the old wait could match the source journey's case heading). Initial runs 41050275361/41050275635 failed; do not treat them as release evidence. Current correction needs fresh complete browser/real-API gates. Game rules, backend and saved records remain unchanged.
+
+
+## Verified distinct-pathway handover — 30 October 2026
+
+Corrected implementation `002b680ed803267ed25cb795bc9d6de804ca3701` passed all required frontend/browser gates:
+
+- [Browser quality run 41050824453](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41050824453): 24 progression/journey cases (18 previous plus six distinct-pathway desktop/mobile cases), all 132 existing gameplay cases, 24 frontend unit tests, TypeScript and production build. Total browser regressions: 156, zero failures. This verifies actual stage/case display, distinct previews, advisory completion routes, same-page pathway handoff, Back/reload and no activity creation from browsing.
+- [Actual-API/PostgreSQL run 41050824395](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41050824395): all 30 cases passed, including the three new real-catalogue pathway workshop filters and all 27 previous cases. Existing persistence, replay, separate-session multiplayer and acknowledgement recovery remain covered.
+
+These supersede the pending and initially failed CI checkpoints for this bounded change. No game engine/rule, backend/API, schema, published question/workshop source, auth/session or dependency file changed; no fresh full backend unit/security audit is claimed for frontend-only changes. Automated checks verify distinct technical content routes and regression behaviour, not independent educational quality, balance or physical-device acceptance.
+
+Final handover changes documentation only. Source is committed on development; no beta promotion, owner laptop/runtime/database operation or new migration/publication was performed. [Complete allocation, commands and acceptance](PATHWAY_CONTENT_RELEASE.md). PR #4's earlier narrower scope remains a separate review/promotion concern, not approval to merge this expanded release automatically.
+
+Next: owner development acceptance comparing all eight stages across three pathways, including the explicit workshop format of Explorer/Command stage six and the final onward invitation. Record results without fabricating pathway completion. Preserve independent learning/device/operational and deferred final security gates.

@@ -105,3 +105,13 @@ Start-Process 'http://127.0.0.1:3010/journey?stage=discover&pathway=secondary'
 Local checks passed: 24 frontend unit tests, TypeScript and production build. New unit cases verify all 24 workshop IDs/stages against actual source, disjoint topic/scenario allocations, distinct core destinations after removing context parameters, and 18 unique explained preview questions. Browser cases added for all pathways on desktop/mobile, every stage, previews, onward navigation and actual-API workshop filtering. CI is pending at this checkpoint; no local browser success or fresh full backend result is claimed. The known local full-Chromium socket restriction remains. No owner laptop, beta database or services were operated.
 
 Beta promotion remains separate. PR #4 tracks the earlier navigation work and now shares the development branch with this explicitly authorised broader content allocation; do not merge an earlier checked head or imply that its prior CI validates these edits. Obtain complete current-head regression evidence and record the release scope before a separately authorised promotion. Formal audit stays deferred; independent content/learning/device and operational gates remain open.
+
+
+## Verified API/browser follow-up — 30 October 2026
+
+Corrected source `002b680` passed [actual-API/PostgreSQL browser run 41050824395](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41050824395): all 30 cases passed. These include the three new actual-catalogue pathway filters plus all 27 previous API/game/workshop journeys, persistence, separate sessions and safe acknowledgement retries. Initial runs failed on a real same-page onward-navigation bug and test-entry/wait assumptions; corrections and their causes are recorded in status. The broader browser gameplay gate is pending at this follow-up checkpoint. No owner local acceptance, beta promotion or independent educational result is implied.
+
+
+## Final automated verification
+
+Implementation `002b680` passed [browser quality run 41050824453](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41050824453): all 24 progression/journey browser cases and all 132 gameplay cases (156 total), 24 frontend unit tests, TypeScript and production build. Together with the 30 actual-API/PostgreSQL cases above, all required automated gates for this frontend/content-allocation release are green. This supersedes earlier pending-CI statements. Owner development acceptance and independent educational/device/operational/final-security evidence remain separate. No beta promotion or owner runtime operation was performed.
