@@ -62,15 +62,22 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--publish", action="store_true", help="Explicitly publish the reviewed manuscript")
     args = parser.parse_args()
-    for course in COURSES:
-        validate(course)
     ids = {(course["pathway"], course["stage"]) for course in COURSES}
     if len(ids) != len(COURSES):
         raise RuntimeError("Duplicate pathway/stage publication mapping")
-    if len(COURSES) != REQUIRED_RELEASE_COURSES:
+    failures = []
+    for course in COURSES:
+        try:
+            validate(course)
+        except (AssertionError, ValueError) as exc:
+            failures.append((course["key"], str(exc)))
+    print(f"Editorial audit: {len(COURSES)}/{REQUIRED_RELEASE_COURSES} courses registered; {len(failures)} invalid")
+    for key, reason in failures:
+        print(f"  NOT READY {key}: {reason}")
+    if len(COURSES) != REQUIRED_RELEASE_COURSES or failures:
         if args.publish:
-            raise RuntimeError(f"Refusing incomplete release: {len(COURSES)}/24 courses authored")
-        print(f"DRY RUN: {len(COURSES)}/24 manuscripts validated. Nothing written.")
+            raise RuntimeError("Refusing incomplete or noncompliant 24-course publication")
+        print("DRY RUN ONLY. No database writes.")
         return
     if not args.publish:
         print("DRY RUN: complete manuscript set validated; nothing written.")
