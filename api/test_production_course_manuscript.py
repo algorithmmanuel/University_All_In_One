@@ -18,7 +18,7 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
         titles = [x["title"] for x in COURSE["lessons"]]
         self.assertEqual(len(set(titles)), len(titles))
         for lesson in COURSE["lessons"]:
-            self.assertGreaterEqual(len(lesson["content"].split()), 90)
+            self.assertGreaterEqual(len(lesson["content"].split()), 600)
             self.assertTrue("Worked example:" in lesson["content"] or "Reflection:" in lesson["content"])
         self.assertIn("Further reading", COURSE["lessons"][-1]["content"])
 
@@ -51,7 +51,7 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
             self.assertEqual(course["stage"], "discover")
             self.assertEqual(len(course["lessons"]), 8)
             for lesson in course["lessons"]:
-                self.assertGreaterEqual(len(lesson["content"].split()), 90)
+                self.assertGreaterEqual(len(lesson["content"].split()), 600)
                 self.assertIn("Worked example:", lesson["content"])
             self.assertIn("Further reading", course["lessons"][-1]["content"])
 
