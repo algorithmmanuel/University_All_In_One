@@ -191,3 +191,8 @@ Updated all **17 affected course manuscripts** from the 24-course audit, replaci
 ## Cross-course acceptance check (30 October 2026)
 
 Read-only GitHub source inspection covered all 24 course manuscripts in **four groups of six**. Within each group no repeated substantive paragraphs (35+ words, case/whitespace-normalised) were detected. **This does not establish zero duplicates between different groups.** The full-library `test_no_repeated_substantive_paragraphs_before_release` regression test and `validate_editorial_uniqueness()` publication guard must be executed successfully for that claim. Backend, frontend, real-API browser integration and browser gameplay workflows for the preceding content commit `c23e7a6` were still queued when checked. Human editorial differentiation, citation checks, and exact SHA-256 reviewer approvals remain outstanding. Beta publication remains blocked.
+
+
+## Cross-course sequence regression gate
+
+Added `test_no_reused_long_word_sequences_across_library` (`a8fe9a3`) to `api/test_production_course_manuscript.py`. It compares all 192 draft lessons and rejects any identical contiguous sequence of 70 normalised words found in two different lessons, even if paragraph boundaries or headings differ. This supplements the 35+-word exact-paragraph gate and is specifically designed to catch cross-course copying; it **does not** claim to detect paraphrases or demonstrate independent educational value. Passing this new test and the earlier uniqueness test is required before the manuscripts can be considered structurally ready. No passing execution result was available when this checkpoint was written. Independent reviewer approvals and source verification are still outstanding. No beta deployment.
