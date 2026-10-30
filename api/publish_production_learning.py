@@ -54,8 +54,7 @@ def publish(db, course):
     db.flush()
     for item in course["lessons"]:
         db.add(Lesson(course_id=new.id, title=item["title"], content=item["content"], position=item["position"]))
-    db.commit()
-    return "published"
+    return "staged"
 
 def main():
     parser = argparse.ArgumentParser()
@@ -75,8 +74,14 @@ def main():
         print("DRY RUN: complete manuscript set validated; nothing written.")
         return
     with SessionLocal() as db:
-        for course in COURSES:
-            print(course["key"], publish(db, course))
+        try:
+            results = [(course["key"], publish(db, course)) for course in COURSES]
+            db.commit()  # All 24 publish or none; never commit partial content.
+        except Exception:
+            db.rollback()
+            raise
+        for key, result in results:
+            print(key, result)
 
 if __name__ == "__main__":
     main()
