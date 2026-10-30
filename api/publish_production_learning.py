@@ -15,7 +15,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from production_learning.explorers_discover import COURSE as EXPLORERS
 from production_learning.academy_discover import COURSE as ACADEMY
 from production_learning.command_discover import COURSE as COMMAND
-COURSES = [EXPLORERS, ACADEMY, COMMAND]
+from production_learning.explorers_understand import COURSE as EXPLORERS_UNDERSTAND
+from production_learning.explorers_check import COURSE as EXPLORERS_CHECK
+COURSES = [EXPLORERS, ACADEMY, COMMAND, EXPLORERS_UNDERSTAND, EXPLORERS_CHECK]
 REQUIRED_RELEASE_COURSES = 24
 PATHWAYS = {"secondary": "secondary", "university": "university", "professional": "cyber"}
 STAGES = {"discover", "understand", "check", "investigate", "defend", "command", "opponent", "compete"}
