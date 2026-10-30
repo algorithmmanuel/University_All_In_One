@@ -1,4 +1,4 @@
-"""Cyber Academy long-form manuscript draft, subject to editorial source review."""
+"""Cyber Academy editorial draft with evidence-led worked exercises; review pending."""
 COURSE = {
   "key": "academy-command-v1",
   "title": "Incident Response, Forensics & Recovery Coordination",
