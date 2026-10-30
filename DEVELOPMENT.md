@@ -34,3 +34,7 @@ Documentation is the durable project handover; conversational memory is not the 
 
 Security audit continuation: read [the preparation and capability gate](docs/security/BASELINE_AUDIT_PREPARATION.md), then the pinned [Cloudflare skill](tools/security-audit-skill/SKILL.md). Tooling integrity and successful functional tests do not establish that a security audit has run. Follow the status document's current next action.
 
+
+## Owner navigation review — 30 October 2026
+
+The owner identified five populated navigation/onboarding findings during personal beta playthrough. Before initiating further features, read [the dedicated navigation remediation specification](docs/OWNER_NAVIGATION_REMEDIATION.md), then the corresponding roadmap/status entries. Highest priorities are clearly differentiated Cyber Explorers/Academy/Command journeys and a meaningful optional next step after the six-question preview; also add help, fix awkward labels and isolate the active assessment from the game library. The six-question score is advisory, **not** a mandatory placement or progress gate. This documentation checkpoint does not authorise promotion or mark implementation complete. Preserve the owner's assumption that unreported parts work and continue to protect beta and saved progress.
