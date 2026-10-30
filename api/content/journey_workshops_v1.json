@@ -1,0 +1,1682 @@
+[
+  {
+    "id": "scholarship-pressure",
+    "revision": "workshops-v1",
+    "stage": "discover",
+    "title": "The scholarship deadline",
+    "briefing": "A message promises a scholarship if you act before a short deadline. You need to protect your account while finding out whether the offer exists.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "The message includes a familiar logo. What do you check first?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Open the school portal through an independently known route",
+            "explanation": "The official portal shows whether this offer is actually listed; a copied logo supplies no independent verification.",
+            "effort": 2,
+            "fact": "The official portal shows whether this offer is actually listed; a copied logo supplies no independent verification."
+          },
+          {
+            "id": "b",
+            "label": "Use the message link because the logo matches",
+            "explanation": "The fictional link captures a session request. Familiar branding did not establish who controlled it.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "The sender now asks for a one-time sign-in code. What is your next decision?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Refuse the code request and contact the office through its published channel",
+            "explanation": "The real office confirms it does not need the sign-in code; keeping it private preserves the account boundary.",
+            "effort": 2,
+            "fact": "The real office confirms it does not need the sign-in code; keeping it private preserves the account boundary."
+          },
+          {
+            "id": "b",
+            "label": "Share the code to avoid losing the deadline",
+            "explanation": "The code authorises an unwanted session in this case; urgency replaced verification.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "You did not share a secret. What should the report say?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Report the message and describe exactly what you received and did",
+            "explanation": "The report distinguishes attempted deception from observed account exposure and gives responders usable facts.",
+            "effort": 2,
+            "fact": "The report distinguishes attempted deception from observed account exposure and gives responders usable facts."
+          },
+          {
+            "id": "b",
+            "label": "Report a confirmed account takeover without checking activity",
+            "explanation": "An unsupported takeover claim sends support down the wrong path and delays checking the original message.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "approval-surprise",
+    "revision": "workshops-v1",
+    "stage": "discover",
+    "title": "The surprise approval",
+    "briefing": "A phone shows a sign-in approval while you are not signing in. A caller claims to be support.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "The caller asks you to approve the prompt. Choose your response.",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Deny the unexpected request and use the official support route",
+            "explanation": "The denied prompt and official report establish an unexpected attempt without granting the requested session.",
+            "effort": 2,
+            "fact": "The denied prompt and official report establish an unexpected attempt without granting the requested session."
+          },
+          {
+            "id": "b",
+            "label": "Approve once so the caller can finish the repair",
+            "explanation": "Approval grants the unwanted session in this fictional case; the caller controlled the repair story.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "Which evidence would help you understand the attempt?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Review account activity on the real service and record the time",
+            "explanation": "The activity record shows an unfamiliar attempted sign-in; the time helps support correlate it.",
+            "effort": 2,
+            "fact": "The activity record shows an unfamiliar attempted sign-in; the time helps support correlate it."
+          },
+          {
+            "id": "b",
+            "label": "Use the caller’s reassuring statement as evidence that the account is safe",
+            "explanation": "The caller’s assurance is not an independent check; the attempted session remains unexplained.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How do you finish the response?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Follow official account/session recovery steps and confirm the result",
+            "explanation": "The service confirms the unwanted session is revoked; the report records the action and its actual result.",
+            "effort": 2,
+            "fact": "The service confirms the unwanted session is revoked; the report records the action and its actual result."
+          },
+          {
+            "id": "b",
+            "label": "Change one password and assume every session everywhere has ended",
+            "explanation": "A separate session remains active in this case; changing a password alone did not confirm session revocation.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shared-device",
+    "revision": "workshops-v1",
+    "stage": "discover",
+    "title": "The shared computer",
+    "briefing": "You need to submit an assignment using a shared computer. Protect the file and your account without missing the task.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "The computer asks to save your password. What do you choose?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Decline password saving and use the intended service",
+            "explanation": "The shared browser retains no saved credential from this choice; the task can continue with a small setup cost.",
+            "effort": 2,
+            "fact": "The shared browser retains no saved credential from this choice; the task can continue with a small setup cost."
+          },
+          {
+            "id": "b",
+            "label": "Save the password because you will return tomorrow",
+            "explanation": "A later user can reuse the saved credential in this fictional case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "A classmate asks you to leave the account open. What is the safer route?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Share only the intended file through its access controls",
+            "explanation": "The classmate receives scoped access to the assignment, not your whole authenticated session.",
+            "effort": 2,
+            "fact": "The classmate receives scoped access to the assignment, not your whole authenticated session."
+          },
+          {
+            "id": "b",
+            "label": "Leave the account open so the classmate can find the file",
+            "explanation": "The open session exposes unrelated account content in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What verifies that your work is finished safely?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Check submission confirmation, sign out and verify the account is closed",
+            "explanation": "The submitted receipt and the service’s signed-out state support two separate conclusions.",
+            "effort": 2,
+            "fact": "The submitted receipt and the service’s signed-out state support two separate conclusions."
+          },
+          {
+            "id": "b",
+            "label": "Close the tab and treat that as confirmed sign-out",
+            "explanation": "The browser tab is closed but the authenticated session remains usable in this fictional case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cia-invoice",
+    "revision": "workshops-v1",
+    "stage": "understand",
+    "title": "An invoice that still opens",
+    "briefing": "An invoice system is online, but a payment detail may have changed. Separate availability from integrity and confidentiality.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "The dashboard is green. What conclusion is supported?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The service appears available; transaction integrity still needs checking",
+            "explanation": "Availability evidence does not establish that payment records remained correct.",
+            "effort": 2,
+            "fact": "Availability evidence does not establish that payment records remained correct."
+          },
+          {
+            "id": "b",
+            "label": "A green dashboard proves every invoice is correct",
+            "explanation": "A changed payment field goes unnoticed because uptime was treated as complete security.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What should be compared before payment?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Compare approved payment details with the submitted change and independent confirmation",
+            "explanation": "The approved record and independently confirmed change identify a substituted destination in this case.",
+            "effort": 2,
+            "fact": "The approved record and independently confirmed change identify a substituted destination in this case."
+          },
+          {
+            "id": "b",
+            "label": "Compare only the number of invoices processed",
+            "explanation": "A normal transaction count conceals the altered payment destination.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How do you contain the issue?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Hold the affected payment, preserve its records and verify the correction",
+            "explanation": "The targeted hold protects the transaction while preserving evidence and most service.",
+            "effort": 2,
+            "fact": "The targeted hold protects the transaction while preserving evidence and most service."
+          },
+          {
+            "id": "b",
+            "label": "Stop every unrelated service without identifying affected payments",
+            "explanation": "The broad shutdown interrupts unrelated work while the altered instruction remains unresolved.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mover-access",
+    "revision": "workshops-v1",
+    "stage": "understand",
+    "title": "The changing role",
+    "briefing": "An employee moves from payment operations to reporting. Some permissions come through groups and existing sessions.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "Where should the access review begin?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Compare effective access with the new role, including groups",
+            "explanation": "The review finds a group that still grants payment approval authority.",
+            "effort": 2,
+            "fact": "The review finds a group that still grants payment approval authority."
+          },
+          {
+            "id": "b",
+            "label": "Remove one visible permission and stop the review",
+            "explanation": "The old authority remains through group membership in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "The employee still has an old active session. What matters?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Use supported revocation controls and verify the effective session state",
+            "explanation": "The checked session can no longer approve payments after revocation.",
+            "effort": 2,
+            "fact": "The checked session can no longer approve payments after revocation."
+          },
+          {
+            "id": "b",
+            "label": "Assume an updated role label instantly ends every session",
+            "explanation": "The older session retains its previous authority until it is explicitly addressed in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What is appropriate closure evidence?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Retest the required reporting access and the removed payment authority",
+            "explanation": "Positive and negative tests show that necessary work continues while removed authority is blocked.",
+            "effort": 2,
+            "fact": "Positive and negative tests show that necessary work continues while removed authority is blocked."
+          },
+          {
+            "id": "b",
+            "label": "Close the ticket when the directory screenshot looks tidy",
+            "explanation": "The screenshot does not demonstrate what the user can actually do.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "restore-dependency",
+    "revision": "workshops-v1",
+    "stage": "understand",
+    "title": "The backup dependency",
+    "briefing": "A branch backup job reports success. Recovery also depends on keys, identities and the application.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "What does a successful backup job establish?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A recorded copy operation; test restoration separately",
+            "explanation": "Separating copy evidence from recovery evidence identifies what remains untested.",
+            "effort": 2,
+            "fact": "Separating copy evidence from recovery evidence identifies what remains untested."
+          },
+          {
+            "id": "b",
+            "label": "A guaranteed ability to restore the full business service",
+            "explanation": "Missing application access is discovered only during the outage in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "Where should the recovery key be protected?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "In an authorised recovery path that does not share the same failure as production",
+            "explanation": "The recovery team can retrieve the protected key through a separate authorised path.",
+            "effort": 2,
+            "fact": "The recovery team can retrieve the protected key through a separate authorised path."
+          },
+          {
+            "id": "b",
+            "label": "Only inside the unavailable production service",
+            "explanation": "The encrypted copy exists but cannot be opened while the production service is down.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "Which test completes the exercise?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Restore representative data and validate the application’s dependent service",
+            "explanation": "The test confirms usable records and the connected application path within the exercise scope.",
+            "effort": 2,
+            "fact": "The test confirms usable records and the connected application path within the exercise scope."
+          },
+          {
+            "id": "b",
+            "label": "Check that the archive filename and size look plausible",
+            "explanation": "A plausible archive name gives no evidence that users can resume their work.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "session-boundary",
+    "revision": "workshops-v1",
+    "stage": "check",
+    "title": "Which session is still alive?",
+    "briefing": "A learner resets a password after an account concern. Decide which observations actually establish revocation.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "The password reset completed. What should you verify next?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Check active sessions and supported revocation controls",
+            "explanation": "The account still lists an older session; reset success and session revocation are different observations.",
+            "effort": 2,
+            "fact": "The account still lists an older session; reset success and session revocation are different observations."
+          },
+          {
+            "id": "b",
+            "label": "Conclude that all previously issued sessions have ended",
+            "explanation": "An old session remains unreviewed in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "A browser shows a sign-out animation. What evidence is stronger?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Check that a protected request with the revoked session is rejected",
+            "explanation": "The protected request is rejected, supporting revocation of that specific session.",
+            "effort": 2,
+            "fact": "The protected request is rejected, supporting revocation of that specific session."
+          },
+          {
+            "id": "b",
+            "label": "Treat the animation itself as server-side revocation evidence",
+            "explanation": "A local animation hides a session that the server still accepts in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How do you describe the test result?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "State the tested account/session and the limits of the check",
+            "explanation": "The scoped result gives assurance without claiming coverage that was not tested.",
+            "effort": 2,
+            "fact": "The scoped result gives assurance without claiming coverage that was not tested."
+          },
+          {
+            "id": "b",
+            "label": "Claim that every account and application has been secured",
+            "explanation": "The overbroad closure leaves a separate application token outside the response.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cloud-policy",
+    "revision": "workshops-v1",
+    "stage": "check",
+    "title": "The encrypted public file",
+    "briefing": "A cloud object is encrypted at rest, but a resource policy may allow public reads.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "Can encryption at rest settle the access question?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Review whether the service returns the object to an unauthorised reader",
+            "explanation": "The service can return decrypted content to a reader allowed by policy; access still matters.",
+            "effort": 2,
+            "fact": "The service can return decrypted content to a reader allowed by policy; access still matters."
+          },
+          {
+            "id": "b",
+            "label": "Assume stored encryption makes public access harmless",
+            "explanation": "The public policy permits the fictional disclosure despite stored encryption.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What permission evidence is needed?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Review effective identity and resource policies together",
+            "explanation": "The combined review identifies an inherited grant that still allows access.",
+            "effort": 2,
+            "fact": "The combined review identifies an inherited grant that still allows access."
+          },
+          {
+            "id": "b",
+            "label": "Inspect only one reassuring policy statement",
+            "explanation": "The broad inherited grant survives the single-policy review.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How should the correction be validated?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Check permitted access, denied unauthorised access and retained logs",
+            "explanation": "The team confirms intended access and preserves evidence of the exposure window.",
+            "effort": 2,
+            "fact": "The team confirms intended access and preserves evidence of the exposure window."
+          },
+          {
+            "id": "b",
+            "label": "Delete all access logs once the policy is edited",
+            "explanation": "Deleting the records removes evidence needed to understand earlier access.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rule-order",
+    "revision": "workshops-v1",
+    "stage": "check",
+    "title": "The rule below the allow",
+    "briefing": "A network rule list contains a broad allow before a specific deny. Find what the path actually permits.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "What is the first useful question?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Determine the effective rule order and the interface handling the traffic",
+            "explanation": "The earlier allow applies first on the observed path; document count alone misses that effect.",
+            "effort": 2,
+            "fact": "The earlier allow applies first on the observed path; document count alone misses that effect."
+          },
+          {
+            "id": "b",
+            "label": "Count the deny statements in the document",
+            "explanation": "The specific deny never controls the path in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "The intended path is restricted. What remains to check?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Review alternative interfaces and administration paths",
+            "explanation": "A second path is identified and included in the test scope.",
+            "effort": 2,
+            "fact": "A second path is identified and included in the test scope."
+          },
+          {
+            "id": "b",
+            "label": "Assume the diagram proves there are no other routes",
+            "explanation": "An alternative route bypasses the intended boundary in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How should the change be introduced?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Validate required service paths and retain a rollback plan",
+            "explanation": "The change restricts the unwanted route while testing the required business path.",
+            "effort": 2,
+            "fact": "The change restricts the unwanted route while testing the required business path."
+          },
+          {
+            "id": "b",
+            "label": "Block every connection immediately and leave restoration unspecified",
+            "explanation": "The uncontrolled block interrupts legitimate work without proving the original path is resolved.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "login-correlation",
+    "revision": "workshops-v1",
+    "stage": "investigate",
+    "title": "Two clocks, one alert",
+    "briefing": "A login record and an endpoint record appear inconsistent. Their clocks may differ.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "How do you handle the timestamps?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Record clock offsets and preserve original records",
+            "explanation": "Known offsets allow careful correlation without overwriting source evidence.",
+            "effort": 2,
+            "fact": "Known offsets allow careful correlation without overwriting source evidence."
+          },
+          {
+            "id": "b",
+            "label": "Rewrite the original timestamps to make the records match",
+            "explanation": "Changing originals removes the basis for checking the timeline.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "Which evidence helps test the compromise hypothesis?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Correlate the session with endpoint behaviour and expected activity",
+            "explanation": "Independent records show the session and process relationship in this case.",
+            "effort": 2,
+            "fact": "Independent records show the session and process relationship in this case."
+          },
+          {
+            "id": "b",
+            "label": "Treat the unfamiliar time alone as proof of compromise",
+            "explanation": "The isolated timestamp produces a confident claim without a supported chain of events.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How should uncertainty be reported?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Separate confirmed observations from remaining hypotheses",
+            "explanation": "The report supports a proportionate response and identifies evidence still needed.",
+            "effort": 2,
+            "fact": "The report supports a proportionate response and identifies evidence still needed."
+          },
+          {
+            "id": "b",
+            "label": "Remove every unresolved question from the final report",
+            "explanation": "Unresolved access is hidden by an artificially certain report.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "scheduled-export",
+    "revision": "workshops-v1",
+    "stage": "investigate",
+    "title": "The midnight export",
+    "briefing": "An overnight export triggers an alert. It may be authorised maintenance or misuse of a familiar process.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "What should be checked first?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Compare the job with its approved schedule, owner and destination",
+            "explanation": "The job has an approved time but an unexpected destination, narrowing the investigation.",
+            "effort": 2,
+            "fact": "The job has an approved time but an unexpected destination, narrowing the investigation."
+          },
+          {
+            "id": "b",
+            "label": "Dismiss it because the process name is familiar",
+            "explanation": "A familiar process name conceals a changed destination in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What next distinguishes intent from appearance?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Review the change record and actual transferred scope",
+            "explanation": "The approved scope excludes the extra sensitive dataset found in the transfer record.",
+            "effort": 2,
+            "fact": "The approved scope excludes the extra sensitive dataset found in the transfer record."
+          },
+          {
+            "id": "b",
+            "label": "Assume a matching schedule validates every transfer",
+            "explanation": "The excessive dataset is missed because schedule and authority were conflated.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "Choose the response.",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Restrict the affected export path and preserve relevant records",
+            "explanation": "The team limits further transfer while retaining evidence for scope assessment.",
+            "effort": 2,
+            "fact": "The team limits further transfer while retaining evidence for scope assessment."
+          },
+          {
+            "id": "b",
+            "label": "Delete the suspicious job and its history immediately",
+            "explanation": "Removing the history makes the earlier transfer difficult to assess.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vendor-signal",
+    "revision": "workshops-v1",
+    "stage": "investigate",
+    "title": "The supplier’s assurance",
+    "briefing": "A supplier says an unusual connection was maintenance. You have a connection alert but no confirmed impact.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "What can the alert establish?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Suspicious activity requiring context; impact remains unconfirmed",
+            "explanation": "The distinction keeps the investigation focused on what the alert actually observed.",
+            "effort": 2,
+            "fact": "The distinction keeps the investigation focused on what the alert actually observed."
+          },
+          {
+            "id": "b",
+            "label": "Confirmed successful data theft",
+            "explanation": "An unsupported theft declaration diverts response effort from checking effective access.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "Which supplier evidence is useful?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A scoped maintenance approval and relevant access records",
+            "explanation": "The scoped records do not match the account used for the connection in this case.",
+            "effort": 2,
+            "fact": "The scoped records do not match the account used for the connection in this case."
+          },
+          {
+            "id": "b",
+            "label": "A generic assurance that their systems are secure",
+            "explanation": "The generic statement leaves the observed account activity unexplained.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How do you proceed?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Coordinate targeted access restriction, evidence collection and business validation",
+            "explanation": "The response limits the observed path while documenting unresolved impact.",
+            "effort": 2,
+            "fact": "The response limits the observed path while documenting unresolved impact."
+          },
+          {
+            "id": "b",
+            "label": "Leave the connection unrestricted until every question is answered",
+            "explanation": "The same credential remains available for another connection in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "supplier-credential",
+    "revision": "workshops-v1",
+    "stage": "defend",
+    "title": "Close the recurring door",
+    "briefing": "A fictional supplier service credential is repeatedly used. Staff MFA is already present.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "Which control addresses the observed entry?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Revoke or rotate the supplier credential after checking its dependencies",
+            "explanation": "The obsolete supplier credential no longer opens the observed route.",
+            "effort": 2,
+            "fact": "The obsolete supplier credential no longer opens the observed route."
+          },
+          {
+            "id": "b",
+            "label": "Add staff MFA again and leave the supplier credential active",
+            "explanation": "Staff MFA does not invalidate the separate service credential in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "Does closing entry remove existing compromise?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Investigate and remove existing access separately",
+            "explanation": "The investigation identifies an existing foothold that requires a separate response.",
+            "effort": 2,
+            "fact": "The investigation identifies an existing foothold that requires a separate response."
+          },
+          {
+            "id": "b",
+            "label": "Assume revocation also cleaned every connected asset",
+            "explanation": "Existing access continues after the original entry is closed in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What validates recovery?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Test required supplier service with scoped replacement access and checked systems",
+            "explanation": "Scoped replacement access supports necessary work without reopening the old grant.",
+            "effort": 2,
+            "fact": "Scoped replacement access supports necessary work without reopening the old grant."
+          },
+          {
+            "id": "b",
+            "label": "Restore the original broad credential for convenience",
+            "explanation": "The original broad access recreates the same recurring entry path.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "patch-window",
+    "revision": "workshops-v1",
+    "stage": "defend",
+    "title": "The patching window",
+    "briefing": "An important application has a known weakness. Patching needs a short interruption, and possible existing access is unresolved.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "How do you approach the update?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Assess urgency and dependencies, then use a controlled maintenance window",
+            "explanation": "A short planned interruption reduces the known exposure while keeping recovery options clear.",
+            "effort": 2,
+            "fact": "A short planned interruption reduces the known exposure while keeping recovery options clear."
+          },
+          {
+            "id": "b",
+            "label": "Defer indefinitely because the service is currently online",
+            "explanation": "The known exposure remains available throughout the exercise.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "The patch is installed. What is the next check?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Verify activation and investigate any existing compromise",
+            "explanation": "The test confirms the active version, while incident evidence remains a separate task.",
+            "effort": 2,
+            "fact": "The test confirms the active version, while incident evidence remains a separate task."
+          },
+          {
+            "id": "b",
+            "label": "Treat a downloaded package as both installation and incident closure",
+            "explanation": "The downloaded package has not activated and the existing access was not investigated.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How do you close the change?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Validate business transactions and review residual incident evidence",
+            "explanation": "The application works after the change and the unresolved access finding is assigned for response.",
+            "effort": 2,
+            "fact": "The application works after the change and the unresolved access finding is assigned for response."
+          },
+          {
+            "id": "b",
+            "label": "Rely only on the patch tool’s green icon",
+            "explanation": "A green icon hides a failed transaction dependency in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "segment-service",
+    "revision": "workshops-v1",
+    "stage": "defend",
+    "title": "The payment trust path",
+    "briefing": "A connected workstation can reach payment systems. Narrow the trust path without stopping all service.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "Where do you start?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Map required sources, destinations and business dependencies",
+            "explanation": "The required service path is known before changing its boundaries.",
+            "effort": 2,
+            "fact": "The required service path is known before changing its boundaries."
+          },
+          {
+            "id": "b",
+            "label": "Apply a blanket block before identifying the payment path",
+            "explanation": "The blanket block stops legitimate payments while leaving the intended design unclear.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What control should you validate?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The effective segmentation boundary across the permitted paths",
+            "explanation": "The test shows which actual crossing is denied and which approved path remains available.",
+            "effort": 2,
+            "fact": "The test shows which actual crossing is denied and which approved path remains available."
+          },
+          {
+            "id": "b",
+            "label": "Only the label on the segmentation ticket",
+            "explanation": "The ticket label does not control an alternative route in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How should the result be evaluated?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Check both reduced access and continued payment service",
+            "explanation": "The outcome balances access restriction with observed service availability.",
+            "effort": 2,
+            "fact": "The outcome balances access restriction with observed service availability."
+          },
+          {
+            "id": "b",
+            "label": "Count fewer alerts as sufficient proof of improvement",
+            "explanation": "Alerts fell because the service and its telemetry were interrupted, not because safety was established.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clinical-containment",
+    "revision": "workshops-v1",
+    "stage": "command",
+    "title": "Containment on the night shift",
+    "briefing": "A hospital service shows suspicious activity. Isolation may interrupt clinical access while investigation continues.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "What must containment consider?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Clinical dependencies, incident evidence and the decision authority",
+            "explanation": "The targeted plan accounts for affected care dependencies and escalation responsibilities.",
+            "effort": 2,
+            "fact": "The targeted plan accounts for affected care dependencies and escalation responsibilities."
+          },
+          {
+            "id": "b",
+            "label": "Isolate every clinical component without assessing service consequences",
+            "explanation": "Broad isolation causes avoidable clinical downtime in this fictional case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What evidence guides the next decision?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Correlate the affected service’s account and endpoint records",
+            "explanation": "The records identify access requiring eradication beyond the network isolation.",
+            "effort": 2,
+            "fact": "The records identify access requiring eradication beyond the network isolation."
+          },
+          {
+            "id": "b",
+            "label": "Assume isolation itself removed all compromise",
+            "explanation": "A disconnected service still retains unwanted access in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "When should service return?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "After a trusted recovery path and business validation are confirmed",
+            "explanation": "The team validates the critical service and relevant access state before reconnection.",
+            "effort": 2,
+            "fact": "The team validates the critical service and relevant access state before reconnection."
+          },
+          {
+            "id": "b",
+            "label": "Reconnect immediately when the alert count falls",
+            "explanation": "The alert count fell with disconnected telemetry; reconnection restores the unresolved access path.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "reconnect-decision",
+    "revision": "workshops-v1",
+    "stage": "command",
+    "title": "The reconnection decision",
+    "briefing": "A branch has a recovery copy, but application trust and entry conditions are not yet resolved.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "Which recovery source should be used?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A protected copy whose restoration and access can be validated",
+            "explanation": "The selected copy can be opened and representative records can be restored in this case.",
+            "effort": 2,
+            "fact": "The selected copy can be opened and representative records can be restored in this case."
+          },
+          {
+            "id": "b",
+            "label": "The most recently named archive without checking it",
+            "explanation": "The newest-looking archive lacks the key needed for recovery.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "The system is restored in isolation. What is next?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Validate its condition and address the relevant entry path",
+            "explanation": "Validation identifies and closes the unresolved entry before normal communication resumes.",
+            "effort": 2,
+            "fact": "Validation identifies and closes the unresolved entry before normal communication resumes."
+          },
+          {
+            "id": "b",
+            "label": "Reconnect first and investigate the old entry later",
+            "explanation": "The restored system is reached again through the unchanged entry path in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What belongs in the recovery report?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Service results, dependencies, remaining limits and assigned follow-up",
+            "explanation": "The report distinguishes usable service recovery from the wider resilience work still required.",
+            "effort": 2,
+            "fact": "The report distinguishes usable service recovery from the wider resilience work still required."
+          },
+          {
+            "id": "b",
+            "label": "A claim that restored files alone prove complete resilience",
+            "explanation": "The overbroad claim leaves an untested dependency outside follow-up.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "executive-change",
+    "revision": "workshops-v1",
+    "stage": "command",
+    "title": "The urgent executive change",
+    "briefing": "An apparent executive instruction requests a payment change during an incident. Business continuity and approval integrity both matter.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "What should the team verify?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Confirm the consequential change through established independent authority",
+            "explanation": "The established authority rejects the substituted payment instruction in this case.",
+            "effort": 2,
+            "fact": "The established authority rejects the substituted payment instruction in this case."
+          },
+          {
+            "id": "b",
+            "label": "Bypass approval because the request sounds like the executive",
+            "explanation": "The familiar voice is enough to redirect the fictional payment when approval is bypassed.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How should work continue?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Separate affected payments from unrelated authorised operations",
+            "explanation": "The scoped hold protects the payment while preserving justified business work.",
+            "effort": 2,
+            "fact": "The scoped hold protects the payment while preserving justified business work."
+          },
+          {
+            "id": "b",
+            "label": "Stop all activity with no scope or restoration decision",
+            "explanation": "The unscoped halt adds disruption without settling the changed instruction.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What is useful after-action evidence?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Record known facts, decisions, authority and the observed result",
+            "explanation": "The decision record supports review of both control operation and business impact.",
+            "effort": 2,
+            "fact": "The decision record supports review of both control operation and business impact."
+          },
+          {
+            "id": "b",
+            "label": "Record only that senior management was informed",
+            "explanation": "Notification alone cannot explain who authorised the change or what actually happened.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "trust-route",
+    "revision": "workshops-v1",
+    "stage": "opponent",
+    "title": "Predict the trust crossing",
+    "briefing": "In a conceptual Red/Blue position, Red knows a privileged foothold and one outgoing trust path. Blue must anticipate that path.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "Which evidence supports predicting a route?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The known foothold and the directed connection",
+            "explanation": "The permitted direction narrows the plausible next crossing in this position.",
+            "effort": 2,
+            "fact": "The permitted direction narrows the plausible next crossing in this position."
+          },
+          {
+            "id": "b",
+            "label": "An assumption that every asset connects to every other asset",
+            "explanation": "Treating the graph as fully connected misdirects protection effort.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What Blue action addresses a new lateral crossing?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Segment the relevant boundary while considering service cost",
+            "explanation": "Segmentation blocks the modelled crossing; monitoring has a different detection purpose.",
+            "effort": 2,
+            "fact": "Segmentation blocks the modelled crossing; monitoring has a different detection purpose."
+          },
+          {
+            "id": "b",
+            "label": "Install monitoring and assume it blocks all movement",
+            "explanation": "Monitoring may produce evidence but does not itself block the crossing in this teaching position.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How should Red interpret an old assessment?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "As dated intelligence that may no longer reflect Blue’s controls",
+            "explanation": "The plan allows for changed conditions rather than assuming the earlier assessment is current.",
+            "effort": 2,
+            "fact": "The plan allows for changed conditions rather than assuming the earlier assessment is current."
+          },
+          {
+            "id": "b",
+            "label": "As permanent knowledge of all current controls",
+            "explanation": "The attempted crossing spends resources against a boundary that changed after reconnaissance.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "resolution-order",
+    "revision": "workshops-v1",
+    "stage": "opponent",
+    "title": "Two orders, one round",
+    "briefing": "Both seats are choosing one conceptual action. Blue resolves before Red under the current simulator rules.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "What should a Red plan account for?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Blue may change relevant conditions before Red’s action resolves",
+            "explanation": "The planned action considers a defence that can resolve first in the same round.",
+            "effort": 2,
+            "fact": "The planned action considers a defence that can resolve first in the same round."
+          },
+          {
+            "id": "b",
+            "label": "Red’s commit-time view guarantees the conditions at execution",
+            "explanation": "A changed boundary blocks the intended action despite the earlier view in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "A blocked action still had a committed cost. What follows?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Budget for the attempt and consider the opportunity cost",
+            "explanation": "The resource plan remains consistent with the simulator’s committed-action rule.",
+            "effort": 2,
+            "fact": "The resource plan remains consistent with the simulator’s committed-action rule."
+          },
+          {
+            "id": "b",
+            "label": "Assume a blocked attempt returns all resources",
+            "explanation": "The next plan relies on credits that were already spent.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "Which review is supported after the round?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Use the evidence available to your seat and save full comparison for the debrief",
+            "explanation": "The review distinguishes observed signals from hidden outcomes.",
+            "effort": 2,
+            "fact": "The review distinguishes observed signals from hidden outcomes."
+          },
+          {
+            "id": "b",
+            "label": "Treat absence of an alert as proof that nothing happened",
+            "explanation": "An unalerted attempt is missed because quiet telemetry was treated as complete knowledge.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "stale-foothold",
+    "revision": "workshops-v1",
+    "stage": "opponent",
+    "title": "The foothold that changed",
+    "briefing": "Red believes a user foothold remains. Blue may have revoked access since the last observation.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "How should the belief be treated?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "As a dated observation, not guaranteed current truth",
+            "explanation": "The plan keeps uncertainty explicit and considers a fresh check.",
+            "effort": 2,
+            "fact": "The plan keeps uncertainty explicit and considers a fresh check."
+          },
+          {
+            "id": "b",
+            "label": "As proof that the foothold cannot have changed",
+            "explanation": "The plan assumes access that has already been revoked in this position.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "The action fails without a detailed explanation. What can you conclude?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "The intended result was not achieved; several conditions may explain it",
+            "explanation": "A bounded conclusion avoids inventing the defender’s private choice.",
+            "effort": 2,
+            "fact": "A bounded conclusion avoids inventing the defender’s private choice."
+          },
+          {
+            "id": "b",
+            "label": "The failure proves Blue chose a specific hidden order",
+            "explanation": "A guessed hidden order leads the next plan away from checking actual connectivity.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What makes a useful post-game review?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Compare the recorded timeline and an affordable alternative in the same round",
+            "explanation": "The round comparison supports a measured local benefit without promising a different final winner.",
+            "effort": 2,
+            "fact": "The round comparison supports a measured local benefit without promising a different final winner."
+          },
+          {
+            "id": "b",
+            "label": "Claim a single alternative would certainly win the entire match",
+            "explanation": "A counterfactual for one round is overstated as a guaranteed match outcome.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "two-seat-ready",
+    "revision": "workshops-v1",
+    "stage": "compete",
+    "title": "Ready for the second learner",
+    "briefing": "Two people want to play one match fairly, with separate identities and hidden commitments.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "How should the two seats be occupied?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Use two different eligible learner accounts in separate browser sessions",
+            "explanation": "Distinct identities bind each seat and keep each learner’s view independent.",
+            "effort": 2,
+            "fact": "Distinct identities bind each seat and keep each learner’s view independent."
+          },
+          {
+            "id": "b",
+            "label": "Share one signed-in account for both seats",
+            "explanation": "A shared identity cannot fairly represent two independently authenticated seats.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How should an invitation be shared?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Send the single-use code privately to the intended learner",
+            "explanation": "The intended learner can claim the available seat without exposing the invitation broadly.",
+            "effort": 2,
+            "fact": "The intended learner can claim the available seat without exposing the invitation broadly."
+          },
+          {
+            "id": "b",
+            "label": "Publish the code in an open group and hope the right person joins",
+            "explanation": "An unintended learner claims the exposed invitation first in this fictional case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "One choice is sealed. What is appropriate?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Wait or resume later while the other learner commits independently",
+            "explanation": "Independent commitments preserve the hidden-planning learning exercise.",
+            "effort": 2,
+            "fact": "Independent commitments preserve the hidden-planning learning exercise."
+          },
+          {
+            "id": "b",
+            "label": "Ask to inspect and edit both hidden choices before resolution",
+            "explanation": "Inspecting the other choice first removes the uncertainty the exercise is designed to teach.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lost-acknowledgement",
+    "revision": "workshops-v1",
+    "stage": "compete",
+    "title": "The response that disappeared",
+    "briefing": "A learner’s screen loses a response after submitting a choice. The server may already have saved it.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "What should the learner do first?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Refresh saved state or retry the exact original command",
+            "explanation": "The stable retry can return the already saved result without a second effect.",
+            "effort": 2,
+            "fact": "The stable retry can return the already saved result without a second effect."
+          },
+          {
+            "id": "b",
+            "label": "Invent a new command identity and submit a different choice immediately",
+            "explanation": "A different fresh request creates conflict with the existing commitment in this case.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "The round has advanced. What is supported?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Read the new evidence before making the next round’s decision",
+            "explanation": "The learner acts on the saved current round and its actual evidence.",
+            "effort": 2,
+            "fact": "The learner acts on the saved current round and its actual evidence."
+          },
+          {
+            "id": "b",
+            "label": "Treat the earlier screen as current and reuse its round number",
+            "explanation": "The old-round request is stale and cannot support the intended next decision.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What belongs in a bug report?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Page, match/round identifier, expected result and sanitised observed behaviour",
+            "explanation": "The report gives a reproducible context without disclosing access secrets.",
+            "effort": 2,
+            "fact": "The report gives a reproducible context without disclosing access secrets."
+          },
+          {
+            "id": "b",
+            "label": "Include session tokens, invitation secrets or account passwords",
+            "explanation": "The report exposes credentials that are not needed to investigate the UI problem.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "after-action",
+    "revision": "workshops-v1",
+    "stage": "compete",
+    "title": "The second playthrough",
+    "briefing": "A finished match provides a timeline and limited single-round alternatives. Turn the result into a learning experiment.",
+    "objective": "Work through three decisions, collect supported findings and identify unresolved risks. Replay with another approach and compare evidence, consequences and effort.",
+    "steps": [
+      {
+        "prompt": "Where should the review begin?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Compare each decision with the evidence available at that time",
+            "explanation": "The review distinguishes reasonable uncertainty from a decision unsupported by available evidence.",
+            "effort": 2,
+            "fact": "The review distinguishes reasonable uncertainty from a decision unsupported by available evidence."
+          },
+          {
+            "id": "b",
+            "label": "Judge every decision using information revealed only after the match",
+            "explanation": "Hindsight hides what the learner could actually know at the decision point.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "What should the next playthrough test?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Change a specific decision and compare its observed consequences",
+            "explanation": "A focused comparison makes the cause of the changed outcome easier to discuss.",
+            "effort": 2,
+            "fact": "A focused comparison makes the cause of the changed outcome easier to discuss."
+          },
+          {
+            "id": "b",
+            "label": "Change everything and claim any improvement proves one control worked",
+            "explanation": "Many simultaneous changes leave the reason for the new outcome unclear.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      },
+      {
+        "prompt": "How can the two learners deepen understanding?",
+        "context": "Use the current case evidence and the recorded consequences of your earlier decisions.",
+        "choices": [
+          {
+            "id": "a",
+            "label": "Create a new match with exchanged seats and discuss both perspectives",
+            "explanation": "Role reversal exposes different information and tradeoffs without rewriting the finished record.",
+            "effort": 2,
+            "fact": "Role reversal exposes different information and tradeoffs without rewriting the finished record."
+          },
+          {
+            "id": "b",
+            "label": "Treat one win as proof of overall cybersecurity mastery",
+            "explanation": "A single simulated win is used to make an unsupported claim about broad competence.",
+            "effort": 1,
+            "fact": null
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "id": "hospital",
+  "revision": 1,
+  "title": "Night Shift Outage",
+  "industry": "Healthcare",
+  "difficulty": "intermediate",
+  "turn_limit": 14,
+  "action_points": 3,
+  "starting_budget": 30,
+  "assets": [
+    {
+      "id": "reception",
+      "name": "Admissions workstation",
+      "kind": "workstation",
+      "value": 15,
+      "exposed": true,
+      "vulnerabilities": [
+        "phishing",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "clinical",
+      "name": "Clinical scheduling server",
+      "kind": "server",
+      "value": 60,
+      "exposed": false,
+      "vulnerabilities": [
+        "privilege",
+        "access"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "records",
+      "name": "Patient records database",
+      "kind": "database",
+      "value": 90,
+      "exposed": false,
+      "vulnerabilities": [
+        "access",
+        "privilege"
+      ],
+      "controls": [
+        "backup",
+        "monitoring"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "imaging",
+      "name": "Imaging service",
+      "kind": "server",
+      "value": 50,
+      "exposed": false,
+      "vulnerabilities": [
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "lab",
+      "name": "External laboratory",
+      "kind": "third_party",
+      "value": 25,
+      "exposed": true,
+      "vulnerabilities": [
+        "configuration"
+      ],
+      "controls": [
+        "monitoring"
+      ],
+      "initial_access": 0
+    }
+  ],
+  "connections": [
+    {
+      "source": "reception",
+      "target": "clinical"
+    },
+    {
+      "source": "clinical",
+      "target": "records"
+    },
+    {
+      "source": "clinical",
+      "target": "imaging"
+    },
+    {
+      "source": "lab",
+      "target": "records"
+    }
+  ],
+  "red": {
+    "known_assets": [
+      "reception",
+      "lab"
+    ],
+    "briefing": "Admissions handles external messages. Clinical systems may share trust relationships."
+  },
+  "blue": {
+    "known_assets": [
+      "reception",
+      "clinical",
+      "records",
+      "imaging",
+      "lab"
+    ],
+    "briefing": "Keep clinical scheduling and records available. Isolation also interrupts service; recover promptly."
+  },
+  "objective": {
+    "kind": "disruption",
+    "targets": [
+      "clinical",
+      "records"
+    ],
+    "threshold": 60,
+    "hold_turns": 2,
+    "explanation": "Red must cause at least 60 units of critical service unavailability for two consecutive rounds. Isolation counts as downtime."
+  }
+}

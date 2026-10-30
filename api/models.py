@@ -86,6 +86,7 @@ class QuizAttempt(Base):
     score: Mapped[int] = mapped_column(Integer, nullable=False)
     total: Mapped[int] = mapped_column(Integer, nullable=False)
     submitted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    result_snapshot: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 class MissionRun(Base):
     __tablename__ = "mission_runs"
@@ -125,4 +126,64 @@ class BetaFeedback(Base):
     rating: Mapped[int | None] = mapped_column(Integer, nullable=True)
     message: Mapped[str] = mapped_column(Text, nullable=False)
     page: Mapped[str] = mapped_column(String(160), nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class PasswordResetToken(Base):
+    """Recovery token digest only; never persist plaintext bearer links."""
+    __tablename__ = "password_reset_tokens"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+
+class StrategyRun(Base):
+    """Version-pinned independent strategy mode; legacy MissionRun is untouched."""
+    __tablename__ = 'strategy_runs'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), index=True)
+    state: Mapped[dict] = mapped_column(JSON, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class StrategyCommand(Base):
+    __tablename__ = 'strategy_commands'
+    __table_args__ = (UniqueConstraint('run_id', 'command_id', name='uq_strategy_command'),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey('strategy_runs.id', ondelete='CASCADE'), index=True)
+    command_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    request: Mapped[dict] = mapped_column(JSON, nullable=False)
+
+
+class CyberPracticeSession(Base):
+    """Immutable private question snapshot; no recomputed sample on grading."""
+    __tablename__ = 'cyber_practice_sessions'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), index=True)
+    snapshot: Mapped[list] = mapped_column(JSON, nullable=False)
+    result: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class CyberStudyProgress(Base):
+    __tablename__ = 'cyber_study_progress'
+    __table_args__ = (UniqueConstraint('user_id', 'module_id', 'revision', name='uq_cyber_study'),)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), index=True)
+    module_id: Mapped[str] = mapped_column(String(40), nullable=False)
+    revision: Mapped[str] = mapped_column(String(40), nullable=False)
+    completed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+# Register the independent simulator metadata for migrations/readiness and tests.
+from red_blue_models import RedBlueMatch, RedBlueSeat, RedBlueReceipt  # noqa: F401,E402
+
+
+class JourneyWorkshopRun(Base):
+    """Pinned authored decision case; independent of course/match progress."""
+    __tablename__ = 'journey_workshop_runs'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), nullable=False, index=True)
+    state: Mapped[dict] = mapped_column(JSON, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)

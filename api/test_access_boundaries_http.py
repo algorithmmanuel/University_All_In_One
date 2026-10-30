@@ -141,6 +141,31 @@ def test_learning_quiz_and_mission_access_boundaries():
             assert graded.status_code == 201
             assert graded.json()["score"] == 0
             assert graded.json()["total"] == 1
+            detail_url = f"/api/v1/quizzes/courses/{course_id}/attempts/{graded.json()['attempt_id']}"
+            assert client.get(detail_url).status_code == 401
+            assert client.get(detail_url, headers=headers["teacher"]).status_code == 403
+            detail = client.get(detail_url, headers=headers["owner"])
+            assert detail.status_code == 200
+            assert detail.json()["analysis"] == graded.json()["analysis"]
+            assert detail.json()["analysis"]["unmapped_count"] == 1
+            assert client.get('/api/v1/missions/progress').status_code == 401
+            assert client.get('/api/v1/missions/progress',headers=headers['teacher']).status_code == 403
+            assert client.get('/api/v1/missions/progress',headers=headers['owner']).json()['active_missions'] == 1
+            assert client.get('/api/v1/missions/progress',headers=headers['other']).json()['recent_missions'] == []
+            assert client.get('/api/v1/learning/overview').status_code == 401
+            assert client.get('/api/v1/learning/overview', headers=headers['teacher']).status_code == 403
+            overview = client.get('/api/v1/learning/overview', headers=headers['owner'])
+            assert overview.status_code == 200
+            assert overview.json()['courses'][0]['id'] == course_id
+            assert overview.json()['recent_attempts'][0]['id'] == graded.json()['attempt_id']
+            assert client.get('/api/v1/learning/overview', headers=headers['other']).json()['courses'] == []
+
+            # An enrolled second learner must still be unable to read this snapshot.
+            assert client.post(f"/api/v1/learning/enrollments/{course_id}", headers=headers["other"]).status_code == 201
+            assert client.get(detail_url, headers=headers["other"]).status_code == 404
+            with Session.begin() as db:
+                db.execute(delete(Enrollment).where(Enrollment.user_id == user_ids[1], Enrollment.course_id == course_id))
+
             assert client.get(f"/api/v1/quizzes/courses/{course_id}/attempts",
                               headers=headers["other"]).status_code == 403
             assert len(client.get(f"/api/v1/quizzes/courses/{course_id}/attempts",

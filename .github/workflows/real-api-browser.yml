@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - feature/phase-9-platform-expansion
+      - feature/beta-continuous-improvement
     paths:
       - 'api/**'
       - 'web/**'
@@ -80,7 +81,7 @@ jobs:
       - name: Start frontend
         working-directory: web
         run: |
-          npm run start -- -p 3100 > /tmp/educyber-web.log 2>&1 &
+          npm run start -- --hostname 127.0.0.1 -p 3100 > /tmp/educyber-web.log 2>&1 &
           for i in $(seq 1 40); do
             if curl --fail --silent http://127.0.0.1:3100/account > /dev/null; then exit 0; fi
             sleep 2
@@ -94,7 +95,7 @@ jobs:
           TOKEN=$(printf '%s' "$SESSION_JSON" | python -c "import json,sys; print(json.load(sys.stdin)['token'])")
           echo "::add-mask::$TOKEN"
           export EDUCYBER_E2E_TOKEN="$TOKEN"
-          node --test tests/browser/real-api.test.cjs
+          node --test tests/browser/real-api.test.cjs tests/browser/cyber-lab-real.test.cjs tests/browser/red-blue-real.test.cjs tests/browser/journey-real.test.cjs tests/browser/workshops-real.test.cjs
       - name: Diagnostic logs
         if: failure()
         run: |

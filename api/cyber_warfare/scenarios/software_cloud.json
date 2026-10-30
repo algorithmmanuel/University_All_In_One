@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "id": "software_cloud",
+  "revision": 1,
+  "title": "Open Bucket, Closed Doors",
+  "industry": "Software as a service",
+  "difficulty": "beginner",
+  "turn_limit": 10,
+  "action_points": 3,
+  "starting_budget": 21,
+  "assets": [
+    {
+      "id": "portal",
+      "name": "Customer support portal",
+      "kind": "server",
+      "value": 20,
+      "exposed": true,
+      "vulnerabilities": [
+        "configuration",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "storage",
+      "name": "Customer document storage",
+      "kind": "cloud",
+      "value": 70,
+      "exposed": true,
+      "vulnerabilities": [
+        "configuration",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "pipeline",
+      "name": "Release pipeline",
+      "kind": "server",
+      "value": 40,
+      "exposed": false,
+      "vulnerabilities": [
+        "privilege",
+        "access"
+      ],
+      "controls": [
+        "monitoring"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "secrets",
+      "name": "Service credential vault",
+      "kind": "database",
+      "value": 60,
+      "exposed": false,
+      "vulnerabilities": [
+        "access"
+      ],
+      "controls": [
+        "access_control",
+        "backup"
+      ],
+      "initial_access": 0
+    }
+  ],
+  "connections": [
+    {
+      "source": "portal",
+      "target": "pipeline"
+    },
+    {
+      "source": "pipeline",
+      "target": "storage"
+    },
+    {
+      "source": "pipeline",
+      "target": "secrets"
+    }
+  ],
+  "red": {
+    "known_assets": [
+      "portal",
+      "storage"
+    ],
+    "briefing": "Public storage configuration may expose a foothold. Data access still requires privilege."
+  },
+  "blue": {
+    "known_assets": [
+      "portal",
+      "storage",
+      "pipeline",
+      "secrets"
+    ],
+    "briefing": "Review public cloud boundaries and keep customer documents inside the service."
+  },
+  "objective": {
+    "kind": "leak",
+    "targets": [
+      "storage",
+      "secrets"
+    ],
+    "threshold": 70,
+    "hold_turns": 1,
+    "explanation": "Red must copy at least 70 units of fictional sensitive data. Blue must prevent that loss before turn ten."
+  }
+}

@@ -4,3 +4,7 @@
 pytest
 httpx
 pip-audit
+
+# Floors for advisories reported by the existing dependency gate (27 Oct 2026).
+certifi>=2026.10.19
+filelock>=4.2.1

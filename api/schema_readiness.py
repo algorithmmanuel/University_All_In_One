@@ -14,6 +14,7 @@ from database import Base
 def expected_revision() -> str:
     from pathlib import Path
     config = Config(str(Path(__file__).resolve().parent / "alembic.ini"))
+    config.set_main_option('script_location', str(Path(__file__).resolve().parent / 'migrations'))
     return ScriptDirectory.from_config(config).get_current_head()
 
 
