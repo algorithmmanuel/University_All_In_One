@@ -47,3 +47,13 @@ Use the existing two-worktree workflow. Verify beta backup and active branch bef
 ## Current state
 
 UX source and documentation committed to development. **No verified test results or beta source promotion at this checkpoint.** The draft PR is not evidence of readiness. Follow up with CI and operator checks before merge.
+
+## GitHub acceptance evidence — 30 October 2026
+
+The PR #4 initial head `a2c5105` ran three CI workflows after marking the PR ready for review:
+
+- [Frontend quality gate 41039843563](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41039843563): **passed**.
+- [Real API browser integration 41039843610](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41039843610): **failed** (25 passed, 2 failed); both journey tests expected the prior `Open Cyber Academy investigations` label.
+- [Browser gameplay quality gate 41039843708](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41039843708): **failed** (15 passed, 3 failed in the named journey suite); journey tests expected prior `Open Practise governance` and `Open Cyber Safety Foundations` labels.
+
+The new labels unexpectedly broke existing selectors, not game rules. The scoped fix at `252fc3b` restores familiar `Open <activity>` labels while continuing to avoid the owner's redundant `Open Try…` and `Open Browse…` combinations. **Re-run/verify all workflows on the updated head before merging.** Prior CI results cannot be reused as proof of a later commit. No laptop deployment or beta merge is implied.
