@@ -76,12 +76,15 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
                 for start in range(0, len(words) - 69):
                     signature = tuple(words[start:start + 70])
                     windows[signature].add(identity)
-        repeated = [(next(iter(key)) if key else "", locations)
-                    for key, locations in windows.items() if len(locations) > 1]
+        repeated = [(key, locations) for key, locations in windows.items() if len(locations) > 1]
+        examples = [
+            {"opening": " ".join(key[:12]), "locations": sorted(locations)[:6]}
+            for key, locations in repeated[:5]
+        ]
         self.assertFalse(
             repeated,
             f"{len(repeated)} identical 70-word sequences in multiple lessons; "
-            f"examples: {repeated[:5]}",
+            f"examples: {examples}",
         )
 
     def test_no_repeated_substantive_paragraphs_before_release(self):
