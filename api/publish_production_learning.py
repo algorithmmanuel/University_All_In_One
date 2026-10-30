@@ -12,13 +12,20 @@ from database import SessionLocal
 from models import Academy, Course, Lesson
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from production_learning.explorers_discover import COURSE
+from production_learning.explorers_discover import COURSE as EXPLORERS
+from production_learning.academy_discover import COURSE as ACADEMY
+from production_learning.command_discover import COURSE as COMMAND
+COURSES = [EXPLORERS, ACADEMY, COMMAND]
+REQUIRED_RELEASE_COURSES = 24
 
 def validate(course):
     assert course["revision"] == "v1"
-    assert course["academy_id"] == "secondary"
-    assert course["pathway"] == "secondary"
-    assert course["stage"] == "discover"
+    if course["academy_id"] not in ("secondary","university","cyber"):
+        raise ValueError("Unknown academy")
+    if course["pathway"] not in ("secondary","university","professional"):
+        raise ValueError("Unknown pathway")
+    if course["stage"] not in ("discover","understand","check","investigate","defend","command","opponent","compete"):
+        raise ValueError("Unknown stage")
     assert len(course["lessons"]) >= 8
     assert len({row["position"] for row in course["lessons"]}) == len(course["lessons"])
     assert len({row["title"] for row in course["lessons"]}) == len(course["lessons"])
@@ -54,13 +61,22 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--publish", action="store_true", help="Explicitly publish the reviewed manuscript")
     args = parser.parse_args()
-    validate(COURSE)
+    for course in COURSES:
+        validate(course)
+    ids = {(course["pathway"], course["stage"]) for course in COURSES}
+    if len(ids) != len(COURSES):
+        raise RuntimeError("Duplicate pathway/stage publication mapping")
+    if len(COURSES) != REQUIRED_RELEASE_COURSES:
+        if args.publish:
+            raise RuntimeError(f"Refusing incomplete release: {len(COURSES)}/24 courses authored")
+        print(f"DRY RUN: {len(COURSES)}/24 manuscripts validated. Nothing written.")
+        return
     if not args.publish:
-        print("DRY RUN: manuscript validated; nothing written.")
+        print("DRY RUN: complete manuscript set validated; nothing written.")
         return
     with SessionLocal() as db:
-        result = publish(db, COURSE)
-        print(result)
+        for course in COURSES:
+            print(course["key"], publish(db, course))
 
 if __name__ == "__main__":
     main()
