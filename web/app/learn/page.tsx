@@ -5,6 +5,7 @@ import JourneyLink from '../../components/journey/JourneyLink';
 import { useRouter } from 'next/navigation';
 import LessonGuide, {type LearningGuide} from '../../components/lesson-guide';
 import { FOUNDATIONS } from '../../lib/learning-journey';
+import { isProductionCourse } from '../../lib/approved-course-catalog';
 import { useActivityFocus } from '../../lib/use-activity-focus';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
@@ -128,8 +129,8 @@ export default function Learn() {
         </div>}
       </section>
       <section className="section">
-        <h2>Browse Courses</h2>
-        <p className="muted">Read at your own pace. Courses can be completed without playing games. Only published courses are shown; the planned 24-course library is not yet live.</p>
+        <h2>Course catalogue</h2>
+        <p className="muted">Read at your own pace. Courses can be completed without playing games. The approved 24-course library will appear here as courses are fully authored, reviewed and published. Games are optional.</p>
         <label htmlFor="course-pathway">Learning pathway</label>
         <select id="course-pathway" value={catalogPathway} onChange={event=>setCatalogPathway(event.target.value)} style={{display:"block",marginBottom:16}}>
           <option value="all">All published courses</option>
@@ -138,8 +139,8 @@ export default function Learn() {
           <option value="cyber">Cyber Command</option>
         </select>
         {foundation&&<p className="notice">Suggested from your journey: <strong>{FOUNDATIONS[foundation]}</strong>. {suggested?'Choose its enrol/open button below.':'This course is not currently in the loaded catalogue; you can choose another available course.'} Python remains optional.</p>}
-        {catalog.length===0?<p className="muted">No published courses are available yet.</p>:catalog.filter(c=>catalogPathway==="all"||c.academy_id===catalogPathway).length===0?<p className="muted">No published courses match this pathway yet.</p>:<div className="grid">
-          {catalog.filter(c=>catalogPathway==="all"||c.academy_id===catalogPathway).sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
+        {catalog.filter(c=>isProductionCourse(c.title)&&(catalogPathway==="all"||c.academy_id===catalogPathway)).length===0?<p className="muted">No production courses have been published for this selection yet. Existing enrolled courses remain available above.</p>:<div className="grid">
+          {catalog.filter(c=>isProductionCourse(c.title)&&(catalogPathway==="all"||c.academy_id===catalogPathway)).sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
             <span className="small">{academies[c.academy_id]||c.academy_id}</span>
             <h3>{c.title}</h3>
             <p className="muted">{c.description}</p>
@@ -150,6 +151,19 @@ export default function Learn() {
           </article>)}
         </div>}
       </section>
+      {catalog.some(c=>!isProductionCourse(c.title))&&<section className="section" aria-label="Previously available courses">
+        <h2>Existing courses</h2>
+        <p className="muted">These earlier courses remain available so current learners can continue without losing progress. They are not included in the 24-course production catalogue.</p>
+        <div className="grid">
+          {catalog.filter(c=>!isProductionCourse(c.title)).map(c=><article className="card" key={c.id}>
+            <span className="small">{academies[c.academy_id]||c.academy_id}</span>
+            <h3>{c.title}</h3><p className="muted">{c.description}</p><p className="small">{c.lesson_count} lessons</p>
+            {enrollments.some(e=>e.id===c.id)
+              ?<button className="btn" disabled={busy} onClick={()=>openCourse(c.id)}>Open course</button>
+              :<button className="btn" disabled={busy} onClick={()=>enroll(c.id)}>Enroll for free</button>}
+          </article>)}
+        </div>
+      </section>}
       {selected&&<section className="section" id="course-lessons">
         <div className="panel">
           <button onClick={()=>setSelected(null)}>← Close lessons</button>
