@@ -7,6 +7,7 @@ Never deletes or rewrites an enrolled course or existing lesson content.
 import argparse
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from sqlalchemy import select
@@ -90,6 +91,23 @@ def publish(db, course):
         db.add(Lesson(course_id=new.id, title=item["title"], content=item["content"], position=item["position"]))
     return "staged"
 
+def validate_editorial_uniqueness():
+    """Reject repeated long paragraphs even if individual lesson word counts pass."""
+    from collections import defaultdict
+    seen = defaultdict(list)
+    for course in COURSES:
+        for lesson in course["lessons"]:
+            for paragraph in re.split(r"\n\s*\n", lesson["content"]):
+                normalized = " ".join(paragraph.casefold().split())
+                if len(normalized.split()) >= 35:
+                    seen[normalized].append((course["key"], lesson["position"]))
+    repeated = [locations for locations in seen.values() if len(locations) > 1]
+    if repeated:
+        raise RuntimeError(
+            f"Editorial uniqueness gate: {len(repeated)} repeated substantive paragraphs; "
+            f"first five groups: {repeated[:5]}"
+        )
+
 def require_editorial_approvals():
     """Fail closed unless all 24 exact lesson texts have signed-off digests."""
     approval_path = Path(__file__).resolve().parent / "production_learning" / "editorial_approvals.json"
@@ -135,6 +153,7 @@ def main():
     if not args.publish:
         print("DRY RUN: complete manuscript set validated; nothing written.")
         return
+    validate_editorial_uniqueness()
     require_editorial_approvals()
     with SessionLocal() as db:
         try:
