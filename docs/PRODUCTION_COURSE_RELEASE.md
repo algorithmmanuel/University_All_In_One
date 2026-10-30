@@ -196,3 +196,8 @@ Read-only GitHub source inspection covered all 24 course manuscripts in **four g
 ## Cross-course sequence regression gate
 
 Added `test_no_reused_long_word_sequences_across_library` (`a8fe9a3`) to `api/test_production_course_manuscript.py`. It compares all 192 draft lessons and rejects any identical contiguous sequence of 70 normalised words found in two different lessons, even if paragraph boundaries or headings differ. This supplements the 35+-word exact-paragraph gate and is specifically designed to catch cross-course copying; it **does not** claim to detect paraphrases or demonstrate independent educational value. Passing this new test and the earlier uniqueness test is required before the manuscripts can be considered structurally ready. No passing execution result was available when this checkpoint was written. Independent reviewer approvals and source verification are still outstanding. No beta deployment.
+
+
+## Publication protection aligned with cross-course tests
+
+The publisher now independently enforces the same 70-normalised-word contiguous-sequence rule as the manuscript regression test, in addition to the existing exact-paragraph uniqueness check (`9ab184b`). This is checked before approval verification and database writes whenever `--publish` is explicitly requested. It prevents bypassing the copy-detection check by merely skipping the test runner; it does not demonstrate educational distinction or reference accuracy. Associated GitHub workflow runs and individual backend/frontend jobs remained queued when inspected, so there is no verified green result for the complete manuscript suite. Beta is unchanged.
