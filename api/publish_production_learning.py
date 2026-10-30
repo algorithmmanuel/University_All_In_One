@@ -108,6 +108,20 @@ def validate_editorial_uniqueness():
             f"first five groups: {repeated[:5]}"
         )
 
+    sequences = defaultdict(set)
+    for course in COURSES:
+        for lesson in course["lessons"]:
+            identity = (course["key"], lesson["position"])
+            tokens = re.findall(r"[a-z0-9]+", lesson["content"].casefold())
+            for start in range(max(0, len(tokens) - 69)):
+                sequences[tuple(tokens[start:start + 70])].add(identity)
+    copied = [list(locations) for locations in sequences.values() if len(locations) > 1]
+    if copied:
+        raise RuntimeError(
+            f"Editorial uniqueness gate: {len(copied)} repeated 70-word sequences; "
+            f"examples: {copied[:5]}"
+        )
+
 def require_editorial_approvals():
     """Fail closed unless all 24 exact lesson texts have signed-off digests."""
     approval_path = Path(__file__).resolve().parent / "production_learning" / "editorial_approvals.json"
