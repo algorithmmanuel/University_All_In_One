@@ -41,3 +41,8 @@ Development now contains three individually authored stage-one courses (8 lesson
 ## Remaining 21-course editorial architecture — 30 October 2026
 
 Added [21-course syllabus with 168 distinct chapter requirements](PRODUCTION_REMAINING_21_COURSE_SYLLABI.md), mapped to the remaining seven stages for all three audience pathways. This is a complete **chapter-level curricular specification**, not the 168 full lessons themselves; it is deliberately not counted as production published content. The three prior Discover manuscripts remain the only authored course manuscripts. The publisher still blocks premature 24-course rollout, and beta remains untouched. Full-length lesson manuscript writing, independent fact-checks, verified further-reading URLs, course reader UX, database preservation and CI are outstanding. Do not merge partial materials into beta.
+
+
+## Repository access verification — 30 October 2026
+
+The existing GitHub connection successfully read this file; publication remains prohibited until the complete curriculum and test gates are met. This checkpoint verifies the development branch only and does not indicate beta deployment.
