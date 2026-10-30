@@ -156,3 +156,8 @@ Replaced two repeated instructional paragraphs in every lesson of `explorers_opp
 ## Further editorial correction — Academy technical lessons
 
 Revised three Cyber Academy manuscripts (`academy_check.py`, `academy_investigate.py`, `academy_defend.py`) to replace repeated instructional-framework sections with scenario-linked assessment material and separate interpretation, competing-hypothesis, verification and assurance prompts. Changes in the latest revisions include `994b060`, `e0730c0`, and `8b3e984`. All revised lesson word counts remain above 600. **This is not a completed independent editorial review**: course-level repetition and quality still require human evaluation, citation accuracy and external verification. The cross-library duplication release test may remain red. Approval records are deliberately absent. Do not publish or merge on the strength of the structural length count or these intermediate revisions.
+
+
+## Editorial remediation — Academy incident response and adversary strategy
+
+Replaced eight generic long introductory instructional paragraphs in each of `academy_command.py` (incident response, evidence, restoration and coordinated tabletop) and `academy_opponent.py` (threat objectives, traffic interpretations, credentials, segmentation, privilege changes, adaptive defence and counterfactual analysis). Verified all 16 revised lessons still have at least 600 words, in commits `d3ae197` and `80f20ce`. Both manuscripts contain other generic framework paragraphs; editorial approval is therefore **not complete**. The cross-library repeated-paragraph test, reference review and SHA-256-bound approval gate remain required. No beta publication or full CI success is claimed.
