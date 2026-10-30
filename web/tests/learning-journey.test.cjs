@@ -29,6 +29,8 @@ test("every audience can enter every stage with local, context-preserving materi
         assert.ok(
           [
             "/",
+            "/preview",
+            "/help",
             "/learn",
             "/assessments",
             "/missions",
@@ -99,4 +101,12 @@ test("audience recommendations cover real missions and optional study without hi
         "human",
     ),
   );
+});
+
+test("Discover recommendations visibly differ across the three learning audiences", () => {
+  const ids = ["secondary", "university", "professional"];
+  const first = ids.map(id => resourcesFor("discover", id)[0]);
+  assert.equal(new Set(first.map(item => item.title)).size, 3);
+  assert.equal(new Set(first.map(item => item.href.split("?")[0])).size, 2);
+  for (const id of ids) assert.ok(resourcesFor("discover",id).some(r => r.href.startsWith("/preview?")));
 });
