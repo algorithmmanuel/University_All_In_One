@@ -141,3 +141,22 @@ for (const mobile of [false, true])
     });
     assert.equal(response.status(), 200);
   });
+
+// Each pathway opens a different existing workshop; history stays owned and no run is created by browsing.
+for(const [pathway, expectedTitle] of [['secondary','The scholarship deadline'],['university','The shared computer'],['professional','The surprise approval']])
+test(`actual workshop catalogue respects ${pathway} content allocation`,async t=>{
+  browser ||= await chromium.launch({headless:true,args:['--disable-dev-shm-usage']});
+  const ctx=await browser.newContext({baseURL:WEB,viewport:{width:390,height:844},reducedMotion:'reduce'});t.after(()=>ctx.close());
+  await ctx.addInitScript(token=>sessionStorage.setItem('educyber_token',token),TOKEN);
+  const page=await ctx.newPage(),writes=[];page.on('request',r=>{if(r.method()==='POST')writes.push(r.url());});
+  await page.goto('/journey?stage=discover&pathway='+pathway);
+  await page.getByRole('link',{name:'Explore '+expectedTitle+' →',exact:true}).click();
+  await page.getByRole('heading',{name:expectedTitle,exact:true}).waitFor();
+  const buttons=page.getByRole('button',{name:/^(Discover|Understand|Check understanding|Investigate with guidance|Manage consequences|Command an incident|Face an adaptive opponent|Compete and reflect)/});
+  assert.equal(await buttons.count(),1);
+  await page.getByLabel("Workshop stage",{exact:true}).selectOption("all");
+  assert.equal(await buttons.count(),8);
+  await page.getByRole('link',{name:'Learning journey',exact:true}).click();
+  await page.getByRole('heading',{name:'Discover',exact:true}).waitFor();
+  assert.deepEqual(writes,[]);
+});

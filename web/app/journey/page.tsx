@@ -10,6 +10,8 @@ import {
   parseJourney,
   resourcesFor,
   journeyUrl,
+  PATHWAY_CONTENT,
+  nextPathway,
   type Stage,
   type Audience,
 } from "../../lib/learning-journey";
@@ -71,7 +73,7 @@ export default function Journey() {
         <section className={styles.pathways} aria-labelledby="pathway-heading">
           <h2 id="pathway-heading">Choose an audience pathway</h2>
           <p>
-            Choose the experience that fits your goals. Each pathway recommends different activities; the eight-stage structure is shared and every stage remains open.
+            Choose a pathway with its own materials at all eight stages. The stage names and game controls are shared; the core lessons, question topics, cases and scenarios differ. Every stage remains open.
           </p>
           <p className="small">{audience === "secondary" ? "Cyber Explorers: beginner-friendly everyday security and personal safety." : audience === "university" ? "Cyber Academy: technical concepts, systems and evidence-led investigation." : audience === "professional" ? "Cyber Command: organisational risk, assurance and incident decisions." : "Explore all pathways: browse the whole catalogue; this is not a separate learning level."}</p>
           <div className={styles.pathGrid}>
@@ -126,7 +128,8 @@ export default function Journey() {
             </h2>
             <p className={styles.question}>{current.question}</p>
             <p>{current.description}</p>
-            <p className="notice">{audience === "secondary" ? "Your Cyber Explorers route prioritises everyday safety before investigations." : audience === "university" ? "Your Cyber Academy route prioritises technical understanding and evidence." : audience === "professional" ? "Your Cyber Command route prioritises operational decisions and organisational impact." : "You are browsing across all pathways; choose an audience for a more focused recommendation."}</p>
+            <p className="notice">{audience === "secondary" ? "Your Cyber Explorers route uses its own everyday-security teaching, practice topics, cases and scenarios." : audience === "university" ? "Your Cyber Academy route uses separate technical teaching, question topics, evidence and simulation scenarios." : audience === "professional" ? "Your Cyber Command route uses separate assurance, response, recovery and organisational decision materials." : "You are browsing across all pathways; choose an audience for a more focused recommendation."}</p>
+            {audience !== "all" && <p><strong>Pathway focus:</strong> {PATHWAY_CONTENT[audience].theme}. The general libraries remain available if you deliberately browse outside this pathway.</p>}
             <div className={styles.resources}>
               {resourcesFor(stage, audience).map((r) => (
                 <article key={r.href}>
@@ -164,6 +167,11 @@ export default function Journey() {
                   ← Previous stage
                 </button>
               )}
+              {index === 7 && audience !== "all" && <aside className="card">
+                <h3>After your final challenge</h3>
+                <p>Review your saved result and explain what you would change. Reaching this screen does not mark the pathway complete or award mastery.</p>
+                {nextPathway(audience) ? <Link className="btn" href={journeyUrl("discover", nextPathway(audience)!)}>Explore {AUDIENCES.find(a => a.id === nextPathway(audience))!.title} next →</Link> : <Link className="btn" href="/journey?stage=discover&pathway=secondary">Revisit Cyber Explorers or choose another pathway →</Link>}
+              </aside>}
               {index < 7 && (
                 <button
                   type="button"

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { STAGES, type Stage, type Audience } from "../../lib/learning-journey";
+import { STAGES, workshopFor, type Stage, type Audience } from "../../lib/learning-journey";
 import styles from "./journey.module.css";
 type Case = { id: string; stage: string; title: string; briefing: string };
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
@@ -41,15 +41,16 @@ export default function StageWorkshops({
       });
     return () => controller.abort();
   }, []);
+  const assigned = workshopFor(stage, audience);
+  // Command workshops already appear as the core resource; avoid duplicate cards.
+  if (stage === "command" && audience !== "all" && audience !== "university") return null;
   return (
     <section className={styles.workshops} aria-labelledby="stage-workshops">
       <h3 id="stage-workshops">
         Decision workshops · explore another approach
       </h3>
       <p>
-        Three saved, multi-decision cases for this stage. Read the evidence, see
-        the authored consequences and replay to compare another approach. These
-        complement the full missions and simulations.
+        {audience === "all" ? "Saved cases for this stage, allocated across the three pathways." : "Your pathway’s own saved case for this stage; the other pathways use different cases."} Read the evidence, see the authored consequences and replay another approach. These complement full missions and simulations.
       </p>
       {error ? (
         <p>
@@ -61,7 +62,7 @@ export default function StageWorkshops({
       ) : (
         <div className={styles.resources}>
           {cases
-            .filter((c) => c.stage === stage)
+            .filter((c) => c.stage === stage && (!assigned || c.id === assigned) && !(audience === "all" && stage === "command" && ["reconnect-decision", "executive-change"].includes(c.id)))
             .map((c) => (
               <article key={c.id}>
                 <span className="tag">3 DECISIONS · SAVED REPLAY</span>

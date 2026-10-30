@@ -6,7 +6,7 @@ import JourneyLink from "../../components/journey/JourneyLink";
 import { AccountNavigation } from "../../components/home/account-navigation";
 import { focusActivity } from "../../lib/activity-focus";
 import { useActivityFocus } from "../../lib/use-activity-focus";
-import { STAGES } from "../../lib/learning-journey";
+import { STAGES, AUDIENCES, workshopBelongsTo, type Audience } from "../../lib/learning-journey";
 import styles from "./workshops.module.css";
 type Case = {
   id: string;
@@ -63,6 +63,7 @@ class RequestError extends Error {
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
 export default function Workshops() {
   const router = useRouter();
+  const [audience, setAudience] = useState<Audience>("all");
   const [cases, setCases] = useState<Case[]>([]),
     [filter, setFilter] = useState("all"),
     [chosen, setChosen] = useState("");
@@ -148,17 +149,21 @@ export default function Workshops() {
       const c = await request<{ cases: Case[] }>("/catalog");
       setCases(c.cases);
       const p = new URLSearchParams(window.location.search);
+      const rawPath = p.get("journey_pathway") || p.get("pathway");
+      const path: Audience = AUDIENCES.find(a => a.id === rawPath)?.id || "all";
+      setAudience(path);
+      const visible = c.cases.filter(c => workshopBelongsTo(c.id, path));
       const stage = p.get("stage");
       if (STAGES.some((s) => s.id === stage)) setFilter(stage!);
-      const selected = c.cases.find((c) => c.id === p.get("case"));
+      const selected = visible.find((c) => c.id === p.get("case"));
       setFilter(
         selected?.stage ||
           (STAGES.some((s) => s.id === stage) ? stage! : "all"),
       );
       setChosen(
         selected?.id ||
-          c.cases.find((c) => c.stage === stage)?.id ||
-          c.cases[0].id,
+          visible.find((c) => c.stage === stage)?.id ||
+          visible[0]?.id || "",
       );
       await loadHistory();
     } catch (e) {
@@ -284,6 +289,7 @@ export default function Workshops() {
         ) : (
           <section className={styles.panel}>
             <h2>Choose a case</h2>
+            {audience !== "all" && <p role="status">Showing the eight cases allocated to {AUDIENCES.find(a => a.id === audience)!.title}. <button type="button" className="btn secondary" onClick={() => setAudience("all")}>Browse all workshops</button></p>}
             <label>
               Journey stage
               <select
@@ -301,7 +307,7 @@ export default function Workshops() {
             </label>
             <div className={styles.caseGrid}>
               {cases
-                .filter((c) => filter === "all" || c.stage === filter)
+                .filter((c) => workshopBelongsTo(c.id, audience) && (filter === "all" || c.stage === filter))
                 .map((c) => (
                   <button
                     key={c.id}

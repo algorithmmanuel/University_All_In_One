@@ -11,8 +11,8 @@ export default function JourneyEntry() {
       </h2>
       <p>
         Begin with the basics or enter at a stage that suits your experience.
-        Cyber Explorers, Cyber Academy and Cyber Command help you choose
-        materials along the same journey.
+        Cyber Explorers, Cyber Academy and Cyber Command each have their own
+        materials across eight shared learning stages.
       </p>
       <div className={styles.actions}>
         <Link className="btn" href={journeyUrl("discover")}>

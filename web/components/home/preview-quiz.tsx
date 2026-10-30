@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { previewQuestions } from "../../lib/preview-quiz";
+import { previewFor } from "../../lib/preview-quiz";
 import { AUDIENCES, journeyUrl, type Audience } from "../../lib/learning-journey";
 
 /** Optional, session-only diagnostic: never writes scores or awards mastery. */
@@ -10,6 +10,11 @@ export function PreviewQuiz() {
   const search = useSearchParams();
   const raw = search.get("pathway");
   const pathway: Audience = AUDIENCES.find(a => a.id === raw)?.id || "all";
+  return <PathwayPreview key={pathway} pathway={pathway} />;
+}
+
+function PathwayPreview({pathway}: {pathway: Audience}) {
+  const previewQuestions = previewFor(pathway);
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [answers, setAnswers] = useState<number[]>([]);
@@ -25,9 +30,9 @@ export function PreviewQuiz() {
   const recommendedStage = score <= 3 ? "understand" : score <= 5 ? "check" : "investigate";
   return <section className="container section" aria-label="Optional cybersecurity preview" style={{maxWidth:850}}>
     <nav aria-label="Preview navigation"><Link href={journeyUrl("discover", pathway)}>← Back to my pathway</Link> · <Link href="/help">How EduCyber works</Link></nav>
-    <div className="tag" style={{marginTop:24}}>SHARED OPTIONAL INTRODUCTION</div>
+    <div className="tag" style={{marginTop:24}}>{pathway === "all" ? "GENERAL OPTIONAL INTRODUCTION" : AUDIENCES.find(a => a.id === pathway)!.title.toUpperCase() + " INTRODUCTION"}</div>
     <h1>Spot the risk: six-question preview</h1>
-    <p className="muted">This is the same introductory activity for all pathways. No account is required and your answers are not sent to the server or saved as a learner score. You can choose any learning stage regardless of the result.</p>
+    <p className="muted">{pathway === "all" ? "This is a general sample. Choose a pathway for its own six-question introduction." : "These questions introduce the materials in your selected pathway."} No account is required and your answers are not sent to the server or saved as a learner score. You can choose any learning stage regardless of the result.</p>
     {!done ? <div className="card">
       <p className="pill">Question {index + 1} of {previewQuestions.length}</p>
       <progress aria-label="Questions answered" value={answers.length} max={previewQuestions.length} style={{width:"100%"}} />

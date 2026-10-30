@@ -165,3 +165,8 @@ The owner's five populated findings in the six-page `Testing Observations.docx` 
 ## Consolidated UX release approved — 30 October 2026
 
 Owner authorised implementing all prioritised onboarding, pathway, focused six-question diagnostic, completion and navigation fixes in one major release, then merging the **verified** source into the tester-facing beta branch for ongoing feedback. Do not change any actual games or simulator internals. Maintain development/beta separation until approval gates pass. The work began on development; documentation and source presence do not establish CI success or runtime publication. See [navigation remediation specification](OWNER_NAVIGATION_REMEDIATION.md) and status for progress.
+
+
+## Approved distinct pathway materials — 30 October 2026
+
+The owner clarified and authorised beginning three distinct eight-stage content routes, so switching pathways offers different materials rather than the same exercises at greater difficulty. Keep the eight-stage names and existing engines, allocate the existing teaching/topic/case/scenario material first, and add content only where needed. [The allocation](PATHWAY_CONTENT_RELEASE.md) defines this bounded implementation, including distinct six-question introductions, exclusive workshop/topic/scenario allocations and final-stage onward navigation. General direct entry stays open. This supersedes the earlier shared-material navigation model, not authentication/ownership or educational/release gates. Existing saved activity records remain authoritative; no pathway completion or mastery is inferred from navigation. Beta promotion and independent assurance remain separate.

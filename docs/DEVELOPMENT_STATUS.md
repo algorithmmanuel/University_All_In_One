@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 29 October 2026 (Africa/Lagos).
-**Checkpoint:** Latest owner feedback supersedes the global crimson direction: restore navy/teal branding, keep EduCyber and all journey content, and scope crimson/blue accents to Red/Blue seats. The bounded visual correction passed all frontend/browser gates at `467b896683b84367153ff827e2a0f228f320dee5` and has been source-promoted to beta. The feature-development pause continues.
+**Checkpoint:** Owner authorised distinct actual materials across all eight stages of each pathway. The development source now allocates teaching, practice topics, missions, workshops and scenarios separately, with 18 original pathway introduction questions. Local 24-unit/type/build checks passed; current-head browser/real-API CI and owner acceptance are pending. No beta promotion or new automatic completion is claimed.
 
 Previous bundle checkpoint: The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
@@ -78,7 +78,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-The combined bundle passed all required automated gates and was source-promoted to `feature/secure-password-recovery`. Emmanuel should follow [the complete beta update/backup/migration/restart guide](EDUCYBER_BETA_BUNDLE.md), then use [the personal playthrough checklist](OWNER_BETA_PLAYTHROUGH.md) on beta port 3000. Preserve generated next-env/local Compose files and all records; maintain distinct beta/development databases. Actual laptop backup/migration/restarts and owner acceptance remain owner-operated and unverified here. **Pause feature development now** until the owner completes the playthrough and explicitly resumes it; respond to requested rollout blockers and bugs within scope. No new phase or automatic further promotion. Independent educational/device/operational and deferred final formal-security gates remain open.
+Verify the current distinct-pathway development release, then follow [the content matrix and complete acceptance guide](PATHWAY_CONTENT_RELEASE.md). Compare actual materials across all eight stages, pathway preview questions, workshop filtering and scenario handoffs. This owner-authorised scope supersedes the earlier shared-material model. Preserve existing activity history and do not award completion from navigation. No beta promotion is included in this new development checkpoint; PR #4 must be reviewed against the expanded scope and current-head gates before any separately authorised promotion. Independent educational/device/operational and deferred formal-security gates remain open.
 
 ## Implemented source changes and checks
 
@@ -709,3 +709,12 @@ Developed the initial bounded frontend changes for the owner-authorised navigati
 ## Navigation UX acceptance status — 30 October 2026
 
 PR #4 CI for initial head: frontend quality success (run 41039843563); real API browser failure (run 41039843610, 25 passed / 2 failed); browser gameplay failure (run 41039843708, 15 passed / 3 failed in journey test suite). Failures were outdated exact CTA selectors for navigation links; source fix `252fc3b` restores established `Open <activity>` labels while avoiding redundant `Open Try` and `Open Browse` buttons. Latest documentation checkpoint `9f122f1` records logs and re-run gate. **No green CI evidence for corrected head yet; no beta merge or laptop rollout.** See NAVIGATION_UX_BETA_RELEASE.md for complete final operator steps.
+
+
+## Distinct pathway content implementation — 30 October 2026
+
+Owner instructions in this conversation supersede the shared-content model and resume this bounded development scope after the playthrough pause. Implemented from `a6cbe8e`: three exclusive core allocations across all eight stages, 18 original six-per-pathway introductory questions, eight existing workshops per pathway, disjoint teaching modules/ten practice-topic pools/30 missions/three stage-five and six Red/Blue scenarios, Academy-only Branch Siege and explicit workshop-format Explorer/Command stage six. Final-stage onward links invite Explorers → Academy → Command without fabricating completion. General collections and all saved history remain available. [Exact matrix, compatibility and complete PowerShell guide](PATHWAY_CONTENT_RELEASE.md).
+
+No backend/API, schema, authored workshop/mission/bank, game engine/rules, account/session or dependency change. No owner data, laptop or beta services operated. Local 24 frontend unit tests, TypeScript and production build passed; browser/API regression CI is pending. New browser cases cover each pathway's eight-stage display, question completion/context, onward links and actual workshop catalogue filtering. The known local full-Chromium socket restriction remains. Independent content/comprehension/device and deferred final operational/security gates remain open.
+
+Next: verify current-head complete browser and real-API/PostgreSQL regression, then present development acceptance. This conversation authorises implementing distinct pathway content but does not supply new beta promotion/runtime acceptance. PR #4 shares the source branch with this broader scope; do not merge against obsolete CI or the earlier narrower description. Preserve beta until the expanded checked source is separately approved for promotion.

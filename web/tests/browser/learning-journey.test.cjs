@@ -95,7 +95,7 @@ for (const mobile of [false, true])
       .getByRole("button", { name: "6 Command an incident", exact: true })
       .click();
     await page
-      .getByRole("link", { name: "Open Branch Siege →", exact: true })
+      .getByRole("link", { name: "Open The reconnection decision →", exact: true })
       .waitFor();
     assert.equal(
       await page.evaluate(
@@ -188,4 +188,53 @@ test("journey foundation handoff suggests a real course without automatic enrolm
     "true",
   );
   assert.deepEqual(writes, []);
+});
+
+// Use the published authored catalogue, not invented case fixtures.
+const workshopCatalog = JSON.parse(require('node:fs').readFileSync(require('node:path').join(__dirname,'../../../api/content/journey_workshops_v1.json'),'utf8'));
+for (const mobile of [false,true]) for (const [pathway, name, firstQuestion, expectedCase] of [
+  ['secondary','Cyber Explorers','A friend sends a shortened link offering free game credits and asks for your account password. What should you do?','scholarship-pressure'],
+  ['university','Cyber Academy','An application accepts a record identifier from its browser. Where must permission to read that record be checked?','shared-device'],
+  ['professional','Cyber Command','A risk treatment is scheduled six weeks away while exposure remains. What should management require now?','approval-surprise'],
+]) test(`distinct ${name} eight-stage content and preview, mobile=${mobile}`,async t=>{
+  browser ||= await chromium.launch({headless:true,args:['--disable-dev-shm-usage']});
+  const ctx=await browser.newContext({baseURL:WEB,reducedMotion:'reduce',viewport:mobile?{width:390,height:844}:{width:1440,height:1000}});
+  t.after(()=>ctx.close());const page=await ctx.newPage(),writes=[],errors=[];
+  page.on('request',r=>{if(r.method()==='POST')writes.push(r.url());});page.on('pageerror',e=>errors.push(e.message));
+  await page.route('**/api/v1/workshops/catalog',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({cases:workshopCatalog})}));
+  await page.goto('/journey?stage=discover&pathway='+pathway);
+  await page.getByRole('link',{name:'Explore '+workshopCatalog.find(c=>c.id===expectedCase).title+' →',exact:true}).waitFor();
+  assert.equal(await page.getByRole('heading',{level:4}).count(),1);
+  const nav=page.getByRole('navigation',{name:'Choose your starting stage'});
+  const caseTitles=new Set();
+  for(let i=0;i<8;i++){
+    await nav.getByRole('button').nth(i).click();
+    if(i!==5 || pathway==='university'){
+      const title=page.getByRole('heading',{level:4});await title.waitFor();caseTitles.add(await title.innerText());
+      assert.equal(await title.count(),1);
+    }else{
+      const core=page.getByRole('link',{name:/Open The (reconnection decision|urgent executive change)/});assert.equal(await core.count(),1);
+    }
+  }
+  assert.equal(caseTitles.size,pathway==='university'?8:7);
+  if(pathway!=='professional'){
+    const next=pathway==='secondary'?'Cyber Academy':'Cyber Command';
+    await page.getByRole('link',{name:'Explore '+next+' next →',exact:true}).click();
+    await page.getByRole('heading',{name:'Discover',exact:true}).waitFor();
+    await page.goBack();
+  }
+  await page.goto('/preview?pathway='+pathway);
+  await page.getByRole('heading',{name:firstQuestion,exact:true}).waitFor();
+  assert.equal(await page.getByRole('heading',{name:firstQuestion,exact:true}).count(),1);
+  for(let i=0;i<6;i++){
+    await page.locator('.quiz-options button').first().click();
+    await page.getByRole('button',{name:i===5?'See my results →':'Next question →',exact:true}).click();
+  }
+  await page.getByRole('heading',{name:/Your result:/}).waitFor();
+  const onward=page.getByRole('link',{name:'Continue to my suggested stage →',exact:true});
+  assert.ok((await onward.getAttribute('href')).includes('pathway='+pathway));
+  await onward.click();await page.getByRole('button',{name:new RegExp(name)}).waitFor();
+  await page.reload();assert.equal(await page.getByRole('button',{name:new RegExp(name)}).getAttribute('aria-pressed'),'true');
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  assert.deepEqual(writes,[]);assert.deepEqual(errors,[]);
 });

@@ -107,219 +107,110 @@ export function parseJourney(query: string): {
 export function journeyUrl(stage: Stage, audience: Audience = "all") {
   return "/journey?stage=" + stage + "&pathway=" + audience;
 }
-function choicesFor(stage: Stage, audience: Audience): Resource[] {
-  const path = audience === "all" ? "secondary" : audience;
-  const missionTitle = {
-    secondary: "Cyber Explorers investigations",
-    university: "Cyber Academy investigations",
-    professional: "Cyber Command investigations",
-  }[path];
-  const topic = (
-    {
-      secondary: "phishing",
-      university: "network",
-      professional: "governance",
-    } as const
-  )[path];
-  const module = (
-    {
-      secondary: "protect",
-      university: "defend",
-      professional: "recover",
-    } as const
-  )[path];
-  const scenario = {
-    secondary: "microfinance",
-    university: "software_cloud",
-    professional: "payment_insider",
-  }[path];
+/** Exclusive core allocations. Existing engines, IDs and saved records stay unchanged.
+ * General collection browsing remains available outside these campaign suggestions.
+ */
+export type Pathway = Exclude<Audience, "all">;
+export const PATHWAY_CONTENT = {
+  secondary: {
+    theme: "Everyday accounts, personal information and a first response",
+    module: "protect",
+    topics: ["fundamentals", "phishing", "identity", "endpoint"],
+    defender: "branch",
+    computer: "microfinance",
+    final: "hospital",
+    workshops: ["scholarship-pressure", "cia-invoice", "session-boundary", "login-correlation", "patch-window", "reconnect-decision", "resolution-order", "two-seat-ready"],
+  },
+  university: {
+    theme: "Systems, technical evidence and connected service defence",
+    module: "defend",
+    topics: ["network", "application", "cloud"],
+    defender: "supplier",
+    computer: "software_cloud",
+    final: "ai_service",
+    workshops: ["shared-device", "mover-access", "rule-order", "scheduled-export", "segment-service", "clinical-containment", "trust-route", "lost-acknowledgement"],
+  },
+  professional: {
+    theme: "Organisational risk, business recovery and accountable decisions",
+    module: "recover",
+    topics: ["governance", "response", "recovery"],
+    defender: "ransomware",
+    computer: "trusted_vendor",
+    final: "payment_insider",
+    workshops: ["approval-surprise", "restore-dependency", "cloud-policy", "vendor-signal", "supplier-credential", "executive-change", "stale-foothold", "after-action"],
+  },
+} as const;
+
+export function workshopFor(stage: Stage, audience: Audience): string | null {
+  if (audience === "all") return null;
+  return PATHWAY_CONTENT[audience].workshops[STAGES.findIndex(s => s.id === stage)];
+}
+export function workshopBelongsTo(caseId: string, audience: Audience): boolean {
+  return audience === "all" || (PATHWAY_CONTENT[audience].workshops as readonly string[]).includes(caseId);
+}
+export function nextPathway(audience: Audience): Pathway | null {
+  return audience === "secondary" ? "university" : audience === "university" ? "professional" : null;
+}
+
+function pathwayChoices(stage: Stage, audience: Pathway): Resource[] {
+  const content = PATHWAY_CONTENT[audience];
+  const workshop = workshopFor(stage, audience)!;
+  const workshopLink = "/workshops?case=" + workshop;
+  const practiceNames: Record<string, string> = {
+    fundamentals: "security goals and risk", phishing: "phishing and verification",
+    identity: "accounts and access", endpoint: "devices and patching", network: "networks and containment",
+    application: "application security", cloud: "cloud access", governance: "governance and assurance",
+    response: "incident response", recovery: "recovery assurance",
+  };
   switch (stage) {
-    case "discover": {
-      const introductions: Record<Audience, Resource> = {
-        all: {title:"Browse every pathway",description:"Compare what each audience learns, then choose an area to explore.",href:"/help",kind:"Pathway overview"},
-        secondary: {title:"Start with digital safety foundations",description:"Explore accounts, scams and safe everyday decisions before guided investigations.",href:"/learn?foundation=citizenship",kind:"Cyber Explorers starting point"},
-        university: {title:"Begin technical foundations",description:"Build an understanding of security concepts, then investigate systems and network evidence.",href:"/cyber-lab?tab=learn&module=defend",kind:"Cyber Academy starting point"},
-        professional: {title:"Explore organisational risk decisions",description:"Study governance, response and recovery decisions before more complex simulation.",href:"/cyber-lab?tab=learn&module=recover",kind:"Cyber Command starting point"},
-      };
-      return [introductions[audience],{
-        title:"Six-question shared preview",
-        description:"An optional diagnostic for every pathway. See explanations and receive a non-binding suggested next stage.",
-        href:"/preview?pathway="+audience,
-        kind:"Optional public introduction",
-      }];
-    }
-    case "understand":
-      return [
-        {
-          title: "Cyber Safety Foundations",
-          description:
-            "Phishing, account protection and safer browsing; three lessons with worked examples.",
-          href: "/learn?foundation=cyber",
-          kind: "Foundation course",
-        },
-        ...(audience === "all" || audience === "secondary"
-          ? [
-              {
-                title: "Digital Citizenship Essentials",
-                description:
-                  "Digital footprints, privacy and respectful online conduct.",
-                href: "/learn?foundation=citizenship",
-                kind: "Foundation course",
-              },
-            ]
-          : []),
-        {
-          title: {
-            protect: "Protect the branch",
-            defend: "Defend connected services",
-            recover: "Respond, recover and assure",
-          }[module],
-          description:
-            "Applied teaching with reflections, worked decisions and optional public reading.",
-          href: "/cyber-lab?tab=learn&module=" + module,
-          kind: "Cybersecurity module",
-        },
-        {
-          title: "Introduction to Python · optional",
-          description:
-            "Variables, conditions and loops. Useful technical foundations; never a prerequisite for playing.",
-          href: "/learn?foundation=python",
-          kind: "Optional technical branch",
-        },
-      ];
-    case "check":
-      return [
-        {
-          title: "Choose a course assessment",
-          description:
-            "Quick, Standard, Extended or Custom. Review the explanations and the evidence from that attempt.",
-          href: "/assessments",
-          kind: "Knowledge check",
-        },
-        {
-          title:
-            "Practise " +
-            {
-              phishing: "phishing and verification",
-              network: "networks and containment",
-              governance: "governance and assurance",
-            }[topic],
-          description:
-            "Start with a short topic session from the 500-question bank. You can change topic and difficulty.",
-          href:
-            "/cyber-lab?tab=practice&topic=" +
-            topic +
-            "&difficulty=foundational",
-          kind: "Topic practice",
-        },
-        {
-          title: "Review your practice mistakes",
-          description:
-            "Choose a topic and revisit previously missed questions. This needs earlier submitted practice.",
-          href: "/cyber-lab?tab=practice&practice_mode=mistakes",
-          kind: "Revision",
-        },
-      ];
-    case "investigate":
-      return [
-        {
-          title:
-            audience === "all"
-              ? "Explore the guided investigation library"
-              : missionTitle,
-          description:
-            "Read the briefing, inspect evidence, make decisions and review the explanations. 2D and 3D are alternative views of the same mission.",
-          href: "/missions?pathway=" + path,
-          kind: "Guided investigation",
-        },
-      ];
-    case "defend":
-      return [
-        {
-          title: "Defend the branch",
-          description:
-            "Beginner strategy: prepare controls, investigate compromise and preserve service.",
-          href: "/cyber-lab?scenario=branch",
-          kind: "Beginner simulation",
-        },
-        {
-          title: "Supplier Access Crisis",
-          description:
-            "Control recurring supplier access and deal with existing compromise.",
-          href: "/cyber-lab?scenario=supplier",
-          kind: "Intermediate simulation",
-        },
-        {
-          title: "Recovery Under Pressure",
-          description:
-            "Contain disruption, verify a recovery source and restore services deliberately.",
-          href: "/cyber-lab?scenario=ransomware",
-          kind: "Intermediate simulation",
-        },
-      ];
-    case "command":
-      return [
-        {
-          title: "Branch Siege",
-          description:
-            "An advanced incident across eight assets, with uncertain signals, dependencies and delayed work. Finish, replay the same incident and compare decisions.",
-          href: "/cyber-lab?scenario=siege",
-          kind: "Advanced simulation",
-        },
-        {
-          title: "Prepare with response and recovery teaching",
-          description:
-            "Review incident response, recovery and control assurance before or after your run.",
-          href: "/cyber-lab?tab=learn&module=recover",
-          kind: "Supporting study",
-        },
-      ];
-    case "opponent":
-      return [
-        {
-          title: "Start a Red / Blue computer match",
-          description:
-            "Begin with Blue and an easy computer in a suggested scenario. You can change seat, scenario and difficulty before starting.",
-          href:
-            "/red-blue?mode=computer&side=blue&difficulty=easy&scenario=" +
-            scenario,
-          kind: "Adversarial simulation",
-        },
-        {
-          title: "Choose a harder computer challenge",
-          description:
-            "The hard policy changes decisions, not resources or access to hidden information. It is rule-based, with no external generative AI.",
-          href: "/red-blue?mode=computer&difficulty=hard&scenario=" + scenario,
-          kind: "Optional challenge",
-        },
-      ];
-    case "compete":
-      return [
-        {
-          title: "Solo role-reversal challenge",
-          description:
-            "Playing alone? Take Red against the computer, inspect the debrief, then create a new match as Blue. Compare what each seat could know before its decisions.",
-          href:
-            "/red-blue?mode=computer&side=red&difficulty=standard&scenario=" +
-            scenario,
-          kind: "Solo reflection and replay",
-        },
-        {
-          title: "Create a two-learner Red / Blue match",
-          description:
-            "Use two different eligible student accounts in separate browser sessions. Invite privately, seal choices and read the participant debrief after the match.",
-          href: "/red-blue?mode=human&scenario=" + scenario,
-          kind: "Two-learner simulation",
-        },
-        {
-          title: "Revisit saved matches and debriefs",
-          description:
-            "Resume a match or reopen a finished debrief. Exchange seats by creating a new match; existing seats remain bound to their players.",
-          href: "/red-blue#saved-matches",
-          kind: "Reflection and replay",
-        },
-      ];
+    case "discover": return [{
+      title: AUDIENCES.find(a => a.id === audience)!.title + " introduction",
+      description: "Six distinct questions for this pathway, with explanations and an optional next-step suggestion.",
+      href: "/preview?pathway=" + audience, kind: "Pathway introduction",
+    }];
+    case "understand": return [
+      ...(audience === "secondary" ? [
+        {title: "Digital Citizenship Essentials", description: "Personal information, digital footprints and responsible online choices.", href: "/learn?foundation=citizenship", kind: "Foundation course"},
+        {title: "Cyber Safety Foundations", description: "Everyday account protection, suspicious messages and safer browsing.", href: "/learn?foundation=cyber", kind: "Foundation course"},
+      ] : []),
+      {title: {protect: "Protect the branch", defend: "Defend connected services", recover: "Respond, recover and assure"}[content.module],
+       description: content.theme + ". Worked examples and topic teaching for this pathway.",
+       href: "/cyber-lab?tab=learn&module=" + content.module, kind: "Pathway teaching module"},
+      ...(audience === "university" ? [{title: "Introduction to Python · optional", description: "Values, conditions and loops as a supporting technical skill.", href: "/learn?foundation=python", kind: "Optional technical branch"}] : []),
+    ];
+    case "check": return content.topics.map(topic => ({
+      title: "Practise " + practiceNames[topic], description: "A separate topic pool allocated to this pathway. Select a session length, review explanations and revisit mistakes.",
+      href: "/cyber-lab?tab=practice&topic=" + topic + "&difficulty=foundational", kind: "Pathway topic practice",
+    }));
+    case "investigate": return [{title: AUDIENCES.find(a => a.id === audience)!.title + " investigations",
+      description: "Ten distinct guided missions belonging to this pathway, with evidence, hints and explained reviews.",
+      href: "/missions?pathway=" + audience, kind: "Pathway investigation library"}];
+    case "defend": return [{
+      title: {branch: "Defend the branch", supplier: "Supplier Access Crisis", ransomware: "Recovery Under Pressure"}[content.defender],
+      description: {branch: "Prepare controls and protect a small connected branch while preserving service.", supplier: "Investigate recurring supplier access and contain compromise along connected systems.", ransomware: "Prioritise business recovery, verify a copy and restore disrupted services deliberately."}[content.defender],
+      href: "/cyber-lab?scenario=" + content.defender, kind: "Pathway defender scenario",
+    }];
+    case "command": return audience === "university" ? [{title: "Branch Siege", description: "Coordinate eight assets, uncertain evidence, service dependencies and delayed work.", href: "/cyber-lab?scenario=siege", kind: "Technical incident capstone"}] : [{
+      title: audience === "secondary" ? "The reconnection decision" : "The urgent executive change",
+      description: audience === "secondary" ? "Coordinate a bounded recovery decision: check trust and entry conditions before reconnecting. A saved three-decision workshop, not a full network game." : "Protect approval integrity during an incident while managing business continuity. A saved three-decision workshop, not a full network game.",
+      href: workshopLink, kind: "Pathway incident command workshop",
+    }];
+    case "opponent": return [{title: "Start a Red / Blue computer match", description: audience === "secondary" ? "Ledger Under Pressure: defend a microfinance setting, then examine the attacker’s route." : audience === "university" ? "Open Bucket, Closed Doors: test a software/cloud environment with connected technical assets." : "The Maintenance Window: evaluate the organisational consequences of third-party access.",
+      href: "/red-blue?mode=computer&side=blue&difficulty=easy&scenario=" + content.computer, kind: "Pathway adversarial scenario"}];
+    case "compete": return [
+      {title: "Solo role-reversal challenge", description: "A different scenario from stage seven: " + ({hospital: "Night Shift Outage", ai_service: "Instructions in the Evidence", payment_insider: "The Trusted Session"}[content.final]) + ". Play Red, inspect the debrief, then start a new match as Blue.", href: "/red-blue?mode=computer&side=red&difficulty=standard&scenario=" + content.final, kind: "Pathway final challenge"},
+      {title: "Revisit saved matches and debriefs", description: "Your existing match history across all pathways. Opening history does not start or complete an activity.", href: "/red-blue#saved-matches", kind: "Saved history across pathways"},
+      {title: "Create a two-learner Red / Blue match", description: "Play this pathway’s final scenario with a distinct eligible learner. Commit hidden choices and compare the completed debrief.", href: "/red-blue?mode=human&scenario=" + content.final, kind: "Optional two-learner challenge"},
+    ];
   }
+}
+
+function choicesFor(stage: Stage, audience: Audience): Resource[] {
+  if (audience !== "all") return pathwayChoices(stage, audience);
+  // Browse mode is explicitly a combined catalogue, not a fourth campaign.
+  return (["secondary", "university", "professional"] as const).flatMap(path =>
+    pathwayChoices(stage, path).map(resource => ({...resource,
+      title: AUDIENCES.find(a => a.id === path)!.title + " · " + resource.title})));
 }
 
 /** Carry advisory context through existing routes without storing learner data. */
