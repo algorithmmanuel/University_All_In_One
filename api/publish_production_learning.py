@@ -26,7 +26,9 @@ from production_learning.academy_understand import COURSE as ACADEMY_UNDERSTAND
 from production_learning.academy_check import COURSE as ACADEMY_CHECK
 from production_learning.academy_investigate import COURSE as ACADEMY_INVESTIGATE
 from production_learning.academy_defend import COURSE as ACADEMY_DEFEND
-COURSES = [EXPLORERS, ACADEMY, COMMAND, EXPLORERS_UNDERSTAND, EXPLORERS_CHECK, EXPLORERS_INVESTIGATE, EXPLORERS_DEFEND, EXPLORERS_COMMAND, EXPLORERS_OPPONENT, EXPLORERS_COMPETE, ACADEMY_UNDERSTAND, ACADEMY_CHECK, ACADEMY_INVESTIGATE, ACADEMY_DEFEND]
+from production_learning.academy_command import COURSE as ACADEMY_COMMAND
+from production_learning.academy_opponent import COURSE as ACADEMY_OPPONENT
+COURSES = [EXPLORERS, ACADEMY, COMMAND, EXPLORERS_UNDERSTAND, EXPLORERS_CHECK, EXPLORERS_INVESTIGATE, EXPLORERS_DEFEND, EXPLORERS_COMMAND, EXPLORERS_OPPONENT, EXPLORERS_COMPETE, ACADEMY_UNDERSTAND, ACADEMY_CHECK, ACADEMY_INVESTIGATE, ACADEMY_DEFEND, ACADEMY_COMMAND, ACADEMY_OPPONENT]
 REQUIRED_RELEASE_COURSES = 24
 PATHWAYS = {"secondary": "secondary", "university": "university", "professional": "cyber"}
 STAGES = {"discover", "understand", "check", "investigate", "defend", "command", "opponent", "compete"}
