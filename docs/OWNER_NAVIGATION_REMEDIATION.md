@@ -49,3 +49,7 @@ Provide one clearly understood `Home → Pathway → Stage → Activity → Resu
 ## Release discipline / out of scope
 
 This is a planned **navigation and onboarding correction**, not a request to rebuild 30 games, rework simulator rules, introduce AI, expand question banks, or replace the eight-stage framework wholesale. Update this plan, roadmap, status and handover at each actual milestone. The six-page feedback document contains five populated numbered findings; preserve its assumption that everything else is working. No implementation, testing, CI, deployment or beta promotion is claimed by this documentation checkpoint.
+
+## Single-release authorisation and first implementation checkpoint — 30 October 2026
+
+Owner explicitly authorised one major navigation/onboarding release and requested subsequent promotion into the ongoing tester-facing beta, while excluding changes to actual games and gameplay. Preserve two independent runtime environments. Work started on development branch: added `/help`, dedicated `/preview`, six-question completion/review/non-gating guidance, pathway-distinct Discover recommendations, clearer button labels and visible pathway explanations. Existing question bank and game engines are untouched. **Pending:** complete cross-route UX and browser regressions, CI/build and owner-machine readiness before any beta promotion. The existing beta is not yet updated. The permission to promote is conditional on passing acceptance gates; never infer successful deployment from commits.
