@@ -44,3 +44,6 @@ The owner identified five populated navigation/onboarding findings during person
 Current single-release UX review: [draft PR #4](https://github.com/algorithmmanuel/University_All_In_One/pull/4) into ongoing beta; [complete test and beta-rollout gates](docs/NAVIGATION_UX_BETA_RELEASE.md). Do not equate an open PR or source commits with green CI, a beta merge or running-laptop rollout.
 
 **Navigation UX CI:** initial PR checks found browser-test locator failures; source corrected in `252fc3b`. Read [the release gate](docs/NAVIGATION_UX_BETA_RELEASE.md). Later-head CI remains pending; do not promote until green.
+
+
+**Navigation release merged to beta source (30 October 2026):** [PR #4](https://github.com/algorithmmanuel/University_All_In_One/pull/4), merge `bf6a850af9b128d6e347563a71402b1830142c92`, all three final CI workflows green. The owner must still update/restart the beta web runtime separately. Read [final release steps](docs/NAVIGATION_UX_BETA_RELEASE.md#final-verified-source-release--30-october-2026). No games or backend/database changes in this release.
