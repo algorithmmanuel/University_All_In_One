@@ -134,7 +134,7 @@ export default function Journey() {
                   <h3>{r.title}</h3>
                   <p>{r.description}</p>
                   <Link className="btn" href={r.href}>
-                    {r.href.includes("/preview") ? "Start the six-question preview" : r.title.startsWith("Browse") ? r.title : "Go to " + r.title} →
+                    {r.href.includes("/preview") ? "Start the six-question preview" : r.title.startsWith("Browse") ? r.title : "Open " + r.title} →
                   </Link>
                 </article>
               ))}
