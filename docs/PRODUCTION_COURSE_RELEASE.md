@@ -26,3 +26,9 @@
 No production course data has been published, no full 24-course editorial acceptance has been performed, no beta database or server has been touched, and the content merge remains pending. The project must not claim the 24-course release complete simply because this publication architecture has been inspected or because the catalogue displays 24 titles.
 
 **Next development action:** produce the 24 unique lesson manuscripts and reference checks, then implement content publication and reader integration together. Preserve the running ongoing beta until the full quality gate is green.
+
+## Editorial implementation checkpoint — 30 October 2026
+
+The current source includes the **first original eight-lesson manuscript** for Cyber Explorers / Discover at `api/production_learning/explorers_discover.py`. It covers risk recognition, independent verification, account protection, privacy, misinformation, device hygiene, incident response and a personal safety plan. The final lesson contains curated links as editorial leads that still require link/source checking. A guarded command `api/publish_production_learning.py` defaults to dry-run validation; `--publish` is an explicit additive insert with identity/content collision checks and no modification to existing learner courses or lesson IDs.
+
+**This is one of 24 courses and is not a complete 24-course content release. No publication command has run and the new course is not live.** The remaining 23 substantial course manuscripts, content QA, automated tests, links and complete release gates are outstanding. Do not merge this partial work into beta or state that 24 courses exist. Keep the beta running and preserve enrolled learners' records.
