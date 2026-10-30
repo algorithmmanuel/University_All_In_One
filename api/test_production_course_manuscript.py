@@ -18,6 +18,8 @@ from production_learning.academy_command import COURSE as ACADEMY_COMMAND
 from production_learning.academy_opponent import COURSE as ACADEMY_OPPONENT
 from production_learning.academy_compete import COURSE as ACADEMY_COMPETE
 from production_learning.command_understand import COURSE as COMMAND_UNDERSTAND
+from production_learning.command_check import COURSE as COMMAND_CHECK
+from production_learning.command_investigate import COURSE as COMMAND_INVESTIGATE
 
 class ProductionCourseManuscriptTests(unittest.TestCase):
     def test_approved_structure(self):
