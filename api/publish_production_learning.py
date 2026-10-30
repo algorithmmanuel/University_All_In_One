@@ -26,11 +26,13 @@ def validate(course):
         raise ValueError("Unknown pathway")
     if course["stage"] not in ("discover","understand","check","investigate","defend","command","opponent","compete"):
         raise ValueError("Unknown stage")
-    assert len(course["lessons"]) >= 8
+    if not (8 <= len(course["lessons"]) <= 12):
+        raise ValueError("Every released course must contain 8-12 reviewed lessons")
     assert len({row["position"] for row in course["lessons"]}) == len(course["lessons"])
     assert len({row["title"] for row in course["lessons"]}) == len(course["lessons"])
     for row in course["lessons"]:
-        assert len(row["content"].split()) >= 90, "Reject shallow editorial material"
+        if len(row["content"].split()) < 600:
+            raise ValueError(f"Lesson below 600-word editorial minimum: {course['title']} / {row['title']}")
         assert "Worked example:" in row["content"] or "Reflection:" in row["content"]
     assert "Further reading" in course["lessons"][-1]["content"]
 
