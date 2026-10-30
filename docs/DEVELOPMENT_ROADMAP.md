@@ -153,3 +153,10 @@ The owner prefers navy/teal as the primary brand for long learning sessions, wit
 
 
 Verified visual correction: `467b896` passed 150 browser regressions, 27 actual-API/PostgreSQL browser cases, 21 frontend tests, TypeScript and production build; expected-head/ancestry checks preceded beta source promotion. Runtime update is frontend-only for an already installed bundle. The playthrough pause continues; see status for precise evidence.
+
+
+## Owner playthrough navigation remediation — 30 October 2026 (planned, not implemented)
+
+The owner's five populated findings in the six-page `Testing Observations.docx` identify a serious learning-journey usability gap: unclear start/help and Decision Workshop purpose; audience tabs that appear to lead to the same material; repeated public six-question preview and awkward double-verb CTAs; game library visible beneath assessment; and completion without a next-step/placement recommendation. The screenshots support the reported UX problem, not a claim of broken underlying gameplay. See [the complete scoped remediation plan](OWNER_NAVIGATION_REMEDIATION.md) for six work packages (UX-NAV-01 to UX-NAV-06), evidence, design choices, prioritisation, tests and release gates.
+
+**Priority:** address pathway meaning/differentiation and completion next steps before new content/feature expansion. Preserve a shared eight-stage teaching model but make each audience's content recommendations and entry points materially different, retaining free later-stage entry. Treat six questions as an optional, non-gating diagnostic, not a permanent competence placement. Add accessible orientation and a focused quiz screen. Existing functionality not raised by the owner is assumed working; do not broaden scope silently. This is planning/triage only; no source implementation or beta promotion is authorised by writing this plan. The prior feature-development pause remains for unrelated work.
