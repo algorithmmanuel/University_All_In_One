@@ -3,3 +3,17 @@ export const APPROVED_COURSES = ["Everyday Digital Risks & Safety Choices","Acco
 export function isProductionCourse(title: string): boolean {
   return (APPROVED_COURSES as readonly string[]).includes(title);
 }
+
+/** Editorial stage order follows each consecutive block of eight courses. */
+export const COURSE_STAGES = [
+  "Discover", "Understand", "Check understanding", "Investigate with guidance",
+  "Manage consequences", "Command an incident", "Face an adaptive opponent",
+  "Compete and reflect"
+] as const;
+
+const ACADEMIES = ["secondary", "university", "cyber"] as const;
+export function productionCourseMetadata(academyId: string, title: string) {
+  const index = APPROVED_COURSES.indexOf(title as typeof APPROVED_COURSES[number]);
+  if (index < 0 || ACADEMIES[Math.floor(index / COURSE_STAGES.length)] !== academyId) return null;
+  return { stageIndex: index % COURSE_STAGES.length, stage: COURSE_STAGES[index % COURSE_STAGES.length] };
+}
