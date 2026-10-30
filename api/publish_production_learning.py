@@ -17,9 +17,12 @@ from production_learning.academy_discover import COURSE as ACADEMY
 from production_learning.command_discover import COURSE as COMMAND
 COURSES = [EXPLORERS, ACADEMY, COMMAND]
 REQUIRED_RELEASE_COURSES = 24
+PATHWAYS = {"secondary": "secondary", "university": "university", "professional": "cyber"}
+STAGES = {"discover", "understand", "check", "investigate", "defend", "command", "opponent", "compete"}
 
 def validate(course):
-    assert course["revision"] == "v1"
+    if course["revision"] != "v1":
+        raise ValueError("Expected approved content revision v1")
     if course["academy_id"] not in ("secondary","university","cyber"):
         raise ValueError("Unknown academy")
     if course["pathway"] not in ("secondary","university","professional"):
@@ -28,13 +31,19 @@ def validate(course):
         raise ValueError("Unknown stage")
     if not (8 <= len(course["lessons"]) <= 12):
         raise ValueError("Every released course must contain 8-12 reviewed lessons")
-    assert len({row["position"] for row in course["lessons"]}) == len(course["lessons"])
-    assert len({row["title"] for row in course["lessons"]}) == len(course["lessons"])
+    if course["academy_id"] != PATHWAYS[course["pathway"]]:
+        raise ValueError("Pathway and academy disagree")
+    if [row["position"] for row in course["lessons"]] != list(range(1, len(course["lessons"]) + 1)):
+        raise ValueError("Lesson positions must be contiguous and one-indexed")
+    if len({row["title"] for row in course["lessons"]}) != len(course["lessons"]):
+        raise ValueError("Duplicate lesson titles")
     for row in course["lessons"]:
         if len(row["content"].split()) < 600:
             raise ValueError(f"Lesson below 600-word editorial minimum: {course['title']} / {row['title']}")
-        assert "Worked example:" in row["content"] or "Reflection:" in row["content"]
-    assert "Further reading" in course["lessons"][-1]["content"]
+        if not ("Worked example:" in row["content"] or "Reflection:" in row["content"]):
+            raise ValueError("Lesson lacks worked example/reflection")
+    if "Further reading" not in course["lessons"][-1]["content"]:
+        raise ValueError("Final lesson lacks further reading")
 
 def publish(db, course):
     validate(course)
@@ -65,6 +74,11 @@ def main():
     ids = {(course["pathway"], course["stage"]) for course in COURSES}
     if len(ids) != len(COURSES):
         raise RuntimeError("Duplicate pathway/stage publication mapping")
+    required = {(path, stage) for path in PATHWAYS for stage in STAGES}
+    if len(COURSES) == REQUIRED_RELEASE_COURSES and ids != required:
+        raise RuntimeError(f"Missing or unexpected pathway/stage courses: {required.symmetric_difference(ids)}")
+    if len({(course["academy_id"], course["title"]) for course in COURSES}) != len(COURSES):
+        raise RuntimeError("Duplicate course title in the same academy")
     failures = []
     for course in COURSES:
         try:
