@@ -56,6 +56,7 @@ export default function Journey() {
         <section className={styles.intro}>
           <span className="tag">LEARN · INVESTIGATE · DEFEND · COMPETE</span>
           <h1>Your cybersecurity learning journey</h1>
+          <p><Link href="/help">New here? Read Start here / How EduCyber works →</Link></p>
           <p>
             Move from understanding a concept to making decisions under
             uncertainty. Start at the beginning, return to an earlier topic, or
@@ -70,9 +71,9 @@ export default function Journey() {
         <section className={styles.pathways} aria-labelledby="pathway-heading">
           <h2 id="pathway-heading">Choose an audience pathway</h2>
           <p>
-            This tailors the suggested materials to your interests. Every stage
-            stays open.
+            Choose the experience that fits your goals. Each pathway recommends different activities; the eight-stage structure is shared and every stage remains open.
           </p>
+          <p className="small">{audience === "secondary" ? "Cyber Explorers: beginner-friendly everyday security and personal safety." : audience === "university" ? "Cyber Academy: technical concepts, systems and evidence-led investigation." : audience === "professional" ? "Cyber Command: organisational risk, assurance and incident decisions." : "Explore all pathways: browse the whole catalogue; this is not a separate learning level."}</p>
           <div className={styles.pathGrid}>
             {AUDIENCES.map((a) => (
               <button
@@ -125,6 +126,7 @@ export default function Journey() {
             </h2>
             <p className={styles.question}>{current.question}</p>
             <p>{current.description}</p>
+            <p className="notice">{audience === "secondary" ? "Your Cyber Explorers route prioritises everyday safety before investigations." : audience === "university" ? "Your Cyber Academy route prioritises technical understanding and evidence." : audience === "professional" ? "Your Cyber Command route prioritises operational decisions and organisational impact." : "You are browsing across all pathways; choose an audience for a more focused recommendation."}</p>
             <div className={styles.resources}>
               {resourcesFor(stage, audience).map((r) => (
                 <article key={r.href}>
@@ -132,7 +134,7 @@ export default function Journey() {
                   <h3>{r.title}</h3>
                   <p>{r.description}</p>
                   <Link className="btn" href={r.href}>
-                    Open {r.title} →
+                    {r.href.includes("/preview") ? "Start the six-question preview" : r.title.startsWith("Browse") ? r.title : "Go to " + r.title} →
                   </Link>
                 </article>
               ))}
