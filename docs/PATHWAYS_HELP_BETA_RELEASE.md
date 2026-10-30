@@ -206,3 +206,10 @@ Rollback: prefer a forward fix and retain the local rollback refs. If the fronte
 ## Verification checkpoint
 
 Local 24 frontend unit tests, TypeScript and production build passed. New desktop/mobile Help cases cover all contents targets, 24 stage/pathway links, narrow layout, public entry and no POSTs. Final current-head browser/real-API CI and source promotion are pending at this implementation checkpoint. Earlier pathway verification remains tied to its recorded SHA. No laptop runtime, database, private mail or ngrok operation was performed here.
+
+
+## Final verified source promotion
+
+Verified implementation `168b55a` passed [browser CI 41055336307](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41055336307): 158 browser cases, 24 frontend unit tests, TypeScript and production build. [Actual-API/PostgreSQL CI 41055336706](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41055336706) passed all 30 cases. These supersede the pending checkpoint above.
+
+The reconciled commit preserves beta's independent documentation history. Beta was advanced from `0d13fc5` to this exact checked implementation using an expected-head lease, with both parents/ancestry and unchanged backend/schema/dependencies confirmed. Final documentation is synchronised to both source branches. **Both branches are ready to pull; the laptop update and playthrough above remain pending.** No owner processes, data or ngrok settings were operated by this release. The owner has not yet supplied local/public acceptance.

@@ -6,7 +6,7 @@ This is the continuation entry point for maintainers and future assistant sessio
 **Tester-facing beta branch:** `feature/secure-password-recovery`  
 **Latest approved roadmap update:** 30 October 2026 (Africa/Lagos)
 
-**Current work:** [combined distinct pathways and detailed Help guide for development and beta](docs/PATHWAYS_HELP_BETA_RELEASE.md). The owner explicitly authorises synchronising both branches and has not yet tested the new pathway allocation. Follow the current rollout guide; source promotion and laptop restart/testing are separate. Future enrichment builds within the three eight-stage routes.
+**Current release:** [distinct pathways + detailed Help, synchronised to development and beta](docs/PATHWAYS_HELP_BETA_RELEASE.md). Verified implementation `168b55a` passed 158 browser regressions, 30 actual-API/PostgreSQL cases and frontend unit/type/build gates. Both source branches include it; the owner has not yet tested the new pathway allocation and must update the laptop separately. Use the current runbook instead of older release blocks. Future enrichment stays within the three eight-stage routes.
 
 1. Read [the current handover and exact next action](docs/DEVELOPMENT_STATUS.md).
 2. Read [the approved roadmap and acceptance gates](docs/DEVELOPMENT_ROADMAP.md).
@@ -59,3 +59,6 @@ The owner has resumed bounded development to give Cyber Explorers, Cyber Academy
 
 
 **Current promotion authorisation:** the owner requests the checked three-pathway build plus detailed `/help` on both branches. This supersedes earlier no-promotion instructions for this bounded release. Read [the current guide](docs/PATHWAYS_HELP_BETA_RELEASE.md) and latest status before operator actions.
+
+
+**Current handover:** combined source promotion is complete after verified CI. Both branches are synchronised, including final documentation. Laptop frontend updates/restarts and local-development/public-beta testing remain owner-operated and pending; use `docs/PATHWAYS_HELP_BETA_RELEASE.md`. No new migration or publication step.
