@@ -219,7 +219,7 @@ for (const mobile of [false,true]) for (const [pathway, name, firstQuestion, exp
   assert.equal(caseTitles.size,pathway==='university'?8:7);
   if(pathway!=='professional'){
     const next=pathway==='secondary'?'Cyber Academy':'Cyber Command';
-    await page.getByRole('link',{name:'Explore '+next+' next →',exact:true}).click();
+    await page.getByRole('button',{name:'Explore '+next+' next →',exact:true}).click();
     await page.getByRole('heading',{name:'Discover',exact:true}).waitFor();
     await page.goBack();
   }

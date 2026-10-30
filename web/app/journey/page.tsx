@@ -170,7 +170,7 @@ export default function Journey() {
               {index === 7 && audience !== "all" && <aside className="card">
                 <h3>After your final challenge</h3>
                 <p>Review your saved result and explain what you would change. Reaching this screen does not mark the pathway complete or award mastery.</p>
-                {nextPathway(audience) ? <Link className="btn" href={journeyUrl("discover", nextPathway(audience)!)}>Explore {AUDIENCES.find(a => a.id === nextPathway(audience))!.title} next →</Link> : <Link className="btn" href="/journey?stage=discover&pathway=secondary">Revisit Cyber Explorers or choose another pathway →</Link>}
+                {nextPathway(audience) ? <button type="button" className="btn" onClick={() => select("discover", nextPathway(audience)!)}>Explore {AUDIENCES.find(a => a.id === nextPathway(audience))!.title} next →</button> : <button type="button" className="btn" onClick={() => select("discover", "secondary")}>Revisit Cyber Explorers or choose another pathway →</button>}
               </aside>}
               {index < 7 && (
                 <button

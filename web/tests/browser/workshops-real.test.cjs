@@ -34,10 +34,10 @@ for (const mobile of [false, true])
     const page = await setup(t, mobile),
       errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
-    await page.goto("/journey?stage=command&pathway=professional");
+    await page.goto("/journey?stage=command&pathway=secondary");
     await page
       .getByRole("link", {
-        name: "Explore The reconnection decision →",
+        name: "Open The reconnection decision →",
         exact: true,
       })
       .click();

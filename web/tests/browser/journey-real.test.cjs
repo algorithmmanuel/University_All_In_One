@@ -151,7 +151,8 @@ test(`actual workshop catalogue respects ${pathway} content allocation`,async t=
   const page=await ctx.newPage(),writes=[];page.on('request',r=>{if(r.method()==='POST')writes.push(r.url());});
   await page.goto('/journey?stage=discover&pathway='+pathway);
   await page.getByRole('link',{name:'Explore '+expectedTitle+' →',exact:true}).click();
-  await page.getByRole('heading',{name:expectedTitle,exact:true}).waitFor();
+  await page.getByRole('heading',{name:'Decision workshop library',exact:true}).waitFor();
+  await page.getByRole('heading',{name:expectedTitle,level:3,exact:true}).waitFor();
   const buttons=page.getByRole('button',{name:/^(Discover|Understand|Check understanding|Investigate with guidance|Manage consequences|Command an incident|Face an adaptive opponent|Compete and reflect)/});
   assert.equal(await buttons.count(),1);
   await page.getByLabel("Workshop stage",{exact:true}).selectOption("all");
