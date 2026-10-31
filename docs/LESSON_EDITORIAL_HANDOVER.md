@@ -74,3 +74,14 @@ All eight lessons reviewed; word counts: 659, 617, 685, 658, 694, 675, 613, 703.
 References: NCSC personal-protection page rechecked; eSafety Commissioner consent-sharing page opened and relevance checked, with Australian legal/reporting scope explicitly separated from Nigerian practice. Removed the unverifiable CISA403 link. Source accessibility does not satisfy independent editorial acceptance.
 
 Exact next unfinished audit course: **academy_command, lesson 1** (complete all eight lessons; source `api/production_learning/academy_command.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: academy_command
+
+Reconstructed response declaration, triage authority, forensic collection impact, event-time versus knowledge-time chronology, shared-integration containment, acknowledged-work recovery, causal corrective actions and a multi-cause tabletop. Central review checked response decisions versus the earlier investigation-only course and the distinction between lost acknowledgement, receipt and committed work.
+
+All eight lessons reviewed; word counts: 671, 716, 707, 665, 693, 708, 708, 749. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **320 → 316 signatures**, **3 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-academy-command.json`. No automatic human approval or fresh green CI is implied.
+
+References: NIST SP 800-61 Rev.3 and SP 800-86 official publication pages opened and relevance checked; the older forensic guide is explicitly identified as general context, not current legal admissibility or a replacement for organisational procedures.
+
+Exact next unfinished audit course: **academy_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/academy_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
