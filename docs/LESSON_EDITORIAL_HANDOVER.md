@@ -195,3 +195,14 @@ All eight lessons reviewed; word counts: 630, 629, 622, 624, 633, 629, 634, 688.
 References: Official MITRE ATT&CK, NIST SP 800-53A Rev.5 and NIST CSF pages opened and relevance checked. CISA KEV returned403 and was omitted rather than labelled verified.
 
 Exact next unfinished audit course: **command_compete, lesson 1** (complete all eight lessons; source `api/production_learning/command_compete.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: command_compete
+
+Reconstructed distinct enterprise strategy cases: rural lending launch, constrained investment portfolio, subsidiary release-programme measurement, acquisition-document exposure exercise, archive migration evidence, card-delivery concentration, board acquisition challenge and staged strategic migration. Central review checked investment assumptions, genuine supplier independence, corrected denominators and explicit conditions for expanding rollout.
+
+All eight lessons reviewed; word counts: 628, 638, 621, 616, 625, 622, 635, 716. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **151 → 0 signatures**, **2 → 0 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-command-compete.json`. No automatic human approval or fresh green CI is implied.
+
+References: Official NIST CSF Profiles, NIST SP 800-84 and Basel operational resilience pages opened and relevance checked. Fictional targets and policies are clearly educational rather than regulatory requirements.
+
+Exact next unfinished audit course: **No unfinished exact-duplication course remains.** Next is semantic/editorial acceptance review, starting Cyber Explorers Discover lesson 1, not publication.. Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
