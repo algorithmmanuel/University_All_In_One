@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 31 October 2026 (Africa/Lagos).
-**Current checkpoint:** lesson-writing and repeated-content cleanup, development only. Latest completed batch `academy_defend`; committed-source global audit now **343 repeated 70-word signatures / 7 passage clusters**, from initial 468 / 15. See [batch evidence, references, limitations and exact next lesson](LESSON_EDITORIAL_HANDOVER.md). Publication and beta promotion remain blocked; earlier CI evidence applies only to its recorded commits.
+**Current checkpoint:** lesson-writing and repeated-content cleanup, development only. Latest completed batch `academy_investigate`; committed-source global audit now **327 repeated 70-word signatures / 3 passage clusters**, from initial 468 / 15. See [batch evidence, references, limitations and exact next lesson](LESSON_EDITORIAL_HANDOVER.md). Publication and beta promotion remain blocked; earlier CI evidence applies only to its recorded commits.
 
 Previous bundle checkpoint: The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).

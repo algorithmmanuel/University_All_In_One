@@ -41,3 +41,14 @@ References: NIST CSF https://www.nist.gov/cyberframework and OWASP Top 10 https:
 Exact next unfinished audit course: **academy_understand, lesson 1** (complete all eight lessons; source `api/production_learning/academy_understand.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
 
 Dependency follow-up: installed repository-pinned CI requirements in an isolated temporary Python environment. All **five** publication-boundary negative tests passed with a nonconnecting in-memory URL; tests mock approvals and make no publication/database calls. The earlier missing-SQLAlchemy import blocker is resolved.
+
+
+## Completed batch: academy_investigate
+
+Reconstructed hypothesis testing, dependency scope, timezone-aware timelines, identity versus committed-action evidence, network/process correlation, evidence handling, bounded assessments and testable debrief recommendations. Central review checked the J8 recalculation case, explicit UTC conversions, account-versus-human attribution and limits of absent logs; none of these repeats the defensive-engineering exercises.
+
+All eight lessons reviewed; word counts: 704, 720, 684, 716, 721, 734, 718, 782. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **343 → 327 signatures**, **7 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-academy-investigate.json`. No automatic human approval or fresh green CI is implied.
+
+References: NIST SP 800-61 Rev. 3 https://csrc.nist.gov/pubs/sp/800/61/r3/final and OWASP Logging Cheat Sheet https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html were opened and checked for incident-response and logging relevance on 31 October. Independent editorial/licensing acceptance remains open.
+
+Exact next unfinished audit course: **academy_understand, lesson 1** (complete all eight lessons; source `api/production_learning/academy_understand.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
