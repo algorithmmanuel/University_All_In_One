@@ -2,8 +2,8 @@
   "course_count": 24,
   "lesson_count": 192,
   "window_words": 70,
-  "duplicated_window_signatures": 343,
-  "passage_cluster_count": 7,
+  "duplicated_window_signatures": 298,
+  "passage_cluster_count": 3,
   "courses": {
     "academy-check-v1": {
       "lessons": 8,
@@ -13,9 +13,9 @@
     },
     "academy-command-v1": {
       "lessons": 8,
-      "minimum_words": 759,
-      "affected_passage_clusters": 1,
-      "affected_lessons": 8
+      "minimum_words": 665,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
     },
     "academy-compete-v1": {
       "lessons": 8,
@@ -37,9 +37,9 @@
     },
     "academy-investigate-v1": {
       "lessons": 8,
-      "minimum_words": 851,
-      "affected_passage_clusters": 5,
-      "affected_lessons": 8
+      "minimum_words": 684,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
     },
     "academy-opponent-v1": {
       "lessons": 8,
@@ -49,15 +49,15 @@
     },
     "academy-understand-v1": {
       "lessons": 8,
-      "minimum_words": 812,
-      "affected_passage_clusters": 1,
-      "affected_lessons": 8
+      "minimum_words": 626,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
     },
     "command-check-v1": {
       "lessons": 8,
-      "minimum_words": 843,
-      "affected_passage_clusters": 1,
-      "affected_lessons": 8
+      "minimum_words": 629,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
     },
     "command-command-v1": {
       "lessons": 8,
@@ -97,9 +97,9 @@
     },
     "command-understand-v1": {
       "lessons": 8,
-      "minimum_words": 836,
-      "affected_passage_clusters": 1,
-      "affected_lessons": 8
+      "minimum_words": 647,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
     },
     "explorers-check-v1": {
       "lessons": 8,
@@ -115,7 +115,7 @@
     },
     "explorers-compete-v1": {
       "lessons": 8,
-      "minimum_words": 605,
+      "minimum_words": 613,
       "affected_passage_clusters": 0,
       "affected_lessons": 0
     },
@@ -152,17 +152,9 @@
   },
   "clusters": [
     {
-      "window_count": 190,
-      "lesson_count": 56,
+      "window_count": 172,
+      "lesson_count": 40,
       "locations": [
-        "command-check-v1:1",
-        "command-check-v1:2",
-        "command-check-v1:3",
-        "command-check-v1:4",
-        "command-check-v1:5",
-        "command-check-v1:6",
-        "command-check-v1:7",
-        "command-check-v1:8",
         "command-command-v1:1",
         "command-command-v1:2",
         "command-command-v1:3",
@@ -202,31 +194,15 @@
         "command-opponent-v1:5",
         "command-opponent-v1:6",
         "command-opponent-v1:7",
-        "command-opponent-v1:8",
-        "command-understand-v1:1",
-        "command-understand-v1:2",
-        "command-understand-v1:3",
-        "command-understand-v1:4",
-        "command-understand-v1:5",
-        "command-understand-v1:6",
-        "command-understand-v1:7",
-        "command-understand-v1:8"
+        "command-opponent-v1:8"
       ],
       "opening_words": "identify the bank service owner the consequence for customers and the approval needed to choose a proportionate response name the relevant records",
       "id": "R001"
     },
     {
-      "window_count": 124,
-      "lesson_count": 40,
+      "window_count": 110,
+      "lesson_count": 16,
       "locations": [
-        "academy-command-v1:1",
-        "academy-command-v1:2",
-        "academy-command-v1:3",
-        "academy-command-v1:4",
-        "academy-command-v1:5",
-        "academy-command-v1:6",
-        "academy-command-v1:7",
-        "academy-command-v1:8",
         "academy-compete-v1:1",
         "academy-compete-v1:2",
         "academy-compete-v1:3",
@@ -235,14 +211,6 @@
         "academy-compete-v1:6",
         "academy-compete-v1:7",
         "academy-compete-v1:8",
-        "academy-investigate-v1:1",
-        "academy-investigate-v1:2",
-        "academy-investigate-v1:3",
-        "academy-investigate-v1:4",
-        "academy-investigate-v1:5",
-        "academy-investigate-v1:6",
-        "academy-investigate-v1:7",
-        "academy-investigate-v1:8",
         "academy-opponent-v1:1",
         "academy-opponent-v1:2",
         "academy-opponent-v1:3",
@@ -250,15 +218,7 @@
         "academy-opponent-v1:5",
         "academy-opponent-v1:6",
         "academy-opponent-v1:7",
-        "academy-opponent-v1:8",
-        "academy-understand-v1:1",
-        "academy-understand-v1:2",
-        "academy-understand-v1:3",
-        "academy-understand-v1:4",
-        "academy-understand-v1:5",
-        "academy-understand-v1:6",
-        "academy-understand-v1:7",
-        "academy-understand-v1:8"
+        "academy-opponent-v1:8"
       ],
       "opening_words": "distinguish the documented system behaviour from competing explanations and identify which timestamped record could separate them apply the reasoning specifically to this",
       "id": "R002"
@@ -302,50 +262,6 @@
       ],
       "opening_words": "first identify the accountable business service owner and the customer outcome potentially affected by the scenario next identify which input in this",
       "id": "R003"
-    },
-    {
-      "window_count": 5,
-      "lesson_count": 3,
-      "locations": [
-        "academy-investigate-v1:3",
-        "academy-investigate-v1:7",
-        "academy-investigate-v1:8"
-      ],
-      "opening_words": "write down the system or record that the question concerns the authorised person responsible for it and the observation that would confirm",
-      "id": "R004"
-    },
-    {
-      "window_count": 4,
-      "lesson_count": 3,
-      "locations": [
-        "academy-investigate-v1:3",
-        "academy-investigate-v1:7",
-        "academy-investigate-v1:8"
-      ],
-      "opening_words": "write down the system or record that the question concerns the authorised person responsible for it and the observation that would confirm",
-      "id": "R005"
-    },
-    {
-      "window_count": 2,
-      "lesson_count": 3,
-      "locations": [
-        "academy-investigate-v1:3",
-        "academy-investigate-v1:7",
-        "academy-investigate-v1:8"
-      ],
-      "opening_words": "write down the system or record that the question concerns the authorised person responsible for it and the observation that would confirm",
-      "id": "R006"
-    },
-    {
-      "window_count": 2,
-      "lesson_count": 3,
-      "locations": [
-        "academy-investigate-v1:3",
-        "academy-investigate-v1:7",
-        "academy-investigate-v1:8"
-      ],
-      "opening_words": "write down the system or record that the question concerns the authorised person responsible for it and the observation that would confirm",
-      "id": "R007"
     }
   ],
   "note": "Exact token overlap only; human editors must review semantic similarity."

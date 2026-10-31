@@ -107,3 +107,14 @@ All eight lessons reviewed; word counts: 656, 649, 640, 681, 629, 638, 649, 691.
 References: Official NIST CSF and SP 800-53 publication pages opened and relevance checked on 31 October. Examples and calculations are fictional teaching cases, not quantitative forecasts or regulatory thresholds.
 
 Exact next unfinished audit course: **academy_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/academy_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: academy_defend
+
+Central semantic review identified that lesson2 repeated the foundation flow-matrix exercise. Replaced that lesson with a new outbound reporting integration, worker-versus-laptop DNS evidence, an inappropriate inbound supplier exception and receiving-tenant migration. The other seven validated defensive lessons remain unchanged. All eight rechecked for course continuity; this is a focused substantive correction.
+
+All eight lessons reviewed; word counts: 649, 674, 643, 637, 643, 649, 627, 694. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **298 → 298 signatures**, **3 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-academy-defend.json`. No automatic human approval or fresh green CI is implied.
+
+References: Existing checked NIST CSF and OWASP overviews retained; the new supplier example is fictional and assumes no undocumented actual product behaviour.
+
+Exact next unfinished audit course: **academy_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/academy_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
