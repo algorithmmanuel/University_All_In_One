@@ -85,3 +85,14 @@ All eight lessons reviewed; word counts: 671, 716, 707, 665, 693, 708, 708, 749.
 References: NIST SP 800-61 Rev.3 and SP 800-86 official publication pages opened and relevance checked; the older forensic guide is explicitly identified as general context, not current legal admissibility or a replacement for organisational procedures.
 
 Exact next unfinished audit course: **academy_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/academy_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: command_understand
+
+Reconstructed service ownership, measurable appetite, policy-to-procedure traceability, architecture authority, scoped effectiveness claims, three-lines independence, supplier concentration and governance decisions. Central review checked that internal audit does not become the operational approver and supplier assurance is bounded by service and period.
+
+All eight lessons reviewed; word counts: 647, 663, 650, 648, 655, 647, 667, 689. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **316 → 307 signatures**, **3 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-command-understand.json`. No automatic human approval or fresh green CI is implied.
+
+References: Official NIST CSF and SP 800-53 Rev.5 publication pages opened and checked for governance outcomes and configurable controls. No fictional target or contract term is presented as a regulatory obligation.
+
+Exact next unfinished audit course: **academy_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/academy_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
