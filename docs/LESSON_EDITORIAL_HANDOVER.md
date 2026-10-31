@@ -96,3 +96,14 @@ All eight lessons reviewed; word counts: 647, 663, 650, 648, 655, 647, 667, 689.
 References: Official NIST CSF and SP 800-53 Rev.5 publication pages opened and checked for governance outcomes and configurable controls. No fictional target or contract term is presented as a regulatory obligation.
 
 Exact next unfinished audit course: **academy_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/academy_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: command_check
+
+Reconstructed risk causal statements, impact and workload reasoning, mitigation dependencies, leaver deprovisioning assurance, meaningful denominators, sampling limits, accountable exceptions and a decision dashboard. Central review detected a duplicated vendor-MFA case shared with Understand and required a substantive replacement: lesson4 now reconciles HR events, missed application-account batches and rehire dates with explained period limitations.
+
+All eight lessons reviewed; word counts: 656, 649, 640, 681, 629, 638, 649, 691. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **307 → 298 signatures**, **3 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-command-check.json`. No automatic human approval or fresh green CI is implied.
+
+References: Official NIST CSF and SP 800-53 publication pages opened and relevance checked on 31 October. Examples and calculations are fictional teaching cases, not quantitative forecasts or regulatory thresholds.
+
+Exact next unfinished audit course: **academy_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/academy_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
