@@ -129,3 +129,14 @@ All eight lessons reviewed; word counts: 624, 621, 665, 617, 639, 640, 640, 708.
 References: MITRE ATT&CK, NIST SP 800-61r3 and OWASP Session Management official pages opened and relevance checked. These support conceptual behaviour and defensive control analysis, not attack execution or course certification.
 
 Exact next unfinished audit course: **academy_compete, lesson 1** (complete all eight lessons; source `api/production_learning/academy_compete.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: command_investigate
+
+Reconstructed event classification, delegated decisions, evidence gaps, transaction-aware containment, stakeholder updates, supplier response, recovery acceptance and leadership tabletop. Central review checked separate treatment of confirmed facts, hypotheses and legal obligations, and the distinction between technical advice and accountable business acceptance.
+
+All eight lessons reviewed; word counts: 632, 674, 652, 631, 648, 640, 659, 719. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **287 → 266 signatures**, **3 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-command-investigate.json`. No automatic human approval or fresh green CI is implied.
+
+References: Official NIST SP 800-61r3 and CSF pages opened and relevance checked; banking cases are fictional, no jurisdiction-specific deadlines invented.
+
+Exact next unfinished audit course: **academy_compete, lesson 1** (complete all eight lessons; source `api/production_learning/academy_compete.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
