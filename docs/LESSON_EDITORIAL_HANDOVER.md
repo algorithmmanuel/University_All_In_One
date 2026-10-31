@@ -140,3 +140,14 @@ All eight lessons reviewed; word counts: 632, 674, 652, 631, 648, 640, 659, 719.
 References: Official NIST SP 800-61r3 and CSF pages opened and relevance checked; banking cases are fictional, no jurisdiction-specific deadlines invented.
 
 Exact next unfinished audit course: **academy_compete, lesson 1** (complete all eight lessons; source `api/production_learning/academy_compete.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: command_check
+
+Central semantic review required two further differentiated lessons. Lesson6 now samples payment-adjustment authorisations with unmatched postings and cancelled tickets. Lesson8 now reconciles vulnerability denominators, an expired supplier exception and incomplete privileged-account coverage; it replaces the repeated backup-versus-service-recovery capstone. All eight reviewed with the earlier distinct leaver case retained.
+
+All eight lessons reviewed; word counts: 656, 649, 640, 681, 629, 665, 649, 700. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **266 → 266 signatures**, **3 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-command-check.json`. No automatic human approval or fresh green CI is implied.
+
+References: Previously checked official NIST CSF and SP 800-53 sources retained; numerical denominators and sample limitations explicitly explained as fictional exercises.
+
+Exact next unfinished audit course: **academy_compete, lesson 1** (complete all eight lessons; source `api/production_learning/academy_compete.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.

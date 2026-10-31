@@ -2,7 +2,7 @@
   "course_count": 24,
   "lesson_count": 192,
   "window_words": 70,
-  "duplicated_window_signatures": 298,
+  "duplicated_window_signatures": 266,
   "passage_cluster_count": 3,
   "courses": {
     "academy-check-v1": {
@@ -43,9 +43,9 @@
     },
     "academy-opponent-v1": {
       "lessons": 8,
-      "minimum_words": 755,
-      "affected_passage_clusters": 1,
-      "affected_lessons": 8
+      "minimum_words": 617,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
     },
     "academy-understand-v1": {
       "lessons": 8,
@@ -85,9 +85,9 @@
     },
     "command-investigate-v1": {
       "lessons": 8,
-      "minimum_words": 816,
-      "affected_passage_clusters": 1,
-      "affected_lessons": 8
+      "minimum_words": 631,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
     },
     "command-opponent-v1": {
       "lessons": 8,
@@ -152,8 +152,8 @@
   },
   "clusters": [
     {
-      "window_count": 172,
-      "lesson_count": 40,
+      "window_count": 151,
+      "lesson_count": 32,
       "locations": [
         "command-command-v1:1",
         "command-command-v1:2",
@@ -179,14 +179,6 @@
         "command-defend-v1:6",
         "command-defend-v1:7",
         "command-defend-v1:8",
-        "command-investigate-v1:1",
-        "command-investigate-v1:2",
-        "command-investigate-v1:3",
-        "command-investigate-v1:4",
-        "command-investigate-v1:5",
-        "command-investigate-v1:6",
-        "command-investigate-v1:7",
-        "command-investigate-v1:8",
         "command-opponent-v1:1",
         "command-opponent-v1:2",
         "command-opponent-v1:3",
@@ -200,8 +192,8 @@
       "id": "R001"
     },
     {
-      "window_count": 110,
-      "lesson_count": 16,
+      "window_count": 99,
+      "lesson_count": 8,
       "locations": [
         "academy-compete-v1:1",
         "academy-compete-v1:2",
@@ -210,15 +202,7 @@
         "academy-compete-v1:5",
         "academy-compete-v1:6",
         "academy-compete-v1:7",
-        "academy-compete-v1:8",
-        "academy-opponent-v1:1",
-        "academy-opponent-v1:2",
-        "academy-opponent-v1:3",
-        "academy-opponent-v1:4",
-        "academy-opponent-v1:5",
-        "academy-opponent-v1:6",
-        "academy-opponent-v1:7",
-        "academy-opponent-v1:8"
+        "academy-compete-v1:8"
       ],
       "opening_words": "distinguish the documented system behaviour from competing explanations and identify which timestamped record could separate them apply the reasoning specifically to this",
       "id": "R002"
