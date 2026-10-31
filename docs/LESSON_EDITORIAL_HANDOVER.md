@@ -151,3 +151,14 @@ All eight lessons reviewed; word counts: 656, 649, 640, 681, 629, 665, 649, 700.
 References: Previously checked official NIST CSF and SP 800-53 sources retained; numerical denominators and sample limitations explicitly explained as fictional exercises.
 
 Exact next unfinished audit course: **academy_compete, lesson 1** (complete all eight lessons; source `api/production_learning/academy_compete.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: academy_compete
+
+Reconstructed an integrated Lumen capstone with distinct scope, impact map, evidence register, containment, delegated-export access, key-dependent archive recovery, audience-specific reporting and independent debrief. Central review required an inline evidence packet, queued-job privilege revocation and cursor scope checks, and wrong-key/missing-key-authority recovery instead of another retry-duplication exercise. Lessons7–8 updated for continuity; controllers are optional and no missing external packet is required.
+
+All eight lessons reviewed; word counts: 839, 634, 621, 618, 629, 643, 662, 654. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **266 → 167 signatures**, **3 → 2 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-academy-compete.json`. No automatic human approval or fresh green CI is implied.
+
+References: Official NIST SP 800-84, CSF and SP 800-53 pages checked for exercise design, outcome framing and control context. These are optional readings rather than a source of fictional evidence.
+
+Exact next unfinished audit course: **command_defend, lesson 1** (complete all eight lessons; source `api/production_learning/command_defend.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
