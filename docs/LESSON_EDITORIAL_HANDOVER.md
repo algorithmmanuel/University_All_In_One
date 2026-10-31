@@ -63,3 +63,14 @@ All eight lessons reviewed; word counts: 642, 626, 651, 643, 631, 631, 640, 659.
 References: NIST SP 800-207 https://csrc.nist.gov/pubs/sp/800/207/final retrieved and checked on 31 October, supporting resource-focused access decisions and the limits of location-based trust. Link verification is not human editorial acceptance.
 
 Exact next unfinished audit course: **academy_command, lesson 1** (complete all eight lessons; source `api/production_learning/academy_command.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: explorers_compete
+
+Reviewed all eight previously revised citizenship lessons. Replaced four remaining recycled cross-topic blocks with operational consent choices, accessible corrections, placement offboarding and comparable learning measurements; replaced all eight formulaic reflection prompts with subject-specific synthesis tasks. Preserved useful prior examples and exercises. This is a focused semantic cleanup, not a claim that every paragraph was newly rewritten. It addresses filler visible after exact overlap had already disappeared.
+
+All eight lessons reviewed; word counts: 659, 617, 685, 658, 694, 675, 613, 703. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **320 → 320 signatures**, **3 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-explorers-compete.json`. No automatic human approval or fresh green CI is implied.
+
+References: NCSC personal-protection page rechecked; eSafety Commissioner consent-sharing page opened and relevance checked, with Australian legal/reporting scope explicitly separated from Nigerian practice. Removed the unverifiable CISA403 link. Source accessibility does not satisfy independent editorial acceptance.
+
+Exact next unfinished audit course: **academy_command, lesson 1** (complete all eight lessons; source `api/production_learning/academy_command.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
