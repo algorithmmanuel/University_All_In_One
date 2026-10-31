@@ -241,3 +241,22 @@ Latest observed full Actions run for commit `65aa1bc72f74dfbfc43c854855a7d5215c8
 ## 31 October — Explorers Stage 6 incident-response manuscript revision
 
 Replaced the three copied template blocks in every one of the eight lessons of `api/production_learning/explorers_command.py` with incident-specific explanation and exercises: triage, escalation, proportional containment, accurate communication, consent-based peer support, recovery, debrief and coordinated classroom drill. Commits `6c0ed1d`, `db1f9da`, `672b78a`, `243274f`. Source inspection after the final edit found **zero exact repeated 70-normalised-word windows between different lessons within this course**, with word counts **692, 680, 652, 653, 652, 650, 623, 647**. This is a local source inspection, not a passing CI or full-library check. The last verified whole-library CI result remains **740 duplicated windows** before this revision. The course still requires independent editorial and external reference review. Publication and beta merge remain blocked.
+
+
+## 31 October — Batch editorial reconstruction workflow
+
+Introduced **`api/audit_production_learning.py`** (commit `d5dff93`) and focused audit regression tests (commit `3e74196`). The audit loads all **24 registered course manuscript files / 192 lessons**, examines all normalised 70-word windows globally, merges overlapping repeated windows into **passage clusters**, and reports impacted courses and lessons. Every cluster includes source locations, its number of duplicated word windows and a short excerpt. This prevents treating hundreds of adjacent windows as hundreds of separate editing tasks.
+
+**Run from repository root in the development checkout:**
+
+```powershell
+python api/audit_production_learning.py --output exports/editorial_audit.json
+python api/audit_production_learning.py --check
+python -m unittest discover -s api -p test_audit_production_learning.py -v
+```
+
+Use the JSON cluster list to identify the shared paragraph families and select a **batch of complete eight-lesson courses**. For each course, replace copied teaching scaffolding with pedagogically specific material (principles, worked examples, safe practice exercises, failure modes, verification, audience-level depth), review all eight lessons as a coherent route, and check every lesson meets the existing 600-word requirement. Re-run the global inventory *before* committing; the second command intentionally fails until no 70-word duplicates remain. Commit a fully reviewed batch, then use GitHub Actions to validate the complete application. Do not reduce the window threshold or waive the existing uniqueness gates to force a pass.
+
+The tool is **read-only unless `--output` is requested**, in which case it writes only a JSON report to the specified local path. It does not publish content, issue editorial approvals, connect to PostgreSQL or touch beta. A zero count only proves exact-text nonduplication; semantic diversity, third-party source accuracy and reviewer sign-off remain separate acceptance requirements.
+
+At this checkpoint, the most recent *confirmed* CI still reported 677 duplicated long-word windows. The new grouping tool has been committed but its own CI execution results are not yet confirmed here. The correct next task is to run its tests, inspect the cluster report, and repair the largest repeated source families in course-sized batches.
