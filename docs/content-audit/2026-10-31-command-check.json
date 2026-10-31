@@ -1,0 +1,252 @@
+{
+  "course_count": 24,
+  "lesson_count": 192,
+  "window_words": 70,
+  "duplicated_window_signatures": 266,
+  "passage_cluster_count": 3,
+  "courses": {
+    "academy-check-v1": {
+      "lessons": 8,
+      "minimum_words": 894,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-command-v1": {
+      "lessons": 8,
+      "minimum_words": 665,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-compete-v1": {
+      "lessons": 8,
+      "minimum_words": 804,
+      "affected_passage_clusters": 1,
+      "affected_lessons": 8
+    },
+    "academy-defend-v1": {
+      "lessons": 8,
+      "minimum_words": 627,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-discover-v1": {
+      "lessons": 8,
+      "minimum_words": 600,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-investigate-v1": {
+      "lessons": 8,
+      "minimum_words": 684,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-opponent-v1": {
+      "lessons": 8,
+      "minimum_words": 617,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-understand-v1": {
+      "lessons": 8,
+      "minimum_words": 626,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-check-v1": {
+      "lessons": 8,
+      "minimum_words": 629,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-command-v1": {
+      "lessons": 8,
+      "minimum_words": 880,
+      "affected_passage_clusters": 2,
+      "affected_lessons": 8
+    },
+    "command-compete-v1": {
+      "lessons": 8,
+      "minimum_words": 936,
+      "affected_passage_clusters": 2,
+      "affected_lessons": 8
+    },
+    "command-defend-v1": {
+      "lessons": 8,
+      "minimum_words": 859,
+      "affected_passage_clusters": 2,
+      "affected_lessons": 8
+    },
+    "command-discover-v1": {
+      "lessons": 8,
+      "minimum_words": 600,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-investigate-v1": {
+      "lessons": 8,
+      "minimum_words": 631,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-opponent-v1": {
+      "lessons": 8,
+      "minimum_words": 953,
+      "affected_passage_clusters": 2,
+      "affected_lessons": 8
+    },
+    "command-understand-v1": {
+      "lessons": 8,
+      "minimum_words": 647,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-check-v1": {
+      "lessons": 8,
+      "minimum_words": 608,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-command-v1": {
+      "lessons": 8,
+      "minimum_words": 623,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-compete-v1": {
+      "lessons": 8,
+      "minimum_words": 613,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-defend-v1": {
+      "lessons": 8,
+      "minimum_words": 605,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-discover-v1": {
+      "lessons": 8,
+      "minimum_words": 601,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-investigate-v1": {
+      "lessons": 8,
+      "minimum_words": 606,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-opponent-v1": {
+      "lessons": 8,
+      "minimum_words": 610,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-understand-v1": {
+      "lessons": 8,
+      "minimum_words": 603,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    }
+  },
+  "clusters": [
+    {
+      "window_count": 151,
+      "lesson_count": 32,
+      "locations": [
+        "command-command-v1:1",
+        "command-command-v1:2",
+        "command-command-v1:3",
+        "command-command-v1:4",
+        "command-command-v1:5",
+        "command-command-v1:6",
+        "command-command-v1:7",
+        "command-command-v1:8",
+        "command-compete-v1:1",
+        "command-compete-v1:2",
+        "command-compete-v1:3",
+        "command-compete-v1:4",
+        "command-compete-v1:5",
+        "command-compete-v1:6",
+        "command-compete-v1:7",
+        "command-compete-v1:8",
+        "command-defend-v1:1",
+        "command-defend-v1:2",
+        "command-defend-v1:3",
+        "command-defend-v1:4",
+        "command-defend-v1:5",
+        "command-defend-v1:6",
+        "command-defend-v1:7",
+        "command-defend-v1:8",
+        "command-opponent-v1:1",
+        "command-opponent-v1:2",
+        "command-opponent-v1:3",
+        "command-opponent-v1:4",
+        "command-opponent-v1:5",
+        "command-opponent-v1:6",
+        "command-opponent-v1:7",
+        "command-opponent-v1:8"
+      ],
+      "opening_words": "identify the bank service owner the consequence for customers and the approval needed to choose a proportionate response name the relevant records",
+      "id": "R001"
+    },
+    {
+      "window_count": 99,
+      "lesson_count": 8,
+      "locations": [
+        "academy-compete-v1:1",
+        "academy-compete-v1:2",
+        "academy-compete-v1:3",
+        "academy-compete-v1:4",
+        "academy-compete-v1:5",
+        "academy-compete-v1:6",
+        "academy-compete-v1:7",
+        "academy-compete-v1:8"
+      ],
+      "opening_words": "distinguish the documented system behaviour from competing explanations and identify which timestamped record could separate them apply the reasoning specifically to this",
+      "id": "R002"
+    },
+    {
+      "window_count": 16,
+      "lesson_count": 32,
+      "locations": [
+        "command-command-v1:1",
+        "command-command-v1:2",
+        "command-command-v1:3",
+        "command-command-v1:4",
+        "command-command-v1:5",
+        "command-command-v1:6",
+        "command-command-v1:7",
+        "command-command-v1:8",
+        "command-compete-v1:1",
+        "command-compete-v1:2",
+        "command-compete-v1:3",
+        "command-compete-v1:4",
+        "command-compete-v1:5",
+        "command-compete-v1:6",
+        "command-compete-v1:7",
+        "command-compete-v1:8",
+        "command-defend-v1:1",
+        "command-defend-v1:2",
+        "command-defend-v1:3",
+        "command-defend-v1:4",
+        "command-defend-v1:5",
+        "command-defend-v1:6",
+        "command-defend-v1:7",
+        "command-defend-v1:8",
+        "command-opponent-v1:1",
+        "command-opponent-v1:2",
+        "command-opponent-v1:3",
+        "command-opponent-v1:4",
+        "command-opponent-v1:5",
+        "command-opponent-v1:6",
+        "command-opponent-v1:7",
+        "command-opponent-v1:8"
+      ],
+      "opening_words": "first identify the accountable business service owner and the customer outcome potentially affected by the scenario next identify which input in this",
+      "id": "R003"
+    }
+  ],
+  "note": "Exact token overlap only; human editors must review semantic similarity."
+}

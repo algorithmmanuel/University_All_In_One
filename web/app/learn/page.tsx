@@ -4,7 +4,9 @@ import Link from 'next/link';
 import JourneyLink from '../../components/journey/JourneyLink';
 import { useRouter } from 'next/navigation';
 import LessonGuide, {type LearningGuide} from '../../components/lesson-guide';
+import LessonReading from '../../components/lesson-reading';
 import { FOUNDATIONS } from '../../lib/learning-journey';
+import { COURSE_STAGES, productionCourseMetadata } from '../../lib/approved-course-catalog';
 import { useActivityFocus } from '../../lib/use-activity-focus';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
@@ -18,6 +20,8 @@ export default function Learn() {
   const router = useRouter();
   const [foundation,setFoundation]=useState<keyof typeof FOUNDATIONS|null>(null);
   const [catalog,setCatalog]=useState<Course[]>([]);
+  const [catalogPathway,setCatalogPathway]=useState('all');
+  const [catalogStage,setCatalogStage]=useState('all');
   const [enrollments,setEnrollments]=useState<Enrollment[]>([]);
   const [selected,setSelected]=useState<CourseDetail|null>(null);
   const [busy,setBusy]=useState(false);
@@ -128,11 +132,25 @@ export default function Learn() {
       </section>
       <section className="section">
         <h2>Course catalogue</h2>
+        <p className="muted">Read at your own pace. Courses can be completed without playing games. The approved 24-course library will appear here as courses are fully authored, reviewed and published. Games are optional.</p>
+        <label htmlFor="course-pathway">Learning pathway</label>
+        <select id="course-pathway" value={catalogPathway} onChange={event=>setCatalogPathway(event.target.value)} style={{display:"block",marginBottom:16}}>
+          <option value="all">All published courses</option>
+          <option value="secondary">Cyber Explorers</option>
+          <option value="university">Cyber Academy</option>
+          <option value="cyber">Cyber Command</option>
+        </select>
+        <label htmlFor="course-stage">Learning stage</label>
+        <select id="course-stage" value={catalogStage} onChange={event=>setCatalogStage(event.target.value)} style={{display:"block",marginBottom:16}}>
+          <option value="all">All eight stages</option>
+          {COURSE_STAGES.map((stage,index)=><option key={stage} value={String(index)}>{index+1}. {stage}</option>)}
+        </select>
         {foundation&&<p className="notice">Suggested from your journey: <strong>{FOUNDATIONS[foundation]}</strong>. {suggested?'Choose its enrol/open button below.':'This course is not currently in the loaded catalogue; you can choose another available course.'} Python remains optional.</p>}
-        {catalog.length===0?<p className="muted">No published courses yet. Run the demonstration course seed command.</p>:<div className="grid">
-          {[...catalog].sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
+        {catalog.filter(c=>{const meta=productionCourseMetadata(c.academy_id,c.title);return meta!==null&&(catalogPathway==="all"||c.academy_id===catalogPathway)&&(catalogStage==="all"||String(meta.stageIndex)===catalogStage);}).length===0?<p className="muted">No production courses have been published for this selection yet. Existing enrolled courses remain available above.</p>:<div className="grid">
+          {catalog.filter(c=>{const meta=productionCourseMetadata(c.academy_id,c.title);return meta!==null&&(catalogPathway==="all"||c.academy_id===catalogPathway)&&(catalogStage==="all"||String(meta.stageIndex)===catalogStage);}).sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
             <span className="small">{academies[c.academy_id]||c.academy_id}</span>
             <h3>{c.title}</h3>
+            <p className="small">Stage {Number(productionCourseMetadata(c.academy_id,c.title)?.stageIndex)+1}: {productionCourseMetadata(c.academy_id,c.title)?.stage}</p>
             <p className="muted">{c.description}</p>
             <p className="small">{c.lesson_count} lessons</p>
             {enrollments.some(e=>e.id===c.id)
@@ -141,6 +159,19 @@ export default function Learn() {
           </article>)}
         </div>}
       </section>
+      {catalog.some(c=>productionCourseMetadata(c.academy_id,c.title)===null)&&<section className="section" aria-label="Previously available courses">
+        <h2>Existing courses</h2>
+        <p className="muted">These earlier courses remain available so current learners can continue without losing progress. They are not included in the 24-course production catalogue.</p>
+        <div className="grid">
+          {catalog.filter(c=>productionCourseMetadata(c.academy_id,c.title)===null).map(c=><article className="card" key={c.id}>
+            <span className="small">{academies[c.academy_id]||c.academy_id}</span>
+            <h3>{c.title}</h3><p className="muted">{c.description}</p><p className="small">{c.lesson_count} lessons</p>
+            {enrollments.some(e=>e.id===c.id)
+              ?<button className="btn" disabled={busy} onClick={()=>openCourse(c.id)}>Open course</button>
+              :<button className="btn" disabled={busy} onClick={()=>enroll(c.id)}>Enroll for free</button>}
+          </article>)}
+        </div>
+      </section>}
       {selected&&<section className="section" id="course-lessons">
         <div className="panel">
           <button onClick={()=>setSelected(null)}>← Close lessons</button>
@@ -152,7 +183,7 @@ export default function Learn() {
               {l.learning_guide?<LessonGuide key={l.id+':'+l.learning_guide.revision} guide={l.learning_guide}
                 checkAnswer={(exercise,option)=>request('/api/v1/learning/lessons/'+l.id+'/practice','POST',
                   {exercise_id:exercise,option_index:option})}/>
-                :<p style={{whiteSpace:'pre-wrap',lineHeight:1.7}}>{l.content}</p>}
+                :<LessonReading content={l.content}/>}
               <button className="btn" disabled={busy||l.completed} onClick={()=>complete(l.id)}>
                 {l.completed?'Completed ✓':'Mark lesson complete'}
               </button>
