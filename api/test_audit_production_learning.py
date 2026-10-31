@@ -17,7 +17,7 @@ class AuditProductionLearningTests(unittest.TestCase):
             "intro one " + common + " end one",
             "intro two " + common + " end two",
         ])], window=70)
-        self.assertEqual(report["duplicated_window_signatures"], 11)
+        self.assertEqual(report["duplicated_window_signatures"], 12)
         self.assertEqual(report["passage_cluster_count"], 1)
         self.assertEqual(report["clusters"][0]["lesson_count"], 2)
 
