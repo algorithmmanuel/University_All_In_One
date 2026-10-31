@@ -52,7 +52,7 @@ class EditorialPublicationGateTests(unittest.TestCase):
         words = " ".join("token" + str(i) for i in range(75))
         fixture = [
             {"key": "a", "lessons": [{"position": 1, "content": words}]},
-            {"key": "b", "lessons": [{"position": 1, "content": "Introduction.\n\n" + words}]},
+            {"key": "b", "lessons": [{"position": 1, "content": " ".join(words.split()[:30]) + "\n\n" + " ".join(words.split()[30:])}]},
         ]
         with patch.object(publisher, "COURSES", fixture):
             with self.assertRaisesRegex(RuntimeError, "repeated 70-word sequences"):
