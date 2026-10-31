@@ -162,3 +162,14 @@ All eight lessons reviewed; word counts: 839, 634, 621, 618, 629, 643, 662, 654.
 References: Official NIST SP 800-84, CSF and SP 800-53 pages checked for exercise design, outcome framing and control context. These are optional readings rather than a source of fictional evidence.
 
 Exact next unfinished audit course: **command_defend, lesson 1** (complete all eight lessons; source `api/production_learning/command_defend.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: command_defend
+
+Reconstructed critical-service outcomes, hidden dependencies, recovery-option decisions, transaction reconciliation, supplier responsibilities, concentration and practical exit, controlled exercises and board resilience claims. Central review checked defined customer outcomes, realistic fallback capacity, joint acceptance and the separation of service recovery from equipment installation.
+
+All eight lessons reviewed; word counts: 650, 656, 657, 660, 653, 660, 642, 698. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **167 → 162 signatures**, **2 → 2 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-command-defend.json`. No automatic human approval or fresh green CI is implied.
+
+References: Basel operational resilience canonical page and NIST SP 800-34 Rev.1 page opened and relevance checked; US federal contingency context explicitly qualified and international principles not treated as local legal rules.
+
+Exact next unfinished audit course: **command_command, lesson 1** (complete all eight lessons; source `api/production_learning/command_command.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
