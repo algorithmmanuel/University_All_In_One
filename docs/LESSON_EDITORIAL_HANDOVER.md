@@ -118,3 +118,14 @@ All eight lessons reviewed; word counts: 649, 674, 643, 637, 643, 649, 627, 694.
 References: Existing checked NIST CSF and OWASP overviews retained; the new supplier example is fictional and assumes no undocumented actual product behaviour.
 
 Exact next unfinished audit course: **academy_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/academy_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: academy_opponent
+
+Reconstructed threat relevance, reconnaissance lookalikes, entry-route changes, capability paths, privilege-change evidence, detection trade-offs, timed counterfactuals and a threat-informed capstone. Central review replaced lesson3 after finding a repeated two-session foundation exercise: it now analyses an adversary shifting from rejected approvals to recovery-contact changes and recovery-issued sessions, with distinct safe evidence and tests.
+
+All eight lessons reviewed; word counts: 624, 621, 665, 617, 639, 640, 640, 708. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **298 → 287 signatures**, **3 → 3 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-academy-opponent.json`. No automatic human approval or fresh green CI is implied.
+
+References: MITRE ATT&CK, NIST SP 800-61r3 and OWASP Session Management official pages opened and relevance checked. These support conceptual behaviour and defensive control analysis, not attack execution or course certification.
+
+Exact next unfinished audit course: **academy_compete, lesson 1** (complete all eight lessons; source `api/production_learning/academy_compete.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
