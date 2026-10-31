@@ -81,11 +81,11 @@ class ProductionCourseManuscriptTests(unittest.TestCase):
             {"opening": " ".join(key[:12]), "locations": sorted(locations)[:6]}
             for key, locations in repeated[:5]
         ]
-        self.assertFalse(
-            repeated,
-            f"{len(repeated)} identical 70-word sequences in multiple lessons; "
-            f"examples: {examples}",
-        )
+        if repeated:
+            self.fail(
+                f"{len(repeated)} identical 70-word sequences in multiple lessons; "
+                f"examples: {examples}"
+            )
 
     def test_no_repeated_substantive_paragraphs_before_release(self):
         """Release must not reuse whole instructional paragraphs in different lessons."""
