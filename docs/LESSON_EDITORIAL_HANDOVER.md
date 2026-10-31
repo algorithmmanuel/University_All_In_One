@@ -28,3 +28,16 @@ On 31 October, web retrieval of NCSC `https://www.ncsc.gov.uk/collection/top-tip
 Next unfinished course in pathway/stage audit order: **Cyber Academy Stage 2 — Understand, lesson 1**, `api/production_learning/academy_understand.py`. Complete all eight lessons before moving on. Academy Stage 4 Investigate and Stage 5 Defend are independently assigned with separate file ownership in this session; they are not complete until centrally reviewed and validated. Re-run the global audit after each course and record its exact snapshot. The largest remaining families are shared Academy evidence prompts and Command banking decision prompts; replace them with subject-specific instruction, not word substitutions.
 
 Publication remains blocked until both uniqueness gates pass globally, all 24 manuscripts receive substantive independent review and source validation, genuine hash-bound approvals exist, the full CI/reader/PostgreSQL-preservation gates pass, and release is authorised. Do not merge into beta, publish, reseed or alter learner records. CI runs may be pending or failing; distinguish their actual state from local checks.
+
+
+## Completed batch: academy_defend
+
+Reconstructed service objectives, network flow matrices, workload privilege, monitoring pipelines, deployed patch evidence, restoration checks, bounded containment and retry-safe resilience exercises. The central review checked the distinction between authentication/authorisation, network permission/application authority, backup availability/restoration integrity and timeout/commit uncertainty.
+
+All eight lessons reviewed; word counts: 649, 646, 643, 637, 643, 649, 627, 694. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **345 → 343 signatures**, **7 → 7 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-academy-defend.json`. No automatic human approval or fresh green CI is implied.
+
+References: NIST CSF https://www.nist.gov/cyberframework and OWASP Top 10 https://owasp.org/projects/top-ten were opened and relevance checked on 31 October; these are optional overviews, not deployment prescriptions. Independent editorial/licensing acceptance remains open.
+
+Exact next unfinished audit course: **academy_understand, lesson 1** (complete all eight lessons; source `api/production_learning/academy_understand.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+Dependency follow-up: installed repository-pinned CI requirements in an isolated temporary Python environment. All **five** publication-boundary negative tests passed with a nonconnecting in-memory URL; tests mock approvals and make no publication/database calls. The earlier missing-SQLAlchemy import blocker is resolved.

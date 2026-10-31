@@ -1,7 +1,7 @@
 # Development handover
 
 **Last updated:** 31 October 2026 (Africa/Lagos).
-**Current checkpoint:** lesson-writing and repeated-content cleanup, development only. Recovered `befb040`; fresh global audit 468 signatures / 15 clusters. Cyber Explorers Stage 7 six remaining lessons rewritten, first two revisions preserved; audit now 345 signatures / 7 clusters. Publication and beta promotion remain blocked. See [current course-batch handover and exact next lesson](LESSON_EDITORIAL_HANDOVER.md). Earlier release evidence below applies only to its recorded commits.
+**Current checkpoint:** lesson-writing and repeated-content cleanup, development only. Latest completed batch `academy_defend`; committed-source global audit now **343 repeated 70-word signatures / 7 passage clusters**, from initial 468 / 15. See [batch evidence, references, limitations and exact next lesson](LESSON_EDITORIAL_HANDOVER.md). Publication and beta promotion remain blocked; earlier CI evidence applies only to its recorded commits.
 
 Previous bundle checkpoint: The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
@@ -78,7 +78,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Continue [lesson writing and duplication cleanup](LESSON_EDITORIAL_HANDOVER.md), starting Cyber Academy Stage 2 Understand, lesson 1, in complete eight-lesson batches. Review parallel course edits before acceptance; re-run the whole-library audit and content/preservation checks after each course. Keep the running beta and all databases unchanged, retain the publication block and do not resume invitation generation or unrelated features. Historical laptop rollout instructions remain available below but are not the current content task.
+Continue [lesson writing and editorial review](LESSON_EDITORIAL_HANDOVER.md). Next unfinished audit course: **academy_understand, lesson 1** (complete all eight lessons; source `api/production_learning/academy_understand.py`). Keep complete eight-lesson batches, global audits and source-preservation checks. Keep beta and databases unchanged; do not resume invitations or unrelated features. Publication requires independent content/reference acceptance, genuine hash-bound approvals, all regression gates and authorised release.
 
 ## Implemented source changes and checks
 
