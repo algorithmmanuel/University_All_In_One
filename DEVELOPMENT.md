@@ -4,6 +4,8 @@ This is the continuation entry point for maintainers and future assistant sessio
 
 **Active development branch:** `feature/beta-continuous-improvement`  
 **Tester-facing beta branch:** `feature/secure-password-recovery`  
+
+**Active task —31 October:** lesson writing/duplication cleanup, development only. Exact overlap now 0 across 24 courses / 192 lessons;118 lesson updates in 15 courses. Continue [independent content acceptance from the current handover](docs/LESSON_EDITORIAL_HANDOVER.md), starting Explorers Discover lesson 1. Publication and beta promotion remain blocked; no invitation generation or unrelated features.
 **Latest approved roadmap update:** 30 October 2026 (Africa/Lagos)
 
 **Current release:** [distinct pathways + detailed Help, synchronised to development and beta](docs/PATHWAYS_HELP_BETA_RELEASE.md). Verified implementation `168b55a` passed 158 browser regressions, 30 actual-API/PostgreSQL cases and frontend unit/type/build gates. Both source branches include it; the owner has not yet tested the new pathway allocation and must update the laptop separately. Use the current runbook instead of older release blocks. Future enrichment stays within the three eight-stage routes.

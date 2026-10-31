@@ -1,5 +1,7 @@
 # Lesson editorial handover — 31 October 2026
 
+**Current result:** exact-duplication remediation complete across the measured library: **468 → 0** repeated 70-word signatures and **15 → 0** passage clusters. Fifteen course batches reviewed, 118 lesson bodies changed. Independent acceptance and publication remain blocked. Read the final validation section below before the historical batch entries.
+
 **Scope:** development manuscripts only, `feature/beta-continuous-improvement`. Keep beta unchanged and publication blocked. No database operations, publisher execution or editorial approval signatures are authorised by these edits.
 
 ## Recovered checkpoint and baseline
@@ -206,3 +208,29 @@ All eight lessons reviewed; word counts: 628, 638, 621, 616, 625, 622, 635, 716.
 References: Official NIST CSF Profiles, NIST SP 800-84 and Basel operational resilience pages opened and relevance checked. Fictional targets and policies are clearly educational rather than regulatory requirements.
 
 Exact next unfinished audit course: **No unfinished exact-duplication course remains.** Next is semantic/editorial acceptance review, starting Cyber Explorers Discover lesson 1, not publication.. Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Final validation and next acceptance task
+
+Completed development source corresponds to GitHub content commit `c4f56ceeb1779356d227201fac714dc4eb9f85d8`. The connected GitHub app recreated all 17 local batch/correction commits with identical Git tree hashes and their ordered parent chain. Direct CLI push lacked credentials; app transfer preserves the reviewed content/history. Final documentation follows separately. Expected-head development update must reject any concurrent branch change. Beta observed before the update: `c8e5fbc06c057b59ed70dc1d907b28b52fcaefeb`; no beta ref or runtime/database operation is part of this work.
+
+| Pathway/course scope | Course batches | Lesson bodies updated | Nature of work |
+| --- | ---: | ---: | --- |
+| Explorers Stage 7 Opponent | 1 | 6 | Remaining lessons rewritten; earlier lessons 1–2 exactly preserved |
+| Explorers Stage 8 Compete | 1 | 8 | Four residual boilerplate passages replaced; eight specific reflections and reference/context improvements; useful prior teaching retained |
+| Academy stages 2, 4, 5, 6, 7, 8 | 6 | 48 | Complete course rewrites with central differentiation/continuity corrections |
+| Command stages 2–8 | 7 | 56 | Complete professional course rewrites with central case-diversity corrections |
+| Total | 15 | 118 | Nine other courses unchanged; all 24 courses / 192 lessons included in global checks |
+
+Actual local checks on the completed content:
+
+- Whole-library audit `--check`: **PASS, 0 signatures / 0 clusters**. Baseline was 468 / 15; overlapping signatures were reviewed as passage families, not counted as separate paragraphs. Per-batch proposed-commit inventories and before/after counts are recorded above and in `docs/content-audit/` (each file's latest correction is current; Git history retains earlier snapshots).
+- Focused audit + manuscript + publication-boundary suite: **26 passed, 18 subtests passed**. Includes all 17 manuscript cases, both global paragraph/sequence uniqueness gates, four audit regressions and five fail-closed approval/uniqueness tests.
+- Full database-independent backend regression using pinned CI dependencies: **819 passed, 48 skipped, 29 subtests passed**, 31.53 seconds. One dependency deprecation warning. This used synthetic/in-memory test fixtures, no live PostgreSQL or owner database. Integration-dependent skips remain unverified locally.
+- All course metadata, dictionary schema, lesson counts/titles/positions compared against `befb040`: **PASS**. Explorers Opponent lessons 1–2 exactly unchanged. No auth/progress/routing/assessment/engine/publisher/application logic changes. `git diff --check`: PASS.
+- Revised-course external references opened and checked for subject relevance; inaccessible CISA links omitted rather than declared verified. Broad NIST/OWASP/FSB/Basel overviews are labelled supplementary, historical and jurisdictional context qualified. Entire-library licensing/reference review and independent learner accessibility remain open.
+- No new frontend unit/type/build, Playwright, real-API/PostgreSQL, preservation or formal-security execution is claimed locally for this prose-only change. Fresh GitHub Actions results must be checked on the pushed revision; **CI is not claimed passed** in this checkpoint.
+
+**Exact next unfinished task:** independent semantic/editorial acceptance review, **Cyber Explorers Discover, lesson 1**, `api/production_learning/explorers_discover.py`, followed by its complete eight-lesson course. No course remains in the exact-duplication inventory. Re-review natural concept overlap separately from repeated teaching; passing exact checks does not establish originality, comprehension or practical accuracy. Record specific evidence and reviewer findings without creating approvals on the owner's behalf. Prioritise the nine unchanged courses for substantive depth and reference review, while retaining full-library acceptance scope.
+
+The publication hold remains until substantive independent review across all 24 courses, complete source/link/licensing checks, novice/experienced comprehension evidence, genuine exact-hash approvals, green full CI/reader/PostgreSQL-preservation gates and explicit release authority. Do not publish, reseed, merge into beta or alter learner records. No beta invitations or unrelated development.

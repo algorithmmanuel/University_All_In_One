@@ -1,0 +1,155 @@
+{
+  "course_count": 24,
+  "lesson_count": 192,
+  "window_words": 70,
+  "duplicated_window_signatures": 0,
+  "passage_cluster_count": 0,
+  "courses": {
+    "academy-check-v1": {
+      "lessons": 8,
+      "minimum_words": 894,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-command-v1": {
+      "lessons": 8,
+      "minimum_words": 665,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-compete-v1": {
+      "lessons": 8,
+      "minimum_words": 618,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-defend-v1": {
+      "lessons": 8,
+      "minimum_words": 627,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-discover-v1": {
+      "lessons": 8,
+      "minimum_words": 600,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-investigate-v1": {
+      "lessons": 8,
+      "minimum_words": 684,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-opponent-v1": {
+      "lessons": 8,
+      "minimum_words": 617,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "academy-understand-v1": {
+      "lessons": 8,
+      "minimum_words": 626,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-check-v1": {
+      "lessons": 8,
+      "minimum_words": 629,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-command-v1": {
+      "lessons": 8,
+      "minimum_words": 663,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-compete-v1": {
+      "lessons": 8,
+      "minimum_words": 616,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-defend-v1": {
+      "lessons": 8,
+      "minimum_words": 642,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-discover-v1": {
+      "lessons": 8,
+      "minimum_words": 600,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-investigate-v1": {
+      "lessons": 8,
+      "minimum_words": 631,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-opponent-v1": {
+      "lessons": 8,
+      "minimum_words": 622,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "command-understand-v1": {
+      "lessons": 8,
+      "minimum_words": 647,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-check-v1": {
+      "lessons": 8,
+      "minimum_words": 608,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-command-v1": {
+      "lessons": 8,
+      "minimum_words": 623,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-compete-v1": {
+      "lessons": 8,
+      "minimum_words": 613,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-defend-v1": {
+      "lessons": 8,
+      "minimum_words": 605,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-discover-v1": {
+      "lessons": 8,
+      "minimum_words": 601,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-investigate-v1": {
+      "lessons": 8,
+      "minimum_words": 606,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-opponent-v1": {
+      "lessons": 8,
+      "minimum_words": 610,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    },
+    "explorers-understand-v1": {
+      "lessons": 8,
+      "minimum_words": 603,
+      "affected_passage_clusters": 0,
+      "affected_lessons": 0
+    }
+  },
+  "clusters": [],
+  "note": "Exact token overlap only; human editors must review semantic similarity."
+}
