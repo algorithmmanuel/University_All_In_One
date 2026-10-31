@@ -184,3 +184,14 @@ All eight lessons reviewed; word counts: 668, 680, 663, 665, 677, 718, 686, 735.
 References: FSB Effective Practices for Cyber Incident Response and Recovery (2020) and NIST CSF official pages opened and relevance checked. Notification decisions require applicable official rules and qualified entity-specific assessment; these resources are not legal deadlines.
 
 Exact next unfinished audit course: **command_opponent, lesson 1** (complete all eight lessons; source `api/production_learning/command_opponent.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
+
+
+## Completed batch: command_opponent
+
+Reconstructed service-value threat scenarios, conditional intelligence relevance, layered pathway mapping, availability trade-offs, end-to-end detection-to-response evidence, compensation limits, assurance coverage and adaptive investment. Central review checked account admission versus business authority and that threat headlines or campaign labels do not establish local exposure.
+
+All eight lessons reviewed; word counts: 630, 629, 622, 624, 633, 629, 634, 688. Metadata, schema, titles and lesson positions match the prior committed course exactly. Per-course structure/depth and global exact-match exclusion checks passed; `git diff --check` passed. Proposed-commit global audit: **151 → 151 signatures**, **2 → 2 clusters**. The audit includes all 24 courses / 192 lessons and excludes other in-progress agent edits. A shared passage remains counted while any two other lessons still contain it. Snapshot: `docs/content-audit/2026-10-31-command-opponent.json`. No automatic human approval or fresh green CI is implied.
+
+References: Official MITRE ATT&CK, NIST SP 800-53A Rev.5 and NIST CSF pages opened and relevance checked. CISA KEV returned403 and was omitted rather than labelled verified.
+
+Exact next unfinished audit course: **command_compete, lesson 1** (complete all eight lessons; source `api/production_learning/command_compete.py`). Parallel assignments are provisional until their individual reviewed batches are recorded here. Beta, databases and publication block remain unchanged.
