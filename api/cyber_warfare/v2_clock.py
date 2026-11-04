@@ -52,8 +52,8 @@ def heartbeat(clock: TurnClock, side: str, server_now: int) -> TurnClock:
     A heartbeat after expiry cannot revive a completed turn, and a request
     never extends the deadline. The adapter verifies seat auth first.
     """
-    if side not in SIDES or type(server_now) is not int or server_now < 0:
-        raise ValueError("Invalid authenticated heartbeat")
+    if side != clock.active_side or type(server_now) is not int or server_now < 0:
+        raise ValueError("Invalid active-seat heartbeat")
     if server_now >= clock.deadline_at:
         return clock
     if side == "red":
