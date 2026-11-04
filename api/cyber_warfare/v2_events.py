@@ -88,7 +88,11 @@ def apply_outcome(match: MatchTruth, result: ResolvedOutcome) -> MatchTruth:
             assets[assets.index(asset)] = replace(asset, blue_controls=controls)
             if not any(c.owner == "blue" and c.asset_id == asset.id
                        and "endpoint" in c.evidence_kinds for c in caps):
-                caps.append(Capability(id=f"sensor_{len(caps) + 1}",
+                sensor_index = 1
+                used_ids = {c.id for c in caps}
+                while f"sensor_{sensor_index}" in used_ids:
+                    sensor_index += 1
+                caps.append(Capability(id=f"sensor_{sensor_index}",
                                        owner="blue", asset_id=asset.id,
                                        evidence_kinds=frozenset({"endpoint"})))
             record("control", "Endpoint monitoring enabled on this asset.",
@@ -114,9 +118,12 @@ def apply_outcome(match: MatchTruth, result: ResolvedOutcome) -> MatchTruth:
                 record("finding", "No conclusive evidence of access was found.",
                        ("blue",), "suspected")
 
-    if result.detected:
-        # No confirmation of compromise or Red's exact order is exposed.
-        # A sensor on this asset is mandatory for the alert to be visible.
+    if result.detected and any(
+        c.owner == "blue" and c.asset_id == asset.id and
+        "endpoint" in c.evidence_kinds for c in caps
+    ):
+        # Generate only alerts observable at event time. Retrofitting monitoring
+        # must not reveal a previously invisible historic alarm.
         record("alert", "Endpoint telemetry recorded suspicious activity.",
                ("blue",), "suspected", "endpoint")
     if not result.success:
