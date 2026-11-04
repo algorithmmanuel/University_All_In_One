@@ -471,7 +471,8 @@ for (const mobile of [false, true])
     // otherwise be overwritten when the async POST returns.
     const createdShift = page.waitForResponse(
       (response) =>
-        /\\/api\\/v1\\/cyber-lab\\/runs$/.test(response.url()) &&
+        response.url().endsWith("/api/v1/cyber-lab/runs") &&
+        
         response.request().method() === "POST",
     );
     await page
