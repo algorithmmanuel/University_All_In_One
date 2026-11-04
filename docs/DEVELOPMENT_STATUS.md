@@ -1,5 +1,8 @@
 # Development handover
 
+**ACTIVE WORKSTREAM — 4 November 2026: Red/Blue redesign.** Owner finished a Red/Blue playthrough and authorised work on the reported defects only, with each step tracked in GitHub. See [approved redesign contract](RED_BLUE_V2_REDESIGN.md). RB2-00 (plan/acceptance contract): documented; RB2-A1 (versioned model, evidence, tool capabilities and secrecy tests): next, not yet implemented. Agreed rules: Blue opens alternating turns; 90-second human turns; single 30-second server-controlled disconnect grace per human seat per match. Existing simulator currently uses simultaneous sealed choices, so a side-by-side new engine edition is required to preserve historical replays. No new runtime behaviour, tests, laptop operations or beta promotion are claimed by this documentation checkpoint. Next action: implement isolated RB2-A1 types/projection tests on development, verify, then update status and plan with exact evidence.
+
+
 **Last updated:** 4 November 2026 (Africa/Lagos).
 **Current checkpoint:** owner-authorised 24-course/192-lesson beta-preview source promotion completed. Verified implementation `abda668` passed backend, frontend, browser gameplay and actual-API workflows. PostgreSQL 874 passed/3 skips/29 subtests; actual-API 30 browser cases passed. Development/beta are synchronised, with final documentation following the checked implementation. **Laptop publication/runtime acceptance remains owner-operated and pending.** Use [the complete beta rollout](BETA_COURSES_2026_11_04.md). Further lesson cleanup is deferred in [the backlog/next-chat prompt](LESSON_CLEANUP_BACKLOG.md). Next application task: the owner's personal-testing feedback. Production editorial approval remains separate.
 
