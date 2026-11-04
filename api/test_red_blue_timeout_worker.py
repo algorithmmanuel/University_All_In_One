@@ -59,7 +59,7 @@ def test_worker_persists_grace_and_never_repeats_same_extension(arena):
     match_id = insert(arena, v2_timed.export_snapshot(state))
     with Session() as db:
         first = worker.process_due_once(db, 1090)
-        assert first == {"processed": 1, "passes": 0, "graces": 1, "finished": 0}
+        assert first == {"processed": 1, "passes": 0, "graces": 1, "finished": 0, "bots": 0}
         second = worker.process_due_once(db, 1090)
         assert second["processed"] == 0
     with Session() as db:
@@ -94,3 +94,22 @@ def test_worker_finalises_at_scenario_limit(arena):
         final = v2_timed.restore_snapshot(row.transcript)
         assert final.winner == "blue"
         assert row.transcript["clock"] is None
+
+
+def test_worker_executes_bot_before_deadline_without_browser_poll(arena):
+    _, _, _, Session, *_ = arena
+    scenario = load_scenario("microfinance")
+    game = v2_alternating.new_match(
+        scenario, "server-bot", "user:111", "computer")
+    state = v2_timed.start(game, 1000)
+    match_id = insert(arena, v2_timed.export_snapshot(state))
+    with Session() as db:
+        result = worker.process_due_once(db, 1000)
+        assert result["bots"] == 1 and result["passes"] == 0
+        saved = v2_timed.restore_snapshot(
+            db.get(RedBlueMatch, match_id).transcript)
+        assert saved.match.moves[0]["side"] == "blue"
+        assert saved.match.active_side == "red"
+        assert saved.clock.deadline_at == 1090
+        again = worker.process_due_once(db, 1001)
+        assert again["bots"] == 0 and again["processed"] == 0
