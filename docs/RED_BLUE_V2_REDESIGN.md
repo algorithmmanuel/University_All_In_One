@@ -1,5 +1,8 @@
 # Red/Blue live-state and alternating-turn redesign
 
+**Incremental Beta Release Policy (owner-approved 4 November 2026):** The previous 'development only until all stages are done' rule is superseded. Every **complete, tested and independently deployable** RB2 milestone will be merged/promoted to `feature/secure-password-recovery` for external tester feedback, while incomplete work stays in development. A stage must have passing relevant CI and regression/secrecy tests; prior to any schema/data change, provide and execute guarded database backup/migration/readiness procedure, never discard tester records. A GitHub merge does not update local services or public ngrok; provide complete owner PowerShell update, preflight, build, restart and verification instructions. Preserve stage-by-stage status of dev commit/CI, beta commit/CI, local deployment and tester acceptance. If a milestone cannot safely function in isolation, group it with its dependency into a single releasable stage, rather than exposing unfinished UI to beta. Source releases may contain isolated scaffolding that does not change player behaviour; label that limitation clearly. This policy does **not** approve unsafe changes, bypass release gates or imply any beta merge has happened.
+
+
 **Decision date:** 4 November 2026 (Africa/Lagos)  
 **Owner approval:** begin development, document every milestone; 90-second turns; Blue opens; one 30-second disconnection grace period.  
 **Status:** implementation plan and acceptance contract committed; implementation and verification not yet complete.  
