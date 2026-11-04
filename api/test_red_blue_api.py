@@ -381,3 +381,88 @@ def test_v2_development_preview_computer_acts_immediately(arena, monkeypatch, si
     assert after['version'] == view['version'] + 2
     assert c.post(f"/api/v1/red-blue/matches/{view['id']}/commands",
                   headers=h[0], json=cmd).json()['version'] == after['version']
+
+
+def test_timed_preview_is_forbidden_in_beta_and_visible_only_in_dev(arena, monkeypatch):
+    c, h, *_ = arena
+    monkeypatch.setenv('EDUCYBER_ENV', 'beta')
+    assert c.get('/api/v1/red-blue/catalog', headers=h[0]).json()['timed_preview_available'] is False
+    refused = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'blue', 'mode': 'computer',
+        'ruleset': 'timed_preview'})
+    assert refused.status_code == 403
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    assert c.get('/api/v1/red-blue/catalog', headers=h[0]).json()['timed_preview_available'] is True
+
+
+def test_timed_two_user_join_heartbeat_immediate_turn_and_private_replay(arena, monkeypatch):
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    c, h, _, Session, *_ = arena
+    response = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'red', 'mode': 'human',
+        'ruleset': 'timed_preview'})
+    assert response.status_code == 201, response.text
+    waiting = response.json()
+    assert waiting['status'] == 'waiting' and waiting['orders'] == []
+    path = f"/api/v1/red-blue/matches/{waiting['id']}"
+    token = c.post(path + '/invite', headers=h[0]).json()['token']
+    joined = c.post('/api/v1/red-blue/join', headers=h[1], json={'token': token})
+    assert joined.status_code == 200, joined.text
+    blue = joined.json()
+    assert blue['active_side'] == 'blue'
+    assert blue['clock']['seconds_remaining'] <= 90
+    assert blue['clock']['seconds_remaining'] > 0
+    assert blue['clock']['deadline_at'] > 0
+    assert 'last_seen_blue' not in blue['clock']
+    heartbeat = c.post(path + '/heartbeat', headers=h[1], json={'expected_round': 1})
+    assert heartbeat.status_code == 200, heartbeat.text
+    assert heartbeat.json()['clock']['deadline_at'] == blue['clock']['deadline_at']
+    assert c.post(path + '/heartbeat', headers=h[0],
+                  json={'expected_round': 1}).status_code == 409
+    action = order('blue')
+    first = c.post(path + '/commands', headers=h[1], json=action)
+    assert first.status_code == 200, first.text
+    assert first.json()['active_side'] == 'red'
+    assert first.json()['turn'] == 1
+    assert first.json()['clock']['seconds_remaining'] > 0
+    assert first.json()['clock']['deadline_at'] >= blue['clock']['deadline_at']
+    red = c.get(path, headers=h[0]).json()
+    assert red['active_side'] == 'red'
+    assert red['committed_order'] is None
+    assert not {'transcript', 'seed', 'last_seen_red', 'last_seen_blue'} & red.keys()
+    repeat = c.post(path + '/commands', headers=h[1], json=action)
+    assert repeat.status_code == 200 and repeat.json()['version'] == 1
+    second = c.post(path + '/commands', headers=h[0], json=order('red'))
+    assert second.status_code == 200, second.text
+    assert second.json()['turn'] == 2
+    with Session() as db:
+        row = db.get(RedBlueMatch, waiting['id'])
+        assert row.transcript['edition'] == routes.v2_timed.TIMED_EDITION
+        assert len(row.transcript['game']['moves']) == 2
+        assert len(db.scalars(select(RedBlueReceipt).where(
+            RedBlueReceipt.match_id == row.id)).all()) == 2
+    assert c.get(path, headers=h[2]).status_code == 404
+
+
+def test_timed_expired_action_cannot_beat_worker_even_if_unprocessed(arena, monkeypatch):
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    c, h, _, Session, *_ = arena
+    response = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'blue', 'mode': 'computer',
+        'ruleset': 'timed_preview'})
+    assert response.status_code == 201, response.text
+    path = f"/api/v1/red-blue/matches/{response.json()['id']}"
+    with Session.begin() as db:
+        row = db.get(RedBlueMatch, response.json()['id'])
+        row.transcript = {**row.transcript,
+            'clock': {**row.transcript['clock'], 'deadline_at': 1}}
+    # Clock is canonical in the future test snapshot but expired; restore itself
+    # still verifies underlying replay and seat alignment.
+    result = c.post(path + '/commands', headers=h[0], json=order('blue'))
+    assert result.status_code == 409
+    assert 'deadline' in result.json()['detail'].lower()
+    with Session() as db:
+        row = db.get(RedBlueMatch, response.json()['id'])
+        assert row.transcript['game']['moves'] == []
+        assert db.scalars(select(RedBlueReceipt).where(
+            RedBlueReceipt.match_id == row.id)).all() == []
