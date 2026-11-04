@@ -58,6 +58,9 @@ def apply_outcome(match: MatchTruth, result: ResolvedOutcome) -> MatchTruth:
 
     def record(kind, text, sides, certainty, required=None):
         index = len(events) + 1
+        prior_ids = {e.id for e in events}
+        while f"evt_{index}" in prior_ids:
+            index += 1
         events.append(Evidence(
             id=f"evt_{index}", turn=match.turn, asset_id=asset.id,
             kind=kind, text=text, visible_to=frozenset(sides),
