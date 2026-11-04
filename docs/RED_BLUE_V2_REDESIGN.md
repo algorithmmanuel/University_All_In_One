@@ -1,5 +1,16 @@
 # Red/Blue live-state and alternating-turn redesign
 
+## Stage 5 RB2-B3 implementation checkpoint — 4 November 2026
+
+Stage 4 B2 was merged via PR #9 (merge `65d816d62b9f345699e293b30b85ce75efd7cb7c`); the reviewed PR head `2ab73a5` passed backend, frontend, V2 contract, actual-API/PostgreSQL browser and browser gameplay CI. This is source evidence, not proof of owner laptop/worker rollout. The development branch subsequently contains separate password-recovery incident changes, which are not a Red/Blue release.
+
+**B3 initial Development-only UI slice:** `web/app/red-blue/AssetBoard.tsx` commit `eed1aa6` replaces the prior three-column diagonal SVG lines with orthogonal trust-path routing using the existing *seat-filtered* `match.assets` and `match.connections`. It rejects missing edge endpoints, retains the accessible directed-edge list and marks the last observed match revision/round. The board continues to consume only authorised `match.observations`; no raw private event payload or opponent intent is introduced. Existing GET polling remains unchanged; no backend asset truth, game rules, database or Beta runtime was modified.
+
+**Unverified:** complete frontend/browser/real-API regression on this exact new commit, six-scenario topology acceptance, dense/multi-row path crossing, keyboard/mobile accessibility, and proof of reactive evidence differences after adversarial actions. Orthogonal routing reduces direct diagonal links but does not guarantee crossing-free arbitrary graphs. The browser progression CI failure on an unrelated subsequent development change (run 41872057895) is still untriaged. Do **not** promote B3 or claim completion.
+
+**Next B3 steps:** review final-head CI; fix failed checks; add geometry coverage and dense-edge layout handling (lane allocation/grouping), verify selected-asset evidence across two authenticated Red/Blue sessions and all six scenarios, then perform release acceptance and promotion only with green gates. Preserve original V1 replay and Beta data.
+
+
 ## Stage-one release candidate — 4 November 2026
 
 Implemented isolated V2 outcome adapter `api/cyber_warfare/v2_events.py` with template-generated Red/Blue evidence, preventing retroactive alerts from newly installed sensors and guarding ID collisions; added five pure transition tests in `test_v2_events.py`. This is **not integrated with the authenticated game engine or API**. Existing `AssetBoard.tsx` now groups already-authorised observations by asset, showing evidence counts and the latest eight asset messages on network/list views. These appear on the existing simultaneous-round cadence; the 90-second alternating turns remain a separate future milestone. PR [#6](https://github.com/algorithmmanuel/University_All_In_One/pull/6) is ready for review, not merged. Frontend quality gate 41816649012 passed on `f9fddf9`; V2 contract 41816648952, backend 41816649018, browser 41816649008, real-API 41816648971 remained queued at inspection. No full green suite, Beta deployment or user acceptance claimed. Verify the **final PR head** after documentation commits before promotion.
