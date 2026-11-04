@@ -17,6 +17,7 @@ export type Action = {
   url: string;
 };
 export type Catalog = {
+  alternating_preview_available?: boolean;
   scenarios: {
     id: string;
     title: string;
@@ -63,6 +64,8 @@ export type Match = {
   briefing: string;
   scenario: string;
   engine_version: string;
+  active_side?: Side | null;
+  round?: number;
   objective: {
     kind: string;
     targets: string[];
