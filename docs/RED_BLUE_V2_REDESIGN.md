@@ -20,7 +20,7 @@ Current engine truth does change after resolution (access, monitoring, isolation
 | ID | Scope | Acceptance gate | Status |
 | --- | --- | --- | --- |
 | RB2-00 | Record owner feedback, decisions, risks and release plan | Repository documents reference current implementation and precise next action | Documented |
-| RB2-A1 | Versioned authoritative asset/evidence schema; tool capabilities; event taxonomy | Deterministic unit tests, no hidden data in either seat projection, all 6 scenarios | **Partial**: isolated types/projection + 4 secrecy tests committed; scenario integration and CI pending |
+| RB2-A1 | Versioned authoritative asset/evidence schema; tool capabilities; event taxonomy | Deterministic unit tests, no hidden data in either seat projection, all 6 scenarios | **Implementation expanded**: validation, six-scenario starting adapter, negative tests and dedicated CI workflow committed; repository CI and trusted event-generation integration pending |
 | RB2-A2 | Side-filtered observations; asset event badges and detail evidence; monitoring-based fidelity | Two-seat tests: stealth remains hidden; alerts do not assert compromise; Red sees confirmed own access; stale intel marked | Not started |
 | RB2-B1 | New alternating-turn engine edition; Blue starts; turns/rounds and objectives defined | Single-authorised action per turn, immediate resolution and replay; old edition still replays | Not started |
 | RB2-B2 | Durable server-clock and expiration; bot scheduling, reconnect grace and idempotence | Actual PostgreSQL race/expiry tests, client clock does not grant or reset time | Not started |
@@ -99,12 +99,26 @@ Proposed lifecycle: **Prepare** (Blue places assets/trust zones, installs contro
 - Future tools/build economics: model the capability interface now, defer gameplay and purchasing.
 - Keep current lesson publication/owner laptop update status separate. No beta rollout is implied by this redesign.
 
+## Release grouping — owner direction 4 November 2026
+
+**First tester-visible beta release = RB2-A1 + RB2-A2**, not A1 scaffolding alone. Stage-by-stage beta promotion means a complete deployable gameplay stage, not every code commit or unseen internal class. Group the V2 foundation with the first authorised asset-event/evidence UI and API integration. Do not replace legacy replay or leak hidden state. Remain on draft PR #6 until the first Beta-visible stage meets the full release gates. Later completed stages go to Beta separately.
+
 ## Implementation checkpoint — 4 November 2026
 
 - **Committed** additive `api/cyber_warfare/v2_state.py` (commit `798644d`) and `api/cyber_warfare/test_v2_state.py` (commit `4bc6487`). Defines immutable asset truth, side-scoped knowledge, sensor/evidence capability, bounded event objects and an intentionally side-filtered JSON-safe projection. Existing API, legacy `engine.py` and beta are unchanged.
 - **Verification distinction:** Four equivalent isolated Python unit cases passed locally in a scratch environment (`python -m unittest`); the committed pytest file has **not yet been run** against the repository environment or CI. There is no two-player simulator acceptance evidence yet.
 - **Open:** strengthen validation of event contents/provenance, integrate V2-only scenario structures and versioned reducer, verify all six configurations, run committed tests and regression gates. The initial model is scaffolding, **not** secure live telemetry functionality; trusted engine generation of event audiences and sensor gating is a mandatory follow-up.
 
+### Additional source work and evidence — same date
+
+- `api/cyber_warfare/v2_validation.py` (`ab9e16b`): bound identities, assets, references, evidence audience/certainty, capabilities, duplicate records and time horizons; rejects Blue alerts that purport to confirm compromise.
+- `api/cyber_warfare/v2_state.py` (`f66ec4c`): validates every projection and deterministically orders visible evidence. Models are still unused by the old live engine.
+- `api/cyber_warfare/v2_scenario.py` (`d87bbaf`): additive conversion of validated existing scenario configurations to V2 opening snapshot, without changing saved scenarios or databases.
+- `api/cyber_warfare/test_v2_state.py` (`f39a8e1`): tests six scenarios plus hostile references, future events, duplicate IDs, missing sensors and role isolation.
+- `.github/workflows/red-blue-v2-contract.yml` (`136e961`): dedicated isolated scenario and contract CI gate, with results pending.
+- Local **analogous** isolated contract tests in a scratch copy: 15 passed (`pytest`, 0.05 s). These are not evidence that the committed GitHub files, full application, PostgreSQL or browser suites ran successfully. Latest GitHub workflow query returned no result; do not mark green.
+- Event texts/audiences still require an audited server-generated reducer and full encrypted/private state boundary. **Strict validation alone cannot prove telemetry truth or prevent a trusted reducer from assigning an overbroad audience.** RB2-A2 must address this before any tester-visible release.
+
 ## Immediate next step
 
-Complete RB2-A1: validate trusted event provenance and schema bounds, add tests for forged/ambiguous events and all six scenario configurations, execute the committed pytest file and broader regression gates. Do not wire the new classes into the current API or old replay. Then implement RB2-A2 under a separately versioned engine edition, document actual evidence and preserve beta. At every milestone, preserve current beta and verify old replay compatibility.
+First verify committed workflow and existing regression gates, then implement a **server-generated, V2-only evidence reducer** and scoped API/UI asset inspector for RB2-A2. Preserve original engine edition and replay and current beta. Release the combined A1+A2 user-testable vertical slice only after CI, separate-session PostgreSQL/browser acceptance, and guarded beta promotion. Record both source promotion and owner laptop/public ngrok deployment separately. At every milestone, preserve current beta and verify old replay compatibility.
