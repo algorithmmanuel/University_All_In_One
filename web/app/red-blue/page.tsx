@@ -8,6 +8,7 @@ import { useActivityFocus } from "../../lib/use-activity-focus";
 import { useArena } from "./useArena";
 import AssetBoard from "./AssetBoard";
 import Planner from "./Planner";
+import TurnClock from "./TurnClock";
 import AfterAction from "./AfterAction";
 import type { Side } from "./types";
 import styles from "./arena.module.css";
@@ -18,7 +19,7 @@ export default function RedBlueArena() {
     [side, setSide] = useState<Side>("blue");
   const [mode, setMode] = useState("computer"),
     [difficulty, setDifficulty] = useState("standard");
-  const [ruleset, setRuleset] = useState<"sealed" | "alternating_preview">("sealed");
+  const [ruleset, setRuleset] = useState<"sealed" | "alternating_preview" | "timed_preview">("sealed");
   const [token, setToken] = useState(""),
     [selected, setSelected] = useState("");
   useEffect(() => {
@@ -153,11 +154,14 @@ export default function RedBlueArena() {
                           aria-label="Match rules"
                           value={ruleset}
                           onChange={(e) =>
-                            setRuleset(e.target.value as "sealed" | "alternating_preview")
+                            setRuleset(e.target.value as "sealed" | "alternating_preview" | "timed_preview")
                           }
                         >
                           <option value="sealed">Original sealed rounds</option>
                           <option value="alternating_preview">Alternating preview · no timer</option>
+                          {arena.catalog.timed_preview_available && (
+                            <option value="timed_preview">Timed preview · 90-second turns</option>
+                          )}
                         </select>
                       </label>
                     )}
@@ -185,9 +189,11 @@ export default function RedBlueArena() {
                   <p className={styles.muted}>
                     Equal finite budgets. Difficulty changes decisions, never
                     resources or hidden information.{" "}
-                    {ruleset === "alternating_preview" && arena.catalog.alternating_preview_available
-                      ? "Development preview: Blue opens and each action resolves immediately. The 90-second clock and disconnect grace are not implemented yet."
-                      : "Original sealed rounds: no clock runs while you plan."}
+                    {ruleset === "timed_preview" && arena.catalog.timed_preview_available
+                      ? "Development-only timed preview: Blue opens, each action has a server-controlled 90-second deadline, and server-observed inactivity may receive one 30-second grace per seat. Keep the separate Development clock worker running."
+                      : ruleset === "alternating_preview" && arena.catalog.alternating_preview_available
+                        ? "Development preview: Blue opens and actions resolve immediately, with no timer."
+                        : "Original sealed rounds: no clock runs while you plan."}
                   </p>
                   <button
                     className="btn"
@@ -268,6 +274,7 @@ export default function RedBlueArena() {
                       Refresh saved match
                     </button>
                   </div>
+                  {m.clock && <TurnClock clock={m.clock} activeSide={m.active_side} seat={m.side} />}
                   <div className={styles.stats} aria-label="Match resources">
                     <div>
                       <span>ROUND</span>
