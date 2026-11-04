@@ -102,6 +102,19 @@ def export_snapshot(state: TimedMatch):
     }
 
 
+def export_waiting(match: alternate.AlternateMatch):
+    """Private placeholder for a new two-human V2 match awaiting the other seat."""
+    if (not isinstance(match, alternate.AlternateMatch) or match.winner
+            or "open" not in match.private.seats.values()
+            or match.moves):
+        raise ValueError("Only untouched waiting V2 games may be wrapped")
+    return {
+        "edition": TIMED_EDITION,
+        "game": alternate.export_replay(match),
+        "clock": "waiting",
+    }
+
+
 def export_terminal(match: alternate.AlternateMatch):
     """Durable finished-match record: no active deadline survives completion."""
     if not isinstance(match, alternate.AlternateMatch) or not match.winner:
@@ -125,6 +138,11 @@ def restore_snapshot(snapshot):
             or snapshot["edition"] != TIMED_EDITION):
         raise ValueError("Invalid timed match envelope")
     data = snapshot["clock"]
+    if data == "waiting":
+        waiting = alternate.replay(snapshot["game"])
+        if export_waiting(waiting) != snapshot:
+            raise ValueError("Invalid waiting timed match")
+        return waiting
     if data is None:
         finished = alternate.replay(snapshot["game"])
         if not finished.winner or export_terminal(finished) != snapshot:
