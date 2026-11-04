@@ -466,13 +466,25 @@ for (const mobile of [false, true])
     await page
       .getByLabel("Scenario", { exact: true })
       .selectOption("ransomware");
+    // Do not select a card until the newly created shift has replaced any
+    // previous run. On slower mobile CI the previous game's selection can
+    // otherwise be overwritten when the async POST returns.
+    const createdShift = page.waitForResponse(
+      (response) =>
+        /\\/api\\/v1\\/cyber-lab\\/runs$/.test(response.url()) &&
+        response.request().method() === "POST",
+    );
     await page
       .getByRole("button", { name: "Start a new shift →", exact: true })
       .click();
+    const shiftResponse = await createdShift;
+    assert.equal(shiftResponse.status(), 201);
+    const newShift = await shiftResponse.json();
     const game = page.getByRole("region", {
       name: "Branch Defender game",
       exact: true,
     });
+    await game.getByText(`Run #${newShift.id} ·`, { exact: false }).waitFor();
     await game.getByRole("button", { name: "Asset list", exact: true }).click();
     const application = game.getByRole("button", {
       name: /^Banking application:/,
