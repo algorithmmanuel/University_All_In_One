@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Asset, Match } from "./types";
 import styles from "./arena.module.css";
 
@@ -69,6 +69,42 @@ export default function AssetBoard({
     const laneY = down ? a.y + cardHeight + 20 : a.y - 20;
     return `M ${ax} ${ay} V ${laneY} H ${bx} V ${by}`;
   };
+  // Compare only consecutive authorised projections. This does not inspect
+  // engine truth, unfiltered events, or any information from the other seat.
+  const previous = useRef<{
+    matchId: number;
+    version: number;
+    fingerprints: Map<string, string>;
+  } | null>(null);
+  const [changedIds, setChangedIds] = useState<string[]>([]);
+  const [updateNotice, setUpdateNotice] = useState("");
+  useEffect(() => {
+    const fingerprints = new Map<string, string>();
+    for (const asset of match.assets) {
+      const evidence = match.observations
+        .filter((event) => event.target === asset.id)
+        .map((event) => [event.turn, event.type, event.action, event.message]);
+      fingerprints.set(asset.id, JSON.stringify([asset, evidence]));
+    }
+    const prior = previous.current;
+    if (!prior || prior.matchId !== match.id) {
+      previous.current = { matchId: match.id, version: match.version, fingerprints };
+      setChangedIds([]);
+      setUpdateNotice("");
+      return;
+    }
+    if (match.version < prior.version) return;
+    const changed = [...fingerprints.keys()].filter(
+      (id) => prior.fingerprints.get(id) !== fingerprints.get(id),
+    );
+    previous.current = { matchId: match.id, version: match.version, fingerprints };
+    if (match.version > prior.version || changed.length) {
+      setChangedIds(changed);
+      setUpdateNotice(changed.length
+        ? `${changed.length} asset${changed.length === 1 ? "" : "s"} with new visible information.`
+        : "Match updated. No additional asset evidence is visible to your side.");
+    }
+  }, [match]);
   // The API already filters observations per authenticated seat. Never derive
   // this panel from private match truth or the terminal debrief.
   const perAsset = new Map<string, Match["observations"]>();
@@ -90,7 +126,8 @@ export default function AssetBoard({
       <div className={styles.sectionHead}>
         <div>
           <span className={styles.eyebrow}>YOUR INFORMATION</span>
-          <h3>Organisation network</h3>\n          <small aria-live="polite">Observed match revision {match.version} · round {match.round ?? match.turn}</small>
+          <h3>Organisation network</h3>
+          <small>Observed match revision {match.version} · round {match.round ?? match.turn}</small>
         </div>
         <div className={styles.controls} aria-label="Asset view">
           <button
@@ -107,6 +144,9 @@ export default function AssetBoard({
           </button>
         </div>
       </div>
+      <p className={styles.muted} role="status" aria-live="polite">
+        {updateNotice || "Asset updates appear here when new authorised observations arrive."}
+      </p>
       <p className={styles.muted}>
         {match.side === "red"
           ? "Your inventory is incomplete. Reconnaissance may reveal neighbours. Assessments and footholds can become stale."
@@ -142,11 +182,12 @@ export default function AssetBoard({
                     markerEnd="url(#trust-arrow)"
                   />
                 ) : null;
-              })}            </svg>
+              })}
+            </svg>
             {match.assets.map((a) => (
               <button
                 key={a.id}
-                className={`${styles.node} ${a.id === selected ? styles.selected : ""}`}
+                className={`${styles.node} ${a.id === selected ? styles.selected : ""} ${changedIds.includes(a.id) ? styles.recentAsset : ""}`}
                 aria-pressed={a.id === selected}
                 onClick={() => onSelect(a.id)}
                 style={{ left: positions[a.id].x, top: positions[a.id].y }}
@@ -157,6 +198,7 @@ export default function AssetBoard({
                 <strong>{a.name}</strong>
                 <small>{summary(a, match.side)}</small>
                 <small>{evidenceLabel(a.id)}</small>
+                {changedIds.includes(a.id) && <small>New visible information</small>}
               </button>
             ))}
           </div>
@@ -167,7 +209,7 @@ export default function AssetBoard({
             <button
               key={a.id}
               aria-pressed={a.id === selected}
-              className={`${styles.asset} ${a.id === selected ? styles.selected : ""}`}
+              className={`${styles.asset} ${a.id === selected ? styles.selected : ""} ${changedIds.includes(a.id) ? styles.recentAsset : ""}`}
               onClick={() => onSelect(a.id)}
             >
               <span>
@@ -176,6 +218,7 @@ export default function AssetBoard({
               <strong>{a.name}</strong>
               <small>{summary(a, match.side)}</small>
               <small>{evidenceLabel(a.id)}</small>
+                {changedIds.includes(a.id) && <small>New visible information</small>}
             </button>
           ))}
         </div>
