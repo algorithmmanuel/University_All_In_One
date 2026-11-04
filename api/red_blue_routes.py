@@ -5,6 +5,7 @@ workers. A round precondition permits both independent same-round submissions.
 The pinned replay is bounded to 30 rounds/60 orders and recomputed on restore.
 """
 from datetime import datetime, timedelta, timezone
+import os
 from hashlib import sha256
 from secrets import token_hex, token_urlsafe
 from typing import Literal
@@ -18,7 +19,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from db_dependencies import get_db
 from learning_routes import student_only
 from models import User, RedBlueMatch, RedBlueSeat, RedBlueReceipt
-from cyber_warfare import engine
+from cyber_warfare import engine, v2_alternating, v2_session
 from cyber_warfare.catalog import ACTIONS
 from cyber_warfare.opponent import choose_order
 from cyber_warfare.scenario import load_scenario, list_scenarios
@@ -69,6 +70,7 @@ class Start(StrictBody):
     side: Literal['red', 'blue']
     mode: Literal['computer', 'human'] = 'computer'
     difficulty: Literal['easy', 'standard', 'hard'] = 'standard'
+    ruleset: Literal['sealed', 'alternating_preview'] = 'sealed'
 
 
 class Join(StrictBody):
@@ -114,17 +116,17 @@ def owned(db, match_id, user_id, lock=False):
 def restore(row):
     # Internal integrity failures fail closed without including private diagnostics.
     try:
-        return engine.replay(row.transcript)
+        return v2_session.restore(row.transcript)
     except (ValueError, KeyError, TypeError, PermissionError):
         raise HTTPException(409, 'Saved rules unavailable; this match requires maintainer review') from None
 
 
 def public(row, user_id):
     match = restore(row)
-    observation = engine.view(match, identity(user_id))
+    observation = v2_session.view(match, identity(user_id))
     return {'id': row.id, 'status': row.status, 'difficulty': row.difficulty,
-            'mode': 'computer' if 'computer' in match.seats.values() else 'human',
-            **observation, 'orders': [o.dump() for o in engine.available_orders(observation)] if row.status == 'active' else []}
+            'mode': 'computer' if 'computer' in v2_session.seats(match).values() else 'human',
+            **observation, 'orders': [o.dump() for o in v2_session.orders(match, identity(user_id))] if row.status == 'active' else []}
 
 
 @router.get('/catalog')
@@ -149,10 +151,17 @@ def start(body: Start, user=Depends(student_only), db: Session = Depends(get_db)
         RedBlueMatch.creator_id == user.id, RedBlueMatch.created_at >= since))
     if count >= 100:
         raise HTTPException(429, 'Daily match creation limit reached; resume a saved match')
+    if body.ruleset == 'alternating_preview' and os.environ.get('EDUCYBER_ENV') != 'development':
+        raise HTTPException(403, 'Alternating preview is not available in this environment')
     other = 'blue' if body.side == 'red' else 'red'
     seats = {body.side: identity(user.id), other: 'computer' if body.mode == 'computer' else 'open'}
-    match = engine.new_match(scenario, token_hex(32), seats['red'], seats['blue'])
-    row = RedBlueMatch(creator_id=user.id, transcript=engine.export_replay(match),
+    if body.ruleset == 'alternating_preview':
+        match = v2_alternating.new_match(scenario, token_hex(32), seats['red'], seats['blue'])
+        if body.mode == 'computer':
+            match = v2_session.advance_computer(match, body.difficulty)
+    else:
+        match = engine.new_match(scenario, token_hex(32), seats['red'], seats['blue'])
+    row = RedBlueMatch(creator_id=user.id, transcript=v2_session.export(match),
                        difficulty=body.difficulty, status='active' if body.mode == 'computer' else 'waiting')
     db.add(row); persist(db, flush=True)
     db.add_all([RedBlueSeat(match_id=row.id, side=side, user_id=user.id if side == body.side else None)
@@ -199,9 +208,12 @@ def join(body: Join, user=Depends(student_only), db: Session = Depends(get_db)):
         raise HTTPException(409, 'Two different learners are required')
     seat = db.scalar(select(RedBlueSeat).where(RedBlueSeat.match_id == row.id, RedBlueSeat.user_id.is_(None)))
     match = restore(row)
-    match.seats[seat.side] = identity(user.id)
+    if isinstance(match, v2_alternating.AlternateMatch):
+        match = v2_session.join(match, seat.side, identity(user.id))
+    else:
+        match.seats[seat.side] = identity(user.id)
     seat.user_id = user.id
-    row.transcript = engine.export_replay(match)
+    row.transcript = v2_session.export(match)
     row.status, row.invite_hash, row.invite_expires_at = 'active', None, None
     persist(db)
     return public(row, user.id)
@@ -220,20 +232,29 @@ def command(match_id: int, body: Command, user=Depends(student_only), db: Sessio
     if row.status != 'active':
         raise HTTPException(409, 'Match is waiting or finished')
     match = restore(row)
-    observation = engine.view(match, identity(user.id))
-    if body.expected_turn != match.turn or observation['committed']:
-        raise HTTPException(409, 'Round changed or choice already sealed; reload the match')
+    observation = v2_session.view(match, identity(user.id))
+    if body.expected_turn != observation['turn'] or observation['committed']:
+        raise HTTPException(409, 'Round changed or turn unavailable; reload the match')
     order = engine.Order(body.action, body.target, body.source)
-    if order not in engine.available_orders(observation):
+    if order not in v2_session.orders(match, identity(user.id)):
         raise HTTPException(422, 'Order unavailable in your current information')
-    # Decide the computer's order from its pre-commit projection. It cannot inspect
-    # the human commitment, even in memory. Persist both in this one transaction.
-    computer_side = next((s for s, actor in match.seats.items() if actor == 'computer'), None)
-    computer_order = choose_order(engine.view(match, 'computer'), row.difficulty) if computer_side else None
-    match = engine.commit(match, identity(user.id), order, body.expected_turn, str(body.command_id))
-    if computer_order:
-        match = engine.commit(match, 'computer', computer_order, body.expected_turn, f'computer-{body.expected_turn}')
-    row.transcript = engine.export_replay(match)
+    if isinstance(match, v2_alternating.AlternateMatch):
+        # The locked match row and actor-scoped DB receipt remain authoritative.
+        # The bot consults its own filtered projection and acts after the human.
+        try:
+            match = v2_session.submit_alternating(
+                match, identity(user.id), order,
+                body.expected_turn, str(body.command_id), row.difficulty)
+        except ValueError:
+            raise HTTPException(409, 'Turn changed or rules unavailable; reload the match') from None
+    else:
+        # Preserve the original simultaneous sealed-order semantics exactly.
+        computer_side = next((s for s, actor in match.seats.items() if actor == 'computer'), None)
+        computer_order = choose_order(engine.view(match, 'computer'), row.difficulty) if computer_side else None
+        match = engine.commit(match, identity(user.id), order, body.expected_turn, str(body.command_id))
+        if computer_order:
+            match = engine.commit(match, 'computer', computer_order, body.expected_turn, f'computer-{body.expected_turn}')
+    row.transcript = v2_session.export(match)
     row.status = 'finished' if match.winner else 'active'
     db.add(RedBlueReceipt(match_id=row.id, user_id=user.id, command_id=str(body.command_id), request=payload))
     persist(db)
@@ -245,4 +266,4 @@ def debrief(match_id: int, user=Depends(student_only), db: Session = Depends(get
     row = owned(db, match_id, user.id)
     if row.status != 'finished':
         raise HTTPException(409, 'Debrief is available only after the match')
-    return engine.debrief(restore(row), identity(user.id))
+    return v2_session.debrief(restore(row), identity(user.id))
