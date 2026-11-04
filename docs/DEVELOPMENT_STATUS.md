@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 5 RB2-B3 initial topology development — 4 November 2026
+
+PR #9 (Stage 4 B2) is merged into Beta source at `65d816d62b9f345699e293b30b85ce75efd7cb7c`; all five workflow gates passed on the reviewed head `2ab73a5`. Development has since advanced independently with password recovery changes. Stage 4 laptop timed-worker acceptance remains separate and has not been evidenced.
+
+For B3, Development commit `eed1aa6` updates `web/app/red-blue/AssetBoard.tsx` to route *already-authorised* trust edges with orthogonal SVG paths and display the observed match revision and round. This is a UI-only initial slice; source truth, turn logic, existing API seat filtering, legacy saved matches, private data, Beta branch and Beta runtime are unchanged. B3 handover and limitations are in `docs/RED_BLUE_V2_REDESIGN.md` (`42b06f8`).
+
+**Unverified:** new-head browser/actual-API workflows are still pending inspection; dense graphs and all-six-scenario lane geometry, role-specific asset-state transition acceptance, desktop/mobile keyboard checks, and the earlier browser progression failure (run 41872057895) need investigation. No Stage 5 Beta promotion or complete-stage claim. Next: verify CI, improve multi-row/parallel edge lane safety and add actual two-user visibility/topology acceptance before further promotion.
+
+
 ## B2 authenticated timed-preview integration — 4 November 2026
 
 **Owner asked to resume after unrelated accidental Brevo message.** Previously reviewed B2 clock/worker foundation head `db105fb` passed all four CI gates (backend [41841273628](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41841273628), V2 contract [41841273547](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41841273547), real-API [41841273609](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41841273609), browser [41841273546](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41841273546)). Draft [PR #9](https://github.com/algorithmmanuel/University_All_In_One/pull/9) remains **unmerged** and Beta remains unchanged.
