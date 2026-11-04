@@ -522,3 +522,110 @@ def test_saved_history_supports_mixed_sealed_alternating_and_timed_matches(arena
     for identifier in items:
         resumed = c.get(f'/api/v1/red-blue/matches/{identifier}', headers=h[0])
         assert resumed.status_code == 200, resumed.text
+
+
+def test_timed_reconnect_and_two_devices_share_one_server_clock(arena, monkeypatch):
+    """A second session must not reset the deadline or create another grace."""
+    from cyber_warfare import v2_timeout_worker
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    c, h, ids, Session, app, _ = arena
+    created = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'blue', 'mode': 'human',
+        'ruleset': 'timed_preview'})
+    assert created.status_code == 201
+    match_id = created.json()['id']
+    path = f'/api/v1/red-blue/matches/{match_id}'
+    token = c.post(path + '/invite', headers=h[0]).json()['token']
+    assert c.post('/api/v1/red-blue/join', headers=h[1],
+                  json={'token': token}).status_code == 200
+    first = c.get(path, headers=h[0]).json()
+    original_deadline = first['clock']['deadline_at']
+    with Session() as db:
+        blue = db.get(User, ids[0])
+        second_session = {'Authorization': 'Bearer ' + issue_session(db, blue)}
+        db.commit()
+    with TestClient(app) as other_device:
+        viewed = other_device.get(path, headers=second_session)
+        assert viewed.status_code == 200
+        assert viewed.json()['clock']['deadline_at'] == original_deadline
+        heartbeat = other_device.post(path + '/heartbeat', headers=second_session,
+                                      json={'expected_round': 1})
+        assert heartbeat.status_code == 200
+        assert heartbeat.json()['clock']['deadline_at'] == original_deadline
+        assert c.post(path + '/heartbeat', headers=h[1],
+                      json={'expected_round': 1}).status_code == 409
+    with Session() as db:
+        stored = db.get(RedBlueMatch, match_id)
+        assert stored.transcript['clock']['last_seen_blue'] is not None
+        assert stored.transcript['clock']['grace_used'] == []
+    # Once the active seat stops checking in, an isolated worker may grant
+    # its single 30-second extension; a later resume cannot grant another.
+    with Session.begin() as db:
+        row = db.get(RedBlueMatch, match_id)
+        snapshot = row.transcript
+        row.transcript = {**snapshot, 'clock': {**snapshot['clock'],
+            'last_seen_blue': 1010, 'deadline_at': 1090}}
+    with Session() as db:
+        result = v2_timeout_worker.process_due_once(db, 1090)
+        assert result['graces'] == 1 and result['passes'] == 0
+    with Session() as db:
+        saved = db.get(RedBlueMatch, match_id)
+        assert saved.transcript['clock']['grace_used'] == ['blue']
+        assert saved.transcript['clock']['deadline_at'] == 1120
+        again = v2_timeout_worker.process_due_once(db, 1090)
+        assert again['graces'] == 0
+        result = v2_timeout_worker.process_due_once(db, 1120)
+        assert result['passes'] == 1
+        assert db.get(RedBlueMatch, match_id).transcript['clock']['grace_used'] == ['blue']
+
+
+def test_postgres_timed_expired_action_races_worker_with_one_authoritative_pass(arena, monkeypatch):
+    """At/after a deadline, a late HTTP command cannot win against row-lock expiry."""
+    from threading import Barrier
+    from cyber_warfare import v2_timeout_worker
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    c, h, _, Session, app, dialect = arena
+    if dialect != 'postgres':
+        pytest.skip('Requires PostgreSQL row-locking and real independent sessions')
+    created = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'blue', 'mode': 'human',
+        'ruleset': 'timed_preview'})
+    assert created.status_code == 201
+    match_id = created.json()['id']
+    path = f'/api/v1/red-blue/matches/{match_id}'
+    token = c.post(path + '/invite', headers=h[0]).json()['token']
+    assert c.post('/api/v1/red-blue/join', headers=h[1],
+                  json={'token': token}).status_code == 200
+    with Session.begin() as db:
+        row = db.get(RedBlueMatch, match_id)
+        row.transcript = {**row.transcript, 'clock': {
+            **row.transcript['clock'], 'deadline_at': 1}}
+    body = order('blue')
+    barrier = Barrier(2)
+
+    def human():
+        with TestClient(app) as client:
+            barrier.wait(timeout=10)
+            return client.post(path + '/commands', headers=h[0], json=body)
+
+    def timeout():
+        with Session() as db:
+            barrier.wait(timeout=10)
+            return v2_timeout_worker.process_due_once(db)
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        command_future = pool.submit(human)
+        worker_future = pool.submit(timeout)
+        response, result = command_future.result(), worker_future.result()
+    assert response.status_code == 409
+    assert result['passes'] == 1
+    with Session() as db:
+        saved = db.get(RedBlueMatch, match_id)
+        assert saved.transcript['game']['moves'] == [{
+            'side': 'blue', 'round': 1,
+            'command_id': 'server-timeout-1-blue',
+            'action': 'wait_blue', 'target': None, 'source': None}]
+        assert saved.transcript['clock']['active_side'] == 'red'
+        assert db.scalars(select(RedBlueReceipt).where(
+            RedBlueReceipt.match_id == match_id)).all() == []
+    assert c.post(path + '/commands', headers=h[0], json=body).status_code == 409
