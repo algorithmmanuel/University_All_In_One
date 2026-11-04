@@ -1,5 +1,12 @@
 # Development handover
 
+## Stage 5 B3 timed two-seat refresh check — 4 November 2026
+
+Development commit `a84d200` extends the *existing* authenticated two-account Development-only timed preview browser test to establish that Red's initial board is at revision 0 before Blue's move and that Red subsequently observes revision 1 and its seat-filtered asset-update announcement after Blue acts, without manual refresh. The test continues checking no private transcript, seed or opponent heartbeat history in Red's API view. The game engine, match persistence and Beta are unchanged.
+
+This test is not proof of live network truth by itself; it verifies that the UI refreshes the projection delivered by the authenticated API. New-head CI is pending verification. Long-edge geometry changes `4800a03`, browser collision regression `2bbc593`, and this timed browser test must all pass before any Stage 5 source promotion. Still outstanding: six-scenario topology/monitoring matrix, broader reactive asset-state outcomes, dense-edge overlaps and owner laptop acceptance.
+
+
 ## Stage 5 B3 long-edge routing validation — 4 November 2026
 
 On the prior complete B3 projection update `f2822ca`, real API/PostgreSQL [41912372309](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41912372309) and browser gameplay [41912372344](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41912372344) both **passed**. Subsequent documentation-only `7119401` recorded that milestone.
