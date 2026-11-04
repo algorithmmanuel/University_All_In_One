@@ -5,6 +5,7 @@ The rule reducer, clock and event generation will be separately implemented.
 """
 from dataclasses import dataclass
 from typing import Literal
+from .v2_validation import validate_match
 
 Side = Literal['red', 'blue']
 Knowledge = Literal['confirmed', 'suspected', 'stale', 'unknown']
@@ -75,6 +76,9 @@ def project_for_seat(match: MatchTruth, side: Side) -> dict:
         raise ValueError('Unknown seat')
     if match.edition != 'red-blue-v2':
         raise ValueError('Unsupported edition')
+    if not isinstance(match, MatchTruth):
+        raise ValueError('V2 match required')
+    validate_match(match)
     inventory = match.blue_inventory if side == 'blue' else match.red_known
     truths = {a.id: a for a in match.assets}
     own_capabilities = tuple(c for c in match.capabilities if c.owner == side)
@@ -95,6 +99,7 @@ def project_for_seat(match: MatchTruth, side: Side) -> dict:
                 continue
             events.append({'id': ev.id, 'turn': ev.turn, 'kind': ev.kind,
                            'message': ev.text, 'certainty': ev.certainty})
+        events.sort(key=lambda event: (event['turn'], event['id']))
         item = {'id': a.id, 'name': a.name, 'kind': a.kind,
                 'value': a.value, 'events': events}
         if side == 'blue':
