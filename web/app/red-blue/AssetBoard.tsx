@@ -51,23 +51,35 @@ export default function AssetBoard({
     const a = positions[source];
     const b = positions[target];
     if (!a || !b || source === target) return null;
-    const aRow = Math.round((a.y - 25) / stepY);
-    const bRow = Math.round((b.y - 25) / stepY);
-    if (aRow === bRow) {
-      const right = b.x > a.x;
-      const y = a.y + cardHeight / 2;
-      return `M ${a.x + (right ? cardWidth : 0)} ${y} H ${b.x + (right ? -9 : cardWidth + 9)}`;
-    }
-    const down = b.y > a.y;
+    const sourceColumn = Math.round((a.x - 30) / stepX);
+    const targetColumn = Math.round((b.x - 30) / stepX);
+    const sourceRow = Math.round((a.y - 25) / stepY);
+    const targetRow = Math.round((b.y - 25) / stepY);
     const ax = a.x + cardWidth / 2;
     const bx = b.x + cardWidth / 2;
+    if (sourceRow === targetRow) {
+      if (Math.abs(sourceColumn - targetColumn) === 1) {
+        const right = b.x > a.x;
+        return `M ${a.x + (right ? cardWidth : 0)} ${a.y + cardHeight / 2} H ${b.x + (right ? -9 : cardWidth + 9)}`;
+      }
+      // A two-column horizontal edge must bypass the middle asset card.
+      const laneY = a.y - 14;
+      return `M ${ax} ${a.y} V ${laneY} H ${bx} V ${b.y - 9}`;
+    }
+    const down = b.y > a.y;
     const ay = a.y + (down ? cardHeight : 0);
     const by = b.y + (down ? -9 : cardHeight + 9);
-    // For adjacent rows this lane is entirely outside both node boxes.
-    // Longer links share a gutter; the accessible trust-path list remains
-    // definitive when a dense graph cannot be drawn without intersections.
-    const laneY = down ? a.y + cardHeight + 20 : a.y - 20;
-    return `M ${ax} ${ay} V ${laneY} H ${bx} V ${by}`;
+    if (Math.abs(sourceRow - targetRow) === 1) {
+      // Horizontal travel occurs inside the empty gap between adjacent rows.
+      const laneY = down ? a.y + cardHeight + 18 : a.y - 18;
+      return `M ${ax} ${ay} V ${laneY} H ${bx} V ${by}`;
+    }
+    // Non-adjacent rows use the outside corridor rather than crossing an
+    // intermediate card. Dense overlaps are represented by the edge list.
+    const corridorX = sourceColumn + targetColumn <= 2 ? 14 : 746;
+    const exitY = down ? a.y + cardHeight + 18 : a.y - 18;
+    const entryY = down ? b.y - 18 : b.y + cardHeight + 18;
+    return `M ${ax} ${ay} V ${exitY} H ${corridorX} V ${entryY} H ${bx} V ${by}`;
   };
   // Compare only consecutive authorised projections. This does not inspect
   // engine truth, unfiltered events, or any information from the other seat.
