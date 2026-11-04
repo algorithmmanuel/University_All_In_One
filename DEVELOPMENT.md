@@ -1,5 +1,8 @@
 # EduCyber — start here
 
+**OWNER RELEASE POLICY CHANGE — 4 November 2026:** After every **completed and verified** Red/Blue stage, promote the approved stage to the existing tester-facing beta branch for real-user feedback, not only after the full redesign. An incomplete stage is not a release. Keep separate development verification, CI, beta database backups/migration checks, private tester data, and explicit laptop publication steps. See [V2 redesign release policy](docs/RED_BLUE_V2_REDESIGN.md) and [development status](docs/DEVELOPMENT_STATUS.md).
+
+
 **ACTIVE RED/BLUE REDESIGN — 4 November 2026:** Owner authorised beginning the simulator improvements in development while documenting every step. Read [the Red/Blue V2 redesign and verification contract](docs/RED_BLUE_V2_REDESIGN.md) before editing simulator code. Rules agreed: alternating turns, Blue opens, 90 seconds per human turn, at most one 30-second disconnection grace period per human seat per match. Current milestone RB2-00 documentation is complete; RB2-A1 versioned asset/event/intelligence types are next. Preserve original engine/replay semantics and beta; **no redesign feature or beta promotion is yet implemented**. Consult [status](docs/DEVELOPMENT_STATUS.md) for exact evidence and next action.
 
 
