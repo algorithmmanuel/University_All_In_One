@@ -153,7 +153,7 @@ export default function Planner({
           )}
           <button
             className="btn"
-            disabled={!chosen || busy || uncertain}
+            disabled={!chosen || busy || uncertain || Boolean(match.clock && match.clock.seconds_remaining <= 0)}
             onClick={() => chosen && onSeal(chosen)}
           >
             {match.active_side ? "Take action" : "Seal choice"}
