@@ -40,4 +40,4 @@ jobs:
         run: python -m pytest -q cyber_warfare/test_v2_state.py cyber_warfare/test_v2_events.py cyber_warfare/test_v2_alternating.py cyber_warfare/test_v2_session.py cyber_warfare/test_v2_clock.py cyber_warfare/test_v2_timed.py
       - name: Validate syntax of V2 modules
         working-directory: api
-        run: python -m compileall -q cyber_warfare/v2_state.py cyber_warfare/v2_validation.py cyber_warfare/v2_scenario.py cyber_warfare/v2_events.py cyber_warfare/v2_alternating.py cyber_warfare/v2_session.py cyber_warfare/v2_clock.py cyber_warfare/v2_timed.py
+        run: python -m compileall -q cyber_warfare/v2_state.py cyber_warfare/v2_validation.py cyber_warfare/v2_scenario.py cyber_warfare/v2_events.py cyber_warfare/v2_alternating.py cyber_warfare/v2_session.py cyber_warfare/v2_clock.py cyber_warfare/v2_timed.py cyber_warfare/v2_timeout_worker.py
