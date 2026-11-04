@@ -72,6 +72,10 @@ test("Development timed preview: separate human seats, live clock and immediate 
   assert.ok(first.clock.seconds_remaining > 0 && first.clock.seconds_remaining <= 90);
   assert.equal(first.clock.grace_active, false);
   await blue.page.getByText("Your turn · BLUE", { exact: true }).waitFor();
+  // The second browser has rendered its own initial filtered projection
+  // before Blue acts. Observe the later revision through read-only polling.
+  const redBoard = red.page.getByRole("region", { name: "Known assets" });
+  await redBoard.getByText("Observed match revision 0 · round 1", { exact: true }).waitFor();
 
   const heartbeat = await blue.page.request.post(
     API + "/api/v1/red-blue/matches/" + waiting.id + "/heartbeat",
@@ -101,6 +105,8 @@ test("Development timed preview: separate human seats, live clock and immediate 
   assert.equal(result.version, 1);
   assert.equal(result.turn, 1);
   await red.page.getByText("Your turn · RED", { exact: true }).waitFor();
+  await redBoard.getByText("Observed match revision 1 · round 1", { exact: true }).waitFor();
+  await redBoard.getByText(/Match updated|new visible information/).waitFor();
   const redView = await red.page.request.get(
     API + "/api/v1/red-blue/matches/" + waiting.id,
     { headers: { Authorization: "Bearer " + redToken } },
