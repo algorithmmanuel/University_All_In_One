@@ -188,8 +188,14 @@ def history(before_id: int | None = Query(None, ge=1), user=Depends(student_only
     if before_id:
         stmt = stmt.where(RedBlueMatch.id < before_id)
     rows = db.execute(stmt.order_by(RedBlueMatch.id.desc()).limit(21)).all()
+    # V1/untimed V2 store the scenario at the replay root; timed V2 wraps
+    # its pinned game replay alongside the private server clock. Never expose
+    # the clock or full transcript in a learner's saved-match history.
     return {'matches': [{'id': row.id, 'side': side, 'status': row.status,
-                        'title': row.transcript['scenario']['title'], 'created_at': row.created_at.isoformat()}
+                        'title': (row.transcript['game']['scenario']['title']
+                                  if row.transcript.get('edition') == v2_timed.TIMED_EDITION
+                                  else row.transcript['scenario']['title']),
+                        'created_at': row.created_at.isoformat()}
                        for row, side in rows[:20]],
             'next_before_id': rows[19][0].id if len(rows) > 20 else None}
 
