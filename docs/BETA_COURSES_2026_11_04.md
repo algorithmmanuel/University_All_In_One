@@ -80,6 +80,10 @@ try {
 
 This updates development source only; it does not copy beta data or publish courses there.
 
-## Evidence
+## Verified source and remaining laptop work
 
-Latest backend/frontend/browser-gameplay/real-API workflows on preceding `1741bfe` succeeded. An older duplicate real-API failure is superseded by the newer successful run. Current local checks and final-source CI are recorded in the handover with their actual state. Laptop publication, actual backup restoration and ngrok acceptance remain owner-operated.
+All four latest workflows passed on implementation `abda6680d46d7ae50acd2c8381c4c959aee40720`: [backend](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41805385816), [frontend](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41805385796), [browser gameplay](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41805385805), [actual-API browser](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41805385777). PostgreSQL 874 passed/3 skips/29 subtests; independent backend 828 passed/49 integration skips/29 subtests; actual-API browser 30 cases passed. Final handover changes documentation only.
+
+Beta source was fast-forwarded from `c8e5fbc` to the checked implementation with expected-head protection, preserving its history. Development/beta share the same final source. No laptop database, process or ngrok operation was executed here. Run the blocks above to make the courses visible in the running beta. The publication action's archive-list/checksum backup validation is not a substitute for a full restore drill. Independent editorial/learner acceptance remains deferred; see the backlog.
+
+Browser evidence on `abda668`:26 progression/reading journeys plus132 gameplay journeys passed (158 total);26 frontend unit checks, TypeScript and production build passed. These are automated implementation checks, not human learning acceptance.

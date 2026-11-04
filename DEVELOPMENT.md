@@ -1,5 +1,7 @@
 # EduCyber — start here
 
+**Current source release —4 November 2026:** development and beta synchronised for the owner-authorised 24-course/192-lesson preview after successful CI on `abda668`. Final handover is documentation only. Owner laptop publication/restarts remain pending: [complete rollout](docs/BETA_COURSES_2026_11_04.md). Lesson rewrites are paused: [backlog and new-chat prompt](docs/LESSON_CLEANUP_BACKLOG.md). Next is the owner's testing feedback.
+
 **Active owner direction — 4 November 2026:** save current lessons, publish the24-course/192-lesson beta preview, synchronise development/beta and defer rewrites. Read [the current rollout](docs/BETA_COURSES_2026_11_04.md) and [cleanup + next-chat prompt](docs/LESSON_CLEANUP_BACKLOG.md). Next is the owner's application-testing feedback. Production editorial acceptance remains separate.
 
 This is the continuation entry point for maintainers and future assistant sessions.
