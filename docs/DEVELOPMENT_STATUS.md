@@ -1,5 +1,10 @@
 # Development handover
 
+## Stage-one review checkpoint — 4 November 2026
+
+Development implementation head `f9fddf9` is in [PR #6](https://github.com/algorithmmanuel/University_All_In_One/pull/6), ready for review but **not merged**. Added `v2_events.py` (immutable truth transitions and generated seat-scoped evidence), `test_v2_events.py` (five pure transition simulations) and an asset-specific evidence panel in `web/app/red-blue/AssetBoard.tsx`. The panel shows only existing authenticated seat-filtered observations; it updates on current legacy-round resolution, **not** new alternating real-time turns. Latest GitHub checks on `f9fddf9`: frontend run 41816649012 **passed**; V2 contract 41816648952, backend 41816649018, browser 41816649008 and actual-API 41816648971 were **queued** at inspection. No full-green, Beta source merge, laptop runtime update or tester acceptance is claimed. Next: verify CI on the actual final release head, fix failures, merge only when green, then provide owner beta deployment instructions and collect feedback. Future timed alternating engine, live V2 API and build phase remain unfinished.
+
+
 **RB2-A1 expansion — 4 November 2026:** Added bounded `v2_validation.py` (`ab9e16b`), fail-closed projection integration (`f66ec4c`), six-scenario starting adapter (`d87bbaf`), expanded hostile-state/sensor tests (`f39a8e1`), and dedicated GitHub Actions contract workflow (`136e961`). Local **analogous** scratch tests: 15 passed (`pytest`, 0.05s), but the committed repository CI result is unavailable; latest workflow query returned no runs. This code is not wired into game API/UI. Evidence messages and audiences still require trusted server generation, not arbitrary caller data. First **tester-visible Beta milestone groups RB2-A1 + RB2-A2** after CI and actual API/PostgreSQL/browser acceptance. Draft [PR #6](https://github.com/algorithmmanuel/University_All_In_One/pull/6) remains unmerged; beta data and processes unchanged. Next: trusted V2 event reducer, filtered API/UI updates, integration tests, then promotion after green gates.
 
 
