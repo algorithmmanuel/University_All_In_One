@@ -102,7 +102,7 @@ export default function Planner({
                 leave and resume later.
               </p>
             </>
-          )
+          )}
         </div>
       ) : (
         <>
