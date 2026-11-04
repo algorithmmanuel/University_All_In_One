@@ -42,7 +42,7 @@ test("Development timed preview: separate human seats, live clock and immediate 
   assert.equal(invitation.length, 43);
 
   const credentials = {
-    email: `timed-learner-${Date.now()}@example.invalid`,
+    email: `timed-learner-${Date.now()}@example.com`,
     password: "Synthetic-simulator-pass-2026!",
   };
   const registered = await blue.page.request.post(API + "/api/v1/auth/register", {
