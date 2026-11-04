@@ -40,6 +40,22 @@ export default function AssetBoard({
     ]),
   );
   const height = Math.ceil(match.assets.length / 3) * 145 + 20;
+  // The API already filters observations per authenticated seat. Never derive
+  // this panel from private match truth or the terminal debrief.
+  const perAsset = new Map<string, Match["observations"]>();
+  const knownIds = new Set(match.assets.map((a) => a.id));
+  for (const observation of match.observations) {
+    if (!observation.target || !knownIds.has(observation.target)) continue;
+    const entries = perAsset.get(observation.target) || [];
+    entries.push(observation);
+    perAsset.set(observation.target, entries);
+  }
+  const selectedAsset = match.assets.find((asset) => asset.id === selected);
+  const selectedEvents = perAsset.get(selected) || [];
+  const evidenceLabel = (assetId: string) => {
+    const count = perAsset.get(assetId)?.length || 0;
+    return count ? `${count} visible event${count === 1 ? "" : "s"}` : "No observed activity";
+  };
   return (
     <section className={styles.panel} aria-label="Known assets">
       <div className={styles.sectionHead}>
@@ -120,6 +136,7 @@ export default function AssetBoard({
                 </span>
                 <strong>{a.name}</strong>
                 <small>{summary(a, match.side)}</small>
+                <small>{evidenceLabel(a.id)}</small>
               </button>
             ))}
           </div>
@@ -138,9 +155,35 @@ export default function AssetBoard({
               </span>
               <strong>{a.name}</strong>
               <small>{summary(a, match.side)}</small>
+              <small>{evidenceLabel(a.id)}</small>
             </button>
           ))}
         </div>
+      )}
+      {selectedAsset && (
+        <section aria-label="Selected asset evidence">
+          <h4>{selectedAsset.name} · observed evidence</h4>
+          <p className={styles.muted}>
+            {match.side === "blue"
+              ? "Only your controls, investigations and detected telemetry are shown. An alert indicates suspicion, not proof of a successful attack."
+              : "Only actions and intelligence available to your Red seat appear. Your assessments may be outdated."}
+          </p>
+          {selectedEvents.length ? (
+            <ol>
+              {selectedEvents.slice(-8).map((event, index) => (
+                <li key={`${event.turn}-${event.type}-${index}`}>
+                  <strong>Round {event.turn}</strong>{" "}
+                  {event.type === "alert" ? "· Suspected activity" :
+                    event.type === "finding" ? "· Investigation finding" :
+                    event.type === "own_action" ? "· Your action" :
+                    "· Observed event"}: {event.message}
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p>No evidence has been recorded for this asset in your view. That does not establish that it is safe.</p>
+          )}
+        </section>
       )}
       <details>
         <summary>Read directed trust paths</summary>
