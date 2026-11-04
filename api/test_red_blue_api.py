@@ -498,3 +498,27 @@ def test_timed_worker_advances_late_blue_without_browser_poll(arena, monkeypatch
         row = db.get(RedBlueMatch, match_id)
         assert len(row.transcript['game']['moves']) == 1
         assert row.transcript['game']['moves'][0]['command_id'] == 'server-timeout-1-blue'
+
+
+def test_saved_history_supports_mixed_sealed_alternating_and_timed_matches(arena, monkeypatch):
+    """A timed record must never make existing learners' history unrenderable."""
+    c, h, *_ = arena
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    items = []
+    for ruleset in ('sealed', 'alternating_preview', 'timed_preview'):
+        response = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+            'scenario': 'microfinance', 'side': 'blue', 'mode': 'computer',
+            'ruleset': ruleset,
+        })
+        assert response.status_code == 201, response.text
+        items.append(response.json()['id'])
+    response = c.get('/api/v1/red-blue/matches', headers=h[0])
+    assert response.status_code == 200, response.text
+    history = response.json()['matches']
+    selected = [row for row in history if row['id'] in items]
+    assert {row['id'] for row in selected} == set(items)
+    assert all(isinstance(row['title'], str) and row['title'] for row in selected)
+    assert all('transcript' not in row and 'clock' not in row for row in selected)
+    for identifier in items:
+        resumed = c.get(f'/api/v1/red-blue/matches/{identifier}', headers=h[0])
+        assert resumed.status_code == 200, resumed.text
