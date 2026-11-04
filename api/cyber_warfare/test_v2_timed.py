@@ -100,3 +100,51 @@ def test_clock_does_not_change_private_pinned_replay_until_an_action_occurs():
     assert passed
     record = v2_alternating.export_replay(after.match)
     assert v2_alternating.export_replay(v2_alternating.replay(record)) == record
+
+
+def test_private_timed_snapshot_round_trip_after_reconnect():
+    import json
+    state = beginning()
+    state = v2_timed.seat_heartbeat(state, "blue-user", 1010)
+    state, passed = v2_timed.settle(state, 1090, frozenset({"red", "blue"}))
+    assert not passed
+    record = json.loads(json.dumps(v2_timed.export_snapshot(state)))
+    restored = v2_timed.restore_snapshot(record)
+    assert v2_timed.export_snapshot(restored) == record
+    assert restored.clock.deadline_at == 1120
+    assert restored.clock.grace_used == frozenset({"blue"})
+    restored, passed = v2_timed.settle(restored, 1120, frozenset({"red", "blue"}))
+    assert passed and restored.match.active_side == "red"
+
+
+def test_reject_forged_timed_record_and_legacy_transcript():
+    from copy import deepcopy
+    record = v2_timed.export_snapshot(beginning())
+    cases = []
+    changed = deepcopy(record)
+    changed["edition"] = "legacy"
+    cases.append(changed)
+    changed = deepcopy(record)
+    changed["game"]["edition"] = "legacy"
+    cases.append(changed)
+    changed = deepcopy(record)
+    changed["clock"]["active_side"] = "red"
+    cases.append(changed)
+    changed = deepcopy(record)
+    changed["clock"]["deadline_at"] = -1
+    cases.append(changed)
+    changed = deepcopy(record)
+    changed["clock"]["grace_used"] = ["blue", "blue"]
+    cases.append(changed)
+    changed = deepcopy(record)
+    changed["clock"]["grace_used"] = [["blue"]]
+    cases.append(changed)
+    changed = deepcopy(record)
+    changed["clock"]["grace_active"] = True
+    cases.append(changed)
+    changed = deepcopy(record)
+    changed["private_seed"] = "forged"
+    cases.append(changed)
+    for forged in cases:
+        with pytest.raises(ValueError):
+            v2_timed.restore_snapshot(forged)
