@@ -7,6 +7,7 @@ on:
       - "api/cyber_warfare/test_v2_state.py"
       - "api/cyber_warfare/test_v2_events.py"
       - "api/cyber_warfare/test_v2_alternating.py"
+      - "api/cyber_warfare/test_v2_session.py"
       - ".github/workflows/red-blue-v2-contract.yml"
   push:
     branches: [feature/beta-continuous-improvement]
@@ -15,6 +16,7 @@ on:
       - "api/cyber_warfare/test_v2_state.py"
       - "api/cyber_warfare/test_v2_events.py"
       - "api/cyber_warfare/test_v2_alternating.py"
+      - "api/cyber_warfare/test_v2_session.py"
       - ".github/workflows/red-blue-v2-contract.yml"
 permissions:
   contents: read
@@ -31,7 +33,7 @@ jobs:
         run: python -m pip install "pytest>=8,<10" "pydantic>=2,<3"
       - name: Validate all six scenarios and V2 secrecy contract
         working-directory: api
-        run: python -m pytest -q cyber_warfare/test_v2_state.py cyber_warfare/test_v2_events.py cyber_warfare/test_v2_alternating.py
+        run: python -m pytest -q cyber_warfare/test_v2_state.py cyber_warfare/test_v2_events.py cyber_warfare/test_v2_alternating.py cyber_warfare/test_v2_session.py
       - name: Validate syntax of V2 modules
         working-directory: api
-        run: python -m compileall -q cyber_warfare/v2_state.py cyber_warfare/v2_validation.py cyber_warfare/v2_scenario.py cyber_warfare/v2_events.py cyber_warfare/v2_alternating.py
+        run: python -m compileall -q cyber_warfare/v2_state.py cyber_warfare/v2_validation.py cyber_warfare/v2_scenario.py cyber_warfare/v2_events.py cyber_warfare/v2_alternating.py cyber_warfare/v2_session.py
