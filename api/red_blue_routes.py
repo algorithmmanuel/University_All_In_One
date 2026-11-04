@@ -6,6 +6,7 @@ The pinned replay is bounded to 30 rounds/60 orders and recomputed on restore.
 """
 from datetime import datetime, timedelta, timezone
 import os
+import time
 from hashlib import sha256
 from secrets import token_hex, token_urlsafe
 from typing import Literal
@@ -19,7 +20,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from db_dependencies import get_db
 from learning_routes import student_only
 from models import User, RedBlueMatch, RedBlueSeat, RedBlueReceipt
-from cyber_warfare import engine, v2_alternating, v2_session
+from cyber_warfare import engine, v2_alternating, v2_session, v2_timed, v2_clock
 from cyber_warfare.catalog import ACTIONS
 from cyber_warfare.opponent import choose_order
 from cyber_warfare.scenario import load_scenario, list_scenarios
@@ -70,7 +71,7 @@ class Start(StrictBody):
     side: Literal['red', 'blue']
     mode: Literal['computer', 'human'] = 'computer'
     difficulty: Literal['easy', 'standard', 'hard'] = 'standard'
-    ruleset: Literal['sealed', 'alternating_preview'] = 'sealed'
+    ruleset: Literal['sealed', 'alternating_preview', 'timed_preview'] = 'sealed'
 
 
 class Join(StrictBody):
@@ -123,10 +124,11 @@ def restore(row):
 
 def public(row, user_id):
     match = restore(row)
-    observation = v2_session.view(match, identity(user_id))
+    now = int(time.time())
+    observation = v2_session.view(match, identity(user_id), server_now=now)
     return {'id': row.id, 'status': row.status, 'difficulty': row.difficulty,
             'mode': 'computer' if 'computer' in v2_session.seats(match).values() else 'human',
-            **observation, 'orders': [o.dump() for o in v2_session.orders(match, identity(user_id))] if row.status == 'active' else []}
+            **observation, 'orders': [o.dump() for o in v2_session.orders(match, identity(user_id), server_now=now)] if row.status == 'active' else []}
 
 
 @router.get('/catalog')
@@ -136,7 +138,8 @@ def catalog(user=Depends(student_only)):
     return {'scenarios': [{'id': s.id, 'title': s.title, 'industry': s.industry,
                           'difficulty': s.difficulty, 'turn_limit': s.turn_limit} for s in scenarios],
             'actions': [a.public() for a in ACTIONS.values()],
-            'alternating_preview_available': os.environ.get('EDUCYBER_ENV') == 'development'}
+            'alternating_preview_available': os.environ.get('EDUCYBER_ENV') == 'development',
+            'timed_preview_available': os.environ.get('EDUCYBER_ENV') == 'development'}
 
 
 @router.post('/matches', status_code=201)
@@ -152,17 +155,25 @@ def start(body: Start, user=Depends(student_only), db: Session = Depends(get_db)
         RedBlueMatch.creator_id == user.id, RedBlueMatch.created_at >= since))
     if count >= 100:
         raise HTTPException(429, 'Daily match creation limit reached; resume a saved match')
-    if body.ruleset == 'alternating_preview' and os.environ.get('EDUCYBER_ENV') != 'development':
-        raise HTTPException(403, 'Alternating preview is not available in this environment')
+    if body.ruleset != 'sealed' and os.environ.get('EDUCYBER_ENV') != 'development':
+        raise HTTPException(403, 'Alternating and timed previews are not available in this environment')
     other = 'blue' if body.side == 'red' else 'red'
     seats = {body.side: identity(user.id), other: 'computer' if body.mode == 'computer' else 'open'}
-    if body.ruleset == 'alternating_preview':
+    if body.ruleset in ('alternating_preview', 'timed_preview'):
         match = v2_alternating.new_match(scenario, token_hex(32), seats['red'], seats['blue'])
-        if body.mode == 'computer':
-            match = v2_session.advance_computer(match, body.difficulty)
+        if body.ruleset == 'timed_preview':
+            if body.mode == 'human':
+                private_record = v2_timed.export_waiting(match)
+            else:
+                private_record = v2_timed.export_snapshot(v2_timed.start(match, int(time.time())))
+        else:
+            if body.mode == 'computer':
+                match = v2_session.advance_computer(match, body.difficulty)
+            private_record = v2_session.export(match)
     else:
         match = engine.new_match(scenario, token_hex(32), seats['red'], seats['blue'])
-    row = RedBlueMatch(creator_id=user.id, transcript=v2_session.export(match),
+        private_record = v2_session.export(match)
+    row = RedBlueMatch(creator_id=user.id, transcript=private_record,
                        difficulty=body.difficulty, status='active' if body.mode == 'computer' else 'waiting')
     db.add(row); persist(db, flush=True)
     db.add_all([RedBlueSeat(match_id=row.id, side=side, user_id=user.id if side == body.side else None)
@@ -177,8 +188,14 @@ def history(before_id: int | None = Query(None, ge=1), user=Depends(student_only
     if before_id:
         stmt = stmt.where(RedBlueMatch.id < before_id)
     rows = db.execute(stmt.order_by(RedBlueMatch.id.desc()).limit(21)).all()
+    # V1/untimed V2 store the scenario at the replay root; timed V2 wraps
+    # its pinned game replay alongside the private server clock. Never expose
+    # the clock or full transcript in a learner's saved-match history.
     return {'matches': [{'id': row.id, 'side': side, 'status': row.status,
-                        'title': row.transcript['scenario']['title'], 'created_at': row.created_at.isoformat()}
+                        'title': (row.transcript['game']['scenario']['title']
+                                  if row.transcript.get('edition') == v2_timed.TIMED_EDITION
+                                  else row.transcript['scenario']['title']),
+                        'created_at': row.created_at.isoformat()}
                        for row, side in rows[:20]],
             'next_before_id': rows[19][0].id if len(rows) > 20 else None}
 
@@ -214,6 +231,8 @@ def join(body: Join, user=Depends(student_only), db: Session = Depends(get_db)):
     else:
         match.seats[seat.side] = identity(user.id)
     seat.user_id = user.id
+    if row.transcript.get('edition') == v2_timed.TIMED_EDITION:
+        match = v2_timed.start(match, int(time.time()))
     row.transcript = v2_session.export(match)
     row.status, row.invite_hash, row.invite_expires_at = 'active', None, None
     persist(db)
@@ -233,13 +252,23 @@ def command(match_id: int, body: Command, user=Depends(student_only), db: Sessio
     if row.status != 'active':
         raise HTTPException(409, 'Match is waiting or finished')
     match = restore(row)
-    observation = v2_session.view(match, identity(user.id))
+    now = int(time.time())
+    observation = v2_session.view(match, identity(user.id), server_now=now)
+    if isinstance(match, v2_timed.TimedMatch) and now >= match.clock.deadline_at:
+        # The independent worker owns durable expiry. A late request cannot
+        # beat it, even if it is still queued for the next worker scan.
+        raise HTTPException(409, 'Turn deadline expired; match will advance automatically')
     if body.expected_turn != observation['turn'] or observation['committed']:
         raise HTTPException(409, 'Round changed or turn unavailable; reload the match')
     order = engine.Order(body.action, body.target, body.source)
-    if order not in v2_session.orders(match, identity(user.id)):
+    if order not in v2_session.orders(match, identity(user.id), server_now=now):
         raise HTTPException(422, 'Order unavailable in your current information')
-    if isinstance(match, v2_alternating.AlternateMatch):
+    if isinstance(match, v2_timed.TimedMatch):
+        try:
+            match = v2_timed.act(match, identity(user.id), order, str(body.command_id), now)
+        except ValueError:
+            raise HTTPException(409, 'Timed turn changed; reload the match') from None
+    elif isinstance(match, v2_alternating.AlternateMatch):
         # The locked match row and actor-scoped DB receipt remain authoritative.
         # The bot consults its own filtered projection and acts after the human.
         try:
@@ -255,8 +284,12 @@ def command(match_id: int, body: Command, user=Depends(student_only), db: Sessio
         match = engine.commit(match, identity(user.id), order, body.expected_turn, str(body.command_id))
         if computer_order:
             match = engine.commit(match, 'computer', computer_order, body.expected_turn, f'computer-{body.expected_turn}')
-    row.transcript = v2_session.export(match)
-    row.status = 'finished' if match.winner else 'active'
+    row.transcript = (v2_timed.export_terminal(match)
+                      if (row.transcript.get('edition') == v2_timed.TIMED_EDITION
+                          and isinstance(match, v2_alternating.AlternateMatch) and match.winner)
+                      else v2_session.export(match))
+    game = match.match if isinstance(match, v2_timed.TimedMatch) else match
+    row.status = 'finished' if game.winner else 'active'
     db.add(RedBlueReceipt(match_id=row.id, user_id=user.id, command_id=str(body.command_id), request=payload))
     persist(db)
     return public(row, user.id)
@@ -268,3 +301,29 @@ def debrief(match_id: int, user=Depends(student_only), db: Session = Depends(get
     if row.status != 'finished':
         raise HTTPException(409, 'Debrief is available only after the match')
     return v2_session.debrief(restore(row), identity(user.id))
+
+
+class Heartbeat(StrictBody):
+    expected_round: StrictInt = Field(ge=1, le=30)
+
+
+@router.post('/matches/{match_id}/heartbeat')
+def heartbeat(match_id: int, body: Heartbeat, user=Depends(student_only),
+              db: Session = Depends(get_db)):
+    """Authenticated active-seat presence; never grants a client deadline."""
+    row = owned(db, match_id, user.id, lock=True)
+    if row.status != 'active' or row.transcript.get('edition') != v2_timed.TIMED_EDITION:
+        raise HTTPException(409, 'No active timed turn')
+    match = restore(row)
+    if not isinstance(match, v2_timed.TimedMatch) or match.match.round != body.expected_round:
+        raise HTTPException(409, 'Timed turn changed')
+    now = int(time.time())
+    if now >= match.clock.deadline_at:
+        raise HTTPException(409, 'Turn expired')
+    try:
+        match = v2_timed.seat_heartbeat(match, identity(user.id), now)
+    except (PermissionError, ValueError):
+        raise HTTPException(409, 'Not the active seat') from None
+    row.transcript = v2_timed.export_snapshot(match)
+    persist(db)
+    return public(row, user.id)

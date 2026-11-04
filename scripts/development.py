@@ -105,7 +105,7 @@ def verify(environment):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('api', 'web', 'check', 'content-preview', 'content-apply', 'foundations-preview', 'foundations-apply'))
+    parser.add_argument('action', choices=('api', 'web', 'check', 'content-preview', 'content-apply', 'foundations-preview', 'foundations-apply', 'clock-worker'))
     action = parser.parse_args().action
     try:
         environment = configuration()
@@ -118,6 +118,13 @@ def main():
             if action.endswith('-apply'):
                 command.append('--apply')
             return subprocess.call(command, cwd=ROOT / 'api', env=environment)
+        if action == 'clock-worker':
+            # Reuse the same scrubbed api/.env.development as the API.
+            # This is a foreground process; never spawn it in Beta or detach it.
+            return subprocess.call(
+                [sys.executable, '-m', 'v2_clock_worker_main'],
+                cwd=ROOT / 'api', env=environment,
+            )
         port = 8010 if action == 'api' else 3010
         require_free_port(port)
         if action == 'api':
