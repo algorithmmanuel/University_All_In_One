@@ -1,5 +1,12 @@
 # Development handover
 
+## Stage 5 CI failure investigation and test stabilisation — 4 November 2026
+
+Actual workflow log for Real API/PostgreSQL run [41909089239](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41909089239) on B3 initial code `eed1aa6` shows one failure: `web/tests/browser/cyber-lab-real.test.cjs` mobile=true, timed out waiting for the **Banking application** selected-asset heading after keyboard Enter. The remaining setup/database/frontend build steps passed. This is a different Cyber Lab component from the Red/Blue `AssetBoard.tsx`; log alone cannot prove whether the failure is timing or a product regression. A retry of the unchanged failing run was requested.
+
+Development-only commit `ed535db` updates that test's new-shift setup to wait for the real authenticated POST /runs (HTTP 201) and the returned run ID to appear before exercising keyboard selection, removing a possible asynchronous transition race. No production logic or Beta data/source changed. Browser gameplay CI on `ed535db` was still running at observation; **do not claim this fixes the failure until CI confirms**. Earlier browser progression failure [41872057895](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41872057895) concerns a separate mobile Help assertion and remains untriaged. Check CI on exact final source head, then continue B3 six-scenario/role-projection work; no release approval yet.
+
+
 ## Stage 5 RB2-B3 initial topology development — 4 November 2026
 
 PR #9 (Stage 4 B2) is merged into Beta source at `65d816d62b9f345699e293b30b85ce75efd7cb7c`; all five workflow gates passed on the reviewed head `2ab73a5`. Development has since advanced independently with password recovery changes. Stage 4 laptop timed-worker acceptance remains separate and has not been evidenced.
