@@ -137,6 +137,34 @@ export function useArena() {
       window.clearInterval(timer);
     };
   }, [match?.id, match?.status, match?.committed, match?.winner, request]);
+  // Independent authenticated seat check-in: only the active timed player
+  // records presence, and only while this browser tab is visible. Absence is
+  // not proof of an actual transport disconnect. The server owns all time.
+  useEffect(() => {
+    if (!match?.clock || match.status !== "active" ||
+        match.active_side !== match.side || match.winner) return;
+    const id = match.id;
+    let cancelled = false;
+    let sending = false;
+    const beat = async () => {
+      if (cancelled || sending || document.visibilityState !== "visible") return;
+      sending = true;
+      try {
+        const expected_round = match.turn;
+        await request<Match>("/matches/" + id + "/heartbeat", { expected_round });
+      } catch (e) {
+        if (!(e instanceof RequestError && e.status === 409) && !cancelled)
+          setError((e as Error).message);
+      } finally {
+        sending = false;
+      }
+    };
+    void beat();
+    const timer = window.setInterval(() => void beat(), 5000);
+    return () => { cancelled = true; window.clearInterval(timer); };
+  }, [match?.id, match?.turn, match?.active_side, match?.side,
+      match?.status, match?.engine_version, match?.winner, request]);
+
   useEffect(() => {
     if (!match?.winner) return;
     let cancelled = false;
@@ -186,7 +214,7 @@ export function useArena() {
     side: Side,
     mode: string,
     difficulty: string,
-    ruleset: "sealed" | "alternating_preview" = "sealed",
+    ruleset: "sealed" | "alternating_preview" | "timed_preview" = "sealed",
   ) {
     await perform(async () => {
       show(
