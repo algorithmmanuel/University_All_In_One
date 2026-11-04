@@ -304,6 +304,7 @@ def test_raw_body_limit_applies_before_json_parsing(arena):
 def test_alternating_preview_is_denied_outside_isolated_development(arena, monkeypatch):
     c, h, *_ = arena
     monkeypatch.setenv('EDUCYBER_ENV', 'beta')
+    assert c.get('/api/v1/red-blue/catalog', headers=h[0]).json()['alternating_preview_available'] is False
     response = c.post('/api/v1/red-blue/matches', headers=h[0], json={
         'scenario': 'microfinance', 'side': 'blue', 'mode': 'human',
         'ruleset': 'alternating_preview'})
@@ -315,6 +316,7 @@ def test_alternating_preview_is_denied_outside_isolated_development(arena, monke
 def test_v2_two_authenticated_seats_blue_first_immediate_effect_and_secrecy(arena, monkeypatch):
     monkeypatch.setenv('EDUCYBER_ENV', 'development')
     c, h, _, Session, *_ = arena
+    assert c.get('/api/v1/red-blue/catalog', headers=h[0]).json()['alternating_preview_available'] is True
     created = c.post('/api/v1/red-blue/matches', headers=h[0], json={
         'scenario': 'microfinance', 'side': 'red', 'mode': 'human',
         'ruleset': 'alternating_preview'})
