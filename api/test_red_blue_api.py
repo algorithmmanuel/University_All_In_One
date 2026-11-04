@@ -466,3 +466,35 @@ def test_timed_expired_action_cannot_beat_worker_even_if_unprocessed(arena, monk
         assert row.transcript['game']['moves'] == []
         assert db.scalars(select(RedBlueReceipt).where(
             RedBlueReceipt.match_id == row.id)).all() == []
+
+
+def test_timed_worker_advances_late_blue_without_browser_poll(arena, monkeypatch):
+    from cyber_warfare import v2_timeout_worker
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    c, h, _, Session, *_ = arena
+    created = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'blue', 'mode': 'human',
+        'ruleset': 'timed_preview'})
+    assert created.status_code == 201, created.text
+    match_id = created.json()['id']
+    path = f"/api/v1/red-blue/matches/{match_id}"
+    token = c.post(path + '/invite', headers=h[0]).json()['token']
+    assert c.post('/api/v1/red-blue/join', headers=h[1],
+                  json={'token': token}).status_code == 200
+    with Session.begin() as db:
+        row = db.get(RedBlueMatch, match_id)
+        row.transcript = {**row.transcript,
+            'clock': {**row.transcript['clock'], 'deadline_at': 1}}
+    with Session() as db:
+        settled = v2_timeout_worker.process_due_once(db)
+        assert settled['passes'] == 1
+    old = c.post(path + '/commands', headers=h[0], json=order('blue'))
+    assert old.status_code == 409
+    red_view = c.get(path, headers=h[1]).json()
+    assert red_view['active_side'] == 'red'
+    assert red_view['version'] == 1
+    assert red_view['orders']
+    with Session() as db:
+        row = db.get(RedBlueMatch, match_id)
+        assert len(row.transcript['game']['moves']) == 1
+        assert row.transcript['game']['moves'][0]['command_id'] == 'server-timeout-1-blue'
