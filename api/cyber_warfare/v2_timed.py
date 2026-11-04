@@ -120,8 +120,9 @@ def restore_snapshot(snapshot):
     }:
         raise ValueError("Invalid timed clock envelope")
     used = data["grace_used"]
-    if (not isinstance(used, list) or len(used) != len(set(used))
-            or any(side not in clock.SIDES for side in used)):
+    if (not isinstance(used, list)
+            or any(not isinstance(side, str) or side not in clock.SIDES for side in used)
+            or len(used) != len(set(used))):
         raise ValueError("Invalid persisted grace usage")
     match = alternate.replay(snapshot["game"])
     restored = TimedMatch(match, clock.TurnClock(
