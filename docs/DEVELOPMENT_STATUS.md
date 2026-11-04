@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 5 B3 authorised asset change indicators — 4 November 2026
+
+Final-head browser gameplay CI [41910677891](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41910677891) and real API/PostgreSQL CI [41910677888](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41910677888) **passed** for `8c65337`, clearing the preceding Cyber Lab test-synchronisation blocker. Those runs do not cover later B3 changes.
+
+Development-only B3 adds projection-diff notifications in `AssetBoard.tsx` (`a8855b2`), scoped highlight styling (`ad33bbe`), and a real-API browser regression assertion (`f2822ca`). A per-match previous-snapshot reference compares only the current authenticated seat's `assets` and bounded `observations`, and marks only changed visible asset cards after a subsequent update. The first snapshot and switching matches do not claim new evidence; equal/older snapshots do not invent it. The announcement distinguishes actual visible asset changes from ordinary match-revision changes; it does not claim a detected attacker on the basis of a silent sensor. Both Red and Blue use the identical presentation logic on independently filtered views. No server game rules, DB schema, credentials or Beta source/runtime changed.
+
+**Remaining gates:** frontend/type/build and two-role real-API/browser regression on the new source head are not yet proven green; dense topology geometry, full six-scenario/mobile/keyboard checks, multi-turn reactive evidence testing, and independent owner laptop acceptance remain open. The B3 stage must not be merged to Beta until complete, documented and green. Do not conflate CI on earlier `8c65337` with the new changes.
+
+
 ## Stage 5 CI failure investigation and test stabilisation — 4 November 2026
 
 Actual workflow log for Real API/PostgreSQL run [41909089239](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41909089239) on B3 initial code `eed1aa6` shows one failure: `web/tests/browser/cyber-lab-real.test.cjs` mobile=true, timed out waiting for the **Banking application** selected-asset heading after keyboard Enter. The remaining setup/database/frontend build steps passed. This is a different Cyber Lab component from the Red/Blue `AssetBoard.tsx`; log alone cannot prove whether the failure is timing or a product regression. A retry of the unchanged failing run was requested.
