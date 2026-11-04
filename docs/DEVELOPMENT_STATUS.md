@@ -1,5 +1,8 @@
 # Development handover
 
+**RB2-A1 expansion — 4 November 2026:** Added bounded `v2_validation.py` (`ab9e16b`), fail-closed projection integration (`f66ec4c`), six-scenario starting adapter (`d87bbaf`), expanded hostile-state/sensor tests (`f39a8e1`), and dedicated GitHub Actions contract workflow (`136e961`). Local **analogous** scratch tests: 15 passed (`pytest`, 0.05s), but the committed repository CI result is unavailable; latest workflow query returned no runs. This code is not wired into game API/UI. Evidence messages and audiences still require trusted server generation, not arbitrary caller data. First **tester-visible Beta milestone groups RB2-A1 + RB2-A2** after CI and actual API/PostgreSQL/browser acceptance. Draft [PR #6](https://github.com/algorithmmanuel/University_All_In_One/pull/6) remains unmerged; beta data and processes unchanged. Next: trusted V2 event reducer, filtered API/UI updates, integration tests, then promotion after green gates.
+
+
 **RB2 release gate — 4 November 2026:** opened [draft PR #6](https://github.com/algorithmmanuel/University_All_In_One/pull/6) from development into tester-facing beta for review/CI; **NOT MERGED**. Four isolated V2 projection checks passed in a local scratch Python pytest run (`4 passed in 0.05s`); this is not the repository's full CI, six-scenario, replay, PostgreSQL or browser verification. Stage RB2-A1 remains partial and must not be promoted as a completed functional release. Once A1 acceptance and CI are verified, update PR scope/evidence, promote a completed stage and supply owner-operated beta rollout instructions. User now prefers beta promotion after every fully validated stage.
 
 
