@@ -472,7 +472,6 @@ for (const mobile of [false, true])
     const createdShift = page.waitForResponse(
       (response) =>
         response.url().endsWith("/api/v1/cyber-lab/runs") &&
-        
         response.request().method() === "POST",
     );
     await page
