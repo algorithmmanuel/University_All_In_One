@@ -17,7 +17,7 @@ Current engine truth does change after resolution (access, monitoring, isolation
 | ID | Scope | Acceptance gate | Status |
 | --- | --- | --- | --- |
 | RB2-00 | Record owner feedback, decisions, risks and release plan | Repository documents reference current implementation and precise next action | Documented |
-| RB2-A1 | Versioned authoritative asset/evidence schema; tool capabilities; event taxonomy | Deterministic unit tests, no hidden data in either seat projection, all 6 scenarios | Not started |
+| RB2-A1 | Versioned authoritative asset/evidence schema; tool capabilities; event taxonomy | Deterministic unit tests, no hidden data in either seat projection, all 6 scenarios | **Partial**: isolated types/projection + 4 secrecy tests committed; scenario integration and CI pending |
 | RB2-A2 | Side-filtered observations; asset event badges and detail evidence; monitoring-based fidelity | Two-seat tests: stealth remains hidden; alerts do not assert compromise; Red sees confirmed own access; stale intel marked | Not started |
 | RB2-B1 | New alternating-turn engine edition; Blue starts; turns/rounds and objectives defined | Single-authorised action per turn, immediate resolution and replay; old edition still replays | Not started |
 | RB2-B2 | Durable server-clock and expiration; bot scheduling, reconnect grace and idempotence | Actual PostgreSQL race/expiry tests, client clock does not grant or reset time | Not started |
@@ -96,6 +96,12 @@ Proposed lifecycle: **Prepare** (Blue places assets/trust zones, installs contro
 - Future tools/build economics: model the capability interface now, defer gameplay and purchasing.
 - Keep current lesson publication/owner laptop update status separate. No beta rollout is implied by this redesign.
 
+## Implementation checkpoint — 4 November 2026
+
+- **Committed** additive `api/cyber_warfare/v2_state.py` (commit `798644d`) and `api/cyber_warfare/test_v2_state.py` (commit `4bc6487`). Defines immutable asset truth, side-scoped knowledge, sensor/evidence capability, bounded event objects and an intentionally side-filtered JSON-safe projection. Existing API, legacy `engine.py` and beta are unchanged.
+- **Verification distinction:** Four equivalent isolated Python unit cases passed locally in a scratch environment (`python -m unittest`); the committed pytest file has **not yet been run** against the repository environment or CI. There is no two-player simulator acceptance evidence yet.
+- **Open:** strengthen validation of event contents/provenance, integrate V2-only scenario structures and versioned reducer, verify all six configurations, run committed tests and regression gates. The initial model is scaffolding, **not** secure live telemetry functionality; trusted engine generation of event audiences and sensor gating is a mandatory follow-up.
+
 ## Immediate next step
 
-Implement RB2-A1 on the development branch in an **additive** isolated model/test slice: versioned asset/event/intelligence/tool-capability types with deterministic, strictly filtered projections and negative secrecy tests, without changing existing `engine.py` or live API behavior until compatible new edition is ready. Run focused tests, update this document and `docs/DEVELOPMENT_STATUS.md` with actual evidence, then proceed to RB2-A2. At every milestone, preserve current beta and verify old replay compatibility.
+Complete RB2-A1: validate trusted event provenance and schema bounds, add tests for forged/ambiguous events and all six scenario configurations, execute the committed pytest file and broader regression gates. Do not wire the new classes into the current API or old replay. Then implement RB2-A2 under a separately versioned engine edition, document actual evidence and preserve beta. At every milestone, preserve current beta and verify old replay compatibility.
