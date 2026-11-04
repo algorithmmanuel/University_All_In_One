@@ -113,3 +113,34 @@ def test_worker_executes_bot_before_deadline_without_browser_poll(arena):
         assert saved.clock.deadline_at == 1090
         again = worker.process_due_once(db, 1001)
         assert again["bots"] == 0 and again["processed"] == 0
+
+
+def test_postgres_two_workers_never_duplicate_the_same_expiry(arena):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+    _, _, _, Session, _, dialect = arena
+    if dialect != "postgres":
+        import pytest
+        pytest.skip("Requires PostgreSQL SKIP LOCKED semantics")
+    game = v2_alternating.new_match(
+        load_scenario("microfinance"),
+        "two-workers", "user:111", "user:222",
+    )
+    state = v2_timed.start(game, 1000)
+    match_id = insert(arena, v2_timed.export_snapshot(state))
+    ready = Barrier(2)
+
+    def run(_):
+        with Session() as db:
+            ready.wait(timeout=10)
+            return worker.process_due_once(db, 1090)
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(run, range(2)))
+    assert sum(result["passes"] for result in results) == 1
+    with Session() as db:
+        row = db.get(RedBlueMatch, match_id)
+        saved = v2_timed.restore_snapshot(row.transcript)
+        assert saved.match.version == 1
+        assert len(saved.match.moves) == 1
+        assert saved.match.moves[0]["command_id"] == "server-timeout-1-blue"
