@@ -135,7 +135,8 @@ def catalog(user=Depends(student_only)):
     scenarios = list_scenarios()
     return {'scenarios': [{'id': s.id, 'title': s.title, 'industry': s.industry,
                           'difficulty': s.difficulty, 'turn_limit': s.turn_limit} for s in scenarios],
-            'actions': [a.public() for a in ACTIONS.values()]}
+            'actions': [a.public() for a in ACTIONS.values()],
+            'alternating_preview_available': os.environ.get('EDUCYBER_ENV') == 'development'}
 
 
 @router.post('/matches', status_code=201)
