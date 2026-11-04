@@ -1,5 +1,7 @@
 # Approved development roadmap
 
+**Owner-authorised beta direction — 4 November 2026:** publish current lessons as a beta preview and defer cleanup. This supersedes earlier editorial no-beta statements below for the exact snapshot. Use [the current beta guide](BETA_COURSES_2026_11_04.md) and [deferred backlog](LESSON_CLEANUP_BACKLOG.md). Production editorial approval remains separate. Historical checkpoints follow.
+
 Approved by Emmanuel on 26 October 2026 (Africa/Lagos).
 
 ## Product direction and standing decisions

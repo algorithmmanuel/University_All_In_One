@@ -1,5 +1,7 @@
 # Production 24-course content release — architecture and publication audit
 
+**Owner-authorised beta direction — 4 November 2026:** publish current lessons as a beta preview and defer cleanup. This supersedes earlier editorial no-beta statements below for the exact snapshot. Use [the current beta guide](BETA_COURSES_2026_11_04.md) and [deferred backlog](LESSON_CLEANUP_BACKLOG.md). Production editorial approval remains separate. Historical checkpoints follow.
+
 **Date:** 30 October 2026. **Status: in development, not ready for beta.** The owner has authorised a single complete release followed by merge to ongoing beta, with game changes explicitly excluded.
 
 ## Verified source inspection

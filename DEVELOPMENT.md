@@ -1,5 +1,7 @@
 # EduCyber — start here
 
+**Active owner direction — 4 November 2026:** save current lessons, publish the24-course/192-lesson beta preview, synchronise development/beta and defer rewrites. Read [the current rollout](docs/BETA_COURSES_2026_11_04.md) and [cleanup + next-chat prompt](docs/LESSON_CLEANUP_BACKLOG.md). Next is the owner's application-testing feedback. Production editorial acceptance remains separate.
+
 This is the continuation entry point for maintainers and future assistant sessions.
 
 **Active development branch:** `feature/beta-continuous-improvement`  

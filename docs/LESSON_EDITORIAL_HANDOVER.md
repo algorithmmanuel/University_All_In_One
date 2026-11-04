@@ -1,5 +1,7 @@
 # Lesson editorial handover — 31 October 2026
 
+**Owner-authorised beta direction — 4 November 2026:** publish current lessons as a beta preview and defer cleanup. This supersedes earlier editorial no-beta statements below for the exact snapshot. Use [the current beta guide](BETA_COURSES_2026_11_04.md) and [deferred backlog](LESSON_CLEANUP_BACKLOG.md). Production editorial approval remains separate. Historical checkpoints follow.
+
 **Current result:** exact-duplication remediation complete across the measured library: **468 → 0** repeated 70-word signatures and **15 → 0** passage clusters. Fifteen course batches reviewed, 118 lesson bodies changed. Independent acceptance and publication remain blocked. Read the final validation section below before the historical batch entries.
 
 **Scope:** development manuscripts only, `feature/beta-continuous-improvement`. Keep beta unchanged and publication blocked. No database operations, publisher execution or editorial approval signatures are authorised by these edits.
@@ -234,3 +236,14 @@ Actual local checks on the completed content:
 **Exact next unfinished task:** independent semantic/editorial acceptance review, **Cyber Explorers Discover, lesson 1**, `api/production_learning/explorers_discover.py`, followed by its complete eight-lesson course. No course remains in the exact-duplication inventory. Re-review natural concept overlap separately from repeated teaching; passing exact checks does not establish originality, comprehension or practical accuracy. Record specific evidence and reviewer findings without creating approvals on the owner's behalf. Prioritise the nine unchanged courses for substantive depth and reference review, while retaining full-library acceptance scope.
 
 The publication hold remains until substantive independent review across all 24 courses, complete source/link/licensing checks, novice/experienced comprehension evidence, genuine exact-hash approvals, green full CI/reader/PostgreSQL-preservation gates and explicit release authority. Do not publish, reseed, merge into beta or alter learner records. No beta invitations or unrelated development.
+
+
+## Owner-directed beta freeze —4 November 2026
+
+Owner explicitly requests current lessons in beta and defers cleanup to a later session. Eight saved review files/64 lesson bodies are preserved as-is in this release. No further rewrite was performed for this freeze. The exact24-course/192-lesson snapshot is hash-bound by `api/production_learning/beta_preview_2026_11_04.json`. See `LESSON_CLEANUP_BACKLOG.md` for pending per-course work and new-chat prompt, especially unfinished Explorers Check and central review of Academy Check.
+
+Added an explicit beta-only publication route rather than generating production editorial approvals. The original production approval gate is unchanged. Existing records, including original lesson contents, are fingerprinted; publication is atomic, additive and idempotent and refuses changed pre-existing content. The guarded laptop action backs up the existing beta target and performs no migration or reseeding. Actual laptop database publication has not been operated here.
+
+Validation: exact-text audit0 signatures/0 clusters; all24 course metadata/titles/positions compared unchanged. Focused publication/manuscript/audit/approval checks35 passed/1 PostgreSQL-dependent skip/18 subtests. Full local backend828 passed/49 integration skips/29 subtests; one dependency deprecation warning. Synthetic tests confirm all192 lessons are readable through enrolled course APIs, forbidden unenrolled reads, no partial inserts on a late collision, repeat-run idempotency and rollback when old lesson text is altered. Fresh isolated-PostgreSQL preservation, frontend and browser CI are pending for this source; do not report them passed before completion. Latest successful workflows on prior1741bfe are historical, not proof of the new wrapper.
+
+Next: verify fresh CI, fast-forward beta to the checked development source using an expected-head guard, and record the resulting shared ref. Then owner runs the complete laptop publication/restart/readiness blocks in `BETA_COURSES_2026_11_04.md`. The next application task is the owner's testing feedback.

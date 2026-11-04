@@ -1,5 +1,7 @@
 # EduCyber — 24-course development and beta release guide
 
+**Owner-authorised beta direction — 4 November 2026:** publish current lessons as a beta preview and defer cleanup. This supersedes earlier editorial no-beta statements below for the exact snapshot. Use [the current beta guide](BETA_COURSES_2026_11_04.md) and [deferred backlog](LESSON_CLEANUP_BACKLOG.md). Production editorial approval remains separate. Historical checkpoints follow.
+
 **Release state: BLOCKED — NOT READY FOR BETA.** This is a safe operational guide, not evidence that the requested complete production content release exists. As of this checkpoint there are **three authored stage-one course manuscripts** and **one additional eight-lesson draft**. The remaining courses and editorial reviews are unfinished. No new production course has been published to the learner database. Do not merge or deploy this branch as the promised 24-course release.
 
 ## Scope and acceptance contract

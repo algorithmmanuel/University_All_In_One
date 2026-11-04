@@ -1,7 +1,7 @@
 # Development handover
 
-**Last updated:** 31 October 2026 (Africa/Lagos).
-**Current checkpoint:** content remediation complete in development: **118 lesson updates across 15 courses**, whole-library audit **0 repeated 70-word signatures / 0 passage clusters** (fresh baseline 468/15). Local backend regression819 passed/48 skipped/29 subtests; focused content suite 26 passed/18 subtests. **Fresh CI not yet claimed passed; independent editorial acceptance and publication remain blocked.** Exact next acceptance review: Cyber Explorers Discover, lesson 1. See [current batch handover and checks](LESSON_EDITORIAL_HANDOVER.md). Earlier CI evidence below applies only to its recorded source.
+**Last updated:** 4 November 2026 (Africa/Lagos).
+**Current direction:** owner authorises the current24 courses /192 lessons as a beta preview, preserving eight saved manuscript edits and deferring cleanup. Source promotion is being validated; do not equate it with laptop/database deployment. See [beta rollout](BETA_COURSES_2026_11_04.md) and [backlog/next-chat prompt](LESSON_CLEANUP_BACKLOG.md). Next is personal-testing feedback. Earlier editorial no-beta instructions are superseded for this snapshot; production approval remains required.
 
 Previous bundle checkpoint: The owner reports the learner journey makes sense and explicitly authorised a combined global **EduCyber** rebrand, darker crimson theme, deeper options across all eight stages and promotion to beta for a personal playthrough. The verified bundle is source-promoted to beta at `3f4d4ab26ca41f91f79e66c7664146c75721d705`; all required CI gates passed as recorded below. After verified promotion/handover, pause feature development until Emmanuel completes the playthrough and explicitly resumes it. Owner laptop rollout is not performed here. See [the complete combined beta guide](EDUCYBER_BETA_BUNDLE.md) and [playthrough checklist](OWNER_BETA_PLAYTHROUGH.md).
 **Roadmap:** [approved plan](DEVELOPMENT_ROADMAP.md).
@@ -78,7 +78,7 @@ The empty findings array and 35-unit ledger pass the pinned structural validator
 
 ## Exact next action
 
-Continue [lesson writing and editorial review](LESSON_EDITORIAL_HANDOVER.md). Next unfinished audit course: **No unfinished exact-duplication course remains.** Next is semantic/editorial acceptance review, starting Cyber Explorers Discover lesson 1, not publication.. Keep complete eight-lesson batches, global audits and source-preservation checks. Keep beta and databases unchanged; do not resume invitations or unrelated features. Publication requires independent content/reference acceptance, genuine hash-bound approvals, all regression gates and authorised release.
+Complete source synchronisation, then use [the laptop publication guide](BETA_COURSES_2026_11_04.md). Record actual laptop/public-beta results separately. Pause lesson rewrites; [the backlog](LESSON_CLEANUP_BACKLOG.md) records unfinished work. Next chat: implement the application-testing feedback the owner supplies, preserving learner data and existing games/authentication.
 
 ## Implemented source changes and checks
 
