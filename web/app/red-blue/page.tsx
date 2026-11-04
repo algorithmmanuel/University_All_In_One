@@ -18,6 +18,7 @@ export default function RedBlueArena() {
     [side, setSide] = useState<Side>("blue");
   const [mode, setMode] = useState("computer"),
     [difficulty, setDifficulty] = useState("standard");
+  const [ruleset, setRuleset] = useState<"sealed" | "alternating_preview">("sealed");
   const [token, setToken] = useState(""),
     [selected, setSelected] = useState("");
   useEffect(() => {
@@ -145,6 +146,21 @@ export default function RedBlueArena() {
                         <option value="human">Another learner</option>
                       </select>
                     </label>
+                    {arena.catalog.alternating_preview_available && (
+                      <label>
+                        Match rules (Development only)
+                        <select
+                          aria-label="Match rules"
+                          value={ruleset}
+                          onChange={(e) =>
+                            setRuleset(e.target.value as "sealed" | "alternating_preview")
+                          }
+                        >
+                          <option value="sealed">Original sealed rounds</option>
+                          <option value="alternating_preview">Alternating preview · no timer</option>
+                        </select>
+                      </label>
+                    )}
                     {mode === "computer" && (
                       <label>
                         Computer difficulty
@@ -168,14 +184,17 @@ export default function RedBlueArena() {
                   </div>
                   <p className={styles.muted}>
                     Equal finite budgets. Difficulty changes decisions, never
-                    resources or hidden information. No clock runs while you
-                    plan.
+                    resources or hidden information.{" "}
+                    {ruleset === "alternating_preview" && arena.catalog.alternating_preview_available
+                      ? "Development preview: Blue opens and each action resolves immediately. The 90-second clock and disconnect grace are not implemented yet."
+                      : "Original sealed rounds: no clock runs while you plan."}
                   </p>
                   <button
                     className="btn"
                     disabled={arena.busy || arena.uncertain}
                     onClick={() =>
-                      void arena.start(scenario, side, mode, difficulty)
+                      void arena.start(scenario, side, mode, difficulty,
+                        arena.catalog?.alternating_preview_available ? ruleset : "sealed")
                     }
                   >
                     Start match
@@ -271,9 +290,13 @@ export default function RedBlueArena() {
                           ? m.winner.toUpperCase() + " wins"
                           : m.status === "waiting"
                             ? "Waiting for learner"
-                            : m.committed
-                              ? "Choice sealed"
-                              : "Planning open"}
+                            : m.active_side
+                              ? m.committed
+                                ? "Waiting for " + m.active_side.toUpperCase()
+                                : "Your turn · " + m.side.toUpperCase()
+                              : m.committed
+                                ? "Choice sealed"
+                                : "Planning open"}
                       </strong>
                     </div>
                   </div>

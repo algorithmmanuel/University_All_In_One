@@ -186,10 +186,11 @@ export function useArena() {
     side: Side,
     mode: string,
     difficulty: string,
+    ruleset: "sealed" | "alternating_preview" = "sealed",
   ) {
     await perform(async () => {
       show(
-        await request<Match>("/matches", { scenario, side, mode, difficulty }),
+        await request<Match>("/matches", { scenario, side, mode, difficulty, ruleset }),
       );
       await loadHistory();
     });
