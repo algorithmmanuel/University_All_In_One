@@ -298,3 +298,84 @@ def test_raw_body_limit_applies_before_json_parsing(arena):
     assert response.status_code == 413
     assert response.json()['detail'] == 'Simulator request is too large'
     assert c.get('/api/v1/red-blue/catalog', headers=h[0]).status_code == 200
+
+
+# Versioned V2 route-preview gates: inherited bearer auth and original PG locking.
+def test_alternating_preview_is_denied_outside_isolated_development(arena, monkeypatch):
+    c, h, *_ = arena
+    monkeypatch.setenv('EDUCYBER_ENV', 'beta')
+    response = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'blue', 'mode': 'human',
+        'ruleset': 'alternating_preview'})
+    assert response.status_code == 403
+    assert c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'blue', 'mode': 'computer'}).status_code == 201
+
+
+def test_v2_two_authenticated_seats_blue_first_immediate_effect_and_secrecy(arena, monkeypatch):
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    c, h, _, Session, *_ = arena
+    created = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': 'red', 'mode': 'human',
+        'ruleset': 'alternating_preview'})
+    assert created.status_code == 201, created.text
+    row = created.json()
+    assert row['status'] == 'waiting'
+    path = f"/api/v1/red-blue/matches/{row['id']}"
+    token = c.post(path + '/invite', headers=h[0]).json()['token']
+    joined = c.post('/api/v1/red-blue/join', headers=h[1], json={'token': token})
+    assert joined.status_code == 200, joined.text
+    blue = joined.json()
+    assert blue['active_side'] == 'blue'
+    assert blue['orders'] and blue['version'] == 0
+    assert c.post(path + '/commands', headers=h[0], json=order('red')).status_code == 409
+    monitor = next(x for x in blue['orders'] if x['action'] == 'monitor')
+    action = {**order('blue'), **monitor}
+    resolved = c.post(path + '/commands', headers=h[1], json=action)
+    assert resolved.status_code == 200, resolved.text
+    after_blue = resolved.json()
+    assert (after_blue['turn'], after_blue['version']) == (1, 1)
+    assert after_blue['active_side'] == 'red'
+    assert after_blue['orders'] == [] and after_blue['committed_order'] is None
+    red = c.get(path, headers=h[0]).json()
+    assert red['active_side'] == 'red' and red['orders']
+    assert red['committed_order'] is None
+    assert not {'seed', 'transcript', 'timeline', 'plans', 'receipts', 'moves'} & red.keys()
+    assert all('controls' not in a for a in red['assets'])
+    same = c.post(path + '/commands', headers=h[1], json=action)
+    assert same.status_code == 200 and same.json()['version'] == 1
+    assert c.post(path + '/commands', headers=h[1], json={
+        **action, 'action': 'wait_blue'}).status_code == 409
+    red_reply = c.post(path + '/commands', headers=h[0], json=order('red'))
+    assert red_reply.status_code == 200, red_reply.text
+    assert red_reply.json()['turn'] == 2 and red_reply.json()['version'] == 2
+    with Session() as db:
+        saved = db.get(RedBlueMatch, row['id'])
+        assert saved.transcript['edition'] == routes.v2_alternating.EDITION
+        assert len(saved.transcript['moves']) == 2
+        assert len(db.scalars(select(RedBlueReceipt).where(
+            RedBlueReceipt.match_id == row['id'])).all()) == 2
+    assert c.get(path, headers=h[2]).status_code == 404
+
+
+@pytest.mark.parametrize('side', ['blue', 'red'])
+def test_v2_development_preview_computer_acts_immediately(arena, monkeypatch, side):
+    monkeypatch.setenv('EDUCYBER_ENV', 'development')
+    c, h, *_ = arena
+    response = c.post('/api/v1/red-blue/matches', headers=h[0], json={
+        'scenario': 'microfinance', 'side': side, 'mode': 'computer',
+        'ruleset': 'alternating_preview'})
+    assert response.status_code == 201, response.text
+    view = response.json()
+    assert view['active_side'] == side
+    assert view['status'] == 'active'
+    assert view['version'] == (1 if side == 'red' else 0)
+    cmd = order(side, view['turn'])
+    result = c.post(f"/api/v1/red-blue/matches/{view['id']}/commands",
+                    headers=h[0], json=cmd)
+    assert result.status_code == 200, result.text
+    after = result.json()
+    assert after['active_side'] == side and after['turn'] >= 2
+    assert after['version'] == view['version'] + 2
+    assert c.post(f"/api/v1/red-blue/matches/{view['id']}/commands",
+                  headers=h[0], json=cmd).json()['version'] == after['version']
