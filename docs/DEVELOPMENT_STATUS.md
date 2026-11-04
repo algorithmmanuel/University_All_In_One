@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 5 B3 long-edge routing validation — 4 November 2026
+
+On the prior complete B3 projection update `f2822ca`, real API/PostgreSQL [41912372309](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41912372309) and browser gameplay [41912372344](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41912372344) both **passed**. Subsequent documentation-only `7119401` recorded that milestone.
+
+Development-only `4800a03` corrects long cross-column and cross-row SVG trust paths that could intersect intermediate asset cards. Adjacent-row connections use open row gutters; long connections use exterior corridors. The underlying edges remain the server-authorised `match.connections`, and the accessible list remains the authoritative fallback for dense networks; there is no assertion that overlapping edge lines can always be eliminated. `2bbc593` adds a real browser geometric regression checking SVG paths for intersections with non-endpoint asset-card rectangles in representative Red and Blue computer sessions. It does not inspect hidden private network paths or match truth. No engine/API, Beta branch, learner records, migrations or environment secrets were modified.
+
+**Verification gate still outstanding for these new commits:** run exact-head browser gameplay and actual-API/PostgreSQL CI; diagnose any geometry or browser issue before further change. Additional six-scenario, dense/sparse discovery, mobile, keyboard and independent two-human seat acceptance remain outstanding. Stage 5 is NOT approved for Beta.
+
+
 ## Stage 5 B3 authorised asset change indicators — 4 November 2026
 
 Final-head browser gameplay CI [41910677891](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41910677891) and real API/PostgreSQL CI [41910677888](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41910677888) **passed** for `8c65337`, clearing the preceding Cyber Lab test-synchronisation blocker. Those runs do not cover later B3 changes.
