@@ -1,5 +1,8 @@
 # Approved development roadmap
 
+**New approved workstream — 4 November 2026:** Red/Blue owner playthrough identified seven bounded simulator issues and approved beginning improvements, with continuous repository documentation. [RED_BLUE_V2_REDESIGN.md](RED_BLUE_V2_REDESIGN.md) is the authoritative scope, acceptance matrix and milestone list (RB2-00 through RB2-D). Adopt alternating timed turns (Blue opens, 90-second human turn, one bounded 30-second grace per human seat per match). Implement state/visibility foundation before modifying turn rules. Preserve legacy replay, six scenarios, existing learning and beta isolation. Design future player-constructed networks/tool acquisition for extensibility **only**; seek separate direction approval before building the construction phase. This workstream supersedes historical claims that the owner had not yet reviewed the simulator; it does not itself authorise promotion or claim completed implementation.
+
+
 **Owner-authorised beta direction — 4 November 2026:** publish current lessons as a beta preview and defer cleanup. This supersedes earlier editorial no-beta statements below for the exact snapshot. Use [the current beta guide](BETA_COURSES_2026_11_04.md) and [deferred backlog](LESSON_CLEANUP_BACKLOG.md). Production editorial approval remains separate. Historical checkpoints follow.
 
 Approved by Emmanuel on 26 October 2026 (Africa/Lagos).
