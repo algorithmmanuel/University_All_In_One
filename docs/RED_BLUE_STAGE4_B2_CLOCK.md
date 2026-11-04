@@ -11,6 +11,8 @@
 - `api/cyber_warfare/test_v2_timed.py` (`5eb7411`): eight time-advance tests, replay safety, deadline protection and grace/timeout no-duplicate transitions.
 - `.github/workflows/red-blue-v2-contract.yml` (`89b6fc3`): contract CI includes both clock and timed-match tests plus syntax checks.
 
+- `v2_timed.py` now also exports and restores a strict **private** `red-blue-timed-v2-2` JSON-safe timed checkpoint, containing pinned game replay and validated current deadline/last-seen/grace state (`51202df`, malformed-input fix `a744425`). `test_v2_timed.py` (`33774a1`) adds restore-after-grace and forged-envelope rejection. This provides a durable data shape only; it is **not yet wired to live PostgreSQL writes/reads or independent worker processing**.
+
 ## Security and release blockers
 
 1. **Absence of heartbeat is not proof of a transport disconnect.** This is a *server-observed inactivity heuristic* used to gate an optional grace. A final reconnect design must explicitly define authenticated heartbeat cadence, multiple simultaneous devices, revoked sessions, stale browser tabs, last-seen consistency and whether a *true* server-side socket disconnection is necessary. Never accept a caller-supplied `disconnected=true` or browser timestamp as authority.
