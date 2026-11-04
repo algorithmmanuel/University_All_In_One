@@ -132,8 +132,37 @@ for (const mobile of [false, true])
         x.startsWith(side === "blue" ? "monitor ·" : "recon ·"),
       );
       assert.ok(initial, "A real targeted action must be offered");
+      const initialProjection = match;
       match = await submit(page, initial);
       assert.ok(match.budget < 24);
+      // All dynamic labels and highlights are derived from this seat's
+      // authenticated projection; the test never inspects private engine data.
+      const board = page.getByRole("region", { name: "Known assets" });
+      await board.getByText(
+        `Observed match revision ${match.version} · round ${match.round ?? match.turn}`,
+        { exact: true },
+      ).waitFor();
+      const beforeAssets = new Map(initialProjection.assets.map((asset) => [
+        asset.id,
+        JSON.stringify([
+          asset,
+          initialProjection.observations.filter((event) => event.target === asset.id)
+            .map((event) => [event.turn, event.type, event.action, event.message]),
+        ]),
+      ]));
+      const changedAssets = match.assets.filter((asset) => (
+        beforeAssets.get(asset.id) !== JSON.stringify([
+          asset,
+          match.observations.filter((event) => event.target === asset.id)
+            .map((event) => [event.turn, event.type, event.action, event.message]),
+        ])
+      ));
+      if (changedAssets.length) {
+        await board.getByText(
+          `${changedAssets.length} asset${changedAssets.length === 1 ? "" : "s"} with new visible information.`,
+          { exact: true },
+        ).waitFor();
+      }
       await page.reload();
       await page
         .getByRole("button", { name: new RegExp(`Resume match ${match.id} →`) })
