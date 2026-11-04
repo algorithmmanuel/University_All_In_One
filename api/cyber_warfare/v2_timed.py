@@ -102,6 +102,17 @@ def export_snapshot(state: TimedMatch):
     }
 
 
+def export_terminal(match: alternate.AlternateMatch):
+    """Durable finished-match record: no active deadline survives completion."""
+    if not isinstance(match, alternate.AlternateMatch) or not match.winner:
+        raise ValueError("Finished V2 match required")
+    return {
+        "edition": TIMED_EDITION,
+        "game": alternate.export_replay(match),
+        "clock": None,
+    }
+
+
 def restore_snapshot(snapshot):
     """Recompute game truth and validate the independently persisted clock.
 
@@ -114,6 +125,11 @@ def restore_snapshot(snapshot):
             or snapshot["edition"] != TIMED_EDITION):
         raise ValueError("Invalid timed match envelope")
     data = snapshot["clock"]
+    if data is None:
+        finished = alternate.replay(snapshot["game"])
+        if not finished.winner or export_terminal(finished) != snapshot:
+            raise ValueError("Invalid finished timed match")
+        return finished
     if not isinstance(data, dict) or set(data) != {
         "round", "active_side", "deadline_at",
         "last_seen_red", "last_seen_blue", "grace_used", "grace_active",
