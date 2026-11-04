@@ -88,7 +88,7 @@ def check():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('api', 'web', 'build', 'check', 'prepare', 'courses', 'configure-mail', 'development-path'))
+    parser.add_argument('action', choices=('api', 'web', 'build', 'check', 'prepare', 'courses', 'configure-mail', 'development-path', 'mail-check'))
     parser.add_argument('--public-url')
     args = parser.parse_args()
     try:
@@ -97,6 +97,12 @@ def main():
         environment = configuration()
         if args.action == 'configure-mail': configure_mail(environment, args.public_url); return 0
         if args.action == 'check': check(); return 0
+        if args.action == 'mail-check':
+            # Read-only provider GETs. No SMTP send, recipient or token.
+            return subprocess.call(
+                [sys.executable, '-m', 'mail_diagnostics'],
+                cwd=ROOT / 'api', env=environment,
+            )
         if args.action in ('prepare', 'courses'):
             for port in (8000, 3000): require_free_port(port)
             module = 'beta_promotion' if args.action == 'prepare' else 'beta_learning_release'
