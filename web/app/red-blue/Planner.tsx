@@ -26,11 +26,13 @@ export default function Planner({
   const asset = match.assets.find((a) => a.id === selected);
   useEffect(() => {
     setChoice("");
-  }, [selected, match.id, match.turn]);
+  }, [selected, match.id, match.turn, match.version]);
   return (
     <section className={styles.panel} aria-labelledby="planning-heading">
-      <span className={styles.eyebrow}>ONE SEALED CHOICE</span>
-      <h3 id="planning-heading">Plan this round</h3>
+      <span className={styles.eyebrow}>
+        {match.active_side ? "ONE ACTION PER TURN · PREVIEW" : "ONE SEALED CHOICE"}
+      </span>
+      <h3 id="planning-heading">{match.active_side ? "Choose your turn" : "Plan this round"}</h3>
       {asset && (
         <div className={styles.inspector}>
           <h4>{asset.name}</h4>
@@ -86,19 +88,28 @@ export default function Planner({
         <p>Match finished. Review the debrief below.</p>
       ) : match.committed ? (
         <div role="status">
-          <strong>Choice sealed. Waiting for the other seat.</strong>
-          <p>
-            Your choice: {match.committed_order?.action.replaceAll("_", " ")}{" "}
-            {match.committed_order?.target || ""}. It cannot be edited. You can
-            leave and resume later.
-          </p>
+          {match.active_side ? (
+            <>
+              <strong>Waiting for {match.active_side.toUpperCase()} to act.</strong>
+              <p>Your opponent's move and any hidden results remain private until observed. This Development preview is untimed.</p>
+            </>
+          ) : (
+            <>
+              <strong>Choice sealed. Waiting for the other seat.</strong>
+              <p>
+                Your choice: {match.committed_order?.action.replaceAll("_", " ")}{" "}
+                {match.committed_order?.target || ""}. It cannot be edited. You can
+                leave and resume later.
+              </p>
+            </>
+          )
         </div>
       ) : (
         <>
           <p>
-            Select an asset, then a conceptual action. Both choices resolve
-            together: Blue first, then Red. Blocked actions still spend their
-            cost.
+            {match.active_side
+              ? "Select an asset and one conceptual action. Blue opens; each action resolves before the other seat takes its turn. Blocked actions still spend their cost."
+              : "Select an asset, then a conceptual action. Both choices resolve together: Blue first, then Red. Blocked actions still spend their cost."}
           </p>
           <label htmlFor="planned-order">
             Action for {asset?.name || "this round"}
@@ -145,7 +156,7 @@ export default function Planner({
             disabled={!chosen || busy || uncertain}
             onClick={() => chosen && onSeal(chosen)}
           >
-            Seal choice
+            {match.active_side ? "Take action" : "Seal choice"}
           </button>
         </>
       )}
