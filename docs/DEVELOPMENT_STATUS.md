@@ -1,5 +1,8 @@
 # Development handover
 
+**RB2 release gate — 4 November 2026:** opened [draft PR #6](https://github.com/algorithmmanuel/University_All_In_One/pull/6) from development into tester-facing beta for review/CI; **NOT MERGED**. Four isolated V2 projection checks passed in a local scratch Python pytest run (`4 passed in 0.05s`); this is not the repository's full CI, six-scenario, replay, PostgreSQL or browser verification. Stage RB2-A1 remains partial and must not be promoted as a completed functional release. Once A1 acceptance and CI are verified, update PR scope/evidence, promote a completed stage and supply owner-operated beta rollout instructions. User now prefers beta promotion after every fully validated stage.
+
+
 **Owner delivery change — 4 November 2026:** Promote *each finished and verified Red/Blue stage* into the existing beta for participant feedback; retain development isolation and beta data. Current RB2-A1 is still **partial**, and committed pytest/CI evidence is pending, so no beta merge is yet justified. Once a stage is green, perform source promotion and document owner-operated local beta update/restarts separately. Details in [V2 redesign](RED_BLUE_V2_REDESIGN.md).
 
 
