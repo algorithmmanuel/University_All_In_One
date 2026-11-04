@@ -113,6 +113,43 @@ for (const mobile of [false, true])
         await page
           .getByRole("button", { name: "Network", exact: true })
           .click();
+        // Sample every rendered trust path against non-endpoint node boxes.
+        // Only authorised visible edges/assets from the match projection
+        // are supplied; a missing or secret edge cannot appear here.
+        const graph = await page
+          .getByRole("region", { name: "Known assets" })
+          .evaluate((section, projection) => {
+            const paths = [...section.querySelectorAll('svg path[marker-end]')];
+            const nodes = [...section.querySelectorAll('button[style*="left:"]')];
+            const names = projection.assets.map((asset) => asset.name);
+            return {
+              count: paths.length,
+              collisions: paths.flatMap((path, index) => {
+                const edge = projection.connections[index];
+                if (!edge) return ["Unexpected path " + index];
+                const total = path.getTotalLength();
+                const problems = [];
+                for (let step = 0; step <= Math.ceil(total / 5); step++) {
+                  const point = path.getPointAtLength(Math.min(step * 5, total));
+                  for (let assetIndex = 0; assetIndex < nodes.length; assetIndex++) {
+                    const asset = projection.assets[assetIndex];
+                    if (asset.id === edge.source || asset.id === edge.target) continue;
+                    const node = nodes[assetIndex];
+                    const x = parseFloat(node.style.left);
+                    const y = parseFloat(node.style.top);
+                    if (point.x > x + 2 && point.x < x + node.offsetWidth - 2 &&
+                        point.y > y + 2 && point.y < y + node.offsetHeight - 2) {
+                      problems.push(`${edge.source}->${edge.target} crosses ${names[assetIndex]}`);
+                      return problems;
+                    }
+                  }
+                }
+                return problems;
+              }),
+            };
+          }, match);
+        assert.equal(graph.count, match.connections.length);
+        assert.deepEqual(graph.collisions, []);
         await shot(page, `red-blue-network-${side}`);
         await page
           .getByRole("button", { name: "Asset list", exact: true })
