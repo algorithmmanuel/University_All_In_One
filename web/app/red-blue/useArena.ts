@@ -105,12 +105,10 @@ export function useArena() {
 
   // GET polling never changes focus or applies a response to another opened match.
   useEffect(() => {
-    if (
-      !match ||
-      !(match.status === "waiting" || match.committed) ||
-      match.winner
-    )
-      return;
+    // Poll all open matches, not only waiting/committed ones: the opponent
+    // may finish their turn while this seat has not committed yet. Polling is
+    // read-only and never changes seat focus or applies stale match responses.
+    if (!match || match.status === "finished" || match.winner) return;
     let cancelled = false;
     const id = match.id;
     const timer = window.setInterval(async () => {

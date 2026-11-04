@@ -229,7 +229,22 @@ for (const mobile of [false, true])
       .waitFor();
     await red.page.getByLabel(/^Action for /).waitFor(); // automatic join polling
     const before = await saved(blue.page, match.id, token);
+    // While Blue is active but has NOT committed, it must still refresh.
+    // Polls are read-only: the hidden Red sealed order must remain invisible.
+    const bluePolling = blue.page.waitForResponse(
+      (response) =>
+        response.url().endsWith("/api/v1/red-blue/matches/" + match.id) &&
+        response.request().method() === "GET" &&
+        response.status() === 200,
+      { timeout: 10000 },
+    );
     await submit(red.page, "recon · 1 credits");
+    const bluePoll = await (await bluePolling).json();
+    assert.equal(bluePoll.side, "blue");
+    assert.equal(bluePoll.committed, false);
+    assert.equal(bluePoll.committed_order, null);
+    assert.deepEqual(bluePoll.assets, before.assets);
+    assert.deepEqual(bluePoll.observations, before.observations);
     await red.page
       .getByText("Choice sealed. Waiting for the other seat.", { exact: true })
       .waitFor();
