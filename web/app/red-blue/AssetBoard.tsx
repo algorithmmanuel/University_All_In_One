@@ -33,13 +33,42 @@ export default function AssetBoard({
       window.matchMedia("(min-width: 760px)").matches ? "network" : "list",
     );
   }, []);
+  // Fixed geometry makes refreshes predictable. Routing uses row gutters, not
+  // diagonal lines through intermediate cards. All endpoints are seat-visible.
+  const columns = 3;
+  const cardWidth = 200;
+  const cardHeight = 118;
+  const stepX = 240;
+  const stepY = 174;
   const positions = Object.fromEntries(
     match.assets.map((a, i) => [
       a.id,
-      { x: 30 + (i % 3) * 240, y: 25 + Math.floor(i / 3) * 145 },
+      { x: 30 + (i % columns) * stepX, y: 25 + Math.floor(i / columns) * stepY },
     ]),
   );
-  const height = Math.ceil(match.assets.length / 3) * 145 + 20;
+  const height = Math.ceil(match.assets.length / columns) * stepY + 20;
+  const routedPath = (source: string, target: string) => {
+    const a = positions[source];
+    const b = positions[target];
+    if (!a || !b || source === target) return null;
+    const aRow = Math.round((a.y - 25) / stepY);
+    const bRow = Math.round((b.y - 25) / stepY);
+    if (aRow === bRow) {
+      const right = b.x > a.x;
+      const y = a.y + cardHeight / 2;
+      return `M ${a.x + (right ? cardWidth : 0)} ${y} H ${b.x + (right ? -9 : cardWidth + 9)}`;
+    }
+    const down = b.y > a.y;
+    const ax = a.x + cardWidth / 2;
+    const bx = b.x + cardWidth / 2;
+    const ay = a.y + (down ? cardHeight : 0);
+    const by = b.y + (down ? -9 : cardHeight + 9);
+    // For adjacent rows this lane is entirely outside both node boxes.
+    // Longer links share a gutter; the accessible trust-path list remains
+    // definitive when a dense graph cannot be drawn without intersections.
+    const laneY = down ? a.y + cardHeight + 20 : a.y - 20;
+    return `M ${ax} ${ay} V ${laneY} H ${bx} V ${by}`;
+  };
   // The API already filters observations per authenticated seat. Never derive
   // this panel from private match truth or the terminal debrief.
   const perAsset = new Map<string, Match["observations"]>();
@@ -61,7 +90,7 @@ export default function AssetBoard({
       <div className={styles.sectionHead}>
         <div>
           <span className={styles.eyebrow}>YOUR INFORMATION</span>
-          <h3>Organisation network</h3>
+          <h3>Organisation network</h3>\n          <small aria-live="polite">Observed match revision {match.version} · round {match.round ?? match.turn}</small>
         </div>
         <div className={styles.controls} aria-label="Asset view">
           <button
@@ -82,7 +111,7 @@ export default function AssetBoard({
         {match.side === "red"
           ? "Your inventory is incomplete. Reconnaissance may reveal neighbours. Assessments and footholds can become stale."
           : "You know the inventory and service health. A quiet asset does not establish that it is free of attacker access."}{" "}
-        Arrows show allowed trust paths.
+        Arrows show known directed trust paths. The server refreshes this seat's evidence after actions; an alert is not proof of access.
       </p>
       {mode === "network" ? (
         <div className={styles.networkScroll}>
@@ -101,28 +130,19 @@ export default function AssetBoard({
                 </marker>
               </defs>
               {match.connections.map((e) => {
-                const a = positions[e.source],
-                  b = positions[e.target];
-                const dx = b.x - a.x,
-                  dy = b.y - a.y;
-                // Clip to the card boundary so the directed arrow is visible,
-                // rather than drawing its head underneath the target card.
-                const edge =
-                  1 / Math.max(Math.abs(dx) / 106, Math.abs(dy) / 65);
-                return (
-                  <line
-                    key={e.source + e.target}
-                    x1={a.x + 100 + dx * edge}
-                    y1={a.y + 59 + dy * edge}
-                    x2={b.x + 100 - dx * edge}
-                    y2={b.y + 59 - dy * edge}
+                const path = routedPath(e.source, e.target);
+                return path ? (
+                  <path
+                    key={e.source + "-" + e.target}
+                    d={path}
+                    fill="none"
                     stroke="#57879a"
                     strokeWidth="2"
+                    strokeLinejoin="round"
                     markerEnd="url(#trust-arrow)"
                   />
-                );
-              })}
-            </svg>
+                ) : null;
+              })}            </svg>
             {match.assets.map((a) => (
               <button
                 key={a.id}
