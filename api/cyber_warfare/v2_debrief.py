@@ -78,7 +78,10 @@ def debrief(match, player):
         range(len(events)),
         key=lambda index: (-_ranking(events[index], side), index),
     )
-    indices = sorted(ranked[:5])
+    substantive = [i for i in ranked if not events[i]["action"].startswith("wait_")]
+    # Present the strongest measured decisions first, not chronological order.
+    # A passive training match still gets a limited review of its actual passes.
+    indices = (substantive or ranked)[:5]
     selected = set(indices)
     opening = alternate.new_match(
         match.private.scenario, match.private.seed,
