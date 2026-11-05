@@ -20,8 +20,9 @@ from db_dependencies import get_db
 from learning_routes import student_only
 from models import User, RedBlueV3Match, RedBlueV3Seat
 from cyber_warfare import v3_clock, v3_pilot as pilot
+from red_blue_routes import BoundedRoute, private_response
 
-router = APIRouter(prefix="/api/v1/red-blue-v3", tags=["red-blue-v3"])
+router = APIRouter(prefix="/api/v1/red-blue-v3", tags=["red-blue-v3"], route_class=BoundedRoute, dependencies=[Depends(private_response)])
 
 
 class Strict(BaseModel):
