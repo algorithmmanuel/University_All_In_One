@@ -90,6 +90,100 @@ async function shot(page, name) {
       fullPage: true,
     });
 }
+test("Red Blue six scenarios: mobile, keyboard, trust paths and seat-only evidence", async (t) => {
+  const { page: catalogPage } = await context(t, TOKEN, false);
+  await catalogPage.goto("/red-blue");
+  const catalogResponse = await catalogPage.request.get(API + "/api/v1/red-blue/catalog", {
+    headers: { Authorization: "Bearer " + TOKEN },
+  });
+  assert.equal(catalogResponse.status(), 200);
+  const scenarios = (await catalogResponse.json()).scenarios;
+  assert.equal(scenarios.length, 6);
+
+  for (const mobile of [false, true]) {
+    const { page, errors } = await context(t, TOKEN, mobile);
+    for (const scenario of scenarios) {
+      for (const side of ["red", "blue"]) {
+        await page.goto("/red-blue");
+        await page.getByLabel("Scenario", { exact: true }).selectOption(scenario.id);
+        await page.getByLabel("Your seat", { exact: true }).selectOption(side);
+        const created = page.waitForResponse((response) =>
+          response.url().endsWith("/api/v1/red-blue/matches") &&
+          response.request().method() === "POST");
+        await page.getByRole("button", { name: "Start match", exact: true }).click();
+        const response = await created;
+        assert.equal(response.status(), 201);
+        const projection = await response.json();
+        const key = `${scenario.id} ${side} ${mobile ? "mobile" : "desktop"}`;
+        assert.equal(projection.side, side, key);
+        assert.equal(projection.scenario, scenario.id, key);
+        for (const secret of ["seed", "transcript", "timeline", "plans", "seats"])
+          assert.equal(secret in projection, false, key + ": hidden " + secret);
+        assert.ok(projection.connections.every((edge) =>
+          projection.assets.some((asset) => asset.id === edge.source) &&
+          projection.assets.some((asset) => asset.id === edge.target)), key);
+        const board = page.getByRole("region", { name: "Known assets" });
+        await board.getByText(
+          `Observed match revision ${projection.version} · round ${projection.round ?? projection.turn}`,
+          { exact: true },
+        ).waitFor();
+        await board.getByText(
+          `${projection.assets.length} known assets · ${projection.connections.length} known trust paths`,
+          { exact: true },
+        ).waitFor();
+        // The accessible list is the mobile and dense-graph fallback. Verify
+        // real keyboard selection updates the seat-filtered evidence inspector.
+        await board.getByRole("button", { name: "Asset list", exact: true }).click();
+        const asset = projection.assets[0];
+        const button = board.getByRole("button").filter({ hasText: asset.name }).last();
+        await button.focus();
+        await button.press("Enter");
+        assert.equal(await button.getAttribute("aria-pressed"), "true", key);
+        await board.getByRole("heading", {
+          name: `${asset.name} · observed evidence`, exact: true,
+        }).waitFor();
+        assert.equal(await page.evaluate(
+          () => document.documentElement.scrollWidth <= window.innerWidth
+        ), true, key + ": no document overflow");
+        await board.getByRole("button", { name: "Network", exact: true }).click();
+        const geometry = await board.evaluate((element, state) => {
+          const paths = [...element.querySelectorAll("svg path[marker-end]")];
+          const nodes = [...element.querySelectorAll('button[style*="left:"]')];
+          const crossing = [];
+          for (let i = 0; i < paths.length; i++) {
+            const edge = state.connections[i];
+            if (!edge) { crossing.push("unexpected edge"); continue; }
+            const path = paths[i];
+            for (let d = 0; d <= path.getTotalLength(); d += 5) {
+              const point = path.getPointAtLength(d);
+              for (let k = 0; k < nodes.length; k++) {
+                const asset = state.assets[k];
+                if (asset.id === edge.source || asset.id === edge.target) continue;
+                const x = parseFloat(nodes[k].style.left);
+                const y = parseFloat(nodes[k].style.top);
+                if (point.x > x + 2 && point.x < x + nodes[k].offsetWidth - 2 &&
+                    point.y > y + 2 && point.y < y + nodes[k].offsetHeight - 2) {
+                  crossing.push(`${edge.source}->${edge.target} crosses ${asset.id}`);
+                  break;
+                }
+              }
+              if (crossing.length) break;
+            }
+          }
+          return { edges: paths.length, nodes: nodes.length, crossing };
+        }, projection);
+        assert.equal(geometry.nodes, projection.assets.length, key + ": node count");
+        assert.equal(geometry.edges, projection.connections.length, key + ": edge count");
+        assert.deepEqual(geometry.crossing, [], key + ": no edges through asset cards");
+        assert.equal(await page.evaluate(
+          () => document.documentElement.scrollWidth <= window.innerWidth
+        ), true, key + ": no overflow in network mode");
+      }
+    }
+    assert.deepEqual(errors, [], mobile ? "mobile page errors" : "desktop page errors");
+  }
+});
+
 for (const mobile of [false, true])
   for (const side of ["red", "blue"])
     test(`Red Blue computer: ${side}, complete/resume/debrief, mobile=${mobile}`, async (t) => {
@@ -113,6 +207,43 @@ for (const mobile of [false, true])
         await page
           .getByRole("button", { name: "Network", exact: true })
           .click();
+        // Sample every rendered trust path against non-endpoint node boxes.
+        // Only authorised visible edges/assets from the match projection
+        // are supplied; a missing or secret edge cannot appear here.
+        const graph = await page
+          .getByRole("region", { name: "Known assets" })
+          .evaluate((section, projection) => {
+            const paths = [...section.querySelectorAll('svg path[marker-end]')];
+            const nodes = [...section.querySelectorAll('button[style*="left:"]')];
+            const names = projection.assets.map((asset) => asset.name);
+            return {
+              count: paths.length,
+              collisions: paths.flatMap((path, index) => {
+                const edge = projection.connections[index];
+                if (!edge) return ["Unexpected path " + index];
+                const total = path.getTotalLength();
+                const problems = [];
+                for (let step = 0; step <= Math.ceil(total / 5); step++) {
+                  const point = path.getPointAtLength(Math.min(step * 5, total));
+                  for (let assetIndex = 0; assetIndex < nodes.length; assetIndex++) {
+                    const asset = projection.assets[assetIndex];
+                    if (asset.id === edge.source || asset.id === edge.target) continue;
+                    const node = nodes[assetIndex];
+                    const x = parseFloat(node.style.left);
+                    const y = parseFloat(node.style.top);
+                    if (point.x > x + 2 && point.x < x + node.offsetWidth - 2 &&
+                        point.y > y + 2 && point.y < y + node.offsetHeight - 2) {
+                      problems.push(`${edge.source}->${edge.target} crosses ${names[assetIndex]}`);
+                      return problems;
+                    }
+                  }
+                }
+                return problems;
+              }),
+            };
+          }, match);
+        assert.equal(graph.count, match.connections.length);
+        assert.deepEqual(graph.collisions, []);
         await shot(page, `red-blue-network-${side}`);
         await page
           .getByRole("button", { name: "Asset list", exact: true })
@@ -132,8 +263,37 @@ for (const mobile of [false, true])
         x.startsWith(side === "blue" ? "monitor ·" : "recon ·"),
       );
       assert.ok(initial, "A real targeted action must be offered");
+      const initialProjection = match;
       match = await submit(page, initial);
       assert.ok(match.budget < 24);
+      // All dynamic labels and highlights are derived from this seat's
+      // authenticated projection; the test never inspects private engine data.
+      const board = page.getByRole("region", { name: "Known assets" });
+      await board.getByText(
+        `Observed match revision ${match.version} · round ${match.round ?? match.turn}`,
+        { exact: true },
+      ).waitFor();
+      const beforeAssets = new Map(initialProjection.assets.map((asset) => [
+        asset.id,
+        JSON.stringify([
+          asset,
+          initialProjection.observations.filter((event) => event.target === asset.id)
+            .map((event) => [event.turn, event.type, event.action, event.message]),
+        ]),
+      ]));
+      const changedAssets = match.assets.filter((asset) => (
+        beforeAssets.get(asset.id) !== JSON.stringify([
+          asset,
+          match.observations.filter((event) => event.target === asset.id)
+            .map((event) => [event.turn, event.type, event.action, event.message]),
+        ])
+      ));
+      if (changedAssets.length) {
+        await board.getByText(
+          `${changedAssets.length} asset${changedAssets.length === 1 ? "" : "s"} with new visible information.`,
+          { exact: true },
+        ).waitFor();
+      }
       await page.reload();
       await page
         .getByRole("button", { name: new RegExp(`Resume match ${match.id} →`) })

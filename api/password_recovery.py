@@ -9,7 +9,7 @@ import logging
 import os
 import secrets
 from datetime import datetime, timedelta, timezone
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
@@ -120,10 +120,18 @@ def forgot_password(body: ForgotPasswordRequest, db: Session = Depends(get_db)):
     reset_url = base + "/reset-password?token=" + quote(token, safe="")
     try:
         _send_reset_email(email, reset_url, api_key, sender)
-    except (URLError, OSError, ValueError, TimeoutError):
+    except HTTPError as error:
+        # HTTPError extends URLError. Record ONLY the provider status; its
+        # response body and URL may contain personal/secret information.
         db.delete(record)
         db.commit()
-        logger.warning("password_reset_delivery_failed")
+        logger.warning("password_reset_delivery_failed provider_http_status=%d", error.code)
+    except (URLError, OSError, ValueError, TimeoutError) as error:
+        db.delete(record)
+        db.commit()
+        # Error text can include a URL, IP, recipient, or credentials.
+        logger.warning("password_reset_delivery_failed transport_error_type=%s",
+                       type(error).__name__)
     return {"message": GENERIC_MESSAGE}
 
 

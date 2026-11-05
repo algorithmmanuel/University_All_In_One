@@ -1,5 +1,120 @@
 # Development handover
 
+## Stage 5 B3 — full automated acceptance completed, owner runtime acceptance pending — 5 November 2026
+
+**Release candidate `5751adf9de0d2349f12dd1f57d70e4dab0acef35` PASSED all four automated workflow families on the same code commit:**
+
+- Red Blue V2 contract: [41987983245](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987983245) — success.
+- Backend quality gate, including isolated PostgreSQL: [41987983237](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987983237) — success.
+- Real API/PostgreSQL browser integration: [41987983241](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987983241) — success.
+- Browser gameplay, frontend TypeScript and build: [41987983348](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987983348) — success.
+
+**Current disposition:** B3 is code-complete for its scoped development candidate and passes the automated acceptance suite. This does NOT prove the owner's local development services/independent deadline worker are running, or that a live laptop two-account playthrough was accepted. No Beta source or runtime promotion has occurred; the Beta branch is still `65d816d62b9f345699e293b30b85ce75efd7cb7c`. The subsequent documentation-only checkpoint here does not change the tested source.
+
+**Owner runbook — Development only (Windows):** use `C:\Users\dNA1991\University_All_In_One_Development` and `feature/beta-continuous-improvement`. Preserve uncommitted work. Stop only development foreground services before the build; never interrupt Beta 8000/3000 or ngrok. Inspect local change status before fetching and fast-forwarding; do not reset/clean. Use existing development `api/.venv` and `api/.env.development`. Start `scripts/development.py api` (8010), `scripts/development.py web` (3010) and `scripts/development.py clock-worker` in **three separate development terminals**. In a fourth terminal run `scripts/development.py check`; verify `http://127.0.0.1:3010/red-blue` and API health. Do not use `beta.py`, root Beta .env, create/reseed/drop database volumes, or migrate Beta. The code change to B3 did not require a new migration.
+
+**Live acceptance matrix:** open separate normal/private browser sessions signed into *two different authorised student accounts*. Select Development-only timed preview, one seat Blue and the other Red. Verify Blue opens on a server-controlled 90-second deadline; each move updates both role-specific network boards without manual refresh; Blue sees detected alerts/telemetry and its own controls, not unobserved Red footholds/secret success; Red sees only recon discoveries/own actions and may act on stale assessments, not unseen Blue interventions. Verify the asset list, keyboard activation, all six scenario networks on desktop and narrow mobile, blocked/isolated asset presentation, reconnect/resume, one-time timeout grace and independent worker expiration, and that each account can log out independently. Do not treat absent alerts as proof of safety. Report observed issues only; preserve working features. Beta promotion requires explicit owner approval after live acceptance, even when CI is green.
+
+**Next roadmap scope:** RB2-C1 Learning/Realistic guidance, RB2-C2 persistent onboarding, RB2-C3 ranked bilateral debrief are distinct milestones and not part of the verified B3 commit. Do not silently merge their features into B3 or imply they are finished.
+
+
+## Stage 5 B3 coordinated release candidate — 5 November 2026
+
+**Owner direction:** deliver all remaining B3 topology/visibility implementation and related checks as a single development candidate, without reducing quality or introducing a succession of independent mini-releases. Keep post-B3 learning/realistic assistance (C1), first-launch guide (C2), ranked debrief (C3) and construction-mode concepts (F) outside this B3 batch unless separately approved. Do not modify working unrelated features.
+
+**Verified pre-batch baseline:** B3 containment checks at `22ef806` passed dedicated V2 contract [41987112145](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987112145), backend [41987112171](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987112171), and real API/PostgreSQL [41987112144](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987112144). Browser gameplay [41987112175](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987112175) was still running at baseline inspection.
+
+**Bundled six-scenario backend addition:** deterministic V2 replay/observation tests verify that all six scenario projections contain only known directed edges, that Blue monitoring does not instantly reveal a hidden control choice to Red, and that Red reconnaissance can evolve the projection without exposing private match state. This adds a backend-source quality-gate trigger so the candidate is examined by all four workflow families on its final source commit.\n\n**Bundled candidate changes (this commit):** the player-visible asset board now reports counts of *known* assets and directed trust paths from the already seat-filtered API, distinguishes a change in known trust paths from a routine revision, and labels Red weakness/control assessments with their observed round and a possible-staleness warning. It does not reveal hidden Blue controls or Red actions. The real-API/browser six-scenario regression now tests *both* Red and Blue at both desktop and narrow mobile viewports (24 total starts), confirming no hidden match keys, no secret endpoints, SVG path-to-card separation, keyboard asset selection, seat-filtered evidence inspector and no document-level overflow in list/network modes. Existing two-human timed Blue→Red→Blue observation, seeded monitoring differential, containment, replay, 90-second clock and secrets tests remain in the shared full gates.
+
+**Release gates:** verify the exact batch commit through backend+isolated PostgreSQL, Red Blue V2 contract, real-API browser integration, browser gameplay, frontend build/type checks, and CI for unrelated app journeys. Do not misreport old green commits as proof of the new batch. No changes to database schema, backend gameplay engine, authentication, private beta or local runtime; Beta source head remains separate. Owner live two-browser laptop/ngrok acceptance and explicit release approval remain necessary before any promotion.
+
+
+## Stage 5 B3 consequential containment and stale intelligence regression — 5 November 2026
+
+The previous monitoring-differential V2 contract [41986390461](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390461), backend [41986390454](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390454), and real-API/browser integration [41986390477](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390477) all **passed** for `1a996ea`. The browser gameplay run [41986390469](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390469) had not yet been confirmed finished at the time of the next implementation.
+
+Development-only commit `22ef806` adds a deterministic, multi-turn V2 regression: Red successfully phishes a Teller workstation in round one; Blue immediately contains that workstation in round two, changing authoritative `isolated` to true and `access` to zero; Red's pre-action projection still contains its stale believed user foothold and does not disclose Blue's intervention; Red then attempts an offered privilege escalation, which fails without revealing the hidden exact control, and Red updates its own belief from that failed result. The test additionally checks that Blue's owned inventory reflects isolation, no fabricated Blue alert is created by the blocked escalation, and authorised projections are identical after a private deterministic replay. The source engine, API, user data, Beta and migrations remain unchanged.
+
+This new commit is **not verified until the exact-head V2 contract/backend and relevant real-API workflows pass**. Further broad scenarios, monitoring-grade coverage, browser validation of consequence labels and owner acceptance remain open. Do not promote to Beta solely on this test.
+
+
+## Stage 5 B3 monitoring-dependent opponent evidence regression — 5 November 2026
+
+The previous two-human timed Blue→Red→Blue acceptance run passed both real-API/PostgreSQL [41984731115](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41984731115) and browser gameplay [41984731185](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41984731185) on source `d9e3bb2`.
+
+Development-only `1a996ea` adds a deterministic V2 domain regression in `api/cyber_warfare/test_v2_alternating.py`. It exercises two *otherwise-identical* matches with the same private seed and Red phishing attempt: Blue waits in one, deploys monitoring in the other. It searches deterministic seeds for the case where monitoring raises Blue's probability of observing a suspicious attempt. The assertions require identical underlying Red attack success/access in both worlds; Red's earlier projections remain equal despite hidden Blue monitoring; only the monitored Blue view receives an alert, and the alert contains no exact attack type, success outcome or hidden access. Both seat views survive V2 replay without leaking private seed, plans, seats or timeline.
+
+This is **test coverage of the existing engine**, not a claim of changed gameplay fidelity or new detection tools. The new code commit has not yet been independently verified by a matching backend CI result at this checkpoint. Run the Python V2 domain suite and relevant backend/contract gates against the exact source head before progressing to a release decision. No Beta source/environment, user data, migration or gameplay probabilities were changed. Further monitoring-grade variation, multi-turn scenario acceptance and owner laptop checks remain open.
+
+
+## Stage 5 B3 two-way timed visibility acceptance — 5 November 2026
+
+The previous recurring Cyber Lab browser issue is resolved on source commit `ebf7e00`: real-API/PostgreSQL [41983899322](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899322) and browser gameplay [41983899335](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899335) both **passed**. This includes the existing all-six-scenario Red/Blue geometry regression in real-API CI; no Beta promotion occurred.
+
+New Development-only `d9e3bb2` extends `web/tests/browser/red-blue-timed-real.test.cjs` from one Blue action to an actual Blue→Red→Blue exchange between separately authenticated human seats. The Red learner makes an offered reconnaissance action, the Blue browser must poll to observed revision 2 / round 2, and its authenticated match view must remain free of transcript, seed, private seat identities, plans and Red's pending order. Telemetry/count assertions compare only the server-returned Blue projection, rather than private engine truth or fabricated detection. The existing initial Blue→Red projection refresh assertion is retained. No production application code, engine rule, beta environment or database changes.
+
+**Release gate:** exact new test/CI head is not yet verified; do not claim it passes until real API + gameplay workflows finish successfully. Further work includes meaningful monitoring/detection-differentiated opponent outcomes and hands-on owner validation across difficulty levels and scenario topology. Stage 5 remains Development only.
+
+
+## Stage 5 B3 — recurring Cyber Lab real-browser race investigated — 5 November 2026
+
+Expanded B3 all-six-scenario real-API run [41981785950](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981785950) was red because the pre-existing `cyber-lab-real.test.cjs` mobile Build C journey timed out at the command-response waiter (test line ~501), not because an expanded Red/Blue assertion was reported. The preceding topology geometry correction `bc58948` passed both real API [41981685995](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981685995) and browser gameplay [41981685962](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981685962). The six-scenario workflow's browser gameplay [41981785768](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981785768) also passed, but this alone does not prove every real-API scenario test ran.
+
+**Specific race:** the page's new-shift handler calls `setRun()` immediately after POST /runs and then awaits a separate refresh before releasing `busy`; `GameBoard` displays the run while action controls remain disabled. The previous test observed the run ID and selected an asset, but could press Enter on a disabled Isolate button, producing no HTTP command. Development commit `ebf7e00` fixes only the test by awaiting Playwright `isolate.click({ trial: true })` actionability (including enabled state) before `isolate.press("Enter")` to preserve keyboard coverage. This is not a production UI change. The new real-API [41983899322](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899322) and browser gameplay [41983899335](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899335) CI workflows were triggered automatically; **results must be checked before declaring success**.
+
+Keep B3 on the Development branch and do not promote Beta until the new CI passes and owner acceptance/role-specific multi-turn fidelity is complete. No Beta source, Beta runtime, learner data, DB volumes or env secrets were touched.
+
+
+## Stage 5 B3 geometry collision fix and all-scenario regression — 5 November 2026
+
+Review of GitHub real API/PostgreSQL workflow [41929918749](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41929918749) on `a84d200` found a **real topology geometry failure**: Blue projected edges `identity->ledger` crossed Mobile banking gateway and `gateway->ledger` crossed Credit bureau connection. The earlier [41929825695](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41929825695) reported the same collisions. Browser gameplay passed, but real API acceptance failed; previous B3 routing was therefore not release-ready.
+
+Development-only fix `cf2a8c5` changes the node's reserved vertical geometry to 178px and row spacing to 242px; `bc58948` aligns rendered network node height to the same 178px. This makes link gutters independent of changes to node content height, while keeping the existing horizontal corridors and seat-filtered asset/edge source. `f3889eb` extends real-API browser coverage across **all six scenario catalog entries and both authenticated-side projections**: it verifies public match keys, rendered SVG edge counts, authorised endpoints and no path collision through an unrelated visible card. No gameplay engine, API business logic, DB schema, private env or Beta branch was modified.
+
+**CI is not yet verified** on `f3889eb` or final documentation head. Recheck exact-head real API browser and browser gameplay workflow results; investigate geometric assertions if any scenario fails. Independent full human-versus-human multi-action telemetry acceptance, monitoring fidelity, collision-free edge-to-edge routing, mobile/keyboard all-scenario layout and owner laptop worker acceptance remain open. No Beta promotion is authorised yet.
+
+
+## Stage 5 B3 timed two-seat refresh check — 4 November 2026
+
+Development commit `a84d200` extends the *existing* authenticated two-account Development-only timed preview browser test to establish that Red's initial board is at revision 0 before Blue's move and that Red subsequently observes revision 1 and its seat-filtered asset-update announcement after Blue acts, without manual refresh. The test continues checking no private transcript, seed or opponent heartbeat history in Red's API view. The game engine, match persistence and Beta are unchanged.
+
+This test is not proof of live network truth by itself; it verifies that the UI refreshes the projection delivered by the authenticated API. New-head CI is pending verification. Long-edge geometry changes `4800a03`, browser collision regression `2bbc593`, and this timed browser test must all pass before any Stage 5 source promotion. Still outstanding: six-scenario topology/monitoring matrix, broader reactive asset-state outcomes, dense-edge overlaps and owner laptop acceptance.
+
+
+## Stage 5 B3 long-edge routing validation — 4 November 2026
+
+On the prior complete B3 projection update `f2822ca`, real API/PostgreSQL [41912372309](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41912372309) and browser gameplay [41912372344](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41912372344) both **passed**. Subsequent documentation-only `7119401` recorded that milestone.
+
+Development-only `4800a03` corrects long cross-column and cross-row SVG trust paths that could intersect intermediate asset cards. Adjacent-row connections use open row gutters; long connections use exterior corridors. The underlying edges remain the server-authorised `match.connections`, and the accessible list remains the authoritative fallback for dense networks; there is no assertion that overlapping edge lines can always be eliminated. `2bbc593` adds a real browser geometric regression checking SVG paths for intersections with non-endpoint asset-card rectangles in representative Red and Blue computer sessions. It does not inspect hidden private network paths or match truth. No engine/API, Beta branch, learner records, migrations or environment secrets were modified.
+
+**Verification gate still outstanding for these new commits:** run exact-head browser gameplay and actual-API/PostgreSQL CI; diagnose any geometry or browser issue before further change. Additional six-scenario, dense/sparse discovery, mobile, keyboard and independent two-human seat acceptance remain outstanding. Stage 5 is NOT approved for Beta.
+
+
+## Stage 5 B3 authorised asset change indicators — 4 November 2026
+
+Final-head browser gameplay CI [41910677891](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41910677891) and real API/PostgreSQL CI [41910677888](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41910677888) **passed** for `8c65337`, clearing the preceding Cyber Lab test-synchronisation blocker. Those runs do not cover later B3 changes.
+
+Development-only B3 adds projection-diff notifications in `AssetBoard.tsx` (`a8855b2`), scoped highlight styling (`ad33bbe`), and a real-API browser regression assertion (`f2822ca`). A per-match previous-snapshot reference compares only the current authenticated seat's `assets` and bounded `observations`, and marks only changed visible asset cards after a subsequent update. The first snapshot and switching matches do not claim new evidence; equal/older snapshots do not invent it. The announcement distinguishes actual visible asset changes from ordinary match-revision changes; it does not claim a detected attacker on the basis of a silent sensor. Both Red and Blue use the identical presentation logic on independently filtered views. No server game rules, DB schema, credentials or Beta source/runtime changed.
+
+**Remaining gates:** frontend/type/build and two-role real-API/browser regression on the new source head are not yet proven green; dense topology geometry, full six-scenario/mobile/keyboard checks, multi-turn reactive evidence testing, and independent owner laptop acceptance remain open. The B3 stage must not be merged to Beta until complete, documented and green. Do not conflate CI on earlier `8c65337` with the new changes.
+
+
+## Stage 5 CI failure investigation and test stabilisation — 4 November 2026
+
+Actual workflow log for Real API/PostgreSQL run [41909089239](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41909089239) on B3 initial code `eed1aa6` shows one failure: `web/tests/browser/cyber-lab-real.test.cjs` mobile=true, timed out waiting for the **Banking application** selected-asset heading after keyboard Enter. The remaining setup/database/frontend build steps passed. This is a different Cyber Lab component from the Red/Blue `AssetBoard.tsx`; log alone cannot prove whether the failure is timing or a product regression. A retry of the unchanged failing run was requested.
+
+Development-only commit `ed535db` updates that test's new-shift setup to wait for the real authenticated POST /runs (HTTP 201) and the returned run ID to appear before exercising keyboard selection, removing a possible asynchronous transition race. No production logic or Beta data/source changed. Browser gameplay CI on `ed535db` was still running at observation; **do not claim this fixes the failure until CI confirms**. Earlier browser progression failure [41872057895](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41872057895) concerns a separate mobile Help assertion and remains untriaged. Check CI on exact final source head, then continue B3 six-scenario/role-projection work; no release approval yet.
+
+
+## Stage 5 RB2-B3 initial topology development — 4 November 2026
+
+PR #9 (Stage 4 B2) is merged into Beta source at `65d816d62b9f345699e293b30b85ce75efd7cb7c`; all five workflow gates passed on the reviewed head `2ab73a5`. Development has since advanced independently with password recovery changes. Stage 4 laptop timed-worker acceptance remains separate and has not been evidenced.
+
+For B3, Development commit `eed1aa6` updates `web/app/red-blue/AssetBoard.tsx` to route *already-authorised* trust edges with orthogonal SVG paths and display the observed match revision and round. This is a UI-only initial slice; source truth, turn logic, existing API seat filtering, legacy saved matches, private data, Beta branch and Beta runtime are unchanged. B3 handover and limitations are in `docs/RED_BLUE_V2_REDESIGN.md` (`42b06f8`).
+
+**Unverified:** new-head browser/actual-API workflows are still pending inspection; dense graphs and all-six-scenario lane geometry, role-specific asset-state transition acceptance, desktop/mobile keyboard checks, and the earlier browser progression failure (run 41872057895) need investigation. No Stage 5 Beta promotion or complete-stage claim. Next: verify CI, improve multi-row/parallel edge lane safety and add actual two-user visibility/topology acceptance before further promotion.
+
+
 ## B2 authenticated timed-preview integration — 4 November 2026
 
 **Owner asked to resume after unrelated accidental Brevo message.** Previously reviewed B2 clock/worker foundation head `db105fb` passed all four CI gates (backend [41841273628](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41841273628), V2 contract [41841273547](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41841273547), real-API [41841273609](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41841273609), browser [41841273546](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41841273546)). Draft [PR #9](https://github.com/algorithmmanuel/University_All_In_One/pull/9) remains **unmerged** and Beta remains unchanged.

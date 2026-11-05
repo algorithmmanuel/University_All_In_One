@@ -466,13 +466,25 @@ for (const mobile of [false, true])
     await page
       .getByLabel("Scenario", { exact: true })
       .selectOption("ransomware");
+    // Do not select a card until the newly created shift has replaced any
+    // previous run. On slower mobile CI the previous game's selection can
+    // otherwise be overwritten when the async POST returns.
+    const createdShift = page.waitForResponse(
+      (response) =>
+        response.url().endsWith("/api/v1/cyber-lab/runs") &&
+        response.request().method() === "POST",
+    );
     await page
       .getByRole("button", { name: "Start a new shift →", exact: true })
       .click();
+    const shiftResponse = await createdShift;
+    assert.equal(shiftResponse.status(), 201);
+    const newShift = await shiftResponse.json();
     const game = page.getByRole("region", {
       name: "Branch Defender game",
       exact: true,
     });
+    await game.getByText(`Run #${newShift.id} ·`, { exact: false }).waitFor();
     await game.getByRole("button", { name: "Asset list", exact: true }).click();
     const application = game.getByRole("button", {
       name: /^Banking application:/,
@@ -492,8 +504,12 @@ for (const mobile of [false, true])
         response.request().method() === "POST",
     );
     const isolate = controls.getByRole("button", { name: /^Isolate asset/ });
-    await isolate.focus();
-    await page.keyboard.press("Enter");
+    // The new shift is rendered before its parent finishes refreshing saved
+    // runs. During that refresh the action button is intentionally disabled;
+    // pressing Enter then sends no request. Trial click waits for enabled and
+    // actionable state without activating the button or bypassing the keyboard.
+    await isolate.click({ trial: true });
+    await isolate.press("Enter");
     assert.equal((await reply).status(), 200);
     await controls.getByText(/Service encrypted/).waitFor();
     const latest = (await get("/runs")).runs[0];

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Asset, Match } from "./types";
 import styles from "./arena.module.css";
 
@@ -33,13 +33,98 @@ export default function AssetBoard({
       window.matchMedia("(min-width: 760px)").matches ? "network" : "list",
     );
   }, []);
+  // Fixed geometry makes refreshes predictable. Routing uses row gutters, not
+  // diagonal lines through intermediate cards. All endpoints are seat-visible.
+  const columns = 3;
+  const cardWidth = 200;
+  // Leave enough reserved vertical space for the status/evidence badges.
+  // Geometry and rendered card height must use the same fixed reservation:
+  // otherwise a growing card can cover the supposedly empty edge gutter.
+  const cardHeight = 178;
+  const stepX = 240;
+  const stepY = 242;
   const positions = Object.fromEntries(
     match.assets.map((a, i) => [
       a.id,
-      { x: 30 + (i % 3) * 240, y: 25 + Math.floor(i / 3) * 145 },
+      { x: 30 + (i % columns) * stepX, y: 25 + Math.floor(i / columns) * stepY },
     ]),
   );
-  const height = Math.ceil(match.assets.length / 3) * 145 + 20;
+  const height = Math.ceil(match.assets.length / columns) * stepY + 20;
+  const routedPath = (source: string, target: string) => {
+    const a = positions[source];
+    const b = positions[target];
+    if (!a || !b || source === target) return null;
+    const sourceColumn = Math.round((a.x - 30) / stepX);
+    const targetColumn = Math.round((b.x - 30) / stepX);
+    const sourceRow = Math.round((a.y - 25) / stepY);
+    const targetRow = Math.round((b.y - 25) / stepY);
+    const ax = a.x + cardWidth / 2;
+    const bx = b.x + cardWidth / 2;
+    if (sourceRow === targetRow) {
+      if (Math.abs(sourceColumn - targetColumn) === 1) {
+        const right = b.x > a.x;
+        return `M ${a.x + (right ? cardWidth : 0)} ${a.y + cardHeight / 2} H ${b.x + (right ? -9 : cardWidth + 9)}`;
+      }
+      // A two-column horizontal edge must bypass the middle asset card.
+      const laneY = a.y - 14;
+      return `M ${ax} ${a.y} V ${laneY} H ${bx} V ${b.y - 9}`;
+    }
+    const down = b.y > a.y;
+    const ay = a.y + (down ? cardHeight : 0);
+    const by = b.y + (down ? -9 : cardHeight + 9);
+    if (Math.abs(sourceRow - targetRow) === 1) {
+      // Horizontal travel occurs inside the empty gap between adjacent rows.
+      const laneY = down ? a.y + cardHeight + 18 : a.y - 18;
+      return `M ${ax} ${ay} V ${laneY} H ${bx} V ${by}`;
+    }
+    // Non-adjacent rows use the outside corridor rather than crossing an
+    // intermediate card. Dense overlaps are represented by the edge list.
+    const corridorX = sourceColumn + targetColumn <= 2 ? 14 : 746;
+    const exitY = down ? a.y + cardHeight + 18 : a.y - 18;
+    const entryY = down ? b.y - 18 : b.y + cardHeight + 18;
+    return `M ${ax} ${ay} V ${exitY} H ${corridorX} V ${entryY} H ${bx} V ${by}`;
+  };
+  // Compare only consecutive authorised projections. This does not inspect
+  // engine truth, unfiltered events, or any information from the other seat.
+  const previous = useRef<{
+    matchId: number;
+    version: number;
+    fingerprints: Map<string, string>;
+    paths: string;
+  } | null>(null);
+  const [changedIds, setChangedIds] = useState<string[]>([]);
+  const [updateNotice, setUpdateNotice] = useState("");
+  useEffect(() => {
+    const fingerprints = new Map<string, string>();
+    for (const asset of match.assets) {
+      const evidence = match.observations
+        .filter((event) => event.target === asset.id)
+        .map((event) => [event.turn, event.type, event.action, event.message]);
+      fingerprints.set(asset.id, JSON.stringify([asset, evidence]));
+    }
+    const paths = match.connections.map((edge) => `${edge.source}->${edge.target}`).sort().join("|");
+    const prior = previous.current;
+    if (!prior || prior.matchId !== match.id) {
+      previous.current = { matchId: match.id, version: match.version, fingerprints, paths };
+      setChangedIds([]);
+      setUpdateNotice("");
+      return;
+    }
+    if (match.version < prior.version) return;
+    const changed = [...fingerprints.keys()].filter(
+      (id) => prior.fingerprints.get(id) !== fingerprints.get(id),
+    );
+    const topologyChanged = paths !== prior.paths;
+    previous.current = { matchId: match.id, version: match.version, fingerprints, paths };
+    if (match.version > prior.version || changed.length || topologyChanged) {
+      setChangedIds(changed);
+      setUpdateNotice(changed.length
+        ? `${changed.length} asset${changed.length === 1 ? "" : "s"} with new visible information.`
+        : topologyChanged
+          ? "Known trust paths updated. No additional asset evidence is visible to your side."
+          : "Match updated. No additional asset evidence is visible to your side.");
+    }
+  }, [match]);
   // The API already filters observations per authenticated seat. Never derive
   // this panel from private match truth or the terminal debrief.
   const perAsset = new Map<string, Match["observations"]>();
@@ -52,6 +137,10 @@ export default function AssetBoard({
   }
   const selectedAsset = match.assets.find((asset) => asset.id === selected);
   const selectedEvents = perAsset.get(selected) || [];
+  const assessmentLabel = (asset: Asset) =>
+    match.side === "red" && asset.assessed
+      ? `Assessment from round ${asset.assessed.turn} · may be outdated`
+      : null;
   const evidenceLabel = (assetId: string) => {
     const count = perAsset.get(assetId)?.length || 0;
     return count ? `${count} visible event${count === 1 ? "" : "s"}` : "No observed activity";
@@ -62,6 +151,8 @@ export default function AssetBoard({
         <div>
           <span className={styles.eyebrow}>YOUR INFORMATION</span>
           <h3>Organisation network</h3>
+          <small>Observed match revision {match.version} · round {match.round ?? match.turn}</small>
+          <small>{match.assets.length} known assets · {match.connections.length} known trust paths</small>
         </div>
         <div className={styles.controls} aria-label="Asset view">
           <button
@@ -78,11 +169,14 @@ export default function AssetBoard({
           </button>
         </div>
       </div>
+      <p className={styles.muted} role="status" aria-live="polite">
+        {updateNotice || "Asset updates appear here when new authorised observations arrive."}
+      </p>
       <p className={styles.muted}>
         {match.side === "red"
           ? "Your inventory is incomplete. Reconnaissance may reveal neighbours. Assessments and footholds can become stale."
           : "You know the inventory and service health. A quiet asset does not establish that it is free of attacker access."}{" "}
-        Arrows show allowed trust paths.
+        Arrows show known directed trust paths. The server refreshes this seat's evidence after actions; an alert is not proof of access.
       </p>
       {mode === "network" ? (
         <div className={styles.networkScroll}>
@@ -101,32 +195,24 @@ export default function AssetBoard({
                 </marker>
               </defs>
               {match.connections.map((e) => {
-                const a = positions[e.source],
-                  b = positions[e.target];
-                const dx = b.x - a.x,
-                  dy = b.y - a.y;
-                // Clip to the card boundary so the directed arrow is visible,
-                // rather than drawing its head underneath the target card.
-                const edge =
-                  1 / Math.max(Math.abs(dx) / 106, Math.abs(dy) / 65);
-                return (
-                  <line
-                    key={e.source + e.target}
-                    x1={a.x + 100 + dx * edge}
-                    y1={a.y + 59 + dy * edge}
-                    x2={b.x + 100 - dx * edge}
-                    y2={b.y + 59 - dy * edge}
+                const path = routedPath(e.source, e.target);
+                return path ? (
+                  <path
+                    key={e.source + "-" + e.target}
+                    d={path}
+                    fill="none"
                     stroke="#57879a"
                     strokeWidth="2"
+                    strokeLinejoin="round"
                     markerEnd="url(#trust-arrow)"
                   />
-                );
+                ) : null;
               })}
             </svg>
             {match.assets.map((a) => (
               <button
                 key={a.id}
-                className={`${styles.node} ${a.id === selected ? styles.selected : ""}`}
+                className={`${styles.node} ${a.id === selected ? styles.selected : ""} ${changedIds.includes(a.id) ? styles.recentAsset : ""}`}
                 aria-pressed={a.id === selected}
                 onClick={() => onSelect(a.id)}
                 style={{ left: positions[a.id].x, top: positions[a.id].y }}
@@ -136,7 +222,9 @@ export default function AssetBoard({
                 </span>
                 <strong>{a.name}</strong>
                 <small>{summary(a, match.side)}</small>
+                {assessmentLabel(a) && <small>{assessmentLabel(a)}</small>}
                 <small>{evidenceLabel(a.id)}</small>
+                {changedIds.includes(a.id) && <small>New visible information</small>}
               </button>
             ))}
           </div>
@@ -147,7 +235,7 @@ export default function AssetBoard({
             <button
               key={a.id}
               aria-pressed={a.id === selected}
-              className={`${styles.asset} ${a.id === selected ? styles.selected : ""}`}
+              className={`${styles.asset} ${a.id === selected ? styles.selected : ""} ${changedIds.includes(a.id) ? styles.recentAsset : ""}`}
               onClick={() => onSelect(a.id)}
             >
               <span>
@@ -155,7 +243,9 @@ export default function AssetBoard({
               </span>
               <strong>{a.name}</strong>
               <small>{summary(a, match.side)}</small>
+              {assessmentLabel(a) && <small>{assessmentLabel(a)}</small>}
               <small>{evidenceLabel(a.id)}</small>
+                {changedIds.includes(a.id) && <small>New visible information</small>}
             </button>
           ))}
         </div>

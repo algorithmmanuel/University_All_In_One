@@ -72,6 +72,10 @@ test("Development timed preview: separate human seats, live clock and immediate 
   assert.ok(first.clock.seconds_remaining > 0 && first.clock.seconds_remaining <= 90);
   assert.equal(first.clock.grace_active, false);
   await blue.page.getByText("Your turn · BLUE", { exact: true }).waitFor();
+  // The second browser has rendered its own initial filtered projection
+  // before Blue acts. Observe the later revision through read-only polling.
+  const redBoard = red.page.getByRole("region", { name: "Known assets" });
+  await redBoard.getByText("Observed match revision 0 · round 1", { exact: true }).waitFor();
 
   const heartbeat = await blue.page.request.post(
     API + "/api/v1/red-blue/matches/" + waiting.id + "/heartbeat",
@@ -101,6 +105,8 @@ test("Development timed preview: separate human seats, live clock and immediate 
   assert.equal(result.version, 1);
   assert.equal(result.turn, 1);
   await red.page.getByText("Your turn · RED", { exact: true }).waitFor();
+  await redBoard.getByText("Observed match revision 1 · round 1", { exact: true }).waitFor();
+  await redBoard.getByText(/Match updated|new visible information/).waitFor();
   const redView = await red.page.request.get(
     API + "/api/v1/red-blue/matches/" + waiting.id,
     { headers: { Authorization: "Bearer " + redToken } },
@@ -110,4 +116,45 @@ test("Development timed preview: separate human seats, live clock and immediate 
   assert.equal("transcript" in redState, false);
   assert.equal("last_seen_blue" in redState.clock, false);
   assert.equal("seed" in redState, false);
+
+  // Complete the opposing Red turn: Blue must see the server's new
+  // projection, not Red's private reconnaissance or a browser-made state.
+  const blueBeforeRedMove = await blue.page.request.get(
+    API + "/api/v1/red-blue/matches/" + waiting.id,
+    { headers: { Authorization: "Bearer " + TOKEN } },
+  );
+  assert.equal(blueBeforeRedMove.status(), 200);
+  const bluePrior = await blueBeforeRedMove.json();
+  const redOptions = await red.page.getByLabel(/^Action for /)
+    .locator("option").allTextContents();
+  const reconnaissance = redOptions.find((label) => label.startsWith("recon ·"));
+  assert.ok(reconnaissance, "Red must have a projected reconnaissance choice");
+  await red.page.getByLabel(/^Action for /).selectOption({ label: reconnaissance });
+  const redCommand = red.page.waitForResponse((response) =>
+    response.url().endsWith("/api/v1/red-blue/matches/" + waiting.id + "/commands") &&
+    response.request().method() === "POST");
+  await red.page.getByRole("button", { name: "Take action", exact: true }).click();
+  const redResult = await redCommand;
+  assert.equal(redResult.status(), 200);
+  const committedRed = await redResult.json();
+  assert.equal(committedRed.version, 2);
+  assert.equal(committedRed.active_side, "blue");
+  const blueBoard = blue.page.getByRole("region", { name: "Known assets" });
+  await blueBoard.getByText("Observed match revision 2 · round 2", { exact: true }).waitFor();
+  await blueBoard.getByText(/Match updated|new visible information/).waitFor();
+  const blueAfterRedMove = await blue.page.request.get(
+    API + "/api/v1/red-blue/matches/" + waiting.id,
+    { headers: { Authorization: "Bearer " + TOKEN } },
+  );
+  assert.equal(blueAfterRedMove.status(), 200);
+  const blueCurrent = await blueAfterRedMove.json();
+  assert.equal(blueCurrent.side, "blue");
+  assert.equal(blueCurrent.committed_order, null);
+  for (const key of ["transcript", "seed", "plans", "seats", "timeline"])
+    assert.equal(key in blueCurrent, false);
+  assert.equal(blueCurrent.version, 2);
+  // An undetected Red reconnaissance must not manufacture Blue telemetry.
+  // Compare observations as delivered by the authorised API; detection and
+  // its fidelity are exclusively server decisions.
+  assert.ok(blueCurrent.observations.length >= bluePrior.observations.length);
 });
