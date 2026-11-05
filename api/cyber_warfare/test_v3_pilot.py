@@ -91,9 +91,13 @@ def test_high_value_assessment_and_blue_policy_staleness():
     ledger = next(a for a in pilot.project(g, "red-account", 1006)["assets"] if a["id"] == "ledger")
     assert ledger["business_value"] == 80
     assert ledger["assessment"]["weaknesses"]
+    assert ledger["assessment"]["estimated_patch_age_days"] == 94
     g = take(g, "blue", "patch", "ledger", 1007)
     ledger = next(a for a in pilot.project(g, "red-account", 1007)["assets"] if a["id"] == "ledger")
     assert "privilege" in ledger["assessment"]["weaknesses"]  # Stale, not omniscient
+    assert ledger["assessment"]["estimated_patch_age_days"] == 94
+    blue_ledger = next(a for a in pilot.project(g, "blue-account", 1007)["assets"] if a["id"] == "ledger")
+    assert blue_ledger["patch_age_days"] == 0
 
 
 def test_no_fixed_round_end_and_automatic_pass_preserves_absolute_clock():

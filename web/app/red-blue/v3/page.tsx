@@ -11,8 +11,10 @@ type Asset = {
   id: string; name: string; kind: string; exposed: boolean;
   value?: number; business_value?: number | null;
   controls?: string[]; weaknesses?: string[]; isolated?: boolean; disrupted?: boolean;
+  zone?: string; patch_age_days?: number;
   knowledge?: string; observed_at?: number | null; assessment?: {
     weaknesses: string[]; controls: string[];
+    zone?: string; estimated_patch_age_days?: number;
   } | null; believed_access?: number;
 };
 type Evidence = { sequence: number; kind: string; target?: string | null; message: string };
@@ -438,6 +440,8 @@ export default function AdvancedMicrofinance() {
                         match.side === "blue" ? (
                           <>
                             <p><strong>Business value:</strong> {selectedAsset.value}</p>
+                            <p><strong>Security zone:</strong> {selectedAsset.zone || "Not classified"}</p>
+                            <p><strong>Simulated days since patch:</strong> {selectedAsset.patch_age_days ?? "Not recorded"} {selectedAsset.patch_age_days && selectedAsset.patch_age_days > 60 ? "· Patch review recommended" : ""}</p>
                             <p><strong>Current weaknesses:</strong> {selectedAsset.weaknesses?.join(", ") || "None recorded"}</p>
                             <p><strong>Availability:</strong> {selectedAsset.isolated ? "Isolated" : "Available"}</p>
                           </>
@@ -446,6 +450,8 @@ export default function AdvancedMicrofinance() {
                             <p><strong>Business value:</strong> {selectedAsset.business_value ?? "Not yet assessed"}</p>
                             <p><strong>Intelligence:</strong> {selectedAsset.knowledge || "Unknown"}</p>
                             <p><strong>Assessed weaknesses:</strong> {selectedAsset.assessment?.weaknesses.join(", ") || "Not assessed"}</p>
+                            <p><strong>Observed zone:</strong> {selectedAsset.assessment?.zone || "Not confirmed"}</p>
+                            <p><strong>Estimated patch age:</strong> {selectedAsset.assessment?.estimated_patch_age_days ?? "Unknown"} {selectedAsset.assessment ? "simulated days (can become stale)" : ""}</p>
                             <p><strong>Last observed turn:</strong> {selectedAsset.observed_at ?? "No assessment"}</p>
                             <p>Intelligence can become stale; hidden Blue interventions are not disclosed.</p>
                           </>

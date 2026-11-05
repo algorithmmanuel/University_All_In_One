@@ -24,6 +24,27 @@ ACTION_COST = {
     "wait_red": 0, "wait_blue": 0,
 }
 MAX_RECENT = 120
+# V3-only private operational metadata. These values describe a fictional
+# institution, not any real bank, service or vulnerability.
+ASSET_POSTURE = {
+    "teller": ("Branch endpoints", 130),
+    "identity": ("Identity services", 52),
+    "ledger": ("Core banking data", 94),
+    "gateway": ("Digital channel perimeter", 21),
+    "bureau": ("Third-party connectivity", 88),
+    "branch_router": ("Branch network", 76),
+    "staff_email": ("Cloud productivity", 43),
+    "app_server": ("Application services", 61),
+    "payment_switch": ("Payments", 70),
+    "customers_db": ("Core banking data", 85),
+    "analytics_store": ("Risk analytics", 34),
+    "backup_vault": ("Recovery infrastructure", 47),
+    "audit_logs": ("Security operations", 16),
+    "vendor_portal": ("Third-party connectivity", 102),
+    "card_processor": ("External payments", 80),
+    "core_banking_server": ("Core applications", 115),
+}
+
 
 
 def _hash(value):
@@ -72,6 +93,8 @@ def new(seed, blue_player, red_player, config=None):
             "exposed": a.exposed, "controls": list(a.controls),
             "weaknesses": list(a.vulnerabilities),
             "access": 0, "isolated": False, "fraud": False, "disrupted": False,
+            "zone": ASSET_POSTURE[a.id][0],
+            "patch_age_days": 0 if "patched" in a.controls else ASSET_POSTURE[a.id][1],
         }
     known = {
         a_id: {"confidence": "observed", "assessment": None, "observed_at": None,
@@ -122,6 +145,7 @@ def prepare(state, player, *, control=None, target=None, strategy=None, policy=N
         asset["controls"].append(control)
         asset["controls"].sort()
         if control == "patched":
+            asset["patch_age_days"] = 0
             asset["weaknesses"] = [w for w in asset["weaknesses"] if w != "privilege"]
         if control == "hardened":
             asset["weaknesses"] = [w for w in asset["weaknesses"] if w != "configuration"]
@@ -311,6 +335,7 @@ def _resolve(state, side, order):
             if "patched" not in asset["controls"]:
                 asset["controls"].append("patched")
             asset["weaknesses"] = [w for w in asset["weaknesses"] if w != "privilege"]
+            asset["patch_age_days"] = 0
             _event_for(state, side, target=target, kind="control", message="Pending privilege patch applied.")
         elif aid == "segment":
             if "segmented" not in asset["controls"]:
@@ -352,6 +377,8 @@ def _resolve(state, side, order):
             else:
                 belief["assessment"] = {
                     "weaknesses": deepcopy(asset["weaknesses"]),
+                    "zone": asset["zone"],
+                    "estimated_patch_age_days": asset["patch_age_days"],
                     "controls": ["Possible boundary restriction"] if "segmented" in asset["controls"] else [],
                 }
                 belief["confidence"] = "assessed"
