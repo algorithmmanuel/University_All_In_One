@@ -6,7 +6,7 @@ The old sealed-round envelope remains unmodified and independently replayable.
 """
 from copy import deepcopy
 
-from . import engine, v2_alternating, v2_timed, v2_clock
+from . import engine, v2_alternating, v2_timed, v2_clock, v2_debrief
 from .opponent import choose_order
 
 
@@ -104,27 +104,9 @@ def submit_alternating(match, player, order, expected_round, command_id, difficu
 
 
 def debrief(match, player):
-    """Compatible completed-match summary; V2 counterfactuals are not yet built."""
+    """Edition-safe completed report; never expose private match details live."""
     if isinstance(match, v2_timed.TimedMatch):
         raise ValueError("Match is still active")
-    if not isinstance(match, v2_alternating.AlternateMatch):
-        return engine.debrief(match, player)
-    engine._side(match.private, player)
-    if not match.winner:
-        raise ValueError("Debrief only available after match finishes")
-    timeline = [
-        {key: deepcopy(event[key]) for key in (
-            "turn", "side", "action", "target", "source",
-            "success", "detected", "framework",
-        )}
-        for event in match.private.timeline
-    ]
-    return {
-        "winner": match.winner,
-        "objective": match.private.scenario.objective.model_dump(mode="json"),
-        "timeline": timeline, "missed": [], "alternatives": [],
-        "explanation": (
-            "The complete action history is available after the match. "
-            "V2 measured counterfactual alternatives remain under development."
-        ),
-    }
+    if isinstance(match, v2_alternating.AlternateMatch):
+        return v2_debrief.debrief(match, player)
+    return engine.debrief(match, player)

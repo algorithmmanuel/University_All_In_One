@@ -19,7 +19,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from db_dependencies import get_db
 from learning_routes import student_only
-from models import User, RedBlueMatch, RedBlueSeat, RedBlueReceipt
+from models import User, RedBlueMatch, RedBlueSeat, RedBlueReceipt, CyberStudyProgress
 from cyber_warfare import engine, v2_alternating, v2_session, v2_timed, v2_clock
 from cyber_warfare.catalog import ACTIONS
 from cyber_warfare.opponent import choose_order
@@ -129,6 +129,38 @@ def public(row, user_id):
     return {'id': row.id, 'status': row.status, 'difficulty': row.difficulty,
             'mode': 'computer' if 'computer' in v2_session.seats(match).values() else 'human',
             **observation, 'orders': [o.dump() for o in v2_session.orders(match, identity(user_id), server_now=now)] if row.status == 'active' else []}
+
+
+GUIDE_MODULE = "red_blue_guide"
+GUIDE_REVISION = "v1"
+
+
+@router.get('/guide-status')
+def guide_status(user=Depends(student_only), db: Session = Depends(get_db)):
+    """Stable, account-bound completion across browsers and logout sessions."""
+    exists = db.scalar(select(CyberStudyProgress.id).where(
+        CyberStudyProgress.user_id == user.id,
+        CyberStudyProgress.module_id == GUIDE_MODULE,
+        CyberStudyProgress.revision == GUIDE_REVISION,
+    ))
+    return {'completed': exists is not None, 'revision': GUIDE_REVISION}
+
+
+@router.post('/guide-complete')
+def complete_guide(user=Depends(student_only), db: Session = Depends(get_db)):
+    """Idempotent per-student guide completion; no schema or game-state changes."""
+    db.scalar(select(User.id).where(User.id == user.id).with_for_update())
+    existing = db.scalar(select(CyberStudyProgress.id).where(
+        CyberStudyProgress.user_id == user.id,
+        CyberStudyProgress.module_id == GUIDE_MODULE,
+        CyberStudyProgress.revision == GUIDE_REVISION,
+    ))
+    if existing is None:
+        db.add(CyberStudyProgress(
+            user_id=user.id, module_id=GUIDE_MODULE, revision=GUIDE_REVISION,
+        ))
+        persist(db, label='Guide progress')
+    return {'completed': True, 'revision': GUIDE_REVISION}
 
 
 @router.get('/catalog')

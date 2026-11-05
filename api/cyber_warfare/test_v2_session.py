@@ -95,7 +95,34 @@ def test_versioned_completed_match_debrief_is_sanitized(scenario):
                                            round_no, f"r-{round_no}", "easy")
     report = session.debrief(match, "human-red")
     assert report["winner"] == "blue"
-    assert report["timeline"] and report["alternatives"] == []
+    assert report["timeline"] and 1 <= len(report["pivotal"]) <= 5
+    assert all(len(item["alternatives"]) <= 2 for item in report["pivotal"])
+    assert {item["side"] for item in report["pivotal"]} <= {"red", "blue"}
     assert "seed" not in json.dumps(report) and "roll" not in json.dumps(report)
     with pytest.raises(PermissionError):
         session.debrief(match, "intruder")
+
+
+def test_v2_debrief_is_role_aware_bounded_and_deterministic(scenario):
+    match = alternate.new_match(scenario, "postmatch-learning", "red-human", "blue-human")
+    for round_no in range(1, scenario.turn_limit + 1):
+        match = alternate.commit(match, "blue-human",
+                                 engine.Order("monitor", scenario.assets[0].id)
+                                 if round_no == 1 else engine.Order("wait_blue"),
+                                 round_no, f"blue-{round_no}")
+        match = alternate.commit(match, "red-human", engine.Order("wait_red"),
+                                 round_no, f"red-{round_no}")
+        if match.winner:
+            break
+    blue = session.debrief(match, "blue-human")
+    red = session.debrief(match, "red-human")
+    for report in (blue, red):
+        assert 1 <= len(report["pivotal"]) <= 5
+        assert len(report["alternatives"]) <= 10
+        assert all(item["side"] in ("red", "blue") for item in report["pivotal"])
+        assert all(len(item["alternatives"]) <= 2 for item in report["pivotal"])
+        assert "seed" not in json.dumps(report)
+        assert "roll" not in json.dumps(report)
+    assert session.debrief(session.restore(session.export(match)), "blue-human") == blue
+    with pytest.raises(PermissionError):
+        session.debrief(match, "outsider")

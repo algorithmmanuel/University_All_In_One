@@ -13,7 +13,7 @@ from sqlalchemy import create_engine, delete, select, event
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 from database import Base
-from models import User, AuthSession, BetaInvite, RedBlueMatch, RedBlueSeat, RedBlueReceipt
+from models import User, AuthSession, BetaInvite, RedBlueMatch, RedBlueSeat, RedBlueReceipt, CyberStudyProgress
 from auth import issue_session
 import red_blue_routes as routes
 
@@ -53,6 +53,7 @@ def arena(request, monkeypatch):
     with TestClient(app) as client:
         yield client, headers, ids, Session, app, request.param
     with Session.begin() as db:
+        db.execute(delete(CyberStudyProgress).where(CyberStudyProgress.user_id.in_(ids)))
         db.execute(delete(RedBlueMatch).where(RedBlueMatch.creator_id.in_(ids)))
         db.execute(delete(AuthSession).where(AuthSession.user_id.in_(ids)))
         db.execute(delete(BetaInvite).where(BetaInvite.redeemed_by.in_(ids)))
@@ -629,3 +630,19 @@ def test_postgres_timed_expired_action_races_worker_with_one_authoritative_pass(
         assert db.scalars(select(RedBlueReceipt).where(
             RedBlueReceipt.match_id == match_id)).all() == []
     assert c.post(path + '/commands', headers=h[0], json=body).status_code == 409
+
+
+def test_guide_completion_is_per_account_idempotent_and_authenticated(arena):
+    """Reuse existing progress storage and avoid leaking another learner's status."""
+    client, headers, *_ = arena
+    url = "/api/v1/red-blue/guide-status"
+    complete = "/api/v1/red-blue/guide-complete"
+    assert client.get(url).status_code == 401
+    assert client.post(complete).status_code == 401
+    assert client.get(url, headers=headers[3]).status_code in (401, 403)
+    assert client.get(url, headers=headers[0]).json() == {"completed": False, "revision": "v1"}
+    assert client.get(url, headers=headers[1]).json()["completed"] is False
+    assert client.post(complete, headers=headers[0], json={}).status_code == 200
+    assert client.post(complete, headers=headers[0], json={}).status_code == 200
+    assert client.get(url, headers=headers[0]).json()["completed"] is True
+    assert client.get(url, headers=headers[1]).json()["completed"] is False
