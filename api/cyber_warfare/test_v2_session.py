@@ -123,6 +123,9 @@ def test_v2_debrief_is_role_aware_bounded_and_deterministic(scenario):
         assert all(len(item["alternatives"]) <= 2 for item in report["pivotal"])
         assert "seed" not in json.dumps(report)
         assert "roll" not in json.dumps(report)
+    # Only one substantive action was played. Passes must not displace it.
+    assert [event["action"] for event in blue["pivotal"]] == ["monitor"]
+    assert [event["action"] for event in red["pivotal"]] == ["monitor"]
     assert session.debrief(session.restore(session.export(match)), "blue-human") == blue
     with pytest.raises(PermissionError):
         session.debrief(match, "outsider")
