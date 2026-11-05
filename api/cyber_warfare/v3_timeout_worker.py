@@ -46,6 +46,7 @@ def process_due_once(db, server_now=None):
             if state.get("edition") != pilot.EDITION:
                 raise ValueError("Unsupported active V3 private checkpoint")
             previous = state["version"]
+            previous_event_count = state["event_count"]
             state = pilot.settle(state, now)
             outcome["examined"] += 1
             if state["phase"] == "engage":
@@ -61,10 +62,11 @@ def process_due_once(db, server_now=None):
                             now, command_id, sequence,
                         )
                         outcome["bots"] += 1
-            outcome["timeouts"] += max(0, state["version"] - previous - int(
-                state["phase"] == "finished" and state["reason"].startswith("Match deadline")
-            ) - int(state["players"].get(state["clock"]["active_side"], "") == "computer"
-                  and outcome["bots"] > 0))
+            outcome["timeouts"] += sum(
+                event.get("kind") == "timeout"
+                for event in state["recent"]
+                if event["sequence"] > previous_event_count
+            )
             if state["phase"] == "finished":
                 outcome["finished"] += 1
             if state["version"] != previous:
