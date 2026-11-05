@@ -7,10 +7,11 @@ type VisibleAsset = {
 };
 
 /** Visual graph uses only seat-filtered asset/edge inputs, never a hidden ID map. */
-export default function V3Topology({assets,connections,side}:{
+export default function V3Topology({assets,connections,side,onInspect}:{
   assets:VisibleAsset[];
   connections:{source:string;target:string}[];
   side:"red"|"blue";
+  onInspect:(assetId:string)=>void;
 }) {
   const known = new Map<string,{asset:VisibleAsset;x:number;y:number}>(
     assets.map((asset,i):[string,{asset:VisibleAsset;x:number;y:number}]=>[
@@ -21,8 +22,8 @@ export default function V3Topology({assets,connections,side}:{
   const height=Math.max(245,Math.ceil(assets.length/4)*145+70);
   return (
     <section className={styles.frame} aria-label="Observed network topology">
-      <p className={styles.note}>Known directed trust paths only. Open an asset card below to inspect its evidence and controls.</p>
-      <svg viewBox={"0 0 950 "+height} role="img"
+      <p className={styles.note}>Known directed trust paths only. Select a network asset or its card below to inspect the evidence available to your seat.</p>
+      <svg viewBox={"0 0 950 "+height} role="group"
         aria-label={side==="red"?"Partial discovered Red network":"Blue owned institutional network"}
         preserveAspectRatio="xMidYMid meet">
         <defs>
@@ -47,7 +48,15 @@ export default function V3Topology({assets,connections,side}:{
           if(!p)return null;
           const colour=side==="red"?"#983f56":asset.isolated?"#825b3d":"#14576c";
           const short=asset.name.length>24?asset.name.slice(0,23)+"…":asset.name;
-          return <g key={asset.id}>
+          return <g key={asset.id} className={styles.node} role="button" tabIndex={0}
+            aria-label={"Inspect " + asset.name + " in network topology"}
+            onClick={() => onInspect(asset.id)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                onInspect(asset.id);
+              }
+            }}>
             <rect x={p.x-90} y={p.y-36} width="180" height="72" rx="12"
               fill={colour} stroke={side==="red"?"#ffadbd":"#78dbe2"} strokeWidth="2"/>
             <text x={p.x} y={p.y-9} textAnchor="middle" fontSize="14"

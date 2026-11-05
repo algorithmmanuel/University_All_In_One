@@ -1,3 +1,7 @@
 .frame{margin:16px 0;border:1px solid #38717b;background:#0b1f31;border-radius:14px;padding:8px;overflow:hidden}
 .frame svg{display:block;width:100%;height:auto;max-height:460px}
 .note{font-size:12px!important;color:#a9c4d3;margin:9px}
+
+.node{cursor:pointer;outline:none}
+.node:focus-visible rect{stroke:#ffffff;stroke-width:4}
+.node:hover rect{stroke:#c8fcfa;stroke-width:3}

@@ -58,6 +58,17 @@ test("V3 Microfinance browser: Blue prepares, Red discovers and private views pe
   await blueWorkspace.getByRole("heading",{name:"Network intelligence"}).waitFor();
   await redWorkspace.getByRole("heading",{name:"Network intelligence"}).waitFor();
   assert.equal(await redWorkspace.getByRole("button",{name:"Inspect Loan and transaction ledger"}).count(),0);
+  const blueTopology=blueWorkspace.getByRole("region",{name:"Observed network topology"});
+  const ledgerNode=blueTopology.getByRole("button",{
+    name:"Inspect Loan and transaction ledger in network topology"
+  });
+  await ledgerNode.focus();
+  await ledgerNode.press("Enter");
+  await blue.page.getByRole("dialog",{name:/Asset details: Loan and transaction ledger/}).waitFor();
+  await blue.page.getByRole("button",{name:"Close asset details"}).click();
+  await ledgerNode.press("Space");
+  await blue.page.getByRole("dialog",{name:/Asset details: Loan and transaction ledger/}).waitFor();
+  await blue.page.getByRole("button",{name:"Close asset details"}).click();
   await blueWorkspace.getByRole("button",{name:"Inspect Loan and transaction ledger"}).click();
   const inspector=blue.page.getByRole("dialog",{name:/Asset details: Loan and transaction ledger/});
   await inspector.getByText(/Current weaknesses/).waitFor();
@@ -78,6 +89,18 @@ test("V3 Microfinance browser: Blue prepares, Red discovers and private views pe
   await red.page.getByRole("button",{name:"Commit action"}).click();
   assert.equal((await redCommand).status(),200);
   await redWorkspace.getByRole("button",{name:"Inspect Branch identity service"}).waitFor();
+  const redTopology=redWorkspace.getByRole("region",{name:"Observed network topology"});
+  const discovered=redTopology.getByRole("button",{
+    name:"Inspect Branch identity service in network topology"
+  });
+  await discovered.click();
+  const redInspector=red.page.getByRole("dialog",{name:/Asset details: Branch identity service/});
+  await redInspector.getByText(/Intelligence:/).waitFor();
+  await redInspector.getByRole("button",{name:"Close asset details"}).click();
+  assert.equal(await redTopology.getByRole("button",{
+    name:"Inspect Loan and transaction ledger in network topology"
+  }).count(),0);
+
   assert.equal(await redWorkspace.getByRole("button",{name:"Inspect Loan and transaction ledger"}).count(),0);
   const redResponse=await red.page.request.get(API+ROOT+"/matches/"+matchId,{
     headers:{Authorization:"Bearer "+redToken}});

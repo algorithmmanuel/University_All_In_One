@@ -125,6 +125,11 @@ export default function AdvancedMicrofinance() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [inspect]);
+  const openInspector = (assetId: string) => {
+    setSelected(assetId);
+    setInspectionTab("issues");
+    setInspect(true);
+  };
   const setUpdated = (updated: Match) => {
     setMatch(updated);
     setClockStarted(Date.now());
@@ -263,7 +268,7 @@ export default function AdvancedMicrofinance() {
                     <h3 id="prepare-title">Prepare your {match.side === "blue" ? "defensive baseline" : "reconnaissance strategy"}</h3>
                     {match.side === "blue" ? (
                       <>
-                        <p>You own all five assets. Choose a policy deployment, confirm its real controls and cost, then mark your seat ready.</p>
+                        <p>You own the full institutional asset inventory. Choose a policy deployment, confirm its real controls and cost, then mark your seat ready.</p>
                         <div className={styles.asset}>
                           <strong>Security policy library</strong>
                           <p className={styles.muted}>Declare governance requirements first. The policy does not deploy a technical control or automatically remove a weakness.</p>
@@ -336,12 +341,12 @@ export default function AdvancedMicrofinance() {
                       <p>{match.side === "blue"
                         ? "Your owned inventory and deployed protections are visible. Alerts reflect only configured monitoring."
                         : match.discovery_hint || "Additional assets may remain unknown."}</p>
-                      <V3Topology assets={match.assets} connections={match.connections} side={match.side}/>
+                      <V3Topology assets={match.assets} connections={match.connections} side={match.side} onInspect={openInspector}/>
                       <div className={styles.grid}>
                         {match.assets.map(asset => (
                           <button className={styles.assetButton} key={asset.id}
                             aria-label={"Inspect " + asset.name}
-                            onClick={() => {setSelected(asset.id);setInspectionTab("issues");setInspect(true);}}>
+                            onClick={() => openInspector(asset.id)}>
                             <span className={styles.icon}> {asset.kind === "database" ? "▣" : asset.kind === "workstation" ? "▤" : "◈"}</span>
                             <strong>{asset.name}</strong>
                             <small>{asset.kind.replaceAll("_", " ")} · {match.side === "blue"
