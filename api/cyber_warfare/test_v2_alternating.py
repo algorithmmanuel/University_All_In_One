@@ -100,6 +100,68 @@ def test_monitoring_changes_alert_visibility_without_revealing_red_success():
         pytest.fail("No deterministic seed demonstrated the monitoring alert delta")
 
 
+
+def test_live_isolation_changes_blue_truth_but_red_sees_only_failed_followup():
+    """Alternating seats react to state while Red retains stale beliefs.
+
+    Blue containment happens immediately and changes authoritative access.
+    It must not silently reveal Blue's control action to Red; the Red follow-up
+    learns only the outcome of its own attempted privilege escalation.
+    """
+    scenario = next(s for s in list_scenarios() if s.id == "microfinance")
+    for index in range(160):
+        opening = alt.new_match(scenario, f"stale-access-{index}",
+                                "red-human", "blue-human")
+        opening = alt.commit(opening, "blue-human", engine.Order("wait_blue"),
+                             1, "blue-wait")
+        opening = alt.commit(opening, "red-human",
+                             engine.Order("phish", "teller"), 1, "red-phish")
+        if not opening.private.timeline[-1]["success"]:
+            continue
+        red_before = alt.view(opening, "red-human")
+        blue_before = alt.view(opening, "blue-human")
+        assert next(asset for asset in red_before["assets"]
+                    if asset["id"] == "teller")["access"] == 1
+
+        isolated = alt.commit(opening, "blue-human",
+                              engine.Order("contain", "teller"), 2, "blue-contain")
+        assert isolated.private.assets["teller"]["isolated"] is True
+        assert isolated.private.assets["teller"]["access"] == 0
+        blue_after = alt.view(isolated, "blue-human")
+        assert next(asset for asset in blue_after["assets"]
+                    if asset["id"] == "teller")["isolated"] is True
+        assert next(asset for asset in blue_before["assets"]
+                    if asset["id"] == "teller")["isolated"] is False
+
+        red_after = alt.view(isolated, "red-human")
+        assert red_after["assets"] == red_before["assets"]
+        assert red_after["observations"] == red_before["observations"]
+        assert not any("contain" in str(event).lower()
+                       for event in red_after["observations"])
+        assert engine.Order("escalate", "teller") in alt.available_orders(
+            isolated, "red-human")
+
+        resolved = alt.commit(isolated, "red-human",
+                              engine.Order("escalate", "teller"), 2, "red-escalate")
+        assert resolved.private.timeline[-1]["feasible"] is False
+        assert resolved.private.timeline[-1]["success"] is False
+        red_result = alt.view(resolved, "red-human")
+        assert next(asset for asset in red_result["assets"]
+                    if asset["id"] == "teller")["access"] == 0
+        assert red_result["observations"][-1]["type"] == "own_action"
+        assert "conditions may have changed" in red_result["observations"][-1]["message"]
+        assert not any(event["type"] == "alert" for event in
+                       alt.view(resolved, "blue-human")["observations"])
+        for projection in (blue_after, red_after, red_result):
+            assert not {"seed", "timeline", "plans", "seats"} & projection.keys()
+        restored = alt.replay(json.loads(json.dumps(alt.export_replay(resolved))))
+        assert alt.view(restored, "red-human") == red_result
+        assert alt.view(restored, "blue-human") == alt.view(resolved, "blue-human")
+        break
+    else:
+        pytest.fail("Could not find deterministic successful entry fixture")
+
+
 def test_exact_uuid_retry_does_not_double_charge_or_resolve():
     first = start()
     first = alt.commit(first, "blue-human", wait("blue"), 1, "uuid-1")
