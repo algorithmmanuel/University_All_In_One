@@ -83,3 +83,27 @@ def test_backup_fails_closed_without_postgres_tools(tmp_path, monkeypatch):
         except ValueError:
             pass
     assert not list(tmp_path.iterdir())
+
+
+def test_database_identity_accepts_host_mapped_docker_port(monkeypatch):
+    from unittest.mock import MagicMock
+    module = load(monkeypatch)
+    database_url = (
+        "postgresql+psycopg://educyber_dev:synthetic-pass@"
+        "127.0.0.1:5435/educyber_dev?connect_timeout=5"
+    )
+    session = MagicMock()
+    session.__enter__.return_value = session
+    session.execute.return_value.fetchone.side_effect = [
+        ("educyber_dev", "educyber_dev"),
+        ("0013_journey_workshops",),
+    ]
+    with patch("psycopg.connect", return_value=session) as connect:
+        identity, password = module.target({"DATABASE_URL": database_url})
+    assert identity == IDENTITY
+    assert password == "synthetic-pass"
+    assert connect.call_args.kwargs["port"] == 5435
+    sql = [call.args[0] for call in session.execute.call_args_list]
+    assert sql == ["SET TRANSACTION READ ONLY",
+                   "SELECT current_database(), current_user",
+                   "SELECT version_num FROM alembic_version"]
