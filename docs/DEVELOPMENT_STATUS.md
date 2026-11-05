@@ -1,5 +1,16 @@
 # Development handover
 
+## V3 owner rollout safety preparation — 5 November 2026
+
+**Stage:** One 16-asset advanced Microfinance pilot remains Development-only, with Beta unchanged. All prior V3 gameplay/browser gates passed at `e887c3f`. The rollout prerequisite is an isolated Development-only Alembic `0014_red_blue_v3_pilot` migration; the user's Windows runtime/database have **not** been accessed or updated.
+
+**New committed safeguards:** `b20d20f` adds `scripts/backup_development.py`, strengthening `scripts/migrate_development.py` to reject migration without a fresh verified archive for the same database identity and Alembic version, ignores new local archive directory, and documents the procedure in `docs/LOCAL_DEVELOPMENT.md`. `a50e49c` adds fail-closed backup tests. `0e8c6b0` corrects an important Docker issue: Postgres inside a container may report port 5432 while the validated Windows host connection is mapped to 5435; do not compare the SQL internal port to the host port. `bbedd9d` adds a test covering the mapped-port identity guard. Archive creation uses pg_dump custom format, validates pg_restore listing and SHA256, and stores ignored private files in `.local-development-backups/`. The backup is **not** a completed restore rehearsal.
+
+**Latest evidence:** backend quality [42034998558](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42034998558) PASSED on `bbedd9d`; real API/browser [42034998610](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42034998610) PASSED on `bbedd9d`. Browser gameplay [42034998583](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42034998583) was still running at this documentation checkpoint. Do not claim final release green without its result.
+
+**Important unresolved laptop configuration:** source `api/development_runtime.py` explicitly validates `127.0.0.1:5435/educyber_dev` with user `educyber_dev`, whereas prior local operational notes referenced 5434. Verify the user's private `api/.env.development` host/port, current Docker mapping, and port 8010/3010 being free before applying any migration. Do **not** publish credentials, force a new database, override the guards, reset git or remove volumes. `pg_dump` and `pg_restore` must be present on the user's PATH; failure is non-destructive and stops migration. Continue owner Development acceptance at `http://127.0.0.1:3010/red-blue/v3` only after all checks, fresh isolated backup and additive migration pass. Beta remains at `f6d51c2`.
+
+
 ## V3 interactive topology and release checkpoint — 5 November 2026
 
 **Development-only pilot:** `5021da1` wires visible 16-asset network nodes directly to the existing Red/Blue role-filtered inspector. Nodes are operable by pointer, Enter and Space, with keyboard focus styling. Existing asset-card fallback remains, and Red's map contains only discovered assets/trust connections. The previous Blue preparation copy referring to five assets is now generic. This does not change private asset truth or any V1/V2/Beta gameplay.
