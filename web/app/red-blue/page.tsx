@@ -183,6 +183,12 @@ export default function RedBlueArena() {
                       </select>
                     </label>
                     {arena.catalog.alternating_preview_available && (
+                <p className={styles.muted}>
+                  <Link href="/red-blue/v3">Try the advanced Microfinance V3 Development pilot</Link>
+                  {" "}— policy preparation, discovery, live clocks and asset inspection.
+                </p>
+              )}
+              {arena.catalog.alternating_preview_available && (
                       <label>
                         Match rules (Development only)
                         <select
