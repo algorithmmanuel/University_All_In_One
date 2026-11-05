@@ -1,5 +1,23 @@
 # Development handover
 
+## Stage 5 B3 — full automated acceptance completed, owner runtime acceptance pending — 5 November 2026
+
+**Release candidate `5751adf9de0d2349f12dd1f57d70e4dab0acef35` PASSED all four automated workflow families on the same code commit:**
+
+- Red Blue V2 contract: [41987983245](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987983245) — success.
+- Backend quality gate, including isolated PostgreSQL: [41987983237](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987983237) — success.
+- Real API/PostgreSQL browser integration: [41987983241](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987983241) — success.
+- Browser gameplay, frontend TypeScript and build: [41987983348](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987983348) — success.
+
+**Current disposition:** B3 is code-complete for its scoped development candidate and passes the automated acceptance suite. This does NOT prove the owner's local development services/independent deadline worker are running, or that a live laptop two-account playthrough was accepted. No Beta source or runtime promotion has occurred; the Beta branch is still `65d816d62b9f345699e293b30b85ce75efd7cb7c`. The subsequent documentation-only checkpoint here does not change the tested source.
+
+**Owner runbook — Development only (Windows):** use `C:\Users\dNA1991\University_All_In_One_Development` and `feature/beta-continuous-improvement`. Preserve uncommitted work. Stop only development foreground services before the build; never interrupt Beta 8000/3000 or ngrok. Inspect local change status before fetching and fast-forwarding; do not reset/clean. Use existing development `api/.venv` and `api/.env.development`. Start `scripts/development.py api` (8010), `scripts/development.py web` (3010) and `scripts/development.py clock-worker` in **three separate development terminals**. In a fourth terminal run `scripts/development.py check`; verify `http://127.0.0.1:3010/red-blue` and API health. Do not use `beta.py`, root Beta .env, create/reseed/drop database volumes, or migrate Beta. The code change to B3 did not require a new migration.
+
+**Live acceptance matrix:** open separate normal/private browser sessions signed into *two different authorised student accounts*. Select Development-only timed preview, one seat Blue and the other Red. Verify Blue opens on a server-controlled 90-second deadline; each move updates both role-specific network boards without manual refresh; Blue sees detected alerts/telemetry and its own controls, not unobserved Red footholds/secret success; Red sees only recon discoveries/own actions and may act on stale assessments, not unseen Blue interventions. Verify the asset list, keyboard activation, all six scenario networks on desktop and narrow mobile, blocked/isolated asset presentation, reconnect/resume, one-time timeout grace and independent worker expiration, and that each account can log out independently. Do not treat absent alerts as proof of safety. Report observed issues only; preserve working features. Beta promotion requires explicit owner approval after live acceptance, even when CI is green.
+
+**Next roadmap scope:** RB2-C1 Learning/Realistic guidance, RB2-C2 persistent onboarding, RB2-C3 ranked bilateral debrief are distinct milestones and not part of the verified B3 commit. Do not silently merge their features into B3 or imply they are finished.
+
+
 ## Stage 5 B3 coordinated release candidate — 5 November 2026
 
 **Owner direction:** deliver all remaining B3 topology/visibility implementation and related checks as a single development candidate, without reducing quality or introducing a succession of independent mini-releases. Keep post-B3 learning/realistic assistance (C1), first-launch guide (C2), ranked debrief (C3) and construction-mode concepts (F) outside this B3 batch unless separately approved. Do not modify working unrelated features.
