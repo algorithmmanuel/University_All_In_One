@@ -1,5 +1,14 @@
 # Development handover
 
+## V3 interactive topology and release checkpoint — 5 November 2026
+
+**Development-only pilot:** `5021da1` wires visible 16-asset network nodes directly to the existing Red/Blue role-filtered inspector. Nodes are operable by pointer, Enter and Space, with keyboard focus styling. Existing asset-card fallback remains, and Red's map contains only discovered assets/trust connections. The previous Blue preparation copy referring to five assets is now generic. This does not change private asset truth or any V1/V2/Beta gameplay.
+
+**Browser evidence:** Initial real API browser run [42029842114](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42029842114) caught a strict Playwright selector matching both the new topology node and the existing asset card. `e887c3f` corrects the test to use exact card names and separately checks keyboard-accessible topology and discovered Red asset inspection. Final candidate runs [real API 42030337417](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42030337417) and [browser gameplay 42030337175](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42030337175) must finish green before local rollout. Backend [42029732544](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42029732544) and real API [42029732633](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42029732633) passed on prior source including the separate computer opponent improvements; these do not certify the final candidate.
+
+**Migration prerequisite:** Do not start the V3 UI on the owner's existing Development database until isolated, newly verified backup and additive Alembic revision `0014_red_blue_v3_pilot` have been applied with `scripts/migrate_development.py`. The guard in `api/development_runtime.py` currently requires dedicated host port **5435**, not the earlier handover's 5434 reference; use the actual validated local `api/.env.development` credentials without disclosing them. Stop only Development 8010/3010 and its worker. Preserve current Beta, ngrok, all untracked Compose files, PostgreSQL volumes, tester records and Development backups. Beta promotion requires explicit approval.
+
+
 ## V3 Advanced Microfinance expanded pilot — 5 November 2026
 
 **Latest implemented application source:** `68874ab6ae2b9448e5ec6d0042c21580ab756b22`. This remains **Development-only** and has not been promoted to Beta or migrated onto the owner's laptop. The exact latest-head backend, real API/PostgreSQL browser, and browser gameplay quality gates are queued/running at this checkpoint; do not claim fully green until those results are known.
