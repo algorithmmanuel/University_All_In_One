@@ -69,7 +69,7 @@ test("V3 Microfinance browser: Blue prepares, Red discovers and private views pe
   assert.ok(blueState.clock.match_seconds_remaining>0);
   await blue.page.locator("#v3-actions").selectOption({label:"wait blue · 0 credits"});
   await blue.page.getByRole("button",{name:"Commit action"}).click();
-  await redWorkspace.getByRole("button",{name:"Commit action"}).waitFor();
+  await red.page.waitForFunction(()=>{const input=document.querySelector("#v3-actions");return input && !input.disabled && input.options.length > 1;});
   const labels=await red.page.locator("#v3-actions option").allTextContents();
   const recon=labels.find(label=>label.includes("recon · Teller workstation"));
   assert.ok(recon,"Red should have a teller reconnaissance option");
