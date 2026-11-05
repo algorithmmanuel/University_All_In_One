@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 5 B3 geometry collision fix and all-scenario regression — 5 November 2026
+
+Review of GitHub real API/PostgreSQL workflow [41929918749](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41929918749) on `a84d200` found a **real topology geometry failure**: Blue projected edges `identity->ledger` crossed Mobile banking gateway and `gateway->ledger` crossed Credit bureau connection. The earlier [41929825695](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41929825695) reported the same collisions. Browser gameplay passed, but real API acceptance failed; previous B3 routing was therefore not release-ready.
+
+Development-only fix `cf2a8c5` changes the node's reserved vertical geometry to 178px and row spacing to 242px; `bc58948` aligns rendered network node height to the same 178px. This makes link gutters independent of changes to node content height, while keeping the existing horizontal corridors and seat-filtered asset/edge source. `f3889eb` extends real-API browser coverage across **all six scenario catalog entries and both authenticated-side projections**: it verifies public match keys, rendered SVG edge counts, authorised endpoints and no path collision through an unrelated visible card. No gameplay engine, API business logic, DB schema, private env or Beta branch was modified.
+
+**CI is not yet verified** on `f3889eb` or final documentation head. Recheck exact-head real API browser and browser gameplay workflow results; investigate geometric assertions if any scenario fails. Independent full human-versus-human multi-action telemetry acceptance, monitoring fidelity, collision-free edge-to-edge routing, mobile/keyboard all-scenario layout and owner laptop worker acceptance remain open. No Beta promotion is authorised yet.
+
+
 ## Stage 5 B3 timed two-seat refresh check — 4 November 2026
 
 Development commit `a84d200` extends the *existing* authenticated two-account Development-only timed preview browser test to establish that Red's initial board is at revision 0 before Blue's move and that Red subsequently observes revision 1 and its seat-filtered asset-update announcement after Blue acts, without manual refresh. The test continues checking no private transcript, seed or opponent heartbeat history in Red's API view. The game engine, match persistence and Beta are unchanged.
