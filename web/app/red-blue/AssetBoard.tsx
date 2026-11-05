@@ -90,6 +90,7 @@ export default function AssetBoard({
     matchId: number;
     version: number;
     fingerprints: Map<string, string>;
+    paths: string;
   } | null>(null);
   const [changedIds, setChangedIds] = useState<string[]>([]);
   const [updateNotice, setUpdateNotice] = useState("");
@@ -101,9 +102,10 @@ export default function AssetBoard({
         .map((event) => [event.turn, event.type, event.action, event.message]);
       fingerprints.set(asset.id, JSON.stringify([asset, evidence]));
     }
+    const paths = match.connections.map((edge) => `${edge.source}->${edge.target}`).sort().join("|");
     const prior = previous.current;
     if (!prior || prior.matchId !== match.id) {
-      previous.current = { matchId: match.id, version: match.version, fingerprints };
+      previous.current = { matchId: match.id, version: match.version, fingerprints, paths };
       setChangedIds([]);
       setUpdateNotice("");
       return;
@@ -112,12 +114,15 @@ export default function AssetBoard({
     const changed = [...fingerprints.keys()].filter(
       (id) => prior.fingerprints.get(id) !== fingerprints.get(id),
     );
-    previous.current = { matchId: match.id, version: match.version, fingerprints };
-    if (match.version > prior.version || changed.length) {
+    const topologyChanged = paths !== prior.paths;
+    previous.current = { matchId: match.id, version: match.version, fingerprints, paths };
+    if (match.version > prior.version || changed.length || topologyChanged) {
       setChangedIds(changed);
       setUpdateNotice(changed.length
         ? `${changed.length} asset${changed.length === 1 ? "" : "s"} with new visible information.`
-        : "Match updated. No additional asset evidence is visible to your side.");
+        : topologyChanged
+          ? "Known trust paths updated. No additional asset evidence is visible to your side."
+          : "Match updated. No additional asset evidence is visible to your side.");
     }
   }, [match]);
   // The API already filters observations per authenticated seat. Never derive
@@ -132,6 +137,10 @@ export default function AssetBoard({
   }
   const selectedAsset = match.assets.find((asset) => asset.id === selected);
   const selectedEvents = perAsset.get(selected) || [];
+  const assessmentLabel = (asset: Asset) =>
+    match.side === "red" && asset.assessed
+      ? `Assessment from round ${asset.assessed.turn} · may be outdated`
+      : null;
   const evidenceLabel = (assetId: string) => {
     const count = perAsset.get(assetId)?.length || 0;
     return count ? `${count} visible event${count === 1 ? "" : "s"}` : "No observed activity";
@@ -143,6 +152,7 @@ export default function AssetBoard({
           <span className={styles.eyebrow}>YOUR INFORMATION</span>
           <h3>Organisation network</h3>
           <small>Observed match revision {match.version} · round {match.round ?? match.turn}</small>
+          <small>{match.assets.length} known assets · {match.connections.length} known trust paths</small>
         </div>
         <div className={styles.controls} aria-label="Asset view">
           <button
@@ -212,6 +222,7 @@ export default function AssetBoard({
                 </span>
                 <strong>{a.name}</strong>
                 <small>{summary(a, match.side)}</small>
+                {assessmentLabel(a) && <small>{assessmentLabel(a)}</small>}
                 <small>{evidenceLabel(a.id)}</small>
                 {changedIds.includes(a.id) && <small>New visible information</small>}
               </button>
@@ -232,6 +243,7 @@ export default function AssetBoard({
               </span>
               <strong>{a.name}</strong>
               <small>{summary(a, match.side)}</small>
+              {assessmentLabel(a) && <small>{assessmentLabel(a)}</small>}
               <small>{evidenceLabel(a.id)}</small>
                 {changedIds.includes(a.id) && <small>New visible information</small>}
             </button>

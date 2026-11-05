@@ -90,73 +90,98 @@ async function shot(page, name) {
       fullPage: true,
     });
 }
-test("Red Blue six scenarios: each seat renders only projected topology", async (t) => {
-  const { page, errors } = await context(t, TOKEN, false);
-  await page.goto("/red-blue");
-  const catalog = await page.request.get(API + "/api/v1/red-blue/catalog", {
+test("Red Blue six scenarios: mobile, keyboard, trust paths and seat-only evidence", async (t) => {
+  const { page: catalogPage } = await context(t, TOKEN, false);
+  await catalogPage.goto("/red-blue");
+  const catalogResponse = await catalogPage.request.get(API + "/api/v1/red-blue/catalog", {
     headers: { Authorization: "Bearer " + TOKEN },
   });
-  assert.equal(catalog.status(), 200);
-  const scenarios = (await catalog.json()).scenarios;
+  assert.equal(catalogResponse.status(), 200);
+  const scenarios = (await catalogResponse.json()).scenarios;
   assert.equal(scenarios.length, 6);
-  for (const scenario of scenarios) {
-    for (const side of ["red", "blue"]) {
-      await page.goto("/red-blue");
-      await page.getByLabel("Scenario", { exact: true }).selectOption(scenario.id);
-      await page.getByLabel("Your seat", { exact: true }).selectOption(side);
-      const created = page.waitForResponse((response) =>
-        response.url().endsWith("/api/v1/red-blue/matches") &&
-        response.request().method() === "POST");
-      await page.getByRole("button", { name: "Start match", exact: true }).click();
-      const response = await created;
-      assert.equal(response.status(), 201);
-      const projection = await response.json();
-      assert.equal(projection.side, side);
-      assert.equal(projection.scenario, scenario.id);
-      for (const privateKey of ["seed", "transcript", "timeline", "plans", "seats"])
-        assert.equal(privateKey in projection, false);
-      const board = page.getByRole("region", { name: "Known assets" });
-      await board.getByText(
-        `Observed match revision ${projection.version} · round ${projection.round ?? projection.turn}`,
-        { exact: true },
-      ).waitFor();
-      await board.getByRole("button", { name: "Network", exact: true }).click();
-      const geometry = await board.evaluate((element, state) => {
-        const nodeIds = new Set(state.assets.map((asset) => asset.id));
-        const edges = [...element.querySelectorAll("svg path[marker-end]")];
-        const nodes = [...element.querySelectorAll('button[style*="left:"]')];
-        const crossing = [];
-        for (let i = 0; i < edges.length; i++) {
-          const link = state.connections[i];
-          if (!nodeIds.has(link.source) || !nodeIds.has(link.target)) {
-            crossing.push("unknown projected endpoint");
-            continue;
-          }
-          const path = edges[i], length = path.getTotalLength();
-          for (let d = 0; d <= length; d += 5) {
-            const point = path.getPointAtLength(d);
-            for (let k = 0; k < nodes.length; k++) {
-              const asset = state.assets[k];
-              if (asset.id === link.source || asset.id === link.target) continue;
-              const x = parseFloat(nodes[k].style.left), y = parseFloat(nodes[k].style.top);
-              if (point.x > x + 2 && point.x < x + nodes[k].offsetWidth - 2 &&
-                  point.y > y + 2 && point.y < y + nodes[k].offsetHeight - 2) {
-                crossing.push(`${link.source}->${link.target} crosses ${asset.id}`);
-                break;
+
+  for (const mobile of [false, true]) {
+    const { page, errors } = await context(t, TOKEN, mobile);
+    for (const scenario of scenarios) {
+      for (const side of ["red", "blue"]) {
+        await page.goto("/red-blue");
+        await page.getByLabel("Scenario", { exact: true }).selectOption(scenario.id);
+        await page.getByLabel("Your seat", { exact: true }).selectOption(side);
+        const created = page.waitForResponse((response) =>
+          response.url().endsWith("/api/v1/red-blue/matches") &&
+          response.request().method() === "POST");
+        await page.getByRole("button", { name: "Start match", exact: true }).click();
+        const response = await created;
+        assert.equal(response.status(), 201);
+        const projection = await response.json();
+        const key = `${scenario.id} ${side} ${mobile ? "mobile" : "desktop"}`;
+        assert.equal(projection.side, side, key);
+        assert.equal(projection.scenario, scenario.id, key);
+        for (const secret of ["seed", "transcript", "timeline", "plans", "seats"])
+          assert.equal(secret in projection, false, key + ": hidden " + secret);
+        assert.ok(projection.connections.every((edge) =>
+          projection.assets.some((asset) => asset.id === edge.source) &&
+          projection.assets.some((asset) => asset.id === edge.target)), key);
+        const board = page.getByRole("region", { name: "Known assets" });
+        await board.getByText(
+          `Observed match revision ${projection.version} · round ${projection.round ?? projection.turn}`,
+          { exact: true },
+        ).waitFor();
+        await board.getByText(
+          `${projection.assets.length} known assets · ${projection.connections.length} known trust paths`,
+          { exact: true },
+        ).waitFor();
+        // The accessible list is the mobile and dense-graph fallback. Verify
+        // real keyboard selection updates the seat-filtered evidence inspector.
+        await board.getByRole("button", { name: "Asset list", exact: true }).click();
+        const asset = projection.assets[0];
+        const button = board.getByRole("button").filter({ hasText: asset.name }).last();
+        await button.focus();
+        await button.press("Enter");
+        assert.equal(await button.getAttribute("aria-pressed"), "true", key);
+        await board.getByRole("heading", {
+          name: `${asset.name} · observed evidence`, exact: true,
+        }).waitFor();
+        assert.equal(await page.evaluate(
+          () => document.documentElement.scrollWidth <= window.innerWidth
+        ), true, key + ": no document overflow");
+        await board.getByRole("button", { name: "Network", exact: true }).click();
+        const geometry = await board.evaluate((element, state) => {
+          const paths = [...element.querySelectorAll("svg path[marker-end]")];
+          const nodes = [...element.querySelectorAll('button[style*="left:"]')];
+          const crossing = [];
+          for (let i = 0; i < paths.length; i++) {
+            const edge = state.connections[i];
+            if (!edge) { crossing.push("unexpected edge"); continue; }
+            const path = paths[i];
+            for (let d = 0; d <= path.getTotalLength(); d += 5) {
+              const point = path.getPointAtLength(d);
+              for (let k = 0; k < nodes.length; k++) {
+                const asset = state.assets[k];
+                if (asset.id === edge.source || asset.id === edge.target) continue;
+                const x = parseFloat(nodes[k].style.left);
+                const y = parseFloat(nodes[k].style.top);
+                if (point.x > x + 2 && point.x < x + nodes[k].offsetWidth - 2 &&
+                    point.y > y + 2 && point.y < y + nodes[k].offsetHeight - 2) {
+                  crossing.push(`${edge.source}->${edge.target} crosses ${asset.id}`);
+                  break;
+                }
               }
+              if (crossing.length) break;
             }
-            if (crossing.length) break;
           }
-        }
-        return { edges: edges.length, crossing };
-      }, projection);
-      assert.equal(geometry.edges, projection.connections.length,
-        `${scenario.id} ${side}: edge count`);
-      assert.deepEqual(geometry.crossing, [],
-        `${scenario.id} ${side}: no trust path through another asset`);
+          return { edges: paths.length, nodes: nodes.length, crossing };
+        }, projection);
+        assert.equal(geometry.nodes, projection.assets.length, key + ": node count");
+        assert.equal(geometry.edges, projection.connections.length, key + ": edge count");
+        assert.deepEqual(geometry.crossing, [], key + ": no edges through asset cards");
+        assert.equal(await page.evaluate(
+          () => document.documentElement.scrollWidth <= window.innerWidth
+        ), true, key + ": no overflow in network mode");
+      }
     }
+    assert.deepEqual(errors, [], mobile ? "mobile page errors" : "desktop page errors");
   }
-  assert.deepEqual(errors, []);
 });
 
 for (const mobile of [false, true])

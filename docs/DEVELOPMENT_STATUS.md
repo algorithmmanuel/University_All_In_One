@@ -1,5 +1,16 @@
 # Development handover
 
+## Stage 5 B3 coordinated release candidate — 5 November 2026
+
+**Owner direction:** deliver all remaining B3 topology/visibility implementation and related checks as a single development candidate, without reducing quality or introducing a succession of independent mini-releases. Keep post-B3 learning/realistic assistance (C1), first-launch guide (C2), ranked debrief (C3) and construction-mode concepts (F) outside this B3 batch unless separately approved. Do not modify working unrelated features.
+
+**Verified pre-batch baseline:** B3 containment checks at `22ef806` passed dedicated V2 contract [41987112145](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987112145), backend [41987112171](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987112171), and real API/PostgreSQL [41987112144](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987112144). Browser gameplay [41987112175](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41987112175) was still running at baseline inspection.
+
+**Bundled candidate changes (this commit):** the player-visible asset board now reports counts of *known* assets and directed trust paths from the already seat-filtered API, distinguishes a change in known trust paths from a routine revision, and labels Red weakness/control assessments with their observed round and a possible-staleness warning. It does not reveal hidden Blue controls or Red actions. The real-API/browser six-scenario regression now tests *both* Red and Blue at both desktop and narrow mobile viewports (24 total starts), confirming no hidden match keys, no secret endpoints, SVG path-to-card separation, keyboard asset selection, seat-filtered evidence inspector and no document-level overflow in list/network modes. Existing two-human timed Blue→Red→Blue observation, seeded monitoring differential, containment, replay, 90-second clock and secrets tests remain in the shared full gates.
+
+**Release gates:** verify the exact batch commit through backend+isolated PostgreSQL, Red Blue V2 contract, real-API browser integration, browser gameplay, frontend build/type checks, and CI for unrelated app journeys. Do not misreport old green commits as proof of the new batch. No changes to database schema, backend gameplay engine, authentication, private beta or local runtime; Beta source head remains separate. Owner live two-browser laptop/ngrok acceptance and explicit release approval remain necessary before any promotion.
+
+
 ## Stage 5 B3 consequential containment and stale intelligence regression — 5 November 2026
 
 The previous monitoring-differential V2 contract [41986390461](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390461), backend [41986390454](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390454), and real-API/browser integration [41986390477](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390477) all **passed** for `1a996ea`. The browser gameplay run [41986390469](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390469) had not yet been confirmed finished at the time of the next implementation.
