@@ -1,5 +1,24 @@
 # Development handover
 
+## Stage 6 — bundled Red/Blue learning, onboarding, debrief and hardening candidate — 5 November 2026
+
+**Owner-approved scope and delivery:** implement the remaining approved Red/Blue C1 Learning/Realistic presentations, C2 authenticated first-run guided walkthrough, C3 role-aware bounded pivotal debrief and D full integration verification as **one coordinated Development candidate**. Continue to preserve all unrelated working EduCyber features; no player network-builder, inventory purchase economy, external AI or new languages. Promote nothing to Beta until the combined quality gates and owner acceptance pass.
+
+**Source changes (Development only):**
+- `f395482`: `api/cyber_warfare/v2_debrief.py` and edition-aware `v2_session.debrief` add a participant-only, completed-V2-only 5-decision ranked review, up to two measured one-action alternative attempts per pivotal decision, and a full optional transcript. Both Red and Blue are supported using one legal-action replay from the prior actual opening state. A candidate replay is a bounded immediate comparison, not a different guaranteed winner. The legacy V1 debrief and saved match edition are unchanged.
+- `f395482`: authenticated `GET /api/v1/red-blue/guide-status` and idempotent `POST /api/v1/red-blue/guide-complete` persist onboarding per user in the existing `CyberStudyProgress` table under the unique `red_blue_guide/v1` module identity; no migration, new credential, shared browser storage or match state change.
+- `2760ef2`: `GameGuide.tsx`, `LearningTips.tsx`, revised `AfterAction.tsx`, and wired simulator controls show a five-step Blue→Red→Blue walkthrough, Learning/Realistic mode switch, role-specific hints derived **only from offered seat orders and observations**, and bounded postgame review. Presentation mode does not enter the server command payload or determine attack/detection outcomes.
+- `c3f3727`: repairs the strict no-private-seed substring regression by using unambiguous public replay terminology. It does not change the deterministic replay algorithm.
+- `fa08c19`: real API + Playwright browser test for completion/reopening, mode switch without changing server match state, plus updating older full-transcript browser expectations.
+- `62a9c15`: detailed Help-page entry and simulator link/reopen route.
+
+**Verified evidence so far:** V2 contract [42007664674](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42007664674) PASSED and backend quality [42007664890](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42007664890) PASSED against `c3f3727`. Earlier pre-fix `f395482` V2/backend checks failed due to the word "seeded" appearing in a participant-facing explanation; this was corrected, not waived. The most recent *frontend/help/browser test source head* `62a9c15` has not yet passed the full browser and real API quality gates at this checkpoint. Do not claim Stage 6 released/complete until final-head CI completes.
+
+**Existing D hardening preserved:** server-owned 90-second timed preview, one-time 30-second presence grace, persisted worker expiry and SQL row locking, duplicate command receipts, separate authenticated seat projections, race/expiry/concurrency tests and full app regressions. Further owner testing required for recovery after laptop shutdown, two-browser real-device fairness, monitoring fidelity, six-scenario balance and public hosting suitability. No claim of production-grade timeout worker orchestration for Beta. Timed preview stays Development-only.
+
+**Next action:** verify exact final-head frontend typecheck/production build, all-six-scenario browser/projection checks, actual FastAPI/isolated PostgreSQL tests, V2 contract, and complete backend regression. Fix demonstrated failures without weakening safety assertions. Follow with owner local Development-only 8010/3010 + clock worker playthrough; **Beta remains at its previously verified source** until explicit promotion.
+
+
 ## Stage 5 B3 — full automated acceptance completed, owner runtime acceptance pending — 5 November 2026
 
 **Release candidate `5751adf9de0d2349f12dd1f57d70e4dab0acef35` PASSED all four automated workflow families on the same code commit:**
