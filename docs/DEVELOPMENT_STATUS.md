@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 5 B3 monitoring-dependent opponent evidence regression — 5 November 2026
+
+The previous two-human timed Blue→Red→Blue acceptance run passed both real-API/PostgreSQL [41984731115](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41984731115) and browser gameplay [41984731185](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41984731185) on source `d9e3bb2`.
+
+Development-only `1a996ea` adds a deterministic V2 domain regression in `api/cyber_warfare/test_v2_alternating.py`. It exercises two *otherwise-identical* matches with the same private seed and Red phishing attempt: Blue waits in one, deploys monitoring in the other. It searches deterministic seeds for the case where monitoring raises Blue's probability of observing a suspicious attempt. The assertions require identical underlying Red attack success/access in both worlds; Red's earlier projections remain equal despite hidden Blue monitoring; only the monitored Blue view receives an alert, and the alert contains no exact attack type, success outcome or hidden access. Both seat views survive V2 replay without leaking private seed, plans, seats or timeline.
+
+This is **test coverage of the existing engine**, not a claim of changed gameplay fidelity or new detection tools. The new code commit has not yet been independently verified by a matching backend CI result at this checkpoint. Run the Python V2 domain suite and relevant backend/contract gates against the exact source head before progressing to a release decision. No Beta source/environment, user data, migration or gameplay probabilities were changed. Further monitoring-grade variation, multi-turn scenario acceptance and owner laptop checks remain open.
+
+
 ## Stage 5 B3 two-way timed visibility acceptance — 5 November 2026
 
 The previous recurring Cyber Lab browser issue is resolved on source commit `ebf7e00`: real-API/PostgreSQL [41983899322](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899322) and browser gameplay [41983899335](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899335) both **passed**. This includes the existing all-six-scenario Red/Blue geometry regression in real-API CI; no Beta promotion occurred.
