@@ -199,3 +199,28 @@ def test_v3_isolated_schema_additive_migration_round_trip():
             migration.downgrade()
         assert set(inspect(connection).get_table_names()) == before
     engine.dispose()
+
+
+def test_v3_bot_decides_from_owned_projection_without_repeating_known_recon():
+    from cyber_warfare import v3_pilot as pilot, v3_clock
+    red_state = pilot.new("bot-private", "user:blue", "computer",
+                          v3_clock.Config(15, 90))
+    red_state = pilot.ready(red_state, "user:blue", 1000)
+    red_state = pilot.ready(red_state, "computer", 1000)
+    red_state = pilot.act(red_state, "user:blue",
+                          {"action":"wait_blue","target":None,"source":None},
+                          1001, "blue-one", 1)
+    choice = worker.choose_computer(red_state, 1001)
+    allowed = pilot.project(red_state, "computer", 1001)["offers"]
+    assert choice in allowed and choice["action"] == "recon"
+    first_target = choice["target"]
+    red_state = pilot.act(
+        red_state, "computer",
+        {k:v for k,v in choice.items() if k != "cost"}, 1002,
+        "red-first", 2)
+    red_state = pilot.act(red_state, "user:blue",
+                          {"action":"wait_blue","target":None,"source":None},
+                          1003,"blue-two",3)
+    next_choice = worker.choose_computer(red_state, 1003)
+    assert next_choice in pilot.project(red_state, "computer", 1003)["offers"]
+    assert next_choice["target"] != first_target

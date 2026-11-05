@@ -13,21 +13,83 @@ MAX_DUE_BATCH = 40
 
 
 def choose_computer(state, now):
-    """Choose strictly from the computer seat's own filtered action offers."""
+    """Choose strictly from the computer's own filtered offers and evidence.
+
+    Never read hidden asset truth, private control configurations or the other
+    player's intentions. Decisions favour meaningful progress over repeated
+    no-op reconnaissance and monitoring.
+    """
     visible = pilot.project(state, "computer", now)
     choices = visible["offers"]
     if not choices:
         return None
     side = visible["side"]
+    assets = {asset["id"]: asset for asset in visible["assets"]}
+    evidence = visible["evidence"]
+    def candidates(action):
+        return [offer for offer in choices if offer["action"] == action]
+
     if side == "red":
-        rank = ("recon", "assess", "phish", "cloud_access",
-                "escalate", "lateral", "fraud", "wait_red")
-    else:
-        rank = ("monitor", "patch", "segment", "investigate", "wait_blue")
-    return min(choices, key=lambda o: (
-        rank.index(o["action"]) if o["action"] in rank else 100,
-        o["target"] or "", o["source"] or "",
-    ))
+        # Finish an actual permitted objective before spending time probing.
+        for action in ("fraud", "escalate", "lateral"):
+            permitted = candidates(action)
+            if permitted:
+                return min(permitted, key=lambda o: (
+                    assets[o["target"]].get("kind") != "database",
+                    o["target"] or "", o["source"] or "",
+                ))
+        already_scanned = {e["target"] for e in evidence
+                           if e["kind"] == "recon" and e["target"]}
+        # Scope reconnaissance to assets the bot knows about, and avoid
+        # needlessly probing the same node while a new one is available.
+        unscanned = [o for o in candidates("recon")
+                     if o["target"] not in already_scanned]
+        known_database = any(a["kind"] == "database" for a in assets.values())
+        if unscanned and not known_database:
+            return min(unscanned, key=lambda o: (
+                {"workstation": 0, "server": 1, "cloud": 2,
+                 "database": 3, "third_party": 4}.get(
+                    assets[o["target"]]["kind"], 5), o["target"],
+            ))
+        for action in ("phish", "cloud_access"):
+            permitted = candidates(action)
+            if permitted:
+                return min(permitted, key=lambda o: o["target"] or "")
+        assessments = [o for o in candidates("assess")
+                       if assets[o["target"]].get("assessment") is None]
+        if assessments:
+            return min(assessments, key=lambda o: (
+                assets[o["target"]]["kind"] != "database", o["target"] or "",
+            ))
+        if unscanned:
+            return min(unscanned, key=lambda o: o["target"] or "")
+        return candidates("wait_red")[0]
+
+    # Blue owns its inventory, not Red's private access or intended target.
+    findings = {e["target"] for e in evidence if e["kind"] == "finding"
+                and e["target"] and "confirmed" in e["message"]}
+    observed = {e["target"] for e in evidence if e["kind"] == "alert" and e["target"]}
+    investigated = {e["target"] for e in evidence if e["kind"] == "finding" and e["target"]}
+    for target in sorted(findings):
+        blocking = [o for o in candidates("isolate") if o["target"] == target
+                    and not assets[target].get("isolated")]
+        if blocking:
+            return blocking[0]
+    for target in sorted(observed - investigated):
+        investigation = [o for o in candidates("investigate") if o["target"] == target]
+        if investigation:
+            return investigation[0]
+    for action, control in (("monitor", "monitoring"), ("patch", "patched"),
+                            ("segment", "segmented")):
+        available = [o for o in candidates(action)
+                     if control not in assets[o["target"]].get("controls", [])]
+        if available:
+            return min(available, key=lambda o: (
+                not assets[o["target"]].get("exposed", False),
+                -assets[o["target"]].get("value", 0), o["target"] or "",
+            ))
+    return candidates("wait_blue")[0]
+
 
 
 def process_due_once(db, server_now=None):
