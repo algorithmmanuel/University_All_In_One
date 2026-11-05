@@ -9,6 +9,7 @@ import os
 import time
 
 from cyber_warfare.v2_timeout_worker import process_due_once
+from cyber_warfare.v3_timeout_worker import process_due_once as process_v3_due_once
 from database import SessionLocal
 from development_runtime import validate_development_database
 
@@ -23,6 +24,8 @@ def main():
             try:
                 with SessionLocal() as db:
                     process_due_once(db)
+                with SessionLocal() as db:
+                    process_v3_due_once(db)
             except Exception as exc:
                 # Database exceptions can contain private configuration. Log
                 # only the exception class; retain fail-closed state.
