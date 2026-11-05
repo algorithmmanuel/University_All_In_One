@@ -102,6 +102,15 @@ export type History = {
   next_before_id: number | null;
 };
 export type Debrief = {
+  pivotal?: (Order & {
+    turn: number;
+    side: Side;
+    success: boolean;
+    detected: boolean;
+    framework: Action;
+    reason: string;
+    alternatives: (Order & { side: Side; turn: number; explanation: string; framework: Action })[];
+  })[];
   winner: Side;
   explanation: string;
   timeline: (Order & {

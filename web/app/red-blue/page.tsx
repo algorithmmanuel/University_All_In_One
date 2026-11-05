@@ -10,6 +10,8 @@ import AssetBoard from "./AssetBoard";
 import Planner from "./Planner";
 import TurnClock from "./TurnClock";
 import AfterAction from "./AfterAction";
+import GameGuide from "./GameGuide";
+import LearningTips from "./LearningTips";
 import type { Side } from "./types";
 import styles from "./arena.module.css";
 
@@ -20,6 +22,8 @@ export default function RedBlueArena() {
   const [mode, setMode] = useState("computer"),
     [difficulty, setDifficulty] = useState("standard");
   const [ruleset, setRuleset] = useState<"sealed" | "alternating_preview" | "timed_preview">("sealed");
+  const [presentation, setPresentation] = useState<"learning" | "realistic">("learning");
+  const [guideOpen, setGuideOpen] = useState(false);
   const [token, setToken] = useState(""),
     [selected, setSelected] = useState("");
   useEffect(() => {
@@ -50,6 +54,9 @@ export default function RedBlueArena() {
     );
     return () => window.cancelAnimationFrame(frame);
   }, [arena.loading, arena.catalog]);
+  useEffect(() => {
+    if (!arena.loading && arena.catalog && !arena.guideComplete) setGuideOpen(true);
+  }, [arena.loading, arena.catalog, arena.guideComplete]);
   const heading = useActivityFocus(arena.opened);
   const m = arena.match;
   const selectedId = m?.assets.some((a) => a.id === selected)
@@ -105,6 +112,22 @@ export default function RedBlueArena() {
         ) : (
           arena.catalog && (
             <>
+              <div className={styles.guideControls}>
+                <button type="button" onClick={() => setGuideOpen((open) => !open)}>
+                  {guideOpen ? "Hide first-launch guide" : "How to play · reopen guide"}
+                </button>
+              </div>
+              {guideOpen && (
+                <GameGuide
+                  completed={arena.guideComplete}
+                  busy={arena.busy}
+                  onClose={() => setGuideOpen(false)}
+                  onComplete={() => {
+                    if (arena.guideComplete) setGuideOpen(false);
+                    else void arena.completeGuide();
+                  }}
+                />
+              )}
               <div className={styles.setupGrid}>
                 <section className={styles.panel} aria-labelledby="new-match">
                   <h2 id="new-match">Start a match</h2>
@@ -145,6 +168,17 @@ export default function RedBlueArena() {
                       >
                         <option value="computer">Rule-based computer</option>
                         <option value="human">Another learner</option>
+                      </select>
+                    </label>
+                    <label>
+                      Gameplay presentation
+                      <select
+                        aria-label="Gameplay presentation"
+                        value={presentation}
+                        onChange={(e) => setPresentation(e.target.value as "learning" | "realistic")}
+                      >
+                        <option value="learning">Learning · explain and coach</option>
+                        <option value="realistic">Realistic · evidence only</option>
                       </select>
                     </label>
                     {arena.catalog.alternating_preview_available && (
@@ -274,6 +308,23 @@ export default function RedBlueArena() {
                       Refresh saved match
                     </button>
                   </div>
+                  <div className={styles.guideControls}>
+                    <label>
+                      Gameplay presentation
+                      <select
+                        aria-label="Active gameplay presentation"
+                        value={presentation}
+                        onChange={(e) => setPresentation(e.target.value as "learning" | "realistic")}
+                      >
+                        <option value="learning">Learning · assisted</option>
+                        <option value="realistic">Realistic · evidence only</option>
+                      </select>
+                    </label>
+                    <p className={styles.muted}>
+                      Presentation affects explanations only. It does not change
+                      match actions, server outcomes, budgets or your seat's evidence.
+                    </p>
+                  </div>
                   {m.clock && <TurnClock clock={m.clock} activeSide={m.active_side} seat={m.side} />}
                   <div className={styles.stats} aria-label="Match resources">
                     <div>
@@ -367,6 +418,13 @@ export default function RedBlueArena() {
                       </p>
                     </section>
                   )}
+                  {presentation === "learning" && (
+                    <LearningTips
+                      match={m}
+                      actions={arena.catalog.actions}
+                      selected={selectedId}
+                    />
+                  )}
                   <div className={styles.playGrid}>
                     <AssetBoard
                       match={m}
@@ -414,7 +472,7 @@ export default function RedBlueArena() {
                       <p>No action evidence recorded yet.</p>
                     )}
                   </section>
-                  {arena.debrief && <AfterAction result={arena.debrief} />}
+                  {arena.debrief && <AfterAction result={arena.debrief} seat={m.side} />}
                 </section>
               )}
               <section className={styles.panel} aria-labelledby="saved-matches">

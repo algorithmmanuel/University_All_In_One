@@ -39,6 +39,7 @@ export function useArena() {
     expires_at: string;
   } | null>(null);
   const [uncertain, setUncertain] = useState(false);
+  const [guideComplete, setGuideComplete] = useState(false);
   const pending = useRef<Command | null>(null),
     inFlight = useRef(false);
   const generation = useRef(0);
@@ -93,6 +94,8 @@ export function useArena() {
       const c = await request<Catalog>("/catalog");
       setCatalog(c);
       await loadHistory();
+      const guide = await request<{ completed: boolean }>("/guide-status");
+      setGuideComplete(guide.completed);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -289,6 +292,12 @@ export function useArena() {
       }
     });
   }
+  async function completeGuide() {
+    await perform(async () => {
+      const guide = await request<{ completed: boolean }>("/guide-complete", {});
+      setGuideComplete(guide.completed);
+    });
+  }
   async function more() {
     if (history.next_before_id)
       await perform(() => loadHistory(history.next_before_id!));
@@ -304,6 +313,8 @@ export function useArena() {
     opened,
     invite,
     uncertain,
+    guideComplete,
+    completeGuide,
     start,
     resume,
     join,

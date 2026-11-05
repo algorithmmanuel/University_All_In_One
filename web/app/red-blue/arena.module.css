@@ -399,3 +399,18 @@
 .workspace[data-side] .stats {background:var(--seat-surface);border-color:var(--seat-line)}
 .workspace[data-side] .stats div {border-color:var(--seat-line)}
 .workspace[data-side] .stats span {color:var(--muted)}
+
+/* Stage 6 onboarding and presentation controls remain keyboard-accessible. */
+.guideControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin: 12px 0 20px;
+}
+.guideControls label {
+  min-width: min(100%, 270px);
+}
+.guideControls p {
+  flex: 1 1 280px;
+}
