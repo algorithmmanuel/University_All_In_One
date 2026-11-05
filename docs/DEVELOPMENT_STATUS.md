@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 5 B3 consequential containment and stale intelligence regression — 5 November 2026
+
+The previous monitoring-differential V2 contract [41986390461](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390461), backend [41986390454](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390454), and real-API/browser integration [41986390477](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390477) all **passed** for `1a996ea`. The browser gameplay run [41986390469](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41986390469) had not yet been confirmed finished at the time of the next implementation.
+
+Development-only commit `22ef806` adds a deterministic, multi-turn V2 regression: Red successfully phishes a Teller workstation in round one; Blue immediately contains that workstation in round two, changing authoritative `isolated` to true and `access` to zero; Red's pre-action projection still contains its stale believed user foothold and does not disclose Blue's intervention; Red then attempts an offered privilege escalation, which fails without revealing the hidden exact control, and Red updates its own belief from that failed result. The test additionally checks that Blue's owned inventory reflects isolation, no fabricated Blue alert is created by the blocked escalation, and authorised projections are identical after a private deterministic replay. The source engine, API, user data, Beta and migrations remain unchanged.
+
+This new commit is **not verified until the exact-head V2 contract/backend and relevant real-API workflows pass**. Further broad scenarios, monitoring-grade coverage, browser validation of consequence labels and owner acceptance remain open. Do not promote to Beta solely on this test.
+
+
 ## Stage 5 B3 monitoring-dependent opponent evidence regression — 5 November 2026
 
 The previous two-human timed Blue→Red→Blue acceptance run passed both real-API/PostgreSQL [41984731115](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41984731115) and browser gameplay [41984731185](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41984731185) on source `d9e3bb2`.
