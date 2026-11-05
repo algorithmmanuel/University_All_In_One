@@ -1,5 +1,4 @@
 "use client";
-import type { ReactNode } from "react";
 import styles from "./V3Topology.module.css";
 
 type VisibleAsset = {
