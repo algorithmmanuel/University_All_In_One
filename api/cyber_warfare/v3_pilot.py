@@ -264,7 +264,7 @@ def offers(state, player):
                     actions.append("cloud_access")
             if access == 1:
                 actions.append("escalate")
-            if access == 2:
+            if access == 2 and target == "ledger":
                 actions.append("fraud")
             # Only an already discovered trust link from an own privileged
             # foothold may unlock lateral movement.

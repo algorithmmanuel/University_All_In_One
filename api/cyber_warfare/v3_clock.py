@@ -65,7 +65,7 @@ def begin(config: Config, server_now: int, first_side: str = "blue") -> Clock:
 
 def status(clock: Clock, server_now: int) -> str:
     """Game expiry wins precedence over a turn expiry at identical seconds."""
-    if type(server_now) is not int or server_now < clock.started_at:
+    if type(server_now) is not int or server_now < clock.turn_started_at:
         raise ValueError("Invalid authoritative server time")
     if server_now >= clock.match_deadline_at:
         return "match_expired"

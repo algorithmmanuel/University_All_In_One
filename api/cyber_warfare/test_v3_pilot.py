@@ -49,7 +49,7 @@ def test_preparation_is_private_but_control_effect_is_real():
     assert "segmented" not in json.dumps(red)
     assert "monitoring" not in json.dumps(red)
     assert "quiet_investigation" == red["strategy"]
-    assert "monitoring" in pilot.project(g, "blue-account")["assets"][3]["controls"]
+    assert "monitoring" in pilot.project(g, "blue-account")["assets"][4]["controls"]
     with pytest.raises(ValueError):
         pilot.prepare(g, "red-account", control="hardened", target="teller")
     assert pilot.ready(g, "blue-account", 1000)["phase"] == "prepare"
