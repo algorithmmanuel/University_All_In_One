@@ -2,6 +2,7 @@
 import importlib.util
 from pathlib import Path
 from unittest.mock import patch
+from pathlib import Path
 import sys
 
 
@@ -31,7 +32,16 @@ def test_running_development_service_never_migrates(monkeypatch):
 def test_explicit_action_uses_only_guarded_environment(monkeypatch):
     module = load_migrator(monkeypatch)
     env = {'DATABASE_URL': 'synthetic-guarded-target'}
-    with patch.object(module, 'configuration', return_value=env), patch.object(module, 'require_free_port') as port, patch.object(module.subprocess, 'call', return_value=0) as run:
+    with patch.object(module, 'configuration', return_value=env), patch.object(module, 'require_free_port') as port, patch.object(module, 'latest_verified_backup', return_value=Path('educyber-dev-test.dump')) as backup, patch.object(module.subprocess, 'call', return_value=0) as run:
         assert module.main() == 0
         assert [c.args[0] for c in port.call_args_list] == [8010, 3010]
+        backup.assert_called_once_with(env)
         run.assert_called_once_with([sys.executable, '-m', 'alembic', 'upgrade', 'head'], cwd=module.ROOT / 'api', env=env)
+
+
+def test_migration_refuses_missing_verified_backup(monkeypatch):
+    module = load_migrator(monkeypatch)
+    env = {'DATABASE_URL': 'synthetic-guarded-target'}
+    with patch.object(module, 'configuration', return_value=env), patch.object(module, 'require_free_port'), patch.object(module, 'latest_verified_backup', side_effect=ValueError('No fresh verified backup')), patch.object(module.subprocess, 'call') as run:
+        assert module.main() == 1
+        run.assert_not_called()

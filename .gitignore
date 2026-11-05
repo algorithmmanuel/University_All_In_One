@@ -17,3 +17,6 @@ local-backups/
 # Isolated browser CI harness; do not vendor test tooling into source.
 /.ci-browser/
 
+
+# Untracked, sensitive local Development database archives and receipts
+.local-development-backups/

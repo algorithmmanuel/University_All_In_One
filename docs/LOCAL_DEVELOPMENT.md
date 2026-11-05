@@ -85,3 +85,49 @@ Do not use the old synchronisation wrapper blindly: its branch expectation preda
 ## Remaining validation
 
 Record actual Windows startup and runtime results in DEVELOPMENT_STATUS.md. The committed guard tests do not establish full application compatibility, frontend type correctness, browser success or a passing full database test suite. Broad dependency ranges and a different newly installed environment remain an explicit compatibility/reproducibility work item.
+
+
+## V3 isolated Microfinance database backup and migration
+
+**Only after final-head CI passes and after reviewing your local Development setup.**
+V3 adds `0014_red_blue_v3_pilot` with two new match-related tables; ordinary
+service startup never migrates. Preserve the Beta checkout, port 5433, ngrok and
+all existing database volumes.
+
+Stop **only** the Development frontend, API and timed worker (Ctrl+C).
+From the Development checkout root in PowerShell:
+
+```powershell
+$ErrorActionPreference = 'Stop'
+if ((git branch --show-current).Trim() -ne 'feature/beta-continuous-improvement') { throw 'Wrong checkout' }
+git status --short
+# Review tracked changes and backups before any git update.
+& .\api\.venv\Scripts\python.exe .\scripts\backup_development.py
+if ($LASTEXITCODE -ne 0) { throw 'Verified Development backup required before migration.' }
+& .\api\.venv\Scripts\python.exe .\scripts\migrate_development.py
+if ($LASTEXITCODE -ne 0) { throw 'Migration stopped: inspect Development logs privately.' }
+```
+
+The backup command validates both the configured connection and actual
+PostgreSQL server identity before creating a custom-format `pg_dump`
+archive. It confirms `pg_restore --list`, SHA-256 and byte size in a
+local, ignored `.local-development-backups/` manifest. It requires both
+`pg_dump` and `pg_restore` installed on PATH. The migration script
+refuses to run without a backup made within the last 24 hours for the
+**same** Development database and **same** pre-migration Alembic revision.
+This verifies archive integrity, but a separate restore rehearsal is still
+recommended for production-grade assurance.
+
+**Port discrepancy:** the source runtime guard currently requires
+`127.0.0.1:5435`, database and user `educyber_dev`. Older planning
+notes mention 5434. Do not override the launcher or change local database
+ports blindly. If the existing dedicated database is still on 5434, the
+new script will refuse to continue; resolve that isolation configuration
+before migrating. Do not disclose the private connection password.
+
+After a successful migration, start Development API on 8010, web on 3010
+and the independent `development.py clock-worker` in separate terminals,
+then run `development.py check`. Visit
+`http://127.0.0.1:3010/red-blue/v3` with a Development learner account.
+Test Blue vs computer first and then a separate second authenticated human
+account. Never run these migration commands from the Beta checkout.
