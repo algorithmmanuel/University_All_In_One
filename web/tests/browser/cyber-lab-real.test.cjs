@@ -504,8 +504,12 @@ for (const mobile of [false, true])
         response.request().method() === "POST",
     );
     const isolate = controls.getByRole("button", { name: /^Isolate asset/ });
-    await isolate.focus();
-    await page.keyboard.press("Enter");
+    // The new shift is rendered before its parent finishes refreshing saved
+    // runs. During that refresh the action button is intentionally disabled;
+    // pressing Enter then sends no request. Trial click waits for enabled and
+    // actionable state without activating the button or bypassing the keyboard.
+    await isolate.click({ trial: true });
+    await isolate.press("Enter");
     assert.equal((await reply).status(), 200);
     await controls.getByText(/Service encrypted/).waitFor();
     const latest = (await get("/runs")).runs[0];
