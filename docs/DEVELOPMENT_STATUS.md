@@ -1,5 +1,14 @@
 # Development handover
 
+## V3 Advanced Microfinance expanded pilot — 5 November 2026
+
+**Latest implemented application source:** `68874ab6ae2b9448e5ec6d0042c21580ab756b22`. This remains **Development-only** and has not been promoted to Beta or migrated onto the owner's laptop. The exact latest-head backend, real API/PostgreSQL browser, and browser gameplay quality gates are queued/running at this checkpoint; do not claim fully green until those results are known.
+
+**Substantive V3 expansion:** `9d0bf765` adds an independent, immutable/strictly validated V3-specific Microfinance scenario containing **16** assets instead of the five in legacy `api/cyber_warfare/scenarios/microfinance.json`. The legacy V1/V2 scenario file, six existing scenarios and saved sessions are unchanged. The V3 topology computes every node position from the *seat-filtered assets*, not a public hard-coded map of hidden IDs. The extra topology exposes directed known links only. `4af0a8d2` tightens TypeScript typing; `d8295c99` displays accepted overall/turn deadlines to both learners before each marks ready. `68874ab6` adds fictional asset operational zones and simulated patch age; Blue can inspect exact owned patch posture, Red sees assessments only after authorising investigation, and previously assessed intelligence does **not** update silently after Blue patches. Business-value scoring, role-scoped inspector and the policy-versus-technical-control boundary remain separate.
+
+**Required remaining gates:** wait for exact-head CI, then owner-approved **isolated Development-only** Alembic revision `0014_red_blue_v3_pilot` after independently verified PostgreSQL backup and database target check. `scripts/development.py` does not migrate automatically. Validate Development API 8010, web 3010, independent clock worker, two separate authenticated human sessions and computer opponent, timer expiration/reconnect, Blue's policy/control choice, Red's discovery up to the ledger and detailed asset inspector. Keep Beta 8000/3000/5433/ngrok untouched; do not merge the next V3 pilot into Beta without owner approval. If any CI gate is red, correct it before asking for laptop deployment.
+
+
 ## V3 Advanced Microfinance integrated Development candidate — 5 November 2026
 
 **Owner-approved pilot only; Beta untouched.** The new V3 engine and UI are independent of existing V1/V2 recordings and other five scenario configurations. Its own V3 database schema revision is **`0014_red_blue_v3_pilot`**, separate from the V2 match/seat/receipt tables. **Do not run Development from this source against its existing database until the isolated DEVELOPMENT database has been backed up and the additive migration has been explicitly applied.** `scripts/development.py` intentionally does not run migrations automatically. Do not migrate, stamp, restore, reset or delete the Beta database.
