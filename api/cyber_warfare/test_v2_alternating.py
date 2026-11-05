@@ -50,6 +50,56 @@ def test_blue_effect_resolves_before_red_and_opponent_stays_private():
     assert len(match.private.timeline) == 2
 
 
+
+def test_monitoring_changes_alert_visibility_without_revealing_red_success():
+    """Same seed and attack: monitoring changes alerts, not hidden outcomes."""
+    scenario = next(s for s in list_scenarios() if s.id == "microfinance")
+    attack = engine.Order("phish", "teller")
+    for index in range(200):
+        seed = f"monitor-visibility-{index}"
+        ordinary = alt.new_match(scenario, seed, "red-human", "blue-human")
+        monitored = alt.new_match(scenario, seed, "red-human", "blue-human")
+        ordinary = alt.commit(ordinary, "blue-human", wait("blue"), 1, "blue-wait")
+        monitored = alt.commit(monitored, "blue-human",
+                               engine.Order("monitor", "teller"), 1, "blue-monitor")
+        red_ordinary = alt.view(ordinary, "red-human")
+        red_monitored = alt.view(monitored, "red-human")
+        assert red_ordinary["assets"] == red_monitored["assets"]
+        assert red_ordinary["observations"] == red_monitored["observations"]
+        assert "monitoring" in next(a for a in alt.view(monitored, "blue-human")["assets"]
+                                    if a["id"] == "teller")["controls"]
+        assert attack in alt.available_orders(ordinary, "red-human")
+        assert attack in alt.available_orders(monitored, "red-human")
+
+        ordinary = alt.commit(ordinary, "red-human", attack, 1, "red-phish")
+        monitored = alt.commit(monitored, "red-human", attack, 1, "red-phish")
+        plain_event = ordinary.private.timeline[-1]
+        tool_event = monitored.private.timeline[-1]
+        assert plain_event["success"] == tool_event["success"]
+        assert ordinary.private.assets["teller"]["access"] == monitored.private.assets["teller"]["access"]
+        if plain_event["detected"] or not tool_event["detected"]:
+            continue
+        blue_plain = alt.view(ordinary, "blue-human")
+        blue_tools = alt.view(monitored, "blue-human")
+        assert not any(e["type"] == "alert" for e in blue_plain["observations"])
+        alerts = [e for e in blue_tools["observations"] if e["type"] == "alert"]
+        assert len(alerts) == 1 and alerts[0]["target"] == "teller"
+        assert "action" not in alerts[0] and "success" not in alerts[0]
+        assert "phish" not in alerts[0]["message"].lower()
+        assert "access" not in next(a for a in blue_tools["assets"] if a["id"] == "teller")
+        red_tools = alt.view(monitored, "red-human")
+        assert not any(e["type"] == "alert" for e in red_tools["observations"])
+        assert all(e["type"] == "own_action" for e in red_tools["observations"])
+        for projection in (blue_plain, blue_tools, red_tools):
+            assert not {"seed", "timeline", "plans", "seats"} & projection.keys()
+        restored = alt.replay(json.loads(json.dumps(alt.export_replay(monitored))))
+        assert alt.view(restored, "blue-human") == blue_tools
+        assert alt.view(restored, "red-human") == red_tools
+        break
+    else:
+        pytest.fail("No deterministic seed demonstrated the monitoring alert delta")
+
+
 def test_exact_uuid_retry_does_not_double_charge_or_resolve():
     first = start()
     first = alt.commit(first, "blue-human", wait("blue"), 1, "uuid-1")
