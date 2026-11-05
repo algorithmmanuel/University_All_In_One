@@ -1,28 +1,41 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import JourneyLink from '../../components/journey/JourneyLink';
 import { useRouter } from 'next/navigation';
+import LessonGuide, {type LearningGuide} from '../../components/lesson-guide';
+import LessonReading from '../../components/lesson-reading';
+import { FOUNDATIONS } from '../../lib/learning-journey';
+import { COURSE_STAGES, productionCourseMetadata } from '../../lib/approved-course-catalog';
+import { useActivityFocus } from '../../lib/use-activity-focus';
 
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
 type Course = {id:number;academy_id:string;title:string;description:string;lesson_count:number};
 type Enrollment = {id:number;academy_id:string;title:string;description:string;total_lessons:number;completed_lessons:number;progress_percent:number};
-type Lesson = {id:number;title:string;content:string;position:number;completed:boolean};
+type Lesson = {id:number;title:string;content:string;position:number;completed:boolean;learning_guide?:LearningGuide|null};
 type CourseDetail = {course:Course;lessons:Lesson[]};
 const academies: Record<string,string> = {cyber:'Cybersecurity Academy',university:'University',secondary:'Secondary School'};
 
 export default function Learn() {
   const router = useRouter();
+  const [foundation,setFoundation]=useState<keyof typeof FOUNDATIONS|null>(null);
   const [catalog,setCatalog]=useState<Course[]>([]);
+  const [catalogPathway,setCatalogPathway]=useState('all');
+  const [catalogStage,setCatalogStage]=useState('all');
   const [enrollments,setEnrollments]=useState<Enrollment[]>([]);
   const [selected,setSelected]=useState<CourseDetail|null>(null);
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
   const [loading,setLoading]=useState(true);
+  const [hasLoaded,setHasLoaded]=useState(false);
+  const [openSequence,setOpenSequence]=useState(0);
+  const linkedLessonFocused=useRef(false);
+  const activityHeading=useActivityFocus(openSequence);
 
-  const request = useCallback(async (path:string, method='GET') => {
+  const request = useCallback(async (path:string, method='GET', data?:Record<string,unknown>) => {
     const token=sessionStorage.getItem('educyber_token');
     if (!token) {router.replace('/account');throw new Error('Please sign in');}
-    const response=await fetch(API+path,{method,headers:{Authorization:'Bearer '+token}});
+    const response=await fetch(API+path,{method,headers:{Authorization:'Bearer '+token,...(data?{'Content-Type':'application/json'}:{})},...(data?{body:JSON.stringify(data)}:{})});
     const body=await response.json();
     if (!response.ok) {
       if(response.status===401) {sessionStorage.removeItem('educyber_token');router.replace('/account');}
@@ -36,7 +49,7 @@ export default function Learn() {
       request('/api/v1/learning/catalog'),
       request('/api/v1/learning/enrollments')
     ]);
-    setCatalog(courses.courses);setEnrollments(mine.enrollments);
+    setCatalog(courses.courses);setEnrollments(mine.enrollments);setHasLoaded(true);
   },[request]);
 
   useEffect(()=>{
@@ -45,15 +58,45 @@ export default function Learn() {
     return ()=>{active=false;};
   },[refresh]);
 
+  useEffect(()=>{
+    if(loading)return;
+    const id=Number(new URLSearchParams(window.location.search).get('course'));
+    if(Number.isSafeInteger(id)&&enrollments.some(course=>course.id===id)){
+      openCourse(id,false);
+    }
+    // Resolve the initial URL after enrolments load; ordinary refreshes must not reopen a closed course.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[loading]);
+
+  useEffect(()=>{
+    if(!selected||linkedLessonFocused.current)return;
+    const target=selected.lessons.find(lesson=>window.location.hash===`#lesson-${lesson.id}`);
+    if(!target)return;
+    const heading=document.getElementById(`lesson-${target.id}`);
+    linkedLessonFocused.current=true;
+    heading?.scrollIntoView({behavior:'instant',block:'start'});
+    heading?.focus({preventScroll:true});
+  },[selected]);
+
+  useEffect(()=>{
+    const requested=new URLSearchParams(window.location.search).get('foundation');
+    if(requested && Object.prototype.hasOwnProperty.call(FOUNDATIONS,requested)) setFoundation(requested as keyof typeof FOUNDATIONS);
+  },[]);
+  const suggested=foundation ? catalog.find(c=>c.title===FOUNDATIONS[foundation]) : null;
+
   async function enroll(id:number){
     setBusy(true);setError('');
     try{await request('/api/v1/learning/enrollments/'+id,'POST');await refresh();await openCourse(id);}
     catch(e){setError(e instanceof Error?e.message:'Unable to enroll');}
     finally{setBusy(false);}
   }
-  async function openCourse(id:number){
+  async function openCourse(id:number, moveToActivity=true){
     setBusy(true);setError('');
-    try{const detail=await request('/api/v1/learning/courses/'+id+'/lessons');setSelected(detail);}
+    try{
+      const detail=await request('/api/v1/learning/courses/'+id+'/lessons');
+      setSelected(detail);
+      if(moveToActivity)setOpenSequence(value=>value+1);
+    }
     catch(e){setError(e instanceof Error?e.message:'Unable to load lessons');}
     finally{setBusy(false);}
   }
@@ -62,18 +105,18 @@ export default function Learn() {
     setBusy(true);setError('');
     try{
       await request('/api/v1/learning/lessons/'+id+'/complete','POST');
-      await openCourse(selected.course.id);
+      await openCourse(selected.course.id,false);
       await refresh();
     }catch(e){setError(e instanceof Error?e.message:'Unable to save progress');}
     finally{setBusy(false);}
   }
 
   return <main className="container section" style={{maxWidth:1100}}>
-    <Link href="/dashboard">← Dashboard</Link>
-    <h1>My learning</h1>
+    <Link href="/dashboard">← Dashboard</Link> <span aria-hidden="true"> · </span> <JourneyLink />
+    <h1>My learning</h1><p><Link href="/cyber-lab?tab=learn">Open the new cybersecurity modules and practice bank →</Link></p>
     <p className="muted">Explore published courses, enroll and track completed lessons. Your progress is saved to your account.</p>
-    {error&&<p role="alert" style={{color:'#a52626'}}>{error}</p>}
-    {loading?<p role="status">Loading courses…</p>:<>
+    {error&&<div><p role="alert" className="status-error">{error}</p><button className="btn secondary" disabled={busy||loading} onClick={()=>{setError('');setLoading(true);refresh().catch(e=>setError(e.message)).finally(()=>setLoading(false));}}>Retry learning data</button></div>}
+    {loading?<p role="status">Loading courses…</p>:!hasLoaded?null:<>
       <section>
         <h2>Enrolled courses</h2>
         {enrollments.length===0?<p className="muted">You have not enrolled in a course yet.</p>:<div className="grid">
@@ -89,10 +132,25 @@ export default function Learn() {
       </section>
       <section className="section">
         <h2>Course catalogue</h2>
-        {catalog.length===0?<p className="muted">No published courses yet. Run the demonstration course seed command.</p>:<div className="grid">
-          {catalog.map(c=><article className="card" key={c.id}>
+        <p className="muted">Read at your own pace. Courses can be completed without playing games. The approved 24-course library will appear here as courses are fully authored, reviewed and published. Games are optional.</p>
+        <label htmlFor="course-pathway">Learning pathway</label>
+        <select id="course-pathway" value={catalogPathway} onChange={event=>setCatalogPathway(event.target.value)} style={{display:"block",marginBottom:16}}>
+          <option value="all">All published courses</option>
+          <option value="secondary">Cyber Explorers</option>
+          <option value="university">Cyber Academy</option>
+          <option value="cyber">Cyber Command</option>
+        </select>
+        <label htmlFor="course-stage">Learning stage</label>
+        <select id="course-stage" value={catalogStage} onChange={event=>setCatalogStage(event.target.value)} style={{display:"block",marginBottom:16}}>
+          <option value="all">All eight stages</option>
+          {COURSE_STAGES.map((stage,index)=><option key={stage} value={String(index)}>{index+1}. {stage}</option>)}
+        </select>
+        {foundation&&<p className="notice">Suggested from your journey: <strong>{FOUNDATIONS[foundation]}</strong>. {suggested?'Choose its enrol/open button below.':'This course is not currently in the loaded catalogue; you can choose another available course.'} Python remains optional.</p>}
+        {catalog.filter(c=>{const meta=productionCourseMetadata(c.academy_id,c.title);return meta!==null&&(catalogPathway==="all"||c.academy_id===catalogPathway)&&(catalogStage==="all"||String(meta.stageIndex)===catalogStage);}).length===0?<p className="muted">No production courses have been published for this selection yet. Existing enrolled courses remain available above.</p>:<div className="grid">
+          {catalog.filter(c=>{const meta=productionCourseMetadata(c.academy_id,c.title);return meta!==null&&(catalogPathway==="all"||c.academy_id===catalogPathway)&&(catalogStage==="all"||String(meta.stageIndex)===catalogStage);}).sort((a,b)=>Number(b.id===suggested?.id)-Number(a.id===suggested?.id)).map(c=><article className="card" key={c.id}>
             <span className="small">{academies[c.academy_id]||c.academy_id}</span>
             <h3>{c.title}</h3>
+            <p className="small">Stage {Number(productionCourseMetadata(c.academy_id,c.title)?.stageIndex)+1}: {productionCourseMetadata(c.academy_id,c.title)?.stage}</p>
             <p className="muted">{c.description}</p>
             <p className="small">{c.lesson_count} lessons</p>
             {enrollments.some(e=>e.id===c.id)
@@ -101,15 +159,31 @@ export default function Learn() {
           </article>)}
         </div>}
       </section>
+      {catalog.some(c=>productionCourseMetadata(c.academy_id,c.title)===null)&&<section className="section" aria-label="Previously available courses">
+        <h2>Existing courses</h2>
+        <p className="muted">These earlier courses remain available so current learners can continue without losing progress. They are not included in the 24-course production catalogue.</p>
+        <div className="grid">
+          {catalog.filter(c=>productionCourseMetadata(c.academy_id,c.title)===null).map(c=><article className="card" key={c.id}>
+            <span className="small">{academies[c.academy_id]||c.academy_id}</span>
+            <h3>{c.title}</h3><p className="muted">{c.description}</p><p className="small">{c.lesson_count} lessons</p>
+            {enrollments.some(e=>e.id===c.id)
+              ?<button className="btn" disabled={busy} onClick={()=>openCourse(c.id)}>Open course</button>
+              :<button className="btn" disabled={busy} onClick={()=>enroll(c.id)}>Enroll for free</button>}
+          </article>)}
+        </div>
+      </section>}
       {selected&&<section className="section" id="course-lessons">
         <div className="panel">
           <button onClick={()=>setSelected(null)}>← Close lessons</button>
-          <h2>{selected.course.title}</h2>
+          <h2 ref={activityHeading} tabIndex={-1} className="activity-heading">{selected.course.title}</h2>
           {selected.lessons.length===0?<p>No lessons have been published yet.</p>:selected.lessons.map(l=>
             <article className="card" key={l.id} style={{marginTop:16}}>
               <span className="small">Lesson {l.position} {l.completed?'· Completed ✓':''}</span>
-              <h3>{l.title}</h3>
-              <p style={{whiteSpace:'pre-wrap',lineHeight:1.7}}>{l.content}</p>
+              <h3 id={`lesson-${l.id}`} tabIndex={-1}>{l.title}</h3>
+              {l.learning_guide?<LessonGuide key={l.id+':'+l.learning_guide.revision} guide={l.learning_guide}
+                checkAnswer={(exercise,option)=>request('/api/v1/learning/lessons/'+l.id+'/practice','POST',
+                  {exercise_id:exercise,option_index:option})}/>
+                :<LessonReading content={l.content}/>}
               <button className="btn" disabled={busy||l.completed} onClick={()=>complete(l.id)}>
                 {l.completed?'Completed ✓':'Mark lesson complete'}
               </button>
@@ -119,3 +193,4 @@ export default function Learn() {
     </>}
   </main>;
 }
+

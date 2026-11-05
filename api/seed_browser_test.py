@@ -27,7 +27,8 @@ def _seed():
     
     from database import engine
     from sqlalchemy.orm import Session
-    from models import User
+    from models import User, Academy, Course, Lesson, QuizQuestion, Enrollment
+    import python_foundations as curriculum
     from auth import issue_session
     
     with Session(engine) as db:
@@ -38,6 +39,17 @@ def _seed():
         db.add(user)
         db.commit()
         db.refresh(user)
+        # This fixture is allowed only in the disposable localhost test database.
+        if db.get(Academy,'university') is None:
+            db.add(Academy(id='university',name='Synthetic University'))
+            db.flush()
+        course=Course(academy_id='university',title=curriculum.COURSE_TITLE,status='published',description='Isolated browser fixture')
+        db.add(course);db.flush()
+        for position,item in enumerate(curriculum.LESSONS,1):
+            db.add(Lesson(course_id=course.id,title=item['title'],content=curriculum.MARKER+item['key'],position=position))
+        for position,(_,prompt,options,answer,explanation) in enumerate(curriculum.QUESTIONS,1):
+            db.add(QuizQuestion(course_id=course.id,prompt=prompt,options=options,correct_index=answer,explanation=explanation,position=position))
+        db.add(Enrollment(user_id=user.id,course_id=course.id));db.commit()
         token = issue_session(db, user)
         print(json.dumps({"token": token, "user_id": user.id}))
     

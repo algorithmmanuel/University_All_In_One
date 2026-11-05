@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 type Game = { id:string; pathway:'secondary'|'university'|'professional'; title:string; mechanic:string; summary:string; status:'playable'|'planned'; mission_ids:string[] };
 const PATHS = [['secondary','Cyber Explorers'],['university','Cyber Academy'],['professional','Cyber Command']] as const;
-const BASE=(process.env.NEXT_PUBLIC_API_BASE_URL||'http://127.0.0.1:8000').replace(/\/$/,'');
+const BASE=(process.env.NEXT_PUBLIC_API_BASE_URL||'').replace(/\/$/,'');
 
 function isGame(value:unknown):value is Game {
   if(!value||typeof value!=='object')return false;
@@ -34,17 +34,18 @@ export function GameLibrary(){
   const current=games.filter(g=>g.pathway===selected);
   return <section id="game-library" className="container section" aria-label="Cybersecurity game library">
     <p className="tag">CYBER GAME LIBRARY</p><h2>Explore 30 playable cybersecurity games</h2>
-    <p className="muted">Ten playable games per pathway, with 2D and 3D simulated investigations.</p>
+    <p className="muted">Stage 4 · Guided investigations. Use an audience pathway to choose suitable cases; 2D and 3D are alternative views of each mission.</p>
     <div className="actions" role="group" aria-label="Select game pathway">
       {PATHS.map(([id,label])=><button type="button" className={selected===id?'btn':'btn secondary'} aria-pressed={selected===id} key={id} onClick={()=>setSelected(id)}>{label}</button>)}
     </div>
-    {status==='loading'?<p role="status">Loading game catalogue…</p>:status==='offline'?<div className="notice" role="status">Game catalogue unavailable. Start the FastAPI backend to load all 30 titles.</div>:<>
+    {status==='loading'?<p role="status">Loading game catalogue…</p>:status==='offline'?<div className="notice" role="status">Game catalogue unavailable. Please try again later; the learning journey remains available.</div>:<>
       <p className="small" role="status">{current.filter(g=>g.status==='playable').length} playable now · {current.filter(g=>g.status==='planned').length} in development</p>
       <div className="grid">{current.map(g=><article className="card" key={g.id}>
         <span className="tag">{g.status==='playable'?'PLAYABLE NOW':'COMING SOON'}</span>
         <h3>{g.title}</h3><p className="small">{g.mechanic}</p><p className="muted">{g.summary}</p>
-        {g.status==='playable'?<Link className="btn" href="/missions">Open game →</Link>:<p className="small">Scenario development in progress</p>}
+        {g.status==='playable'?<Link className="btn" href={"/missions?pathway="+g.pathway}>Open game →</Link>:<p className="small">Scenario development in progress</p>}
       </article>)}</div>
     </>}
   </section>;
 }
+

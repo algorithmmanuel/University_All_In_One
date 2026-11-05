@@ -59,6 +59,8 @@ async function mockApi(page,model) {
     if(path==='/api/v1/auth/login')return json({access_token:'fixture-token'});
     if(path==='/api/v1/dashboard')return json({user:{id:1,full_name:'Test Learner',
       email:'learner@example.invalid',role:'student',is_approved:true}});
+    if(path==='/api/v1/missions/progress')return json({completed_missions:0,active_missions:0,available_missions:30,recent_missions:[]});
+    if(path==='/api/v1/learning/overview')return json({enrolled_count:0,completed_courses:0,courses:[],recent_attempts:[]});
     if(path==='/api/v1/games')return json({version:5,games:model.games});
     if(path==='/api/v1/missions')return json({missions:model.missions});
     if(path==='/api/v1/missions/history')return json(model.history());
@@ -81,10 +83,11 @@ test('sign in, dashboard pathway navigation and 3D/2D mission evidence',async t=
   await page.goto('/account');
   await page.getByRole('button',{name:'Sign in'}).click();
   await page.getByLabel('Email').fill('learner@example.invalid');
-  await page.getByLabel('Password').fill('fixture-password');
+  await page.getByLabel('Password',{exact:true}).fill('fixture-password');
   await page.getByRole('button',{name:'Sign in',exact:true}).last().click();
   await page.waitForURL('**/dashboard');
-  await page.getByRole('heading',{name:'Welcome, Test Learner'}).waitFor();
+  await page.getByText('Welcome back, Test Learner',{exact:true}).waitFor();
+  await page.getByRole('heading',{name:/Build your skills/}).waitFor();
   await page.getByRole('link',{name:'Open pathway'}).last().click();
   await page.waitForURL('**/missions?pathway=professional');
   await page.getByRole('heading',{name:'Cyber Command game library'}).waitFor();

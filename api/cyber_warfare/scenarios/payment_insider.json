@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "id": "payment_insider",
+  "revision": 1,
+  "title": "The Trusted Session",
+  "industry": "Payment processing",
+  "difficulty": "advanced",
+  "turn_limit": 10,
+  "action_points": 3,
+  "starting_budget": 24,
+  "assets": [
+    {
+      "id": "analyst",
+      "name": "Operations analyst workstation",
+      "kind": "workstation",
+      "value": 25,
+      "exposed": false,
+      "vulnerabilities": [
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 1
+    },
+    {
+      "id": "approvals",
+      "name": "Payment approval service",
+      "kind": "server",
+      "value": 65,
+      "exposed": false,
+      "vulnerabilities": [
+        "access",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "settlement",
+      "name": "Settlement database",
+      "kind": "database",
+      "value": 90,
+      "exposed": false,
+      "vulnerabilities": [
+        "access",
+        "privilege"
+      ],
+      "controls": [
+        "backup",
+        "monitoring"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "audit",
+      "name": "Independent audit archive",
+      "kind": "cloud",
+      "value": 40,
+      "exposed": false,
+      "vulnerabilities": [],
+      "controls": [
+        "access_control",
+        "monitoring",
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "partner",
+      "name": "Acquirer partner link",
+      "kind": "third_party",
+      "value": 30,
+      "exposed": false,
+      "vulnerabilities": [
+        "access"
+      ],
+      "controls": [],
+      "initial_access": 0
+    }
+  ],
+  "connections": [
+    {
+      "source": "analyst",
+      "target": "approvals"
+    },
+    {
+      "source": "approvals",
+      "target": "settlement"
+    },
+    {
+      "source": "settlement",
+      "target": "audit"
+    },
+    {
+      "source": "partner",
+      "target": "approvals"
+    }
+  ],
+  "red": {
+    "known_assets": [
+      "analyst",
+      "approvals"
+    ],
+    "briefing": "You begin with a fictional low-privilege insider session. Approval and settlement boundaries still apply."
+  },
+  "blue": {
+    "known_assets": [
+      "analyst",
+      "approvals",
+      "settlement",
+      "audit",
+      "partner"
+    ],
+    "briefing": "An insider may already hold an ordinary session. Access review matters even when no alarm has fired."
+  },
+  "objective": {
+    "kind": "fraud",
+    "targets": [
+      "approvals",
+      "settlement"
+    ],
+    "threshold": 155,
+    "hold_turns": 1,
+    "explanation": "Red must alter both approval and settlement records. Blue must protect either boundary through the deadline."
+  }
+}

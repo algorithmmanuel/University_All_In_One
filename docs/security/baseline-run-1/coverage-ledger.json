@@ -1,0 +1,2432 @@
+[
+  {
+    "coverage_id": ".github%2Fworkflows%2F%23caches-artifacts::workflows%23source-to-test-authority::delivery::SUPPLY-CHAIN-AND-RELEASE.md%23Cache%2C%20artifact%2C%20and%20workspace%20trust%20mixing",
+    "canonical_refs": {
+      "surface": ".github/workflows/#caches-artifacts",
+      "boundary": "workflows#source-to-test-authority",
+      "subsystem": "delivery",
+      "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing"
+    },
+    "surface": ".github/workflows/#caches-artifacts",
+    "boundary": "workflows#source-to-test-authority",
+    "subsystem": "delivery",
+    "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing",
+    "starting_paths": [
+      ".github/workflows",
+      "web/tests/browser",
+      "api/seed_browser_test.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+    "selected_companion_blocks": [
+      "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Universal moves",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Validation rules",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Build-to-promotion substitution"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Cache, artifact, and workspace trust mixing. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-supply"
+  },
+  {
+    "coverage_id": ".github%2Fworkflows%2F%23pull_request::workflows%23runner-permissions::delivery::SUPPLY-CHAIN-AND-RELEASE.md%23Untrusted%20code%20in%20a%20privileged%20workflow",
+    "canonical_refs": {
+      "surface": ".github/workflows/#pull_request",
+      "boundary": "workflows#runner-permissions",
+      "subsystem": "delivery",
+      "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow"
+    },
+    "surface": ".github/workflows/#pull_request",
+    "boundary": "workflows#runner-permissions",
+    "subsystem": "delivery",
+    "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow",
+    "starting_paths": [
+      ".github/workflows"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Universal moves",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Validation rules",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Automation identity overreach",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Untrusted code in a privileged workflow. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-supply"
+  },
+  {
+    "coverage_id": ".github%2Fworkflows%2F%23test-selection::api%2Ftest_%2A.py%23declared-checks::delivery::ATTACK-CLASSES.md%23Wildcard",
+    "canonical_refs": {
+      "surface": ".github/workflows/#test-selection",
+      "boundary": "api/test_*.py#declared-checks",
+      "subsystem": "delivery",
+      "attack_class": "ATTACK-CLASSES.md#Wildcard"
+    },
+    "surface": ".github/workflows/#test-selection",
+    "boundary": "api/test_*.py#declared-checks",
+    "subsystem": "delivery",
+    "attack_class": "ATTACK-CLASSES.md#Wildcard",
+    "starting_paths": [
+      ".github/workflows",
+      "api/test_password_recovery.py",
+      "api/test_assessment_lengths.py",
+      "api/run-isolated-tests.ps1",
+      "web/run-local-checks.ps1"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Wildcard",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-supply"
+  },
+  {
+    "coverage_id": "api%2Fauth.py%23current_user::api%2Fauth_routes.py%23logout::api%2Fauth::WEB-PROTOCOL-AND-AUTH.md%23Session%20fixation%20and%20invalidation",
+    "canonical_refs": {
+      "surface": "api/auth.py#current_user",
+      "boundary": "api/auth_routes.py#logout",
+      "subsystem": "api/auth",
+      "attack_class": "WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation"
+    },
+    "surface": "api/auth.py#current_user",
+    "boundary": "api/auth_routes.py#logout",
+    "subsystem": "api/auth",
+    "attack_class": "WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation",
+    "starting_paths": [
+      "api/auth.py",
+      "api/auth_routes.py",
+      "api/models.py",
+      "api/security_maintenance.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+      "WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation",
+      "WEB-PROTOCOL-AND-AUTH.md#Universal moves",
+      "WEB-PROTOCOL-AND-AUTH.md#Validation rules",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Stale authorization and derived copy use",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Session fixation and invalidation. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-auth"
+  },
+  {
+    "coverage_id": "api%2Fauth_routes.py%23login::api%2Fpassword_security.py%23verify_password::api%2Fauth::ATTACK-CLASSES.md%23Cryptography%20and%20secrets",
+    "canonical_refs": {
+      "surface": "api/auth_routes.py#login",
+      "boundary": "api/password_security.py#verify_password",
+      "subsystem": "api/auth",
+      "attack_class": "ATTACK-CLASSES.md#Cryptography and secrets"
+    },
+    "surface": "api/auth_routes.py#login",
+    "boundary": "api/password_security.py#verify_password",
+    "subsystem": "api/auth",
+    "attack_class": "ATTACK-CLASSES.md#Cryptography and secrets",
+    "starting_paths": [
+      "api/auth_routes.py",
+      "api/password_security.py",
+      "api/auth.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Cryptography and secrets",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Cryptography and secrets. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Cryptography and secrets. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Cryptography and secrets. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Cryptography and secrets. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Cryptography and secrets. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Cryptography and secrets. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Cryptography and secrets. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Cryptography and secrets. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-auth"
+  },
+  {
+    "coverage_id": "api%2Fauth_routes.py%23register%2Blogin::api%2Flogin_limiter.py%23record_attempt::api%2Fauth::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Pre-authentication%20work%20imbalance",
+    "canonical_refs": {
+      "surface": "api/auth_routes.py#register+login",
+      "boundary": "api/login_limiter.py#record_attempt",
+      "subsystem": "api/auth",
+      "attack_class": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance"
+    },
+    "surface": "api/auth_routes.py#register+login",
+    "boundary": "api/login_limiter.py#record_attempt",
+    "subsystem": "api/auth",
+    "attack_class": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance",
+    "starting_paths": [
+      "api/auth_routes.py",
+      "api/password_recovery.py",
+      "api/login_limiter.py",
+      "api/password_security.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Universal moves",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Validation rules",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Quota-accounting scope and reset gaps"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Pre-authentication work imbalance. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-auth"
+  },
+  {
+    "coverage_id": "api%2Fauth_routes.py%23register::api%2Fage_policy.py%23registration_policy::api%2Fauth::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "api/auth_routes.py#register",
+      "boundary": "api/age_policy.py#registration_policy",
+      "subsystem": "api/auth",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "api/auth_routes.py#register",
+    "boundary": "api/age_policy.py#registration_policy",
+    "subsystem": "api/auth",
+    "attack_class": "ATTACK-CLASSES.md#Access control",
+    "starting_paths": [
+      "api/auth_routes.py",
+      "api/age_policy.py",
+      "api/auth.py",
+      "api/models.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-auth"
+  },
+  {
+    "coverage_id": "api%2Fbeta_routes.py%23feedback::api%2Fbeta_routes.py%23my_feedback::api%2Flearning::DATA-ISOLATION-AND-LIFECYCLE.md%23Missing%20tenant%20or%20owner%20enforcement",
+    "canonical_refs": {
+      "surface": "api/beta_routes.py#feedback",
+      "boundary": "api/beta_routes.py#my_feedback",
+      "subsystem": "api/learning",
+      "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement"
+    },
+    "surface": "api/beta_routes.py#feedback",
+    "boundary": "api/beta_routes.py#my_feedback",
+    "subsystem": "api/learning",
+    "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+    "starting_paths": [
+      "api/beta_routes.py",
+      "api/models.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-learning"
+  },
+  {
+    "coverage_id": "api%2Fcreate_beta_invites.py%23main::api%2Freassign_beta_invite.py%23main::operations::ATTACK-CLASSES.md%23Chained%20vulnerabilities%20and%20trust%20boundaries",
+    "canonical_refs": {
+      "surface": "api/create_beta_invites.py#main",
+      "boundary": "api/reassign_beta_invite.py#main",
+      "subsystem": "operations",
+      "attack_class": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries"
+    },
+    "surface": "api/create_beta_invites.py#main",
+    "boundary": "api/reassign_beta_invite.py#main",
+    "subsystem": "operations",
+    "attack_class": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+    "starting_paths": [
+      "api/create_beta_invites.py",
+      "api/reassign_beta_invite.py",
+      "api/list_beta_invites.py",
+      "api/auth.py",
+      "api/auth_routes.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-operations"
+  },
+  {
+    "coverage_id": "api%2Flearning_routes.py%23catalog::api%2Fquiz_routes.py%23question_bank::api%2Flearning::ATTACK-CLASSES.md%23Injection",
+    "canonical_refs": {
+      "surface": "api/learning_routes.py#catalog",
+      "boundary": "api/quiz_routes.py#question_bank",
+      "subsystem": "api/learning",
+      "attack_class": "ATTACK-CLASSES.md#Injection"
+    },
+    "surface": "api/learning_routes.py#catalog",
+    "boundary": "api/quiz_routes.py#question_bank",
+    "subsystem": "api/learning",
+    "attack_class": "ATTACK-CLASSES.md#Injection",
+    "starting_paths": [
+      "api/main.py",
+      "api/learning_routes.py",
+      "api/quiz_routes.py",
+      "api/beta_routes.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Injection",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Injection. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Injection. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Injection. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Injection. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Injection. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Injection. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Injection. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Injection. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-learning"
+  },
+  {
+    "coverage_id": "api%2Flearning_routes.py%23enrollments::api%2Fquiz_routes.py%23submit::api%2Flearning::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Database%20and%20downstream%20query%20amplification",
+    "canonical_refs": {
+      "surface": "api/learning_routes.py#enrollments",
+      "boundary": "api/quiz_routes.py#submit",
+      "subsystem": "api/learning",
+      "attack_class": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification"
+    },
+    "surface": "api/learning_routes.py#enrollments",
+    "boundary": "api/quiz_routes.py#submit",
+    "subsystem": "api/learning",
+    "attack_class": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification",
+    "starting_paths": [
+      "api/learning_routes.py",
+      "api/quiz_routes.py",
+      "api/beta_routes.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Universal moves",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Validation rules",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-learning"
+  },
+  {
+    "coverage_id": "api%2Flearning_routes.py%23learning::api%2Flearning_routes.py%23course_access::api%2Flearning::DATA-ISOLATION-AND-LIFECYCLE.md%23Missing%20tenant%20or%20owner%20enforcement",
+    "canonical_refs": {
+      "surface": "api/learning_routes.py#learning",
+      "boundary": "api/learning_routes.py#course_access",
+      "subsystem": "api/learning",
+      "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement"
+    },
+    "surface": "api/learning_routes.py#learning",
+    "boundary": "api/learning_routes.py#course_access",
+    "subsystem": "api/learning",
+    "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+    "starting_paths": [
+      "api/learning_routes.py",
+      "api/models.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Missing tenant or owner enforcement. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-learning"
+  },
+  {
+    "coverage_id": "api%2Fmain.py%23configured_origins::api%2Fmain.py%23CORSMiddleware::web%2Fbrowser::CLIENT-SIDE.md%23Credentialed%20CORS%20trust",
+    "canonical_refs": {
+      "surface": "api/main.py#configured_origins",
+      "boundary": "api/main.py#CORSMiddleware",
+      "subsystem": "web/browser",
+      "attack_class": "CLIENT-SIDE.md#Credentialed CORS trust"
+    },
+    "surface": "api/main.py#configured_origins",
+    "boundary": "api/main.py#CORSMiddleware",
+    "subsystem": "web/browser",
+    "attack_class": "CLIENT-SIDE.md#Credentialed CORS trust",
+    "starting_paths": [
+      "api/main.py",
+      "web/next.config.mjs",
+      "web/config/api-origin.mjs"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "CLIENT-SIDE.md#Core discipline",
+      "CLIENT-SIDE.md#Credentialed CORS trust",
+      "CLIENT-SIDE.md#Universal moves",
+      "CLIENT-SIDE.md#Validation rules",
+      "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+      "WEB-PROTOCOL-AND-AUTH.md#Ordinary CSRF",
+      "WEB-PROTOCOL-AND-AUTH.md#Universal moves",
+      "WEB-PROTOCOL-AND-AUTH.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Credentialed CORS trust. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Credentialed CORS trust. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Credentialed CORS trust. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Credentialed CORS trust. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Credentialed CORS trust. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Credentialed CORS trust. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Credentialed CORS trust. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Credentialed CORS trust. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-browser"
+  },
+  {
+    "coverage_id": "api%2Fmain.py%23startup::api%2Fproduction_config.py%23production_issues::operations::CLOUD-AND-DEPLOYMENT.md%23Security-control%20precedence%20drift",
+    "canonical_refs": {
+      "surface": "api/main.py#startup",
+      "boundary": "api/production_config.py#production_issues",
+      "subsystem": "operations",
+      "attack_class": "CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift"
+    },
+    "surface": "api/main.py#startup",
+    "boundary": "api/production_config.py#production_issues",
+    "subsystem": "operations",
+    "attack_class": "CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift",
+    "starting_paths": [
+      "api/main.py",
+      "api/production_config.py",
+      "api/deployment_checks.py",
+      "api/development_runtime.py",
+      "scripts/development.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [
+      "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+      "CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift",
+      "CLOUD-AND-DEPLOYMENT.md#Universal moves",
+      "CLOUD-AND-DEPLOYMENT.md#Validation rules",
+      "CLOUD-AND-DEPLOYMENT.md#Edge/runtime boundary mismatch"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Security-control precedence drift. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-operations"
+  },
+  {
+    "coverage_id": "api%2Fmission_manifest_routes.py%23catalog::api%2Fmission_contract.py%23public-manifest::api%2Fmissions::ATTACK-CLASSES.md%23Feature%20abuse%20and%20data%20leakage",
+    "canonical_refs": {
+      "surface": "api/mission_manifest_routes.py#catalog",
+      "boundary": "api/mission_contract.py#public-manifest",
+      "subsystem": "api/missions",
+      "attack_class": "ATTACK-CLASSES.md#Feature abuse and data leakage"
+    },
+    "surface": "api/mission_manifest_routes.py#catalog",
+    "boundary": "api/mission_contract.py#public-manifest",
+    "subsystem": "api/missions",
+    "attack_class": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+    "starting_paths": [
+      "api/mission_manifest_routes.py",
+      "api/mission_contract.py",
+      "api/mission_data.py",
+      "api/game_catalog.py",
+      "api/pathway_routes.py",
+      "api/pathway_catalog.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Feature abuse and data leakage. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Feature abuse and data leakage. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Feature abuse and data leakage. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Feature abuse and data leakage. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Feature abuse and data leakage. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Feature abuse and data leakage. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Feature abuse and data leakage. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Feature abuse and data leakage. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-missions"
+  },
+  {
+    "coverage_id": "api%2Fmission_routes.py%23decide::api%2Fmission_routes.py%23expected_step::api%2Fmissions::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "api/mission_routes.py#decide",
+      "boundary": "api/mission_routes.py#expected_step",
+      "subsystem": "api/missions",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "api/mission_routes.py#decide",
+    "boundary": "api/mission_routes.py#expected_step",
+    "subsystem": "api/missions",
+    "attack_class": "ATTACK-CLASSES.md#Business logic",
+    "starting_paths": [
+      "api/mission_routes.py",
+      "api/mission_contract.py",
+      "api/mission_data.py",
+      "api/models.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-missions"
+  },
+  {
+    "coverage_id": "api%2Fmission_routes.py%23metadata-to-state::api%2Fmission_data.py%23MISSIONS::api%2Fmissions::ATTACK-CLASSES.md%23Wildcard",
+    "canonical_refs": {
+      "surface": "api/mission_routes.py#metadata-to-state",
+      "boundary": "api/mission_data.py#MISSIONS",
+      "subsystem": "api/missions",
+      "attack_class": "ATTACK-CLASSES.md#Wildcard"
+    },
+    "surface": "api/mission_routes.py#metadata-to-state",
+    "boundary": "api/mission_data.py#MISSIONS",
+    "subsystem": "api/missions",
+    "attack_class": "ATTACK-CLASSES.md#Wildcard",
+    "starting_paths": [
+      "api/mission_routes.py",
+      "api/mission_data.py",
+      "api/mission_contract.py",
+      "api/academy_missions.py",
+      "api/command_missions.py",
+      "api/explorer_missions.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Wildcard",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Wildcard. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-missions"
+  },
+  {
+    "coverage_id": "api%2Fmission_routes.py%23resume%2Bdecide::api%2Fmission_routes.py%23get_run::api%2Fmissions::ATTACK-CLASSES.md%23Access%20control",
+    "canonical_refs": {
+      "surface": "api/mission_routes.py#resume+decide",
+      "boundary": "api/mission_routes.py#get_run",
+      "subsystem": "api/missions",
+      "attack_class": "ATTACK-CLASSES.md#Access control"
+    },
+    "surface": "api/mission_routes.py#resume+decide",
+    "boundary": "api/mission_routes.py#get_run",
+    "subsystem": "api/missions",
+    "attack_class": "ATTACK-CLASSES.md#Access control",
+    "starting_paths": [
+      "api/mission_routes.py",
+      "api/models.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Access control. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-missions"
+  },
+  {
+    "coverage_id": "api%2Fmission_routes.py%23start%2Bcatalog::api%2Fmission_routes.py%23mission_runs::api%2Fmissions::RESOURCE-EXHAUSTION-AND-AVAILABILITY.md%23Unbounded%20buffering%20and%20cardinality",
+    "canonical_refs": {
+      "surface": "api/mission_routes.py#start+catalog",
+      "boundary": "api/mission_routes.py#mission_runs",
+      "subsystem": "api/missions",
+      "attack_class": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality"
+    },
+    "surface": "api/mission_routes.py#start+catalog",
+    "boundary": "api/mission_routes.py#mission_runs",
+    "subsystem": "api/missions",
+    "attack_class": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality",
+    "starting_paths": [
+      "api/mission_routes.py",
+      "api/models.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Universal moves",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Validation rules",
+      "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Database and downstream query amplification"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Unbounded buffering and cardinality. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-missions"
+  },
+  {
+    "coverage_id": "api%2Fpassword_recovery.py%23forgot_password::api%2Fauth_routes.py%23account-existence::api%2Fauth::DATA-ISOLATION-AND-LIFECYCLE.md%23Enumeration%20and%20aggregate%20oracles",
+    "canonical_refs": {
+      "surface": "api/password_recovery.py#forgot_password",
+      "boundary": "api/auth_routes.py#account-existence",
+      "subsystem": "api/auth",
+      "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles"
+    },
+    "surface": "api/password_recovery.py#forgot_password",
+    "boundary": "api/auth_routes.py#account-existence",
+    "subsystem": "api/auth",
+    "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles",
+    "starting_paths": [
+      "api/password_recovery.py",
+      "api/auth_routes.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Enumeration and aggregate oracles. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-auth"
+  },
+  {
+    "coverage_id": "api%2Fpassword_recovery.py%23reset_password::api%2Fpassword_recovery.py%23PasswordResetToken::api%2Fauth::WEB-PROTOCOL-AND-AUTH.md%23Password%20reset%20and%20broader%20recovery",
+    "canonical_refs": {
+      "surface": "api/password_recovery.py#reset_password",
+      "boundary": "api/password_recovery.py#PasswordResetToken",
+      "subsystem": "api/auth",
+      "attack_class": "WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery"
+    },
+    "surface": "api/password_recovery.py#reset_password",
+    "boundary": "api/password_recovery.py#PasswordResetToken",
+    "subsystem": "api/auth",
+    "attack_class": "WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery",
+    "starting_paths": [
+      "api/password_recovery.py",
+      "api/auth.py",
+      "api/models.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [
+      "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+      "WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery",
+      "WEB-PROTOCOL-AND-AUTH.md#Universal moves",
+      "WEB-PROTOCOL-AND-AUTH.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Password reset and broader recovery. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-auth"
+  },
+  {
+    "coverage_id": "api%2Fquiz_routes.py%23attempts::api%2Fquiz_routes.py%23eligible::api%2Flearning::DATA-ISOLATION-AND-LIFECYCLE.md%23Policy%20and%20query%20disagreement",
+    "canonical_refs": {
+      "surface": "api/quiz_routes.py#attempts",
+      "boundary": "api/quiz_routes.py#eligible",
+      "subsystem": "api/learning",
+      "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement"
+    },
+    "surface": "api/quiz_routes.py#attempts",
+    "boundary": "api/quiz_routes.py#eligible",
+    "subsystem": "api/learning",
+    "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement",
+    "starting_paths": [
+      "api/quiz_routes.py",
+      "api/assessment_selection.py",
+      "api/learning_routes.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Policy and query disagreement. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-learning"
+  },
+  {
+    "coverage_id": "api%2Fquiz_routes.py%23submit::api%2Fassessment_selection.py%23grade_questions::api%2Flearning::ATTACK-CLASSES.md%23Business%20logic",
+    "canonical_refs": {
+      "surface": "api/quiz_routes.py#submit",
+      "boundary": "api/assessment_selection.py#grade_questions",
+      "subsystem": "api/learning",
+      "attack_class": "ATTACK-CLASSES.md#Business logic"
+    },
+    "surface": "api/quiz_routes.py#submit",
+    "boundary": "api/assessment_selection.py#grade_questions",
+    "subsystem": "api/learning",
+    "attack_class": "ATTACK-CLASSES.md#Business logic",
+    "starting_paths": [
+      "api/quiz_routes.py",
+      "api/assessment_selection.py",
+      "api/models.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Business logic. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-learning"
+  },
+  {
+    "coverage_id": "api%2Frequest_telemetry.py%23dispatch::api%2Fsecurity_events.py%23emit_security_event::operations::DATA-ISOLATION-AND-LIFECYCLE.md%23Analytics%2C%20logs%2C%20traces%2C%20and%20diagnostics%20as%20alternate%20readers",
+    "canonical_refs": {
+      "surface": "api/request_telemetry.py#dispatch",
+      "boundary": "api/security_events.py#emit_security_event",
+      "subsystem": "operations",
+      "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers"
+    },
+    "surface": "api/request_telemetry.py#dispatch",
+    "boundary": "api/security_events.py#emit_security_event",
+    "subsystem": "operations",
+    "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers",
+    "starting_paths": [
+      "api/request_telemetry.py",
+      "api/security_events.py",
+      "api/database.py",
+      "api/main.py",
+      "api/password_recovery.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Cryptography and secrets",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules",
+      "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+      "CLOUD-AND-DEPLOYMENT.md#Secret exposure across workload boundaries",
+      "CLOUD-AND-DEPLOYMENT.md#Universal moves",
+      "CLOUD-AND-DEPLOYMENT.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-operations"
+  },
+  {
+    "coverage_id": "app%2F%23legacy-Android::scope%23excluded-target::scope::ATTACK-CLASSES.md%23Wildcard",
+    "canonical_refs": {
+      "surface": "app/#legacy-Android",
+      "boundary": "scope#excluded-target",
+      "subsystem": "scope",
+      "attack_class": "ATTACK-CLASSES.md#Wildcard"
+    },
+    "surface": "app/#legacy-Android",
+    "boundary": "scope#excluded-target",
+    "subsystem": "scope",
+    "attack_class": "ATTACK-CLASSES.md#Wildcard",
+    "starting_paths": [
+      "app"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Wildcard",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "out_of_scope",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "Historical Android application is outside the current maintained web/API scope."
+    ]
+  },
+  {
+    "coverage_id": "compose.yaml%23services::compose.yaml%23ports-and-volumes::operations::CLOUD-AND-DEPLOYMENT.md%23Unexpected%20service%20or%20management-plane%20reachability",
+    "canonical_refs": {
+      "surface": "compose.yaml#services",
+      "boundary": "compose.yaml#ports-and-volumes",
+      "subsystem": "operations",
+      "attack_class": "CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability"
+    },
+    "surface": "compose.yaml#services",
+    "boundary": "compose.yaml#ports-and-volumes",
+    "subsystem": "operations",
+    "attack_class": "CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability",
+    "starting_paths": [
+      "compose.yaml",
+      "api/main.py",
+      "api/development_runtime.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Obvious things",
+    "selected_companion_blocks": [
+      "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+      "CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability",
+      "CLOUD-AND-DEPLOYMENT.md#Universal moves",
+      "CLOUD-AND-DEPLOYMENT.md#Validation rules",
+      "CLOUD-AND-DEPLOYMENT.md#Host or control-plane capability exposure"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to CLOUD-AND-DEPLOYMENT.md#Unexpected service or management-plane reachability. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-operations"
+  },
+  {
+    "coverage_id": "scripts%2Fdevelopment.py%23main::scripts%2Fdevelopment.py%23application_environment::operations::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+    "canonical_refs": {
+      "surface": "scripts/development.py#main",
+      "boundary": "scripts/development.py#application_environment",
+      "subsystem": "operations",
+      "attack_class": "ATTACK-CLASSES.md#Resource and file handling"
+    },
+    "surface": "scripts/development.py#main",
+    "boundary": "scripts/development.py#application_environment",
+    "subsystem": "operations",
+    "attack_class": "ATTACK-CLASSES.md#Resource and file handling",
+    "starting_paths": [
+      "scripts/development.py",
+      "scripts/prepare-age-migration.ps1",
+      "scripts/prepare-beta-migration.ps1",
+      "api/seed_browser_test.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Resource and file handling",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-operations"
+  },
+  {
+    "coverage_id": "scripts%2Frehearse-database-recovery.sh%23restore::api%2Fmigrations%2F%23ownership-lifecycle::operations::DATA-ISOLATION-AND-LIFECYCLE.md%23Restore%20reintroduces%20invalid%20state",
+    "canonical_refs": {
+      "surface": "scripts/rehearse-database-recovery.sh#restore",
+      "boundary": "api/migrations/#ownership-lifecycle",
+      "subsystem": "operations",
+      "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state"
+    },
+    "surface": "scripts/rehearse-database-recovery.sh#restore",
+    "boundary": "api/migrations/#ownership-lifecycle",
+    "subsystem": "operations",
+    "attack_class": "DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state",
+    "starting_paths": [
+      "scripts/rehearse-database-recovery.sh",
+      "scripts/prepare-age-migration.ps1",
+      "scripts/prepare-beta-migration.ps1",
+      "api/migrations",
+      "api/security_maintenance.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+    "selected_companion_blocks": [
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Migration default and ownership confusion",
+      "DATA-ISOLATION-AND-LIFECYCLE.md#Export and backup scope expansion"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-operations"
+  },
+  {
+    "coverage_id": "scripts%2Fsync-before-test.ps1%23git-origin::scripts%2Finstall-periodic-sync.ps1%23task-authority::delivery::SUPPLY-CHAIN-AND-RELEASE.md%23Workflow%20command%20and%20expression%20confusion",
+    "canonical_refs": {
+      "surface": "scripts/sync-before-test.ps1#git-origin",
+      "boundary": "scripts/install-periodic-sync.ps1#task-authority",
+      "subsystem": "delivery",
+      "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion"
+    },
+    "surface": "scripts/sync-before-test.ps1#git-origin",
+    "boundary": "scripts/install-periodic-sync.ps1#task-authority",
+    "subsystem": "delivery",
+    "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion",
+    "starting_paths": [
+      "scripts/sync-before-test.ps1",
+      "scripts/periodic-sync-check.ps1",
+      "scripts/install-periodic-sync.ps1",
+      "api/run-isolated-tests.ps1",
+      "web/run-local-checks.ps1"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Injection",
+    "selected_companion_blocks": [
+      "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Universal moves",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Validation rules"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Workflow command and expression confusion. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-supply"
+  },
+  {
+    "coverage_id": "tools%2Fsecurity-audit-skill%2F%23tooling::scope%23excluded-target::scope::ATTACK-CLASSES.md%23Wildcard",
+    "canonical_refs": {
+      "surface": "tools/security-audit-skill/#tooling",
+      "boundary": "scope#excluded-target",
+      "subsystem": "scope",
+      "attack_class": "ATTACK-CLASSES.md#Wildcard"
+    },
+    "surface": "tools/security-audit-skill/#tooling",
+    "boundary": "scope#excluded-target",
+    "subsystem": "scope",
+    "attack_class": "ATTACK-CLASSES.md#Wildcard",
+    "starting_paths": [
+      "tools/security-audit-skill"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Wildcard",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "out_of_scope",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "Pinned audit toolchain is not application target source."
+    ]
+  },
+  {
+    "coverage_id": "web%2Fapp%2F%23API-rendering::web%2Fapp%2F%23React-escaping::web%2Fbrowser::CLIENT-SIDE.md%23DOM-based%20XSS",
+    "canonical_refs": {
+      "surface": "web/app/#API-rendering",
+      "boundary": "web/app/#React-escaping",
+      "subsystem": "web/browser",
+      "attack_class": "CLIENT-SIDE.md#DOM-based XSS"
+    },
+    "surface": "web/app/#API-rendering",
+    "boundary": "web/app/#React-escaping",
+    "subsystem": "web/browser",
+    "attack_class": "CLIENT-SIDE.md#DOM-based XSS",
+    "starting_paths": [
+      "web/app",
+      "web/components",
+      "web/lib"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Injection",
+    "selected_companion_blocks": [
+      "CLIENT-SIDE.md#Core discipline",
+      "CLIENT-SIDE.md#DOM-based XSS",
+      "CLIENT-SIDE.md#Universal moves",
+      "CLIENT-SIDE.md#Validation rules",
+      "CLIENT-SIDE.md#DOM clobbering",
+      "CLIENT-SIDE.md#Prototype pollution and gadget chain"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#DOM-based XSS. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#DOM-based XSS. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#DOM-based XSS. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#DOM-based XSS. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#DOM-based XSS. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#DOM-based XSS. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#DOM-based XSS. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#DOM-based XSS. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-browser"
+  },
+  {
+    "coverage_id": "web%2Fapp%2F%23educyber_token::web%2Fcomponents%2Fhome%2Faccount-navigation.tsx%23logout::web%2Fbrowser::CLIENT-SIDE.md%23Browser-storage%20disclosure%20and%20stale%20authorization",
+    "canonical_refs": {
+      "surface": "web/app/#educyber_token",
+      "boundary": "web/components/home/account-navigation.tsx#logout",
+      "subsystem": "web/browser",
+      "attack_class": "CLIENT-SIDE.md#Browser-storage disclosure and stale authorization"
+    },
+    "surface": "web/app/#educyber_token",
+    "boundary": "web/components/home/account-navigation.tsx#logout",
+    "subsystem": "web/browser",
+    "attack_class": "CLIENT-SIDE.md#Browser-storage disclosure and stale authorization",
+    "starting_paths": [
+      "web/app/account/page.tsx",
+      "web/app/dashboard/page.tsx",
+      "web/components/home/account-navigation.tsx",
+      "web/app/reset-password/page.tsx",
+      "web/lib"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+    "selected_companion_blocks": [
+      "CLIENT-SIDE.md#Core discipline",
+      "CLIENT-SIDE.md#Browser-storage disclosure and stale authorization",
+      "CLIENT-SIDE.md#Universal moves",
+      "CLIENT-SIDE.md#Validation rules",
+      "CLIENT-SIDE.md#Cross-context storage and broadcast confusion"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Browser-storage disclosure and stale authorization. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Browser-storage disclosure and stale authorization. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Browser-storage disclosure and stale authorization. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Browser-storage disclosure and stale authorization. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Browser-storage disclosure and stale authorization. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Browser-storage disclosure and stale authorization. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Browser-storage disclosure and stale authorization. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to CLIENT-SIDE.md#Browser-storage disclosure and stale authorization. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-browser"
+  },
+  {
+    "coverage_id": "web%2Fapp%2Freset-password%2Fpage.tsx%23token-query::web%2Fnext.config.mjs%23headers::web%2Fbrowser::WEB-PROTOCOL-AND-AUTH.md%23Cache%20deception%20and%20private-response%20caching",
+    "canonical_refs": {
+      "surface": "web/app/reset-password/page.tsx#token-query",
+      "boundary": "web/next.config.mjs#headers",
+      "subsystem": "web/browser",
+      "attack_class": "WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching"
+    },
+    "surface": "web/app/reset-password/page.tsx#token-query",
+    "boundary": "web/next.config.mjs#headers",
+    "subsystem": "web/browser",
+    "attack_class": "WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching",
+    "starting_paths": [
+      "web/app/reset-password/page.tsx",
+      "web/next.config.mjs",
+      "web/app"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Cryptography and secrets",
+    "selected_companion_blocks": [
+      "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+      "WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching",
+      "WEB-PROTOCOL-AND-AUTH.md#Universal moves",
+      "WEB-PROTOCOL-AND-AUTH.md#Validation rules",
+      "CLIENT-SIDE.md#Core discipline",
+      "CLIENT-SIDE.md#Clickjacking",
+      "CLIENT-SIDE.md#Universal moves",
+      "CLIENT-SIDE.md#Validation rules",
+      "CLIENT-SIDE.md#Client-side navigation confusion"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to WEB-PROTOCOL-AND-AUTH.md#Cache deception and private-response caching. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-browser"
+  },
+  {
+    "coverage_id": "web%2Fnext.config.mjs%23rewrites::web%2Fconfig%2Fapi-origin.mjs%23apiOrigin::web%2Fbrowser::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+    "canonical_refs": {
+      "surface": "web/next.config.mjs#rewrites",
+      "boundary": "web/config/api-origin.mjs#apiOrigin",
+      "subsystem": "web/browser",
+      "attack_class": "ATTACK-CLASSES.md#Resource and file handling"
+    },
+    "surface": "web/next.config.mjs#rewrites",
+    "boundary": "web/config/api-origin.mjs#apiOrigin",
+    "subsystem": "web/browser",
+    "attack_class": "ATTACK-CLASSES.md#Resource and file handling",
+    "starting_paths": [
+      "web/next.config.mjs",
+      "web/config/api-origin.mjs",
+      "web/lib/api.ts",
+      "api/main.py"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Resource and file handling",
+    "selected_companion_blocks": [],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Obvious things",
+        "reason": "Not this unit's class; this unit is bounded to ATTACK-CLASSES.md#Resource and file handling. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-browser"
+  },
+  {
+    "coverage_id": "web%2Fpackage-lock.json%23dependencies::api%2Frequirements-ci.lock%23resolved-inputs::delivery::SUPPLY-CHAIN-AND-RELEASE.md%23Dependency%20source%20and%20namespace%20confusion",
+    "canonical_refs": {
+      "surface": "web/package-lock.json#dependencies",
+      "boundary": "api/requirements-ci.lock#resolved-inputs",
+      "subsystem": "delivery",
+      "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion"
+    },
+    "surface": "web/package-lock.json#dependencies",
+    "boundary": "api/requirements-ci.lock#resolved-inputs",
+    "subsystem": "delivery",
+    "attack_class": "SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion",
+    "starting_paths": [
+      "web/package.json",
+      "web/package-lock.json",
+      "api/requirements.txt",
+      "api/requirements-ci.in",
+      "api/requirements-ci.lock",
+      "api/lock-requirements.sh"
+    ],
+    "ordinary_attack_class_block": "ATTACK-CLASSES.md#Obvious things",
+    "selected_companion_blocks": [
+      "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Universal moves",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Validation rules",
+      "SUPPLY-CHAIN-AND-RELEASE.md#Mutable and unbound build inputs"
+    ],
+    "excluded_blocks": [
+      {
+        "block": "ATTACK-CLASSES.md#Injection",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Access control",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Resource and file handling",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Cryptography and secrets",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Business logic",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion. Peer units retain other material class obligations."
+      },
+      {
+        "block": "ATTACK-CLASSES.md#Wildcard",
+        "reason": "Not this unit's class; this unit is bounded to SUPPLY-CHAIN-AND-RELEASE.md#Dependency source and namespace confusion. Peer units retain other material class obligations."
+      }
+    ],
+    "prior_status": "none",
+    "attempts": [],
+    "wave": 1,
+    "status": "deferred",
+    "agent_id": null,
+    "reviewed_paths": [],
+    "local_checks": [],
+    "result_fingerprints": [],
+    "unresolved": [
+      "agent_credit_exhaustion_before_hunter_completion_and_mandatory_critics; original_agent_result_files_unavailable_after_session_transition",
+      "Repeat source review and obtain structured hunter results; post-wave and distinct final-clean critics have not run."
+    ],
+    "planned_owner": "hunt-supply"
+  }
+]

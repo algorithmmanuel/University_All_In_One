@@ -7,9 +7,10 @@ import styles from './soc-scene.module.css';
 import SocEnvironment from './SocEnvironment';
 import WalkCamera from './WalkCamera';
 import EvidenceObjects from './EvidenceObjects';
+import type {Artifact} from './MissionLearning';
 
 type Station='briefing'|'evidence'|'decision';
-type Props={stage:number;missionId:string;missionTitle:string;active:Station;onSelect:(station:Station)=>void;evidence:string[];onInspect:(index:number)=>void;inspected:number[]};
+type Props={stage:number;missionId:string;missionTitle:string;active:Station;onSelect:(station:Station)=>void;evidence:string[];artifacts?:Artifact[];onInspect:(index:number)=>void;inspected:number[]};
 const stations:{id:Station;name:string;position:[number,number,number];color:string}[]=[
   {id:'briefing',name:'Command briefing',position:[-3,0,-0.6],color:'#27b7d6'},
   {id:'evidence',name:'Evidence terminal',position:[0,0,-1.2],color:'#54dfba'},
@@ -39,7 +40,7 @@ function Console({position,color,active,onClick}:{position:[number,number,number
    {active&&<pointLight position={[0,1.7,0]} intensity={2.2} color={color} distance={3}/>}
  </group>;
 }
-export default function SocScene({stage,missionId,missionTitle,active,onSelect,evidence,onInspect,inspected}:Props){
+export default function SocScene({stage,missionId,missionTitle,active,onSelect,evidence,artifacts,onInspect,inspected}:Props){
  const [quality,setQuality]=useState<'standard'|'low'>('standard');
  const [view,setView]=useState(0);
  const [walk,setWalk]=useState(false);
@@ -99,7 +100,7 @@ export default function SocScene({stage,missionId,missionTitle,active,onSelect,e
    </Canvas>
   </div>
   <div className={styles.controls} aria-label="Stage evidence objects">{evidence.map((item,i)=><button key={stage+'-'+i} type="button" className={artifact===i?styles.selected:styles.station} aria-pressed={artifact===i} onClick={()=>{setWalk(false);setView(2);inspectArtifact(i);}}>Inspect artifact {i+1}{inspected.includes(i)?' ✓':''}</button>)}</div>
-  {artifact!==null&&evidence[artifact]&&<div className={styles.help} role="status"><strong>Evidence terminal · Artifact {artifact+1}</strong><p>{evidence[artifact]}</p><p>This is a fictional case artifact. It is also available in the Evidence Locker.</p><button type="button" className={styles.station} onClick={()=>setArtifact(null)}>Close evidence detail</button></div>}
+  {artifact!==null&&evidence[artifact]&&<div className={styles.help} role="status"><strong>Evidence terminal · {artifacts?.[artifact]?.title||'Artifact '+(artifact+1)}</strong><p>{artifacts?.[artifact]?.body||evidence[artifact]}</p><p>This is a fictional case artifact. It is also available in the Evidence Locker.</p><button type="button" className={styles.station} onClick={()=>setArtifact(null)}>Close evidence detail</button></div>}
   <p className={styles.help} role="status"><strong>INVESTIGATION HUD · {inspectedCount}/{evidence.length} artifacts inspected</strong>{walk&&<span> · {nearby?.kind==='artifact'?`Near artifact ${nearby.index+1}: press E to inspect, Shift+E for workstation.`:'Move toward a glowing marker; click the scene to focus, then press E near evidence.'}</span>}</p>
   <div className={styles.controls}>
    <button type="button" className={walk?styles.selected:styles.station} onClick={()=>setWalk(v=>!v)}>{walk?"Exit walking mode":"Walk around (WASD)"}</button>

@@ -1,0 +1,11 @@
+.contents { border: 1px solid var(--border, #34495e); border-radius: 14px; padding: 20px; margin: 24px 0; }
+.contents ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px 28px; padding-left: 24px; }
+.chapter { margin: 44px 0; scroll-margin-top: 24px; overflow-wrap: anywhere; }
+.chapter p, .chapter li { line-height: 1.75; }
+.chapter li { margin-bottom: 10px; }
+.pathways { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 18px; }
+.pathways article { min-width: 0; }
+.pathways a { white-space: normal; }
+.stages { padding-left: 24px; }
+.stages > li { margin-bottom: 24px; }
+.chapter h2:focus { outline: 2px solid var(--accent, #2dd4bf); outline-offset: 5px; }

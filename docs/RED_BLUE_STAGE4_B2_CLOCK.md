@@ -1,0 +1,50 @@
+# Red/Blue B2 — server-clock groundwork and release blockers
+
+**Status:** Development only; NOT merged to Beta, NOT connected to authenticated routes, no worker or production timer yet.  
+**Owner-approved rules:** human actions have **90 seconds**, Blue opens, one **30-second** grace per human seat per match when server-observed liveness indicates a likely disconnection; timeout produces an authoritative no-cost wait/pass; bots act server-side without browser polling. The original sealed-match engine and historical saved transcripts remain unchanged.
+
+## Source commits and deterministic tests
+
+- `api/cyber_warfare/v2_clock.py` (`e632a50`, hardening `2b8faac`): bounded immutable clock with 90-second deadline, 15-second stale-presence threshold, active-seat-only authenticated heartbeat interface and once-per-human-seat 30-second extension. Late action/heartbeat cannot revive an expired deadline. Clock projection hides timestamps describing individual player check-ins.
+- `api/cyber_warfare/test_v2_clock.py` (`18fff50`): eight server-time simulations for boundary times, unverified disconnect claims, grace once per seat, bot exclusion, stale presence and worker delay; no real sleeps, no dependence on user device clock.
+- `api/cyber_warfare/v2_timed.py` (`d28e52d`): pure wrapper for active V2 matches. Checked actions resolve immediately before server deadline; expired turns result in a trusted `wait_blue` or `wait_red` committed as a deterministic server timeout, with next turn opening immediately. Server clock state has no browser-time dependency.
+- `api/cyber_warfare/test_v2_timed.py` (`5eb7411`): eight time-advance tests, replay safety, deadline protection and grace/timeout no-duplicate transitions.
+- `.github/workflows/red-blue-v2-contract.yml` (`89b6fc3`): contract CI includes both clock and timed-match tests plus syntax checks.
+
+- `v2_timed.py` now also exports and restores a strict **private** `red-blue-timed-v2-2` JSON-safe timed checkpoint, containing pinned game replay and validated current deadline/last-seen/grace state (`51202df`, malformed-input fix `a744425`). `test_v2_timed.py` (`33774a1`) adds restore-after-grace and forged-envelope rejection. This provides a durable data shape only; it is **not yet wired to live PostgreSQL writes/reads or independent worker processing**.
+
+## Durable worker and restart-safe Development process (latest implementation)
+
+- `api/cyber_warfare/v2_timed.py` adds canonical, private timed-record restore/export for active and finished matches (`51202df`, `a744425`, `001f7e0`), with persisted seat deadlines, check-in timestamps and once-only grace consumption. `test_v2_timed.py` (`33774a1`) rejects tampered snapshots and verifies recovery after grace.
+- `api/cyber_warfare/v2_timeout_worker.py` (`f5c5767`) scans due **timed-edition only** rows, obtains PostgreSQL `FOR UPDATE SKIP LOCKED` row locks, performs due pass or grace extension, and persists the private snapshot and status atomically. Bot handling (`e0f7a24`) selects actions from its own side-filtered view and acts server-side without browser polling.
+- `api/test_red_blue_timeout_worker.py` (`6f2ce7f`, `8d7cd51`, `7fe652a`) tests actual SQLite/isolated PostgreSQL persistence, one-time grace, finished-matches, legacy records left untouched, bot immediacy, and concurrent independent worker calls to prevent duplicate timeout moves.
+- `api/v2_clock_worker_main.py` (`621c01e`) provides a supervised *foreground* development-only worker. `scripts/development.py` (`8f85b72`) adds `clock-worker`, using exactly the same scrubbed `api/.env.development` as the Development API, not any Beta credentials. It processes deadlines every two seconds independently of browser requests. To start **after local source update, schema readiness and verified Development isolation**: `& .\\api\\.venv\\Scripts\\python.exe .\\scripts\\development.py clock-worker` in its own Development checkout terminal. Do not launch multiple workers on SQLite; concurrent PostgreSQL workers use row locking.
+- **This worker is not enabled in Beta and the timed edition has no authenticated creation/heartbeat/action API yet.** Therefore the worker currently has no regular Development UI-created timed records to process; the code is covered only by isolated test records. It is not evidence of a live public timer. A robust heartbeat policy, durable timed creation/join and concurrent action-vs-timeout tests remain mandatory.
+
+## Authenticated Development-only timed game integration
+
+- `api/cyber_warfare/v2_session.py` (`8be94b1`) now dispatches private active/finished timed snapshots into the existing authenticated edition-aware match view, with public server-clock projection and no exposed heartbeat history. `v2_timed.py` (`ea73556`) adds a strict `clock: "waiting"` envelope so two-human matches do **not** begin their 90-second turn until the second user joins.
+- `api/red_blue_routes.py` (`a64719d`) adds `ruleset="timed_preview"` solely for `EDUCYBER_ENV=development`, inherits existing session auth/seat bound, PostgreSQL `FOR UPDATE` row locking and UUID receipts. Timed starts, joins, clock-aware commands and active-seat `POST /matches/{match_id}/heartbeat` update the private JSON transcript in one DB transaction. No untrusted device timestamp is accepted, a command at/after deadline is rejected even when the worker has not processed it yet, and Beta always returns 403 for preview creation. The worker runs independently and advances the expired turn; requests **do not** extend the clock.
+- `api/test_red_blue_api.py` (`5350475`, `790b24a`) covers beta refusal, development advertisement, two authenticated humans, awaiting join without a ticking clock, authenticated active-seat heartbeat, immediate Blue→Red transition, duplicate receipt, private timeline filtering and independent background expiry.
+- `web/app/red-blue/types.ts`, `useArena.ts`, `page.tsx`, `Planner.tsx` and new `TurnClock.tsx` (`832da5b`, `ef215fb`, `672be70`, `05b18f2`, `f86a9e6`) now show a clearly labelled **Development-only timed preview** option, 90-second display-only countdown, clock state and active-seat 5-second authenticated presence pings in a visible browser tab. The server—not the client's timer—accepts or rejects actions. The countdown is an estimate, not a second source of truth.
+- The **public Beta remains unchanged**, the new timed option is not available there, and the preview requires the separate `development.py clock-worker` foreground process for independent expired/bot turns. This process uses sanitised `api/.env.development`, never Beta's root `.env` or `api/.env.beta`.
+- **Tested evidence:** frontend quality gate [41857713028](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41857713028) passed on `f86a9e6`; backend, browser, and real API/PostgreSQL workflows still queued/running on the updated final head `790b24a` at last inspection. Do not label complete or Beta-promoted until all checks plus actual two-account browser/worker acceptance succeed.
+
+**Remaining work:** investigate any new CI failure, add live two-browser Development acceptance and expired-action-versus-worker PostgreSQL concurrency testing, confirm multi-session presence policy/reconnect fairness, and settle production scheduler/orchestration. Only then consider moving completed B2 to Beta with the environment-aware guarded runbook.
+
+## Security and release blockers
+
+1. **Absence of heartbeat is not proof of a transport disconnect.** This is a *server-observed inactivity heuristic* used to gate an optional grace. A final reconnect design must explicitly define authenticated heartbeat cadence, multiple simultaneous devices, revoked sessions, stale browser tabs, last-seen consistency and whether a *true* server-side socket disconnection is necessary. Never accept a caller-supplied `disconnected=true` or browser timestamp as authority.
+2. **Persist clock and last-seen data transactionally** with the exact edition-tagged match, in a schema/migration that is reviewed separately. Current pure clock is not durable across restarts. Clock must survive browser closes, server restarts, races and multi-worker scheduling. Do not append untrusted timing fields to old replay envelopes or reinterpret old V1 records.
+3. **Build an independent server worker** that scans due active V2 deadlines under PostgreSQL row lock / CAS and commits timeout moves without browser polling; handle bot turns without client intervention and ensure background tasks cannot reveal private match truth.
+4. **Prove concurrent action versus timeout boundaries** at 89/90/120 seconds; consume grace only once, use actor-scoped idempotent receipts and keep original replay deterministic and verifiable. Ensure no action submitted after its deadline can win a race against a background pass. Test one delayed worker invocation, restart recovery, and simultaneous duplicated workers.
+5. Expose a server-owned `deadline_at` to seat view, display an accessible countdown in Development, prevent browser clocks from granting extra time, and test as two separate authenticated real browser sessions.
+6. Complete all existing backend/frontend/real-API/browser gameplay/V2 security CI on the exact PR head, preserve learner data, and promote each completed user-testable stage to Beta. The current source modules alone must **not** activate a premature timer or change existing Beta gameplay.
+
+## Environment configuration
+
+All owner restart commands must follow [ENVIRONMENT_AWARE_RESTART.md](ENVIRONMENT_AWARE_RESTART.md): Beta root `.env` and `api/.env.beta`, API/web 8000/3000; Development `api/.env.development`, API/web 8010/3010. Leave PostgreSQL volumes, learner records, courses, mail keys, ngrok and running Beta untouched until verified. Do not copy credentials between checkouts or kill unrelated Uvicorn processes.
+
+## Evidence
+
+First check exact CI on the stage branch/PR and record runs in [DEVELOPMENT_STATUS.md](DEVELOPMENT_STATUS.md). The owner has confirmed earlier Beta tests passed, but has NOT yet tested any B2 timer implementation. No Beta rollout for B2.

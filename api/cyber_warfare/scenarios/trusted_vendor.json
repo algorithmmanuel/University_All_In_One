@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "id": "trusted_vendor",
+  "revision": 1,
+  "title": "The Maintenance Window",
+  "industry": "Logistics supply chain",
+  "difficulty": "intermediate",
+  "turn_limit": 14,
+  "action_points": 3,
+  "starting_budget": 30,
+  "assets": [
+    {
+      "id": "vendor",
+      "name": "Trusted maintenance vendor",
+      "kind": "third_party",
+      "value": 20,
+      "exposed": true,
+      "vulnerabilities": [
+        "access"
+      ],
+      "controls": [],
+      "initial_access": 2
+    },
+    {
+      "id": "bridge",
+      "name": "Vendor integration bridge",
+      "kind": "server",
+      "value": 40,
+      "exposed": false,
+      "vulnerabilities": [
+        "access",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "dispatch",
+      "name": "Dispatch service",
+      "kind": "server",
+      "value": 70,
+      "exposed": false,
+      "vulnerabilities": [
+        "privilege",
+        "access"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "orders",
+      "name": "Customer shipment database",
+      "kind": "database",
+      "value": 80,
+      "exposed": false,
+      "vulnerabilities": [
+        "access",
+        "privilege"
+      ],
+      "controls": [
+        "backup"
+      ],
+      "initial_access": 0
+    },
+    {
+      "id": "tracking",
+      "name": "Public parcel tracking",
+      "kind": "cloud",
+      "value": 20,
+      "exposed": true,
+      "vulnerabilities": [
+        "configuration"
+      ],
+      "controls": [
+        "monitoring",
+        "backup"
+      ],
+      "initial_access": 0
+    }
+  ],
+  "connections": [
+    {
+      "source": "vendor",
+      "target": "bridge"
+    },
+    {
+      "source": "bridge",
+      "target": "dispatch"
+    },
+    {
+      "source": "dispatch",
+      "target": "orders"
+    },
+    {
+      "source": "tracking",
+      "target": "orders"
+    }
+  ],
+  "red": {
+    "known_assets": [
+      "vendor",
+      "bridge",
+      "tracking"
+    ],
+    "briefing": "A fictional privileged vendor foothold is available. Discover where the integration bridge leads."
+  },
+  "blue": {
+    "known_assets": [
+      "vendor",
+      "bridge",
+      "dispatch",
+      "orders",
+      "tracking"
+    ],
+    "briefing": "A vendor maintenance connection is trusted. Segment it without losing sight of shipment data."
+  },
+  "objective": {
+    "kind": "leak",
+    "targets": [
+      "orders"
+    ],
+    "threshold": 80,
+    "hold_turns": 1,
+    "explanation": "Red must copy the shipment database through a trusted connection or another discovered route."
+  }
+}
