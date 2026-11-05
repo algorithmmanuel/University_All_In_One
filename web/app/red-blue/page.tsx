@@ -55,7 +55,7 @@ export default function RedBlueArena() {
     return () => window.cancelAnimationFrame(frame);
   }, [arena.loading, arena.catalog]);
   useEffect(() => {
-    if (!arena.loading && arena.catalog && !arena.guideComplete) setGuideOpen(true);
+    if (!arena.loading && arena.catalog && (!arena.guideComplete || window.location.hash === "#guide")) setGuideOpen(true);
   }, [arena.loading, arena.catalog, arena.guideComplete]);
   const heading = useActivityFocus(arena.opened);
   const m = arena.match;
@@ -72,6 +72,7 @@ export default function RedBlueArena() {
           <JourneyLink />
           <Link href="/cyber-lab">Cyber Lab</Link>
           <Link href="/learn">Courses</Link>
+          <Link href="/help#red-blue-guide">Help</Link>
         </nav>
         <AccountNavigation showJourney={false} />
       </header>
