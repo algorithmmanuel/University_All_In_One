@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 5 B3 — recurring Cyber Lab real-browser race investigated — 5 November 2026
+
+Expanded B3 all-six-scenario real-API run [41981785950](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981785950) was red because the pre-existing `cyber-lab-real.test.cjs` mobile Build C journey timed out at the command-response waiter (test line ~501), not because an expanded Red/Blue assertion was reported. The preceding topology geometry correction `bc58948` passed both real API [41981685995](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981685995) and browser gameplay [41981685962](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981685962). The six-scenario workflow's browser gameplay [41981785768](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981785768) also passed, but this alone does not prove every real-API scenario test ran.
+
+**Specific race:** the page's new-shift handler calls `setRun()` immediately after POST /runs and then awaits a separate refresh before releasing `busy`; `GameBoard` displays the run while action controls remain disabled. The previous test observed the run ID and selected an asset, but could press Enter on a disabled Isolate button, producing no HTTP command. Development commit `ebf7e00` fixes only the test by awaiting Playwright `isolate.click({ trial: true })` actionability (including enabled state) before `isolate.press("Enter")` to preserve keyboard coverage. This is not a production UI change. The new real-API [41983899322](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899322) and browser gameplay [41983899335](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899335) CI workflows were triggered automatically; **results must be checked before declaring success**.
+
+Keep B3 on the Development branch and do not promote Beta until the new CI passes and owner acceptance/role-specific multi-turn fidelity is complete. No Beta source, Beta runtime, learner data, DB volumes or env secrets were touched.
+
+
 ## Stage 5 B3 geometry collision fix and all-scenario regression — 5 November 2026
 
 Review of GitHub real API/PostgreSQL workflow [41929918749](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41929918749) on `a84d200` found a **real topology geometry failure**: Blue projected edges `identity->ledger` crossed Mobile banking gateway and `gateway->ledger` crossed Credit bureau connection. The earlier [41929825695](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41929825695) reported the same collisions. Browser gameplay passed, but real API acceptance failed; previous B3 routing was therefore not release-ready.
