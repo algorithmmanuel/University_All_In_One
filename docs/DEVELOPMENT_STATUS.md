@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 6 complete CI handover — 5 November 2026
+
+**All four quality gates PASSED on exact application source `5f73e8ec112abfb3ded33d19324e73f0abfe5283`:** V2 contract [42008703338](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42008703338), full backend + isolated PostgreSQL [42008703383](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42008703383), real API/browser/PostgreSQL [42008703339](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42008703339), and full frontend/browser gameplay [42008703354](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42008703354). The later handover commits are documentation-only. Earlier failed exploratory Stage 6 commits were corrected and are not the accepted release candidate.
+
+**Current disposition:** consolidated Stage 6 C1/C2/C3 and inherited D testing pass automated gates; **owner's local two-account Development acceptance remains necessary**. Specifically verify Learning/Realistic switching retains same private evidence, guide completion persists after account logout and independent sign-in, Help reopen, five pivotal moments with bounded role-aware alternatives, real timed worker/suspended browser recovery, six scenario balance, and no regression in unrelated lessons/assessments. Use Development 8010/3010 only; timed worker requires its independent terminal. Confirm any server-clock grace limitations clearly. No promotion to Beta or changes to Beta private settings, data, frontend or ngrok. No migration for Stage 6.
+
+**Source identities:** Development at the conclusion of the test cycle `a7980909b2730f33bd7b0b693b4670b3c1236af0`, Beta `f6d51c2d47f34e0fad88972f34926e786b8b07af`; the next documentation checkpoint does not alter tested application source. Preserve the existing untracked `compose.development.yaml` and `.local-development-backup-20261104-174723/` in owner's worktree; never run git clean/reset/volume down or copy the Beta database.
+
+
 ## Stage 6 coordinated candidate — final-head checks and measured-priority correction — 5 November 2026
 
 After initial V2 privacy assertions caught the participant-visible word "seeded" and an obsolete browser debrief selector, the implementation was corrected and regression checks added, without weakening access control. The full five-step guide, account-backed completion, Learning/Realistic presentation, documented Help reopen, 24-scenario/role/device browser setup matrix and finished-only V2 Red/Blue retrospective are implemented in Development. **Last gameplay/test source `5f73e8ec112abfb3ded33d19324e73f0abfe5283`** adds a targeted ranking assertion after `ac34886` made the pivotal list truly order by decision priority and prefer consequential non-pass actions.
