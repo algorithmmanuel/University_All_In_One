@@ -187,3 +187,6 @@ class JourneyWorkshopRun(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), nullable=False, index=True)
     state: Mapped[dict] = mapped_column(JSON, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+# Separate V3 pilot schema; legacy Red/Blue storage remains unchanged.
+from red_blue_v3_models import RedBlueV3Match, RedBlueV3Seat  # noqa: F401,E402
