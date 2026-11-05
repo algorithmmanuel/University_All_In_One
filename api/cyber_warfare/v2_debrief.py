@@ -47,7 +47,7 @@ def _alternatives(opening, actual, event, index):
         if not effect and not observed["success"]:
             continue
         statement = (
-            "In this seeded single-action replay, the alternative "
+            "In this one-action replay with the same deterministic starting state, the alternative "
             + ("achieved its immediate aim" if observed["success"] else "did not achieve its immediate aim")
             + (" and changed the selected asset state." if effect else " without changing the selected asset state.")
             + " It does not establish a different final winner."
@@ -118,6 +118,6 @@ def debrief(match, player):
         "explanation": (
             "Top decisions are ranked using visible action impact, detections and your role; "
             "the complete transcript is available below. Alternatives are bounded "
-            "one-action seeded replays, not predictions of a different final winner."
+            "one-action deterministic replays, not predictions of a different final winner."
         ),
     }
