@@ -37,9 +37,12 @@ export default function AssetBoard({
   // diagonal lines through intermediate cards. All endpoints are seat-visible.
   const columns = 3;
   const cardWidth = 200;
-  const cardHeight = 118;
+  // Leave enough reserved vertical space for the status/evidence badges.
+  // Geometry and rendered card height must use the same fixed reservation:
+  // otherwise a growing card can cover the supposedly empty edge gutter.
+  const cardHeight = 178;
   const stepX = 240;
-  const stepY = 174;
+  const stepY = 242;
   const positions = Object.fromEntries(
     match.assets.map((a, i) => [
       a.id,
