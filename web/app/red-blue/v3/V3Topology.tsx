@@ -12,9 +12,11 @@ export default function V3Topology({assets,connections,side}:{
   connections:{source:string;target:string}[];
   side:"red"|"blue";
 }) {
-  const known = new Map(assets.map((asset,i)=>[
-    asset.id,{asset,x:120+(i%4)*235,y:95+Math.floor(i/4)*145},
-  ]));
+  const known = new Map<string,{asset:VisibleAsset;x:number;y:number}>(
+    assets.map((asset,i):[string,{asset:VisibleAsset;x:number;y:number}]=>[
+      asset.id,{asset,x:120+(i%4)*235,y:95+Math.floor(i/4)*145},
+    ])
+  );
   const edges = connections.filter(edge=>known.has(edge.source)&&known.has(edge.target));
   const height=Math.max(245,Math.ceil(assets.length/4)*145+70);
   return (
