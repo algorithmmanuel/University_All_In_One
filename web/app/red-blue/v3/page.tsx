@@ -249,6 +249,7 @@ export default function AdvancedMicrofinance() {
                     Refresh match
                   </button>
                 </div>
+                <p className={styles.muted}>Agreed match settings: {match.match_minutes} minutes overall, maximum {match.turn_seconds} seconds per turn. Each learner accepts these immutable limits when marking their seat ready.</p>
                 <div className={styles.metrics}>
                   <div><small>MATCH CLOCK</small><strong>{timeLeft}</strong></div>
                   <div><small>TURN CLOCK</small><strong>{actionLeft}</strong></div>
