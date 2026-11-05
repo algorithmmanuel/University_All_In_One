@@ -90,6 +90,59 @@ async function shot(page, name) {
       fullPage: true,
     });
 }
+test("Red Blue: account-backed guide and presentation-only Learning/Realistic modes", async (t) => {
+  const { page, errors } = await context(t, TOKEN, true);
+  await page.goto("/red-blue");
+  const guide = page.getByRole("region", { name: "Red Blue first-launch guide" });
+  await page.getByRole("button", { name: /How to play · reopen guide|Hide first-launch guide/ }).waitFor();
+  // The guide can always be reopened; completion must persist in the authenticated API.
+  if (!(await guide.isVisible())) {
+    await page.getByRole("button", { name: "How to play · reopen guide" }).click();
+  }
+  for (let n = 0; n < 4; n++) {
+    await guide.getByRole("button", { name: "Next step" }).click();
+  }
+  const completion = page.waitForResponse((res) =>
+    res.url().endsWith("/api/v1/red-blue/guide-complete") &&
+    res.request().method() === "POST");
+  const finish = guide.getByRole("button", {
+    name: /Finish and remember for this account|Finish review/,
+  });
+  if ((await finish.textContent()).includes("remember")) {
+    await finish.click();
+    assert.equal((await completion).status(), 200);
+  } else {
+    await finish.click();
+  }
+  await page.reload();
+  await page.getByRole("button", { name: "How to play · reopen guide" }).waitFor();
+  assert.equal(await guide.count(), 0);
+  await page.getByRole("button", { name: "How to play · reopen guide" }).click();
+  await guide.getByRole("heading", { name: "How to play Red / Blue" }).waitFor();
+  await guide.getByRole("button", { name: "Close guide" }).click();
+
+  await page.getByLabel("Gameplay presentation", { exact: true }).selectOption("realistic");
+  await page.getByLabel("Your seat", { exact: true }).selectOption("blue");
+  await page.getByRole("button", { name: "Start match", exact: true }).click();
+  const workspace = page.getByRole("region", { name: "Match workspace" });
+  await workspace.getByLabel("Active gameplay presentation").waitFor();
+  assert.equal(await workspace.getByRole("region", { name: "Learning mode coaching" }).count(), 0);
+  const before = await page.request.get(API + "/api/v1/red-blue/matches", {
+    headers: { Authorization: "Bearer " + TOKEN },
+  });
+  assert.equal(before.status(), 200);
+  const matchId = (await before.json()).matches[0].id;
+  const directBefore = await saved(page, matchId);
+  await workspace.getByLabel("Active gameplay presentation").selectOption("learning");
+  await workspace.getByRole("region", { name: "Learning mode coaching" }).waitFor();
+  const directAfter = await saved(page, matchId);
+  assert.deepEqual(directAfter, directBefore,
+    "Switching presentation must not mutate any authoritative match observation");
+  await workspace.getByLabel("Active gameplay presentation").selectOption("realistic");
+  assert.equal(await workspace.getByRole("region", { name: "Learning mode coaching" }).count(), 0);
+  assert.deepEqual(errors, []);
+});
+
 test("Red Blue six scenarios: mobile, keyboard, trust paths and seat-only evidence", async (t) => {
   const { page: catalogPage } = await context(t, TOKEN, false);
   await catalogPage.goto("/red-blue");
@@ -315,11 +368,9 @@ for (const mobile of [false, true])
           name: /Blue protected the objective|Red achieved the objective/,
         })
         .waitFor();
-      await page
-        .getByText("Round 1 · decisions and missed opportunities", {
-          exact: true,
-        })
-        .click();
+      await page.getByRole("heading", { name: "Most consequential decisions" }).waitFor();
+      await page.getByText(/Show complete action transcript/).click();
+      await page.getByText(/Round 1 · BLUE/).first().waitFor();
       await page
         .getByRole("heading", { name: "Action field guide", exact: true })
         .waitFor();
