@@ -37,6 +37,7 @@ class Start(Strict):
 
 
 class Preparation(Strict):
+    policy: Literal["patch_management", "network_segmentation", "security_monitoring", "access_governance"] | None = None
     control: Literal["monitoring", "patched", "segmented", "hardened"] | None = None
     target: str | None = Field(None, max_length=48, pattern=r"^[a-z][a-z0-9_-]*$")
     strategy: Literal["surface_mapping", "quiet_investigation"] | None = None

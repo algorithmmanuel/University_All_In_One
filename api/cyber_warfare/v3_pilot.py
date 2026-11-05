@@ -15,6 +15,7 @@ from .scenario import load_scenario
 EDITION = "red-blue-microfinance-v3-pilot-1"
 BLUE_POLICIES = {"monitoring": 2, "patched": 2, "segmented": 3, "hardened": 2}
 RED_STRATEGIES = frozenset({"surface_mapping", "quiet_investigation"})
+POLICY_LIBRARY = frozenset({"patch_management", "network_segmentation", "security_monitoring", "access_governance"})
 ACTION_COST = {
     "recon": 1, "assess": 1, "phish": 2, "cloud_access": 2,
     "escalate": 2, "lateral": 2, "fraud": 3,
@@ -85,7 +86,7 @@ def new(seed, blue_player, red_player, config=None):
         "assets": assets,
         "edges": [e.model_dump() for e in scenario.connections],
         "red_known": known, "blue_credits": 12, "red_credits": 24,
-        "red_strategy": "surface_mapping",
+        "red_strategy": "surface_mapping", "blue_policies": [],
         "prepared": {"blue": False, "red": False},
         "clock": None, "winner": None, "reason": None, "score": None,
         "version": 0, "event_count": 0, "event_digest": _hash(["v3", scenario.digest()]),
@@ -93,13 +94,23 @@ def new(seed, blue_player, red_player, config=None):
     }
 
 
-def prepare(state, player, *, control=None, target=None, strategy=None):
+def prepare(state, player, *, control=None, target=None, strategy=None, policy=None):
     """Spend bounded Blue setup credits or select Red strategy before lock-in."""
     updated = deepcopy(state)
     side = _actor(updated, player)
     if updated["phase"] != "prepare" or updated["prepared"][side]:
         raise ValueError("Preparation unavailable")
     if side == "blue":
+        if policy is not None:
+            if strategy is not None or control is not None or target is not None or policy not in POLICY_LIBRARY:
+                raise ValueError("Invalid security policy declaration")
+            if policy in updated["blue_policies"]:
+                raise ValueError("Policy already declared")
+            updated["blue_policies"].append(policy)
+            updated["blue_policies"].sort()
+            _append(updated, {"kind": "policy_declared", "side": "blue", "policy": policy})
+            updated["version"] += 1
+            return updated
         if strategy is not None or control not in BLUE_POLICIES or target not in updated["assets"]:
             raise ValueError("Invalid defensive preparation")
         cost = BLUE_POLICIES[control]
@@ -118,7 +129,7 @@ def prepare(state, player, *, control=None, target=None, strategy=None):
         _append(updated, {"kind": "policy_deployment", "side": "blue",
                           "target": target, "control": control})
     else:
-        if control is not None or target is not None or strategy not in RED_STRATEGIES:
+        if control is not None or target is not None or policy is not None or strategy not in RED_STRATEGIES:
             raise ValueError("Invalid Red preparation")
         updated["red_strategy"] = strategy
         _append(updated, {"kind": "recon_strategy", "side": "red",
@@ -218,7 +229,8 @@ def project(state, player, server_now=None):
             {k: deepcopy(v) for k, v in a.items() if k not in ("access",)}
             for _, a in sorted(state["assets"].items())
         ], connections=deepcopy(state["edges"]), credits=state["blue_credits"],
-                    evidence=_evidence(state, side))
+                    evidence=_evidence(state, side),
+                    policies=deepcopy(state["blue_policies"]))
     else:
         known = state["red_known"]
         base.update(assets=_red_assets(state),
@@ -389,7 +401,8 @@ def _resolve(state, side, order):
     # An alarm is generated only with existing monitored asset coverage.
     # An alarm is a *suspicion*, never a claim of successful compromise.
     if "monitoring" in asset["controls"] and not asset["isolated"]:
-        if _roll(state, aid, target, "detection") < .80:
+        detection_threshold = .55 if state["red_strategy"] == "quiet_investigation" else .80
+        if _roll(state, aid, target, "detection") < detection_threshold:
             _event_for(state, "blue", target=target, kind="alert",
                        message="Monitoring observed suspicious activity; investigate for confirmation.")
 

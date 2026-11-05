@@ -27,6 +27,7 @@ type Match = {
   match_minutes: number; turn_seconds: number; assets: Asset[];
   connections: {source:string;target:string}[];
   credits: number; evidence: Evidence[]; offers: Action[];
+  policies?: string[];
   discovery_hint?: string; strategy?: string; clock?: Clock;
   winner?: Side | null; reason?: string | null;
   score?: {blue_score:number;red_score:number;service_value_unavailable:number;foothold_value_confirmed:number;note:string} | null;
@@ -260,6 +261,21 @@ export default function AdvancedMicrofinance() {
                     {match.side === "blue" ? (
                       <>
                         <p>You own all five assets. Choose a policy deployment, confirm its real controls and cost, then mark your seat ready.</p>
+                        <div className={styles.asset}>
+                          <strong>Security policy library</strong>
+                          <p className={styles.muted}>Declare governance requirements first. The policy does not deploy a technical control or automatically remove a weakness.</p>
+                          <div className={styles.buttons}>
+                            {(["patch_management","network_segmentation","security_monitoring","access_governance"] as const).map(policy=>(
+                              <button key={policy} disabled={busy || match.prepared.blue || match.policies?.includes(policy)}
+                                onClick={()=>void execute(async()=>setUpdated(await request<Match>(
+                                  "/matches/" + match.id + "/prepare",{policy}
+                                )))}>
+                                {policy.replaceAll("_"," ")}
+                              </button>
+                            ))}
+                          </div>
+                          <p>Declared policies: {match.policies?.join(", ") || "None"}</p>
+                        </div>
                         <div className={styles.policies}>
                           {match.assets.map(asset => (
                             <div key={asset.id} className={styles.asset}>

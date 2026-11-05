@@ -180,3 +180,21 @@ def test_final_score_explains_availability_tradeoffs_but_not_premature_intellige
     assert blue["score"]["service_value_unavailable"] >= 80
     assert blue["score"]["service_value_available"] < blue["score"]["asset_value_total"]
     assert blue["score"]["victory_rule"] == "microfinance_ledger_integrity_v1"
+
+
+def test_policies_are_declarations_only_and_red_cannot_inspect_them():
+    g = game()
+    before = pilot.project(g, "blue-account")
+    declared = pilot.prepare(g, "blue-account", policy="patch_management")
+    after = pilot.project(declared, "blue-account")
+    assert after["policies"] == ["patch_management"]
+    assert after["assets"] == before["assets"]
+    assert "patch_management" not in json.dumps(pilot.project(declared, "red-account"))
+    deployed = pilot.prepare(declared, "blue-account", control="patched", target="teller")
+    teller = next(a for a in pilot.project(deployed, "blue-account")["assets"]
+                  if a["id"] == "teller")
+    assert "patched" in teller["controls"]
+    with pytest.raises(ValueError):
+        pilot.prepare(declared, "blue-account", policy="patch_management")
+    with pytest.raises(ValueError):
+        pilot.prepare(declared, "red-account", policy="patch_management")
