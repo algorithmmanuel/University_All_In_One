@@ -40,10 +40,12 @@ def target(environment):
     with connect(host=host, port=port, dbname=dbname, user=user,
                  password=password, connect_timeout=5, row_factory=tuple_row) as connection:
         connection.execute("SET TRANSACTION READ ONLY")
+        # The host's mapped port is checked by the URL and connection.
+        # PostgreSQL may report an internal container port such as 5432.
         actual = connection.execute(
-            "SELECT current_database(), current_user, inet_server_port()"
+            "SELECT current_database(), current_user"
         ).fetchone()
-        if actual != (dbname, user, port):
+        if actual != (dbname, user):
             raise ValueError("Connected database is not dedicated Development database")
         revision = connection.execute(
             "SELECT version_num FROM alembic_version"
