@@ -162,6 +162,51 @@ def test_live_isolation_changes_blue_truth_but_red_sees_only_failed_followup():
         pytest.fail("Could not find deterministic successful entry fixture")
 
 
+
+@pytest.mark.parametrize("scenario_id", [s.id for s in list_scenarios()])
+def test_six_scenario_live_projected_topology_and_blue_control_secrecy(scenario_id):
+    """All scenarios preserve asymmetric knowledge across two immediate turns."""
+    scenario = next(s for s in list_scenarios() if s.id == scenario_id)
+    match = start(scenario)
+    red_initial = alt.view(match, "red-human")
+    blue_initial = alt.view(match, "blue-human")
+    for projection in (red_initial, blue_initial):
+        known = {asset["id"] for asset in projection["assets"]}
+        assert all(edge["source"] in known and edge["target"] in known
+                   for edge in projection["connections"])
+        assert not {"seed", "transcript", "timeline", "plans", "seats"} & projection.keys()
+
+    blue_target = blue_initial["assets"][0]["id"]
+    blue_move = engine.Order("monitor", blue_target)
+    assert blue_move in alt.available_orders(match, "blue-human")
+    changed = alt.commit(match, "blue-human", blue_move, 1, "blue-monitor")
+    red_after_blue = alt.view(changed, "red-human")
+    assert red_after_blue["assets"] == red_initial["assets"]
+    assert red_after_blue["connections"] == red_initial["connections"]
+    assert red_after_blue["observations"] == red_initial["observations"]
+    assert red_after_blue["committed_order"] is None
+    assert "monitoring" in next(asset["controls"]
+                                for asset in alt.view(changed, "blue-human")["assets"]
+                                if asset["id"] == blue_target)
+
+    choices = alt.available_orders(changed, "red-human")
+    red_move = next((order for order in choices if order.action == "recon"),
+                    wait("red"))
+    assert red_move in choices
+    completed = alt.commit(changed, "red-human", red_move, 1, "red-recon")
+    red_final = alt.view(completed, "red-human")
+    blue_final = alt.view(completed, "blue-human")
+    for projection in (red_final, blue_final):
+        known = {asset["id"] for asset in projection["assets"]}
+        assert all(edge["source"] in known and edge["target"] in known
+                   for edge in projection["connections"])
+        assert not {"seed", "transcript", "timeline", "plans", "seats"} & projection.keys()
+    assert all(event["type"] == "own_action" for event in red_final["observations"])
+    restored = alt.replay(json.loads(json.dumps(alt.export_replay(completed))))
+    assert alt.view(restored, "red-human") == red_final
+    assert alt.view(restored, "blue-human") == blue_final
+
+
 def test_exact_uuid_retry_does_not_double_charge_or_resolve():
     first = start()
     first = alt.commit(first, "blue-human", wait("blue"), 1, "uuid-1")
