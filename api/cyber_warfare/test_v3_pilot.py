@@ -30,7 +30,7 @@ def test_blue_owns_every_asset_red_starts_with_partial_inventory():
     g = game()
     b = pilot.project(g, "blue-account")
     r = pilot.project(g, "red-account")
-    assert len(b["assets"]) == 5
+    assert len(b["assets"]) == 16
     assert len(r["assets"]) == 2
     assert "ledger" not in json.dumps(r)
     assert "seed" not in json.dumps(r)
@@ -49,7 +49,7 @@ def test_preparation_is_private_but_control_effect_is_real():
     assert "segmented" not in json.dumps(red)
     assert "monitoring" not in json.dumps(red)
     assert "quiet_investigation" == red["strategy"]
-    assert "monitoring" in pilot.project(g, "blue-account")["assets"][4]["controls"]
+    assert "monitoring" in next(a for a in pilot.project(g, "blue-account")["assets"] if a["id"] == "teller")["controls"]
     with pytest.raises(ValueError):
         pilot.prepare(g, "red-account", control="hardened", target="teller")
     assert pilot.ready(g, "blue-account", 1000)["phase"] == "prepare"

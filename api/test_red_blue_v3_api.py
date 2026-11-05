@@ -89,7 +89,7 @@ def test_v3_computer_prep_and_worker_turns_are_account_scoped(arena):
     match = new_match(arena)
     mid = match["id"]
     assert match["phase"] == "prepare"
-    assert len(match["assets"]) == 5
+    assert len(match["assets"]) == 16
     assert "seed" not in json.dumps(match)
     assert client.get(f"/api/v1/red-blue-v3/matches/{mid}", headers=headers[1]).status_code == 404
     p = client.post(f"/api/v1/red-blue-v3/matches/{mid}/prepare",

@@ -10,7 +10,7 @@ from hashlib import sha256
 import json
 
 from . import v3_clock, v3_score
-from .scenario import load_scenario
+from .v3_scenario import load_v3_microfinance
 
 EDITION = "red-blue-microfinance-v3-pilot-1"
 BLUE_POLICIES = {"monitoring": 2, "patched": 2, "segmented": 3, "hardened": 2}
@@ -64,7 +64,7 @@ def new(seed, blue_player, red_player, config=None):
     cfg = config or v3_clock.Config()
     if not isinstance(cfg, v3_clock.Config):
         raise ValueError("Validated V3 clock configuration required")
-    scenario = load_scenario("microfinance")
+    scenario = load_v3_microfinance()
     assets = {}
     for a in scenario.assets:
         assets[a.id] = {
@@ -338,8 +338,8 @@ def _resolve(state, side, order):
             if aid == "recon":
                 # A probe can reveal one adjacent asset in canonical order,
                 # without exposing unknown node count or IDs beforehand.
-                edges = sorted(edge["target"] for edge in state["edges"]
-                               if edge["source"] == target and edge["target"] not in state["red_known"])
+                edges = [edge["target"] for edge in state["edges"]
+                         if edge["source"] == target and edge["target"] not in state["red_known"]]
                 if edges:
                     nxt = edges[0]
                     state["red_known"][nxt] = {
