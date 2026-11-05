@@ -191,7 +191,7 @@
 .main .node {
   position: absolute;
   width: 200px;
-  min-height: 118px;
+  height: 178px;
   text-align: left;
   background: #102b3b;
   box-shadow: 0 5px 18px #0006;
@@ -353,7 +353,7 @@
     font-size: 26px;
   }
   .main .node {
-    min-height: 104px;
+    height: 178px;
   }
   .briefing {
     padding-left: 16px;
