@@ -164,3 +164,19 @@ def test_policy_patch_does_not_magically_remove_existing_access():
     patched = pilot.prepare(g, "blue-account", control="patched", target="teller")
     assert patched["assets"]["teller"]["access"] == 1
     assert "privilege" not in patched["assets"]["teller"]["weaknesses"]
+
+
+def test_final_score_explains_availability_tradeoffs_but_not_premature_intelligence():
+    g = start()
+    live = pilot.project(g, "red-account", 1000)
+    assert live["score"] is None
+    # Blue isolation has an availability cost even without a proven Red breach.
+    g = take(g, "blue", "isolate", "ledger", 1001)
+    g = pilot.settle(g, 2800)
+    blue = pilot.project(g, "blue-account")
+    red = pilot.project(g, "red-account")
+    assert blue["winner"] == red["winner"] == "blue"
+    assert blue["score"] == red["score"]
+    assert blue["score"]["service_value_unavailable"] >= 80
+    assert blue["score"]["service_value_available"] < blue["score"]["asset_value_total"]
+    assert blue["score"]["victory_rule"] == "microfinance_ledger_integrity_v1"

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./v3.module.css";
+import V3Topology from "./V3Topology";
 
 type Side = "blue" | "red";
 type Action = { action: string; target: string | null; source: string | null; cost: number };
@@ -28,6 +29,7 @@ type Match = {
   credits: number; evidence: Evidence[]; offers: Action[];
   discovery_hint?: string; strategy?: string; clock?: Clock;
   winner?: Side | null; reason?: string | null;
+  score?: {blue_score:number;red_score:number;service_value_unavailable:number;foothold_value_confirmed:number;note:string} | null;
 };
 type History = { matches: {id: number; status: string; side: Side; mode: string}[] };
 const API = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "") +
@@ -315,6 +317,7 @@ export default function AdvancedMicrofinance() {
                       <p>{match.side === "blue"
                         ? "Your owned inventory and deployed protections are visible. Alerts reflect only configured monitoring."
                         : match.discovery_hint || "Additional assets may remain unknown."}</p>
+                      <V3Topology assets={match.assets} connections={match.connections} side={match.side}/>
                       <div className={styles.grid}>
                         {match.assets.map(asset => (
                           <button className={styles.assetButton} key={asset.id}
@@ -370,6 +373,7 @@ export default function AdvancedMicrofinance() {
                           <p role="status">Waiting for {clock.active_side.toUpperCase()} to act.</p>}
                         {match.phase === "finished" && <p role="status">
                           <strong>{match.winner?.toUpperCase()} wins.</strong> {match.reason}
+                          {match.score && <span className={styles.score}> Blue {match.score.blue_score} · Red {match.score.red_score} · Unavailable business value {match.score.service_value_unavailable} · Confirmed foothold value {match.score.foothold_value_confirmed}. {match.score.note}</span>}
                         </p>}
                       </section>
                       <section className={styles.panel} aria-label="Role-filtered evidence ledger">

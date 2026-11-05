@@ -45,3 +45,5 @@
 .dialog .buttons button[aria-pressed="true"]{background:#126e72}
 @media(max-width:800px){.forms,.policies,.layout{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.grid{grid-template-columns:1fr}.panel{padding:15px}.header{padding:16px}}
+
+.score{display:block;margin-top:12px;padding:12px;border-radius:8px;background:#102b39;color:#c7e9e5}

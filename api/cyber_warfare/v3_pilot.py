@@ -9,7 +9,7 @@ from copy import deepcopy
 from hashlib import sha256
 import json
 
-from . import v3_clock
+from . import v3_clock, v3_score
 from .scenario import load_scenario
 
 EDITION = "red-blue-microfinance-v3-pilot-1"
@@ -87,7 +87,7 @@ def new(seed, blue_player, red_player, config=None):
         "red_known": known, "blue_credits": 12, "red_credits": 24,
         "red_strategy": "surface_mapping",
         "prepared": {"blue": False, "red": False},
-        "clock": None, "winner": None, "reason": None,
+        "clock": None, "winner": None, "reason": None, "score": None,
         "version": 0, "event_count": 0, "event_digest": _hash(["v3", scenario.digest()]),
         "recent": [], "receipts": {}, "alerts": [],
     }
@@ -211,6 +211,7 @@ def project(state, player, server_now=None):
         "turn_seconds": state["config"]["turn_seconds"],
         "winner": state["winner"], "reason": state["reason"],
         "event_count": state["event_count"],
+        "score": deepcopy(state["score"]) if state["phase"] == "finished" else None,
     }
     if side == "blue":
         base.update(assets=[
@@ -402,6 +403,7 @@ def _expire(state):
             if state["winner"] == "blue" else
             "Match deadline reached with the ledger integrity objective compromised."
         )
+    state["score"] = v3_score.calculate(state)
     _event_for(state, "system", kind="terminal", message="The overall match deadline ended engagement.")
 
 
@@ -464,6 +466,7 @@ def act(state, player, order, server_now, command_id, expected_sequence):
     updated["version"] += 1
     if updated["winner"] is not None:
         updated["phase"] = "finished"
+        updated["score"] = v3_score.calculate(updated)
     else:
         updated["clock"] = _clock_dict(v3_clock.next_turn(clock, server_now))
     return updated
