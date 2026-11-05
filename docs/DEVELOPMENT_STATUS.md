@@ -1,5 +1,10 @@
 # Development handover
 
+## V3 Advanced Microfinance pilot scope approved — 5 November 2026
+
+The owner approves one higher-fidelity pilot featuring policy-driven Blue preparation, gradually discovered Red network intelligence, informative role-filtered asset inspectors, sensor-dependent evidence, and **configurable match duration + per-turn limits without a fixed round-count ending**. See [RED_BLUE_V3_MICROFINANCE_PLAN.md](RED_BLUE_V3_MICROFINANCE_PLAN.md) for the authoritative V3 design, release grouping, fairness, victory scoring requirements and two-account acceptance examples. Initial V3 source is **additive contract scaffolding** in `api/cyber_warfare/v3_clock.py` and unit tests only; **the live simulator has NOT been upgraded to V3**. V1/V2 mechanics, Beta, learner records and migrations are unchanged. Gate the V3 engine, worker, network construction, UI and scoring as one bounded Development-only pilot before owner validation; no claims of an implemented match timer based solely on the clock module.
+
+
 ## Stage 6 complete CI handover — 5 November 2026
 
 **All four quality gates PASSED on exact application source `5f73e8ec112abfb3ded33d19324e73f0abfe5283`:** V2 contract [42008703338](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42008703338), full backend + isolated PostgreSQL [42008703383](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42008703383), real API/browser/PostgreSQL [42008703339](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42008703339), and full frontend/browser gameplay [42008703354](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/42008703354). The later handover commits are documentation-only. Earlier failed exploratory Stage 6 commits were corrected and are not the accepted release candidate.
