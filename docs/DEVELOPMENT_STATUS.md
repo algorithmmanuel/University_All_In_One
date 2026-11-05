@@ -1,5 +1,14 @@
 # Development handover
 
+## Stage 5 B3 two-way timed visibility acceptance — 5 November 2026
+
+The previous recurring Cyber Lab browser issue is resolved on source commit `ebf7e00`: real-API/PostgreSQL [41983899322](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899322) and browser gameplay [41983899335](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41983899335) both **passed**. This includes the existing all-six-scenario Red/Blue geometry regression in real-API CI; no Beta promotion occurred.
+
+New Development-only `d9e3bb2` extends `web/tests/browser/red-blue-timed-real.test.cjs` from one Blue action to an actual Blue→Red→Blue exchange between separately authenticated human seats. The Red learner makes an offered reconnaissance action, the Blue browser must poll to observed revision 2 / round 2, and its authenticated match view must remain free of transcript, seed, private seat identities, plans and Red's pending order. Telemetry/count assertions compare only the server-returned Blue projection, rather than private engine truth or fabricated detection. The existing initial Blue→Red projection refresh assertion is retained. No production application code, engine rule, beta environment or database changes.
+
+**Release gate:** exact new test/CI head is not yet verified; do not claim it passes until real API + gameplay workflows finish successfully. Further work includes meaningful monitoring/detection-differentiated opponent outcomes and hands-on owner validation across difficulty levels and scenario topology. Stage 5 remains Development only.
+
+
 ## Stage 5 B3 — recurring Cyber Lab real-browser race investigated — 5 November 2026
 
 Expanded B3 all-six-scenario real-API run [41981785950](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981785950) was red because the pre-existing `cyber-lab-real.test.cjs` mobile Build C journey timed out at the command-response waiter (test line ~501), not because an expanded Red/Blue assertion was reported. The preceding topology geometry correction `bc58948` passed both real API [41981685995](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981685995) and browser gameplay [41981685962](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981685962). The six-scenario workflow's browser gameplay [41981785768](https://github.com/algorithmmanuel/University_All_In_One/actions/runs/41981785768) also passed, but this alone does not prove every real-API scenario test ran.
